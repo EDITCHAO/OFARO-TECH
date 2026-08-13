@@ -24,7 +24,8 @@ export default function SectorsPage() {
       ],
       challenges: "Garantir la sécurité des transactions et des données sensibles tout en assurant une disponibilité maximale des services.",
       solutions: "Architecture haute disponibilité, chiffrement des données, authentification forte et surveillance continue.",
-      color: "from-blue-500 to-blue-600"
+      color: "from-blue-500 to-blue-600",
+      image: "/images/sectors/Banques & Finances.jpg"
     },
     {
       icon: <FaGraduationCap />,
@@ -40,7 +41,8 @@ export default function SectorsPage() {
       ],
       challenges: "Créer un environnement numérique accessible et intuitif pour étudiants et enseignants.",
       solutions: "Plateformes intuitives, infrastructure réseau robuste et formation continue du personnel.",
-      color: "from-green-500 to-green-600"
+      color: "from-green-500 to-green-600",
+      image: "/images/sectors/Éducation.jpg"
     },
     {
       icon: <FaHospital />,
@@ -56,7 +58,8 @@ export default function SectorsPage() {
       ],
       challenges: "Assurer la confidentialité des données patients et la conformité aux normes de santé.",
       solutions: "Systèmes sécurisés conformes aux réglementations, sauvegardes automatiques et accès contrôlé.",
-      color: "from-red-500 to-red-600"
+      color: "from-red-500 to-red-600",
+      image: "/images/sectors/Santé.jpg"
     },
     {
       icon: <FaShoppingCart />,
@@ -72,7 +75,8 @@ export default function SectorsPage() {
       ],
       challenges: "Optimiser la gestion des stocks et améliorer l'expérience client.",
       solutions: "Systèmes intégrés de gestion, automatisation des processus et analytics en temps réel.",
-      color: "from-purple-500 to-purple-600"
+      color: "from-purple-500 to-purple-600",
+      image: "/images/sectors/Commerce & Distribution.jpg"
     },
     {
       icon: <FaBuilding />,
@@ -88,7 +92,8 @@ export default function SectorsPage() {
       ],
       challenges: "Moderniser les services publics tout en garantissant la sécurité et l'accessibilité.",
       solutions: "Solutions évolutives, formation continue et accompagnement dans la conduite du changement.",
-      color: "from-indigo-500 to-indigo-600"
+      color: "from-indigo-500 to-indigo-600",
+      image: "/images/sectors/Administration Publique.jpg"
     },
     {
       icon: <FaGlobe />,
@@ -104,7 +109,8 @@ export default function SectorsPage() {
       ],
       challenges: "Assurer la continuité des opérations dans des environnements variés et parfois instables.",
       solutions: "Solutions cloud, systèmes de sauvegarde robustes et support technique réactif.",
-      color: "from-orange-500 to-orange-600"
+      color: "from-orange-500 to-orange-600",
+      image: "/images/sectors/ONG & Organisations Internationales.jpg"
     }
   ];
 
@@ -142,28 +148,28 @@ export default function SectorsPage() {
                 >
                   {/* Content */}
                   <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                    <div className={`inline-flex items-center gap-3 bg-gradient-to-r ${sector.color} text-white px-6 py-3 rounded-full mb-6`}>
+                    <div className={`inline-flex items-center gap-3 bg-gradient-to-r ${sector.color} text-white px-6 py-3 rounded-full mb-4`}>
                       <div className="text-3xl">{sector.icon}</div>
                       <h2 className="text-2xl font-bold">{sector.title}</h2>
                     </div>
 
-                    <p className="text-body mb-6">
+                    <p className="text-body mb-4 text-sm">
                       {sector.description}
                     </p>
 
                     {/* Services List */}
-                    <div className="mb-6">
-                      <h3 className="font-bold text-text mb-4 flex items-center gap-2">
-                        <FaCheckCircle className="text-primary" />
+                    <div className="mb-4">
+                      <h3 className="font-bold text-text mb-3 flex items-center gap-2 text-sm">
+                        <FaCheckCircle className="text-primary text-xs" />
                         Services proposés
                       </h3>
-                      <div className="grid sm:grid-cols-2 gap-3">
+                      <div className="grid sm:grid-cols-2 gap-2">
                         {sector.services.map((service, serviceIndex) => (
                           <div
                             key={serviceIndex}
-                            className="flex items-center gap-2 text-text-secondary text-sm"
+                            className="flex items-center gap-2 text-text-secondary text-xs"
                           >
-                            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                            <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0"></div>
                             {service}
                           </div>
                         ))}
@@ -171,27 +177,37 @@ export default function SectorsPage() {
                     </div>
 
                     {/* Challenges & Solutions */}
-                    <div className="space-y-4">
-                      <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-                        <h4 className="font-bold text-text mb-2">🎯 Défis du secteur</h4>
-                        <p className="text-text-secondary text-sm">{sector.challenges}</p>
+                    <div className="space-y-2">
+                      <div className="bg-red-50 border-l-3 border-red-500 p-2.5 rounded">
+                        <h4 className="font-semibold text-text mb-1 text-xs">🎯 Défis du secteur</h4>
+                        <p className="text-text-secondary text-xs leading-relaxed">{sector.challenges}</p>
                       </div>
 
-                      <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-                        <h4 className="font-bold text-text mb-2">✅ Nos solutions</h4>
-                        <p className="text-text-secondary text-sm">{sector.solutions}</p>
+                      <div className="bg-green-50 border-l-3 border-green-500 p-2.5 rounded">
+                        <h4 className="font-semibold text-text mb-1 text-xs">✅ Nos solutions</h4>
+                        <p className="text-text-secondary text-xs leading-relaxed">{sector.solutions}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Visual */}
                   <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                    <div className={`bg-gradient-to-br ${sector.color} p-12 rounded-2xl shadow-xl`}>
-                      <div className="aspect-square bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                        <div className="text-center text-white">
-                          <div className="text-8xl mb-4 opacity-50">{sector.icon}</div>
-                          <p className="text-lg font-semibold opacity-90">{sector.title}</p>
-                        </div>
+                    <div className="relative rounded-2xl shadow-xl overflow-hidden group">
+                      {/* Image de fond - Réduit de aspect-square à aspect-[4/3] */}
+                      <div className="aspect-[4/3]">
+                        <img 
+                          src={sector.image} 
+                          alt={sector.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        {/* Overlay avec gradient coloré */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${sector.color} opacity-40`}></div>
+                      </div>
+                      
+                      {/* Titre en bas */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                        <div className="text-5xl text-white/30 mb-3">{sector.icon}</div>
+                        <h3 className="text-2xl font-bold text-white">{sector.title}</h3>
                       </div>
                     </div>
                   </div>
