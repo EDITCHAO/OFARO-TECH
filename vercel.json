@@ -15,19 +15,13 @@
       ]
     },
     {
-      "source": "/(.*).(?:jpg|jpeg|png|gif|webp|avif|svg)",
+      "source": "/(.*?)\\.(jpg|jpeg|png|gif|webp|avif|svg)$",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/robots.txt",
-      "destination": "/api/robots"
     }
   ]
 }
