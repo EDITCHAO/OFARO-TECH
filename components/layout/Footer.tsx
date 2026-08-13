@@ -21,13 +21,37 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                OT
+            <div className="flex items-center gap-3">
+              {/* Hexagon Logo */}
+              <div className="relative w-12 h-12 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" className="w-full h-full">
+                  {/* Outer hexagon with golden border */}
+                  <path
+                    d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z"
+                    fill="black"
+                    stroke="#D4AF37"
+                    strokeWidth="2"
+                  />
+                  {/* Inner cube structure */}
+                  <g stroke="#D4AF37" strokeWidth="2.5" fill="none">
+                    {/* Top face */}
+                    <path d="M50 30 L65 40 L50 50 L35 40 Z" />
+                    {/* Left face */}
+                    <path d="M35 40 L35 60 L50 70 L50 50 Z" />
+                    {/* Right face */}
+                    <path d="M50 50 L50 70 L65 60 L65 40 Z" />
+                  </g>
+                </svg>
               </div>
-              <div>
-                <div className="font-bold text-lg">{COMPANY_INFO.name}</div>
-                <div className="text-xs text-gray-400">Transformation Digitale</div>
+              
+              {/* Text Logo */}
+              <div className="flex flex-col">
+                <div className="font-bold text-lg text-white tracking-wider">
+                  OFARO
+                </div>
+                <div className="text-xs text-gray-400 tracking-widest -mt-1">
+                  TECHNOLOGIE
+                </div>
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">

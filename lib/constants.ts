@@ -18,7 +18,7 @@ export const COMPANY_INFO: CompanyInfo = {
   country: "Togo",
   phone: "+228 XX XX XX XX",
   whatsapp: "+228 XX XX XX XX",
-  email: "contact@ofarotech.com",
+  email: "ofaro.tech@gmail.com",
   coordinates: {
     lat: 6.1725,
     lng: 1.2314

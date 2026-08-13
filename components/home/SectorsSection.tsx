@@ -9,42 +9,48 @@ export default function SectorsSection() {
       title: "Banques & Finances",
       description: "Nous accompagnons les banques et institutions financières dans la modernisation de leurs infrastructures IT, la sécurisation de leurs systèmes d'information, la mise en place de réseaux sécurisés et la maintenance de leurs équipements critiques.",
       services: ["Cybersécurité", "Réseaux sécurisés", "Serveurs", "Sauvegarde", "Support 24/7"],
-      color: "from-blue-500 to-blue-600"
+      color: "from-blue-500 to-blue-600",
+      image: "/images/sectors/Banques & Finances.jpg"
     },
     {
       icon: <FaGraduationCap />,
       title: "Éducation",
       description: "Solutions numériques pour les écoles, universités et centres de formation. Nous digitalisons l'enseignement avec des plateformes modernes et performantes.",
       services: ["Plateformes e-learning", "Réseaux Wi-Fi", "Maintenance", "Fourniture de matériel"],
-      color: "from-green-500 to-green-600"
+      color: "from-green-500 to-green-600",
+      image: "/images/sectors/Éducation.jpg"
     },
     {
       icon: <FaHospital />,
       title: "Santé",
       description: "Nous développons et maintenons des solutions informatiques pour les hôpitaux, cliniques, laboratoires et centres de santé, garantissant la sécurité des données médicales.",
       services: ["Réseaux", "Gestion hospitalière", "Maintenance", "Sauvegarde", "Sécurité des données"],
-      color: "from-red-500 to-red-600"
+      color: "from-red-500 to-red-600",
+      image: "/images/sectors/Santé.jpg"
     },
     {
       icon: <FaShoppingCart />,
       title: "Commerce & Distribution",
       description: "Solutions pour les magasins et entreprises commerciales, de la gestion de stock à la vidéosurveillance en passant par les systèmes de caisse.",
       services: ["Gestion de stock", "Caisse", "Réseau", "Vidéosurveillance", "Maintenance"],
-      color: "from-purple-500 to-purple-600"
+      color: "from-purple-500 to-purple-600",
+      image: "/images/sectors/Commerce & Distribution.jpg"
     },
     {
       icon: <FaBuilding />,
       title: "Administration Publique",
       description: "Accompagnement des ministères, mairies, préfectures et établissements publics dans leur transformation numérique avec des solutions adaptées au secteur public.",
       services: ["Transformation digitale", "Réseaux sécurisés", "Formation", "Support"],
-      color: "from-indigo-500 to-indigo-600"
+      color: "from-indigo-500 to-indigo-600",
+      image: "/images/sectors/Administration Publique.jpg"
     },
     {
       icon: <FaGlobe />,
       title: "ONG & Organisations Internationales",
       description: "Solutions adaptées aux besoins spécifiques des ONG et organisations internationales opérant en Afrique, avec un focus sur la fiabilité et la sécurité.",
       services: ["Gestion documentaire", "Maintenance", "Réseaux", "Support", "Sécurité informatique"],
-      color: "from-orange-500 to-orange-600"
+      color: "from-orange-500 to-orange-600",
+      image: "/images/sectors/ONG & Organisations Internationales.jpg"
     }
   ];
 
@@ -71,12 +77,19 @@ export default function SectorsSection() {
               key={index}
               className="group relative bg-background-secondary rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
             >
-              {/* Gradient Header */}
-              <div className={`bg-gradient-to-r ${sector.color} p-6 text-white`}>
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center text-4xl mb-4 group-hover:scale-110 transition-transform">
-                  {sector.icon}
+              {/* Image Header avec overlay gradient */}
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src={sector.image} 
+                  alt={sector.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-br ${sector.color} opacity-20`}></div>
+                
+                {/* Title on image */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                  <h3 className="text-2xl font-bold text-white">{sector.title}</h3>
                 </div>
-                <h3 className="text-2xl font-bold">{sector.title}</h3>
               </div>
 
               {/* Content */}

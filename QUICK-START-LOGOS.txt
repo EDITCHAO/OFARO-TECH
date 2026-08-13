@@ -1,0 +1,68 @@
+╔═══════════════════════════════════════════════════════════════╗
+║         🎨 INSTALLATION RAPIDE DES LOGOS - 3 ÉTAPES         ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📌 ÉTAPE 1 : PRÉPARER LES LOGOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Vous avez 2 logos à préparer :
+
+A) Logo PRINCIPAL (noir avec cube doré "OFARO TECHNOLOGIE")
+   └─ Enregistrer sous : logo-ofaro.png
+   └─ Dimensions : Garder l'original (environ 1024x576)
+   └─ Format : PNG avec fond transparent
+
+B) Logo CARRÉ (orange avec "OT" blanc)
+   └─ Créer 2 tailles :
+      • icon-192x192.png (192x192 pixels EXACTEMENT)
+      • icon-512x512.png (512x512 pixels EXACTEMENT)
+   └─ Format : PNG
+
+💡 ASTUCE : Utilisez https://realfavicongenerator.net/
+            Il génère automatiquement toutes les tailles !
+
+
+📌 ÉTAPE 2 : COPIER LES FICHIERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Copiez ces 3 fichiers dans :
+
+    c:\PROJET\OFARO TECH\ofaro-tech-website\public\
+
+Résultat attendu :
+
+    public/
+    ├── logo-ofaro.png       ← Logo principal (nouveau)
+    ├── icon-192x192.png     ← Logo carré 192x192
+    └── icon-512x512.png     ← Logo carré 512x512
+
+
+📌 ÉTAPE 3 : VÉRIFIER ET TESTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A) Vérifier l'installation :
+   
+   Double-cliquez sur : check-logos.bat
+
+B) Tester le site :
+   
+   npm run dev
+   
+   Ouvrez : http://localhost:3000
+
+C) Vérifiez que :
+   
+   ✓ Le logo apparaît en haut (Header)
+   ✓ Le logo apparaît en bas (Footer)
+   ✓ Tout est beau sur mobile et desktop
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                      🎉 C'EST TOUT !                         ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Pour plus de détails, consultez :
+→ RESUME-MODIFICATIONS.md
+→ GUIDE-REMPLACEMENT-LOGO.md
+
+Problème ? Lancez : check-logos.bat

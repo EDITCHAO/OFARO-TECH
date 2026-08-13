@@ -10,7 +10,7 @@ const PROJECTS = [
     title: "Plateforme E-commerce Multi-vendeurs",
     category: "web",
     description: "Développement d'une plateforme e-commerce complète avec gestion multi-vendeurs, paiement en ligne et système de livraison",
-    image: "/images/projects/ecommerce.jpg",
+    image: "/images/projects/ecommerce.png",
     technologies: ["Next.js", "Node.js", "PostgreSQL", "Stripe"],
     client: "Confidential",
     slug: "plateforme-ecommerce"
@@ -20,7 +20,7 @@ const PROJECTS = [
     title: "Application Mobile de Gestion Bancaire",
     category: "mobile",
     description: "Application mobile permettant la gestion complète des comptes bancaires, virements et paiements mobiles",
-    image: "/images/projects/banking-app.jpg",
+    image: "/images/projects/banking-app.png",
     technologies: ["React Native", "Firebase", "Node.js"],
     client: "Banque XYZ",
     slug: "app-mobile-bancaire"
@@ -30,7 +30,7 @@ const PROJECTS = [
     title: "Système de Gestion Hospitalière",
     category: "web",
     description: "ERP complet pour la gestion des hôpitaux incluant patients, rendez-vous, pharmacie et facturation",
-    image: "/images/projects/hospital.jpg",
+    image: "/images/projects/hospital.png",
     technologies: ["Laravel", "Vue.js", "MySQL"],
     client: "Hôpital Central",
     slug: "systeme-gestion-hopital"
@@ -40,7 +40,7 @@ const PROJECTS = [
     title: "Identité Visuelle Entreprise Tech",
     category: "design",
     description: "Création complète d'identité visuelle incluant logo, charte graphique et supports de communication",
-    image: "/images/projects/branding.jpg",
+    image: "/images/projects/branding.png",
     technologies: ["Adobe Illustrator", "Figma", "Photoshop"],
     client: "TechCorp Inc.",
     slug: "identite-visuelle"
@@ -50,7 +50,7 @@ const PROJECTS = [
     title: "Infrastructure Réseau Entreprise",
     category: "network",
     description: "Mise en place d'une infrastructure réseau sécurisée avec VPN, firewall et supervision",
-    image: "/images/projects/network.jpg",
+    image: "/images/projects/network.png",
     technologies: ["Cisco", "Mikrotik", "Zabbix"],
     client: "Groupe Industriel ABC",
     slug: "infrastructure-reseau"
@@ -60,7 +60,7 @@ const PROJECTS = [
     title: "Application de Gestion Scolaire",
     category: "web",
     description: "Plateforme complète de gestion d'établissement scolaire avec notes, absences et communication parents",
-    image: "/images/projects/school.jpg",
+    image: "/images/projects/school.png",
     technologies: ["Django", "React", "PostgreSQL"],
     client: "Complexe Scolaire",
     slug: "gestion-scolaire"
@@ -124,17 +124,12 @@ export default function RealizationsSection() {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Project Image */}
-              <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/5 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <div className="w-16 h-16 bg-primary/30 rounded-full flex items-center justify-center">
-                        <div className="w-12 h-12 bg-primary rounded-full"></div>
-                      </div>
-                    </div>
-                    <p className="text-sm text-text-secondary">Image du projet</p>
-                  </div>
-                </div>
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
                 
                 {/* Category Badge */}
                 <div className="absolute top-4 left-4">

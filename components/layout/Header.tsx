@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { FaBars, FaTimes, FaPhoneAlt, FaEnvelope, FaChevronDown } from "react-icons/fa";
 import { COMPANY_INFO, NAV_LINKS } from "@/lib/constants";
 
@@ -50,12 +49,38 @@ export default function Header() {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg sm:text-xl group-hover:scale-110 transition-transform">
-              OT
-            </div>
-            <div className="hidden sm:block">
-              <div className="font-bold text-xl text-text">{COMPANY_INFO.name}</div>
-              <div className="text-xs text-text-secondary">Transformation Digitale</div>
+            <div className="flex items-center gap-3">
+              {/* Hexagon Logo */}
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <svg viewBox="0 0 100 100" className="w-full h-full">
+                  {/* Outer hexagon with golden border */}
+                  <path
+                    d="M50 5 L90 28 L90 72 L50 95 L10 72 L10 28 Z"
+                    fill="black"
+                    stroke="#D4AF37"
+                    strokeWidth="2"
+                  />
+                  {/* Inner cube structure */}
+                  <g stroke="#D4AF37" strokeWidth="2.5" fill="none">
+                    {/* Top face */}
+                    <path d="M50 30 L65 40 L50 50 L35 40 Z" />
+                    {/* Left face */}
+                    <path d="M35 40 L35 60 L50 70 L50 50 Z" />
+                    {/* Right face */}
+                    <path d="M50 50 L50 70 L65 60 L65 40 Z" />
+                  </g>
+                </svg>
+              </div>
+              
+              {/* Text Logo */}
+              <div className="flex flex-col">
+                <div className="font-bold text-xl sm:text-2xl text-text tracking-wider">
+                  OFARO
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary tracking-widest -mt-1">
+                  TECHNOLOGIE
+                </div>
+              </div>
             </div>
           </Link>
 

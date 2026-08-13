@@ -1,0 +1,54 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║      ✅ HERO SECTION MIS À JOUR AVEC BACKGROUND            ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+
+🌍 FICHIER IMAGE REQUIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nom exact : nasa-Q1p7bh3SHj8-unsplash.jpg
+
+
+📁 EMPLACEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Chemin complet :
+public/images/hero/nasa-Q1p7bh3SHj8-unsplash.jpg
+
+
+📋 ÉTAPES À SUIVRE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Prenez votre image nasa-Q1p7bh3SHj8-unsplash
+2. Placez-la dans : public\images\hero\
+3. Gardez le nom exact : nasa-Q1p7bh3SHj8-unsplash.jpg
+4. Lancez : npm run dev
+5. Testez : http://localhost:3000
+
+
+⚙️ OPTIMISATION (OPTIONNEL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Si l'image est lourde (> 500KB) :
+→ Allez sur tinypng.com
+→ Optimisez l'image
+→ Téléchargez et placez dans public\images\hero\
+
+
+✨ RÉSULTAT ATTENDU
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ Image de la Terre en fond d'écran
+✓ Overlay sombre pour lisibilité
+✓ Texte blanc bien visible
+✓ Cards flottantes avec effet verre
+✓ Design premium et professionnel
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Fichier : nasa-Q1p7bh3SHj8-unsplash.jpg
+  Dossier : public/images/hero/
+  Status : Prêt à tester
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

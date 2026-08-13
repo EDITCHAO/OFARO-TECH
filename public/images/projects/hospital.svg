@@ -1,0 +1,31 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="healthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  
+  <!-- Medical cross -->
+  <g transform="translate(400, 280)">
+    <circle cx="0" cy="0" r="140" fill="url(#healthGrad)" opacity="0.1"/>
+    <rect x="-30" y="-90" width="60" height="180" rx="5" fill="url(#healthGrad)"/>
+    <rect x="-90" y="-30" width="180" height="60" rx="5" fill="url(#healthGrad)"/>
+  </g>
+  
+  <!-- Heartbeat line -->
+  <g transform="translate(400, 450)">
+    <path d="M-200,0 L-100,0 L-80,-30 L-60,30 L-40,0 L60,0 L80,-20 L100,20 L120,0 L200,0" 
+          fill="none" stroke="#f5576c" stroke-width="3" opacity="0.6"/>
+  </g>
+  
+  <!-- Decorative elements -->
+  <circle cx="150" cy="120" r="15" fill="#f093fb" opacity="0.3"/>
+  <circle cx="650" cy="500" r="20" fill="#f5576c" opacity="0.3"/>
+  
+  <text x="400" y="540" text-anchor="middle" font-family="Arial" font-size="28" font-weight="bold" fill="#333">
+    Hospital Management System
+  </text>
+</svg>

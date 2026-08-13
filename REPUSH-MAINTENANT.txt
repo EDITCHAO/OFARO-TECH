@@ -1,0 +1,69 @@
+========================================
+  REPOUSSER LA CORRECTION SUR GITHUB
+========================================
+
+Vous avez 1 commit en attente qui n'est pas encore sur GitHub.
+
+ETAPE 1 : Ouvrir PowerShell ou CMD
+-----------------------------------
+- Appuyez sur Windows + R
+- Tapez : powershell
+- Appuyez sur Entree
+
+
+ETAPE 2 : Naviguer vers le projet
+----------------------------------
+Copiez-collez cette commande :
+
+cd "c:\PROJET\OFARO TECH\ofaro-tech-website"
+
+
+ETAPE 3 : Pousser la correction
+--------------------------------
+Copiez-collez cette commande :
+
+git push
+
+
+ETAPE 4 : Entrer vos identifiants
+----------------------------------
+Username : EDITCHAO
+Password : [Votre Personal Access Token GitHub]
+
+Note : Le "Password" n'est PAS votre mot de passe GitHub !
+C'est votre Personal Access Token que vous avez créé.
+
+
+========================================
+  APRES LE PUSH
+========================================
+
+1. Verifiez sur GitHub :
+   https://github.com/EDITCHAO/OFARO-TECH
+
+2. Le fichier vercel.json devrait etre mis a jour
+
+3. Retournez sur Vercel pour redéployer :
+   - Vercel va detecter le nouveau commit
+   - Il va redéployer automatiquement
+   - OU cliquez sur "Redeploy" manuellement
+
+4. Le deploiement devrait maintenant reussir ! ✓
+
+
+========================================
+  BESOIN D'AIDE ?
+========================================
+
+Si vous n'avez pas de Personal Access Token :
+
+1. Allez sur : https://github.com/settings/tokens
+2. "Generate new token" → "Tokens (classic)"
+3. Nom : "OFARO TECH"
+4. Cochez : "repo" (tout)
+5. Generate token
+6. COPIEZ-LE (vous ne le verrez qu'une fois)
+7. Utilisez-le comme mot de passe
+
+
+Bonne chance ! 🚀

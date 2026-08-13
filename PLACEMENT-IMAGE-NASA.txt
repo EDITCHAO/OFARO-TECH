@@ -1,0 +1,84 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║          📸 PLACEMENT DE L'IMAGE NASA                      ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+
+✅ CODE MIS À JOUR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Le code du HeroSection utilise maintenant :
+nasa-Q1p7bh3SHj8-unsplash.jpg
+
+
+📁 OÙ PLACER L'IMAGE ?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dossier : public\images\hero\
+
+Chemin complet :
+c:\PROJET\OFARO TECH\ofaro-tech-website\public\images\hero\nasa-Q1p7bh3SHj8-unsplash.jpg
+
+
+📝 NOM EXACT DU FICHIER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+nasa-Q1p7bh3SHj8-unsplash.jpg
+
+⚠️ IMPORTANT : Gardez exactement ce nom !
+(avec les tirets et les majuscules/minuscules)
+
+
+🎯 ÉTAPES SIMPLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  Prenez votre image nasa-Q1p7bh3SHj8-unsplash.jpg
+
+2️⃣  Ouvrez le dossier :
+    c:\PROJET\OFARO TECH\ofaro-tech-website\public\images\hero\
+
+3️⃣  Copiez/collez l'image dans ce dossier
+
+4️⃣  Vérifiez que le nom est exactement :
+    nasa-Q1p7bh3SHj8-unsplash.jpg
+
+5️⃣  Lancez : npm run dev
+
+6️⃣  Ouvrez : http://localhost:3000
+
+
+✨ RÉSULTAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Vous verrez :
+✓ L'image de la Terre en fond
+✓ Texte blanc bien visible
+✓ Cards flottantes modernes
+✓ Design professionnel
+
+
+🔍 VÉRIFICATION RAPIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pour vérifier que l'image est au bon endroit :
+
+1. Ouvrez l'Explorateur Windows
+2. Allez dans : public\images\hero\
+3. Vous devez voir : nasa-Q1p7bh3SHj8-unsplash.jpg
+
+
+💡 ASTUCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Si l'image ne s'affiche pas :
+• Vérifiez le nom du fichier (exact !)
+• Vérifiez l'emplacement (public\images\hero\)
+• Redémarrez le serveur (npm run dev)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Fichier : nasa-Q1p7bh3SHj8-unsplash.jpg
+  Dossier : public\images\hero\
+  Status : ✅ Prêt à recevoir l'image
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

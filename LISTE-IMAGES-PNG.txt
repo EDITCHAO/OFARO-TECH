@@ -1,0 +1,100 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║         📸 LISTE DES 13 IMAGES PNG À AJOUTER               ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+
+✅ CODE MIS À JOUR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Toutes les références .svg ont été changées en .png
+Vous pouvez maintenant ajouter vos propres images PNG !
+
+
+📁 FICHIERS À CRÉER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📂 public/images/hero/
+   └─ hero-image.png (1200x1200px)
+
+
+📂 public/images/projects/
+   ├─ ecommerce.png (800x600px)
+   ├─ banking-app.png (800x600px)
+   ├─ hospital.png (800x600px)
+   ├─ branding.png (800x600px)
+   ├─ network.png (800x600px)
+   └─ school.png (800x600px)
+
+
+📂 public/images/sectors/
+   ├─ banking.png (800x600px)
+   ├─ education.png (800x600px)
+   ├─ health.png (800x600px)
+   ├─ commerce.png (800x600px)
+   ├─ government.png (800x600px)
+   └─ ngo.png (800x600px)
+
+
+📊 TOTAL : 13 IMAGES PNG
+
+
+🎯 DIMENSIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hero : 1200x1200px (carré)
+Projects : 800x600px (paysage)
+Sectors : 800x600px (paysage)
+
+
+🌐 OÙ TROUVER LES IMAGES ?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sites gratuits professionnels :
+
+1. Unsplash.com
+2. Pexels.com
+3. Pixabay.com
+
+Recherches suggérées :
+• "african tech team"
+• "e-commerce"
+• "mobile banking"
+• "hospital technology"
+• "network infrastructure"
+• etc.
+
+
+⚙️ OPTIMISATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Avant d'ajouter les images :
+1. Redimensionner aux bonnes dimensions
+2. Optimiser avec TinyPNG.com
+3. Objectif : < 200KB par image
+
+
+✅ VÉRIFICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Après avoir ajouté toutes les images :
+
+1. Vérifier les noms de fichiers (EXACTEMENT comme ci-dessus)
+2. Lancer : npm run dev
+3. Tester : http://localhost:3000
+4. Vérifier que toutes les images s'affichent
+
+
+📖 GUIDE COMPLET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pour plus de détails, voir :
+→ GUIDE-IMAGES-PNG.md
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Date : 2026-08-13
+  Status : Code prêt - En attente des images PNG
+  Images : 13 fichiers à ajouter
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

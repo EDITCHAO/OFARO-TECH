@@ -1,0 +1,90 @@
+========================================
+  INSTRUCTIONS POUR NETTOYER ET REDEMARRER
+========================================
+
+ETAPE 1 : Ouvrir PowerShell
+----------------------------
+- Cliquez sur le menu Demarrer
+- Tapez : powershell
+- Clic droit sur "Windows PowerShell"
+- Choisir "Executer en tant qu'administrateur"
+
+
+ETAPE 2 : Executer le script de nettoyage
+------------------------------------------
+Copiez-collez cette commande dans PowerShell :
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force; cd "c:\PROJET\OFARO TECH\ofaro-tech-website"; .\restart-simple.ps1
+
+
+ETAPE 3 : Demarrer le serveur
+------------------------------
+Apres le nettoyage, dans le meme PowerShell :
+
+npm run dev
+
+
+LE SERVEUR SERA ACCESSIBLE A :
+- Sur votre PC : http://localhost:3000
+- Sur mobile : http://192.168.1.71:3000
+
+
+========================================
+  ALTERNATIVE : METHODE MANUELLE
+========================================
+
+Si le script ne fonctionne pas, faites manuellement :
+
+1. Ouvrir PowerShell (pas besoin admin)
+   cd "c:\PROJET\OFARO TECH\ofaro-tech-website"
+
+2. Arreter les serveurs Node
+   Get-Process -Name node | Stop-Process -Force
+
+3. Supprimer le cache .next
+   Remove-Item -Recurse -Force .next
+
+4. Supprimer le cache node_modules
+   Remove-Item -Recurse -Force node_modules\.cache
+
+5. Redemarrer
+   npm run dev
+
+
+========================================
+  VERIFICATION
+========================================
+
+Le serveur demarre correctement quand vous voyez :
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Network:      http://192.168.1.71:3000
+  
+  ✓ Ready in X seconds
+
+
+========================================
+  EN CAS DE PROBLEME
+========================================
+
+Si le port 3000 est occupe, utilisez un autre port :
+
+npm run dev -- -p 3001
+
+Puis ouvrez : http://localhost:3001
+
+
+========================================
+  DEPLOIEMENT SUR VERCEL
+========================================
+
+Ces etapes sont UNIQUEMENT pour le serveur LOCAL.
+
+Pour deployer sur Vercel :
+1. Poussez le code sur GitHub
+2. Vercel redéploiera automatiquement
+3. Pas besoin de nettoyage !
+
+
+Bon courage ! 🚀

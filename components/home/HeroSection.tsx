@@ -6,11 +6,22 @@ import { COMPANY_INFO, STATISTICS } from "@/lib/constants";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center pt-32 pb-16 bg-gradient-to-br from-background via-background-secondary to-primary/5 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+    <section className="relative min-h-screen flex items-center pt-32 pb-16 overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="/images/hero/nasa-Q1p7bh3SHj8-unsplash.jpg" 
+          alt="Global Technology" 
+          className="w-full h-full object-cover"
+        />
+        {/* Dark overlay pour améliorer la lisibilité du texte */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/70"></div>
+      </div>
+
+      {/* Background Pattern (optionnel, plus subtil maintenant) */}
+      <div className="absolute inset-0 opacity-5 z-[1]">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFFFFF' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}></div>
       </div>
 
@@ -18,15 +29,15 @@ export default function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8 animate-fade-in">
-            <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold">
+            <div className="inline-block px-4 py-2 bg-primary/90 text-white rounded-full text-sm font-semibold backdrop-blur-sm">
               🚀 Innovation & Excellence IT
             </div>
 
-            <h1 className="heading-1 leading-tight">
+            <h1 className="heading-1 leading-tight text-white drop-shadow-lg">
               {COMPANY_INFO.slogan}
             </h1>
 
-            <p className="text-body max-w-2xl">
+            <p className="text-lg text-gray-100 max-w-2xl leading-relaxed drop-shadow">
               Nous accompagnons les entreprises, administrations et institutions dans leur transformation digitale avec des solutions technologiques innovantes et sur mesure.
             </p>
 
@@ -48,73 +59,65 @@ export default function HeroSection() {
             </div>
 
             {/* Statistics */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-gray-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/20">
               {STATISTICS.map((stat, index) => (
                 <div key={index} className="text-center md:text-left">
-                  <div className="text-3xl md:text-4xl font-bold text-primary mb-1">
+                  <div className="text-3xl md:text-4xl font-bold text-primary drop-shadow-lg mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-text-secondary">{stat.label}</div>
+                  <div className="text-sm text-gray-200">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right Content - Image/Illustration */}
-          <div className="relative animate-slide-up hidden lg:block">
-            <div className="relative z-10">
-              {/* Main Image Placeholder */}
-              <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl overflow-hidden shadow-2xl">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <div className="w-32 h-32 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
-                      <div className="w-24 h-24 bg-primary/30 rounded-full flex items-center justify-center">
-                        <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-2xl">
-                          OT
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-text-secondary">Image hero à remplacer</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Cards */}
-              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl animate-float">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-xl">
+          {/* Right Content - Image supprimée car le background est déjà là */}
+          <div className="relative hidden lg:block">
+            <div className="relative z-10 space-y-6">
+              {/* Floating Cards avec design amélioré */}
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-white/20 animate-float">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-green-500/90 rounded-lg flex items-center justify-center text-white text-2xl">
                     ✓
                   </div>
                   <div>
-                    <div className="font-bold text-text">200+</div>
-                    <div className="text-xs text-text-secondary">Projets livrés</div>
+                    <div className="font-bold text-white text-xl">200+</div>
+                    <div className="text-sm text-gray-200">Projets livrés avec succès</div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl animate-float" style={{ animationDelay: "0.5s" }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 text-xl">
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-white/20 animate-float" style={{ animationDelay: "0.5s" }}>
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-primary/90 rounded-lg flex items-center justify-center text-white text-2xl">
                     ⭐
                   </div>
                   <div>
-                    <div className="font-bold text-text">98%</div>
-                    <div className="text-xs text-text-secondary">Satisfaction client</div>
+                    <div className="font-bold text-white text-xl">98%</div>
+                    <div className="text-sm text-gray-200">Taux de satisfaction client</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-white/20 animate-float" style={{ animationDelay: "1s" }}>
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-blue-500/90 rounded-lg flex items-center justify-center text-white text-2xl">
+                    🌍
+                  </div>
+                  <div>
+                    <div className="font-bold text-white text-xl">24/7</div>
+                    <div className="text-sm text-gray-200">Support technique disponible</div>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Background Decorations */}
-            <div className="absolute top-1/4 -right-12 w-24 h-24 bg-primary/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 -left-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
           </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-text/30 rounded-full p-1">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
+        <div className="w-6 h-10 border-2 border-white/50 rounded-full p-1">
           <div className="w-1 h-3 bg-primary rounded-full mx-auto animate-pulse"></div>
         </div>
       </div>

@@ -93,7 +93,7 @@ pm2 startup
 Créer un fichier `.env.local` :
 ```env
 NEXT_PUBLIC_SITE_URL=https://ofarotech.com
-NEXT_PUBLIC_CONTACT_EMAIL=contact@ofarotech.com
+NEXT_PUBLIC_CONTACT_EMAIL=ofaro.tech@gmail.com
 NEXT_PUBLIC_CONTACT_PHONE=+228XXXXXXXX
 NEXT_PUBLIC_WHATSAPP=+228XXXXXXXX
 ```
@@ -191,6 +191,6 @@ Pour les formulaires de contact, configurer un service SMTP :
 ## 🆘 Support
 
 Pour toute question ou problème :
-- Email : support@ofarotech.com
+- Email : ofaro.tech@gmail.com
 - Documentation Next.js : https://nextjs.org/docs
 - Documentation Vercel : https://vercel.com/docs
