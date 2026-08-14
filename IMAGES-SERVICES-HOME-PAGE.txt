@@ -1,0 +1,164 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║        📸 IMAGES AJOUTÉES - SECTION SERVICES PAGE D'ACCUEIL                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Date: Janvier 2025
+Fichier modifié: components/home/ServicesSection.tsx
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🎯 OBJECTIF                                                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Ajouter les images en background sur les cartes de services qui apparaissent
+sur la PAGE D'ACCUEIL quand on scroll (section "Nos Services").
+
+Cela complète le travail déjà fait sur la page /services.
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ✅ MODIFICATIONS EFFECTUÉES                                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. MAPPING DES IMAGES (Identique à /services)
+   • conception-systemes-informatiques → Conception de systèmes informatiques.jpg
+   • developpement-web → Développement Web.jpg
+   • developpement-mobile → Développement Mobile.jpg
+   • logiciels-desktop → Logiciels Desktop.jpg
+   • design-graphique → Design Graphique.jpg
+   • reseaux-informatiques → Réseaux Informatiques.jpg
+   • cybersecurite → Cybersécurité.jpg
+   • maintenance-informatique → Maintenance Informatique.jpg
+   • fourniture-materiels → Fourniture de matériels et accesoires informatiques.jpg
+   • conseil-it → conseil it.jpg
+
+2. STRUCTURE DE LA CARTE MODIFIÉE
+   • Position relative sur conteneur
+   • Image en absolute couvrant toute la carte
+   • Overlay gradient noir (70%-80% opacity)
+   • Contenu en z-10 au-dessus de l'image
+   • Lazy loading activé sur toutes les images
+
+3. STYLE DES ÉLÉMENTS
+   • Icône: bg-primary/90 + backdrop-blur + scale au hover
+   • Titre: texte blanc → primary-light au hover
+   • Description: texte blanc/90
+   • Features: texte blanc/80
+   • Lien: texte primary-light
+
+4. OPTIMISATIONS PERFORMANCE
+   • loading="lazy" sur toutes les images
+   • contentVisibility: 'auto' pour rendu optimisé
+   • Images chargées uniquement au scroll
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📊 RÉSULTAT VISUEL                                                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+AVANT:
+  • Cartes avec fond blanc uni
+  • Icône avec fond primary/10
+  • Texte noir/gris
+
+APRÈS:
+  • Images professionnelles en fond
+  • Overlay gradient pour contraste
+  • Texte blanc bien lisible
+  • Icône avec effet glassmorphism
+  • Design cohérent avec page /services
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🧪 TESTER LES MODIFICATIONS                                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. Rafraîchir la page d'accueil (Ctrl + Shift + R):
+   http://localhost:3000
+
+2. Scroller vers le bas jusqu'à la section "Nos Services"
+
+3. Vérifier que:
+   ✓ Chaque carte affiche son image en background
+   ✓ Le texte blanc est bien visible
+   ✓ L'overlay sombre est présent
+   ✓ Les effets hover fonctionnent
+   ✓ Les images se chargent au scroll (lazy loading)
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🎨 COHÉRENCE VISUELLE                                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+PAGES AVEC IMAGES DE SERVICES:
+  ✅ Page d'accueil → Section "Nos Services" (components/home/ServicesSection.tsx)
+  ✅ Page /services → Grille complète (app/services/page.tsx)
+
+DESIGN IDENTIQUE SUR LES DEUX PAGES:
+  ✓ Mêmes images en background
+  ✓ Même overlay gradient
+  ✓ Même style de texte blanc
+  ✓ Mêmes effets hover
+  ✓ Même icône avec effet flou
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ⚡ PERFORMANCE                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+LAZY LOADING ACTIVÉ:
+  • Les 3 premières cartes se chargent immédiatement
+  • Les cartes suivantes se chargent au scroll
+  • Amélioration du temps de chargement initial
+
+TOUJOURS RECOMMANDÉ:
+  • Optimiser les images volumineuses (27 MB et 17 MB)
+  • Utiliser: OPTIMISER-IMAGES-SERVICES.bat
+  • Réduction: 62 MB → 8 MB (-87%)
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📝 FICHIERS MODIFIÉS                                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+✅ components/home/ServicesSection.tsx
+   • Ajout du mapping serviceImages
+   • Structure carte modifiée (relative/absolute)
+   • Image en background avec lazy loading
+   • Overlay gradient ajouté
+   • Classes de couleur changées (white)
+
+✅ app/services/page.tsx (déjà fait précédemment)
+   • Même traitement appliqué
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🚀 PROCHAINES ÉTAPES                                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. ✅ TESTER sur page d'accueil
+   http://localhost:3000
+   Scroller jusqu'à "Nos Services"
+
+2. ⚠️ OPTIMISER les images (recommandé)
+   Double-cliquez sur: OPTIMISER-IMAGES-SERVICES.bat
+
+3. ✅ VALIDER avec le client
+   Montrer les deux pages:
+   • Page d'accueil (section services)
+   • Page /services complète
+
+4. 📤 PUSH sur GitHub si validé
+   Double-cliquez sur: PUSH-MAINTENANT.bat
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 💡 NOTES                                                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+• Cohérence visuelle entre page d'accueil et page /services ✓
+• Lazy loading pour performance optimale ✓
+• Mêmes images utilisées sur les deux pages ✓
+• Design professionnel et moderne ✓
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ MODIFICATION TERMINÉE
+
+Rafraîchissez la page d'accueil et scrollez jusqu'à "Nos Services":
+http://localhost:3000
+
+Les 10 cartes de services affichent maintenant leurs images en background !
+
+═══════════════════════════════════════════════════════════════════════════════

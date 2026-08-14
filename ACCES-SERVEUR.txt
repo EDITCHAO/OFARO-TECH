@@ -1,0 +1,167 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    🌐 ACCÈS AU SERVEUR DE DÉVELOPPEMENT                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Date: $(Get-Date)
+Serveur: Next.js 14.2.35
+Port: 3000
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📡 CONFIGURATION RÉSEAU (ipconfig)                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+CARTE ACTIVE: Wi-Fi
+
+IPv4 (Adresse locale):
+  • Adresse IP: 192.168.1.71
+  • Masque: 255.255.255.0
+  • Passerelle: 192.168.1.254
+
+IPv6:
+  • Adresse principale: 2c0f:f0f8:8ad:200:1018:11ec:d552:3cb
+  • Adresse temporaire: 2c0f:f0f8:8ad:200:7dcd:d3e2:2e9a:2152
+  • Adresse locale: fe80::ca0a:35af:cc:a54b%11
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🌐 URLS D'ACCÈS AU SITE                                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. ACCÈS LOCAL (sur cet ordinateur):
+   http://localhost:3000
+
+2. ACCÈS RÉSEAU LOCAL (depuis autres appareils sur le même Wi-Fi):
+   http://192.168.1.71:3000
+
+3. ACCÈS CLIENT (pour montrer au client):
+   • Si client sur le même réseau Wi-Fi:
+     → http://192.168.1.71:3000
+   
+   • Si client à distance:
+     → Utiliser le site Vercel: https://ofaro-tech.vercel.app
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📱 PAGES À TESTER                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Page d'accueil:
+  • http://localhost:3000
+  • http://192.168.1.71:3000
+
+Page Secteurs (MODIFIÉE - images et cadres réduits):
+  • http://localhost:3000/secteurs
+  • http://192.168.1.71:3000/secteurs
+
+Page À propos:
+  • http://localhost:3000/a-propos
+  • http://192.168.1.71:3000/a-propos
+
+Page Services:
+  • http://localhost:3000/services
+  • http://192.168.1.71:3000/services
+
+Page Réalisations:
+  • http://localhost:3000/realisations
+  • http://192.168.1.71:3000/realisations
+
+Page Contact:
+  • http://localhost:3000/contact
+  • http://192.168.1.71:3000/contact
+
+Page Devis:
+  • http://localhost:3000/devis
+  • http://192.168.1.71:3000/devis
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📱 ACCÈS DEPUIS TÉLÉPHONE/TABLETTE                                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+PRÉREQUIS: Le téléphone/tablette doit être connecté au MÊME réseau Wi-Fi
+
+1. Connectez votre téléphone au Wi-Fi
+2. Ouvrez le navigateur (Chrome, Safari, etc.)
+3. Tapez: http://192.168.1.71:3000
+4. Le site s'affichera comme sur l'ordinateur
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🔧 COMMANDES SERVEUR                                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+DÉMARRER LE SERVEUR:
+  npm run dev
+
+ARRÊTER LE SERVEUR:
+  Ctrl + C dans le terminal
+
+RECONSTRUIRE:
+  npm run build
+
+NETTOYER ET REDÉMARRER:
+  Remove-Item -Recurse -Force .next
+  npm run dev
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🔍 VÉRIFIER LES MODIFICATIONS                                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Page à vérifier: /secteurs
+URL: http://localhost:3000/secteurs
+
+Modifications à voir:
+  ✓ Images plus compactes (format 4:3 au lieu de carré)
+  ✓ Cadres "Défis du secteur" plus petits
+  ✓ Cadres "Nos solutions" plus petits
+  ✓ Meilleur équilibre entre images et texte
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🚀 DÉPLOIEMENT                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+SITE EN PRODUCTION (Vercel):
+  https://ofaro-tech.vercel.app
+
+STATUT:
+  ⚠️ Les modifications ne sont PAS encore déployées
+  ⚠️ Il faut d'abord PUSH sur GitHub
+
+POUR DÉPLOYER:
+  1. Double-cliquez sur: PUSH-MAINTENANT.bat
+  2. Attendez 2-3 minutes
+  3. Vérifiez sur: https://ofaro-tech.vercel.app/secteurs
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📊 INFORMATIONS SYSTÈME                                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Système: Windows
+Réseau: Wi-Fi (192.168.1.71)
+Serveur: Next.js 14.2.35
+Port: 3000
+Host: 0.0.0.0 (accessible depuis le réseau local)
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 💡 ASTUCES                                                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. PARTAGE D'ÉCRAN AVEC CLIENT:
+   • Option 1: Montrer localhost:3000 via partage d'écran (Teams, Zoom, etc.)
+   • Option 2: Client se connecte à http://192.168.1.71:3000 (même Wi-Fi)
+   • Option 3: Déployer sur Vercel et partager le lien
+
+2. RAFRAÎCHIR APRÈS MODIFICATION:
+   • Le serveur se recharge automatiquement
+   • Si problème: Ctrl + F5 dans le navigateur
+
+3. VOIR LES ERREURS:
+   • Terminal: messages d'erreur du serveur
+   • Navigateur: F12 → Console pour erreurs JavaScript
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ SERVEUR EN COURS D'EXÉCUTION
+
+Pour accéder au site:
+→ Ordinateur local: http://localhost:3000
+→ Réseau local: http://192.168.1.71:3000
+→ Production: https://ofaro-tech.vercel.app (après push)
+
+═══════════════════════════════════════════════════════════════════════════════

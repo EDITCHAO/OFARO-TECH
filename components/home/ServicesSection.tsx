@@ -30,6 +30,20 @@ const iconMap: { [key: string]: JSX.Element } = {
   FaChartLine: <FaChartLine />,
 };
 
+// Mapping des images de fond pour chaque service (SVG pour performance)
+const serviceImages: { [key: string]: string } = {
+  "conception-systemes-informatiques": "/images/nos services/Conception de systèmes informatiques.svg",
+  "developpement-web": "/images/nos services/Développement Web.svg",
+  "developpement-mobile": "/images/nos services/Développement Mobile.svg",
+  "logiciels-desktop": "/images/nos services/Logiciels Desktop.svg",
+  "design-graphique": "/images/nos services/Design Graphique.svg",
+  "reseaux-informatiques": "/images/nos services/Réseaux Informatiques.svg",
+  "cybersecurite": "/images/nos services/Cybersécurité.svg",
+  "maintenance-informatique": "/images/nos services/Maintenance Informatique.svg",
+  "fourniture-materiels": "/images/nos services/Fourniture de matériels et accesoires informatiques.svg",
+  "conseil-it": "/images/nos services/conseil it.svg",
+};
+
 export default function ServicesSection() {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
 
@@ -59,36 +73,52 @@ export default function ServicesSection() {
               onMouseEnter={() => setHoveredService(service.id)}
               onMouseLeave={() => setHoveredService(null)}
             >
-              <div className="bg-white p-6 rounded-xl h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                {/* Icon */}
-                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-3xl mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                  {iconMap[service.icon] || <FaCode />}
+              <div className="relative bg-white rounded-xl h-full overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                {/* Image de fond avec lazy loading */}
+                <div className="absolute inset-0">
+                  <img 
+                    src={serviceImages[service.slug] || "/images/nos services/Développement Web.jpg"} 
+                    alt={service.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                    style={{ contentVisibility: 'auto' }}
+                  />
+                  {/* Overlay sombre pour la lisibilité */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/65 to-black/80"></div>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-bold text-text mb-3 group-hover:text-primary transition-colors">
-                  {service.title}
-                </h3>
+                {/* Contenu par-dessus l'image */}
+                <div className="relative z-10 p-6">
+                  {/* Icon */}
+                  <div className="w-16 h-16 bg-primary/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-white text-3xl mb-4 group-hover:bg-primary group-hover:scale-110 transition-all">
+                    {iconMap[service.icon] || <FaCode />}
+                  </div>
 
-                {/* Description */}
-                <p className="text-text-secondary text-sm mb-4 line-clamp-2">
-                  {service.description}
-                </p>
+                  {/* Title */}
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary-light transition-colors">
+                    {service.title}
+                  </h3>
 
-                {/* Features */}
-                <ul className="space-y-2 mb-4">
-                  {service.features.slice(0, 3).map((feature, index) => (
-                    <li key={index} className="flex items-center gap-2 text-sm text-text-secondary">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                  {/* Description */}
+                  <p className="text-white/90 text-sm mb-4 line-clamp-2">
+                    {service.description}
+                  </p>
 
-                {/* Link */}
-                <div className="flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3 transition-all">
-                  En savoir plus
-                  <FaArrowRight className="text-xs" />
+                  {/* Features */}
+                  <ul className="space-y-2 mb-4">
+                    {service.features.slice(0, 3).map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2 text-sm text-white/80">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Link */}
+                  <div className="flex items-center gap-2 text-primary-light font-semibold text-sm group-hover:gap-3 transition-all">
+                    En savoir plus
+                    <FaArrowRight className="text-xs" />
+                  </div>
                 </div>
               </div>
             </Link>
