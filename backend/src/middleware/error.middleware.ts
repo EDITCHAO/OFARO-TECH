@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import * as process from 'process';
 
 export class AppError extends Error {
   statusCode: number;

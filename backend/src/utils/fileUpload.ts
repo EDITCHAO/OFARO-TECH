@@ -1,7 +1,7 @@
 import multer from 'multer';
-import * as path from 'path';
+import path from 'path';
 import { Request } from 'express';
-import * as fs from 'fs';
+import fs from 'fs';
 
 // Créer les dossiers s'ils n'existent pas
 const createFolderIfNotExists = (folderPath: string) => {
