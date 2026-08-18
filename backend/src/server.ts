@@ -4,7 +4,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import dotenv from 'dotenv';
-import path from 'path';
+import * as path from 'path';
+import * as process from 'process';
 
 // Import routes
 import servicesRoutes from './routes/services.routes';

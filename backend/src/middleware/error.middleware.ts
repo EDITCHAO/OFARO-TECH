@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import * as process from 'process';
 
 export class AppError extends Error {
   statusCode: number;
@@ -9,7 +10,9 @@ export class AppError extends Error {
     this.statusCode = statusCode;
     this.isOperational = true;
 
-    Error.captureStackTrace(this, this.constructor);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
   }
 }
 
