@@ -12,7 +12,7 @@ const createFolderIfNotExists = (folderPath: string) => {
 
 // Configuration du stockage
 const storage = multer.diskStorage({
-  destination: (req: Request, file: Express.Multer.File, cb) => {
+  destination: (req: Request, file: any, cb) => {
     let folder = 'uploads';
     
     if (req.path.includes('internships')) {
@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
     createFolderIfNotExists(folder);
     cb(null, folder);
   },
-  filename: (req: Request, file: Express.Multer.File, cb) => {
+  filename: (req: Request, file: any, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const ext = path.extname(file.originalname);
     const nameWithoutExt = path.basename(file.originalname, ext);
@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
 // Filtre pour accepter uniquement certains types de fichiers
 const fileFilter = (
   req: Request,
-  file: Express.Multer.File,
+  file: any,
   cb: multer.FileFilterCallback
 ) => {
   const allowedMimes = [

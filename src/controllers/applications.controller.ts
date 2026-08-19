@@ -12,7 +12,19 @@ export const submitApplication = async (
   next: NextFunction
 ) => {
   try {
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    type MulterUploadedFile = {
+      fieldname: string;
+      originalname: string;
+      encoding: string;
+      mimetype: string;
+      size: number;
+      destination?: string;
+      filename: string;
+      path?: string;
+      buffer?: Buffer;
+    };
+
+    const files = (req as any).files as { [fieldname: string]: MulterUploadedFile[] };
     
     // Vérifier que les fichiers requis sont présents
     if (!files || !files.cv || !files.cover_letter) {
