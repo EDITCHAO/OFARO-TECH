@@ -1,15 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { query } from '../config/database';
+const { query } = require('../config/database');
 
-/**
- * Envoyer un message de contact
- * POST /api/contact/send
- */
-export const sendContactMessage = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const sendContactMessage = async (req, res, next) => {
   try {
     const {
       sender_name,
@@ -19,14 +10,10 @@ export const sendContactMessage = async (
       message
     } = req.body;
 
-    // Génération du numéro de référence
-    const countResult = await query(
-      'SELECT COUNT(*) as total FROM contact_messages'
-    );
-    const count = parseInt(countResult.rows[0].total) + 1;
+    const countResult = await query('SELECT COUNT(*) as total FROM contact_messages');
+    const count = parseInt(countResult.rows[0].total, 10) + 1;
     const reference_number = `MSG-${String(count).padStart(3, '0')}`;
 
-    // Vérifier si le contact existe déjà
     let contactResult = await query(
       'SELECT id FROM contacts WHERE email = $1',
       [sender_email]
@@ -34,7 +21,6 @@ export const sendContactMessage = async (
 
     let contactId;
     if (contactResult.rows.length === 0) {
-      // Créer un nouveau contact
       const newContact = await query(
         `INSERT INTO contacts 
         (full_name, email, phone, contact_type, total_messages, source) 
@@ -44,7 +30,6 @@ export const sendContactMessage = async (
       );
       contactId = newContact.rows[0].id;
     } else {
-      // Mettre à jour le contact existant
       contactId = contactResult.rows[0].id;
       await query(
         `UPDATE contacts 
@@ -56,7 +41,6 @@ export const sendContactMessage = async (
       );
     }
 
-    // Insérer le message de contact
     const result = await query(
       `INSERT INTO contact_messages 
       (sender_name, sender_email, sender_phone, subject, message, reference_number, status) 
@@ -74,7 +58,6 @@ export const sendContactMessage = async (
 
     const contactMessage = result.rows[0];
 
-    // Créer une entrée dans l'historique
     await query(
       `INSERT INTO request_history 
       (entity_type, entity_id, reference_number, action, new_status, description) 
@@ -96,4 +79,8 @@ export const sendContactMessage = async (
   } catch (error) {
     next(error);
   }
+};
+
+module.exports = {
+  sendContactMessage
 };

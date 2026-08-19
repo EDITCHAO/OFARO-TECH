@@ -1,10 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-
-export class AppError extends Error {
-  statusCode: number;
-  isOperational: boolean;
-
-  constructor(message: string, statusCode: number) {
+class AppError extends Error {
+  constructor(message, statusCode) {
     super(message);
     this.statusCode = statusCode;
     this.isOperational = true;
@@ -15,12 +10,7 @@ export class AppError extends Error {
   }
 }
 
-export const errorHandler = (
-  err: Error | AppError,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const errorHandler = (err, req, res, _next) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       success: false,
@@ -28,20 +18,15 @@ export const errorHandler = (
     });
   }
 
-  // Erreur PostgreSQL
-  if ('code' in err) {
-    const pgError = err as any;
-    
-    // Violation de contrainte unique
-    if (pgError.code === '23505') {
+  if (err && err.code) {
+    if (err.code === '23505') {
       return res.status(409).json({
         success: false,
         error: 'Cette ressource existe déjà'
       });
     }
-    
-    // Violation de clé étrangère
-    if (pgError.code === '23503') {
+
+    if (err.code === '23503') {
       return res.status(400).json({
         success: false,
         error: 'Référence invalide'
@@ -49,7 +34,6 @@ export const errorHandler = (
     }
   }
 
-  // Erreur de validation
   if (err.name === 'ValidationError') {
     return res.status(400).json({
       success: false,
@@ -57,7 +41,6 @@ export const errorHandler = (
     });
   }
 
-  // Erreur JWT
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({
       success: false,
@@ -72,14 +55,17 @@ export const errorHandler = (
     });
   }
 
-  // Log l'erreur en développement
   if (process.env.NODE_ENV === 'development') {
-    console.error('❌ Error:', err);
+    console.error('Error:', err);
   }
 
-  // Erreur générique
   return res.status(500).json({
     success: false,
     error: 'Une erreur interne est survenue'
   });
+};
+
+module.exports = {
+  AppError,
+  errorHandler
 };

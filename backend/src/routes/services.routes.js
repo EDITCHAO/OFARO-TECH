@@ -1,11 +1,10 @@
-import { Router } from 'express';
-import { body } from 'express-validator';
-import { validate } from '../middleware/validation.middleware';
-import { createQuoteRequest } from '../controllers/quotes.controller';
+const { Router } = require('express');
+const { body } = require('express-validator');
+const { validate } = require('../middleware/validation.middleware');
+const { createServiceRequest } = require('../controllers/services.controller');
 
 const router = Router();
 
-// POST /api/quotes/request - Créer une demande de devis
 router.post(
   '/request',
   [
@@ -15,45 +14,46 @@ router.post(
       .trim()
       .isLength({ min: 2, max: 255 })
       .withMessage('Le nom doit contenir entre 2 et 255 caractères'),
-    
+
     body('client_email')
       .notEmpty()
-      .withMessage('L\'email est requis')
+      .withMessage("L'email est requis")
       .isEmail()
       .withMessage('Email invalide')
       .normalizeEmail(),
-    
+
     body('client_phone')
       .notEmpty()
       .withMessage('Le téléphone est requis')
       .matches(/^[\+]?[0-9\s\-\(\)]+$/)
       .withMessage('Numéro de téléphone invalide'),
-    
-    body('project_type')
+
+    body('service_type')
       .notEmpty()
-      .withMessage('Le type de projet est requis'),
-    
-    body('project_description')
+      .withMessage('Le type de service est requis'),
+
+    body('description')
       .notEmpty()
-      .withMessage('La description du projet est requise')
+      .withMessage('La description est requise')
       .isLength({ min: 10 })
       .withMessage('La description doit contenir au moins 10 caractères'),
-    
+
     body('company_name')
       .optional()
       .trim(),
-    
-    body('budget')
+
+    body('urgency')
+      .optional()
+      .isIn(['normale', 'urgent', 'très urgent'])
+      .withMessage('Urgence invalide'),
+
+    body('budget_range')
       .optional()
       .trim(),
-    
-    body('deadline')
-      .optional()
-      .trim(),
-    
+
     validate
   ],
-  createQuoteRequest
+  createServiceRequest
 );
 
-export default router;
+module.exports = router;
