@@ -44,9 +44,22 @@ export async function saveQuoteToSupabase(data: {
     const { data: result, error } = await supabase
       .from('quote_requests')
       .insert([{
-        ...data,
-        delivery_date: data.delivery_date || null,
-        status: 'Nouveau'
+        company_name: data.company_name,
+        sector: data.activity_field || null,
+        email: data.email,
+        phone: data.phone || '',
+        city: data.city || null,
+        services: JSON.stringify(data.desired_services || []),
+        project_description: data.description || '',
+        has_logo: data.has_logo === 'Oui',
+        has_domain: data.has_domain_name === 'Oui',
+        key_feature: data.key_features || null,
+        expected_result: data.expected_result || null,
+        budget: data.budget || null,
+        contact_first_name: data.contact_person_name?.split(' ')[0] || '',
+        contact_last_name: data.contact_person_name?.split(' ').slice(1).join(' ') || data.contact_person_name?.split(' ')[0] || '',
+        desired_delivery_date: data.delivery_date || null,
+        status: 'nouveau'
       }])
       .select()
       .single();
@@ -78,8 +91,12 @@ export async function saveMessageToSupabase(data: {
     const { data: result, error } = await supabase
       .from('contact_messages')
       .insert([{
-        ...data,
-        status: 'Nouveau',
+        full_name: data.full_name,
+        email: data.email,
+        phone: data.phone || null,
+        subject: data.subject,
+        message: data.message,
+        status: 'nouveau',
         is_read: false
       }])
       .select()

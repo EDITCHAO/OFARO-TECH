@@ -65,7 +65,7 @@ export default function AdminDashboard() {
   const [quoteStatusFilter, setQuoteStatusFilter] = useState<string>("all");
   const [messageStatusFilter, setMessageStatusFilter] = useState<string>("all");
 
-  const refreshData = () => {
+  const refreshData = async () => {
     setUsers(AdminStore.getUsers());
     setServices(AdminStore.getServices());
     setRealizations(AdminStore.getRealizations());
@@ -74,7 +74,7 @@ export default function AdminDashboard() {
     setQuotes(AdminStore.getQuotes());
     setMessages(AdminStore.getMessages());
     setApplications(AdminStore.getApplications());
-    setServiceRequests([]); // TODO: Ajouter AdminStore.getServiceRequests() quand implémenté
+    setServiceRequests([]);
     setClients(AdminStore.getClients());
     setTeam(AdminStore.getTeam());
     setDocuments(AdminStore.getDocuments());
@@ -83,6 +83,18 @@ export default function AdminDashboard() {
     setPages(AdminStore.getPages());
     setLogs(AdminStore.getLogs());
     setCurrentRole(AdminStore.getCurrentRole());
+
+    try {
+      const response = await fetch('/api/admin/requests', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Chargement admin impossible');
+      const data = await response.json();
+      setQuotes(data.quotes || []);
+      setMessages(data.messages || []);
+      setApplications(data.applications || []);
+      setServiceRequests(data.serviceRequests || []);
+    } catch (error) {
+      console.error('Impossible de synchroniser les demandes admin:', error);
+    }
   };
 
   // Fonction de gestion du tri
@@ -1164,7 +1176,7 @@ export default function AdminDashboard() {
                     <ul className="text-xs text-gray-500 space-y-1.5">
                       <li>✓ Plus simple que le devis complet (pas de cahier des charges détaillé)</li>
                       <li>✓ Idéal pour les demandes ponctuelles et les premiers contacts</li>
-                      <li>✓ Les données sont sauvegardées localement (à intégrer avec le backend)</li>
+                      <li>✓ Les données sont synchronisées avec la base de données du site</li>
                       <li>✓ Pensez à répondre sous 24h pour optimiser le taux de conversion</li>
                     </ul>
                   </div>

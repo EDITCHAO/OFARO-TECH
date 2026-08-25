@@ -69,20 +69,22 @@ export async function POST(request: NextRequest) {
 
     // Insérer la demande de devis
     const result = await query(
-      `INSERT INTO quote_requests 
-      (client_name, client_email, client_phone, company_name, project_type, project_description, budget, deadline, reference_number, status) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'nouveau') 
+      `INSERT INTO quote_requests
+      (company_name, sector, email, phone, services, project_description,
+       budget, contact_first_name, contact_last_name, desired_delivery_date, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'nouveau')
       RETURNING *`,
       [
-        client_name,
+        body.company_name || null,
+        body.sector || null,
         client_email,
         client_phone,
-        body.company_name || null,
         project_type,
         project_description,
         body.budget || null,
-        body.deadline || null,
-        reference_number
+        client_name.split(' ')[0],
+        client_name.split(' ').slice(1).join(' ') || client_name.split(' ')[0],
+        body.deadline || null
       ]
     );
 

@@ -68,17 +68,16 @@ export async function POST(request: NextRequest) {
 
     // Insérer le message de contact
     const result = await query(
-      `INSERT INTO contact_messages 
-      (sender_name, sender_email, sender_phone, subject, message, reference_number, status) 
-      VALUES ($1, $2, $3, $4, $5, $6, 'non_lu') 
+        `INSERT INTO contact_messages 
+        (full_name, email, phone, subject, message, status, is_read) 
+        VALUES ($1, $2, $3, $4, $5, 'nouveau', false) 
       RETURNING *`,
       [
         sender_name,
         sender_email,
         body.sender_phone || null,
         subject,
-        message,
-        reference_number
+        message
       ]
     );
 
@@ -86,9 +85,9 @@ export async function POST(request: NextRequest) {
 
     // Créer une entrée dans l'historique
     await query(
-      `INSERT INTO request_history 
-      (entity_type, entity_id, reference_number, action, new_status, description) 
-      VALUES ($1, $2, $3, 'created', 'non_lu', $4)`,
+        `INSERT INTO request_history 
+        (entity_type, entity_id, reference_number, action, new_status, description) 
+        VALUES ($1, $2, $3, 'created', 'nouveau', $4)`,
       [
         'contact_message',
         contactMessage.id,
