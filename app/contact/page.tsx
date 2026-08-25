@@ -22,35 +22,28 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      // 1. Tentative de persistance dans Supabase
-      const { saveMessageToSupabase } = await import("@/lib/supabase");
-      const supabaseResult = await saveMessageToSupabase({
-        full_name: formData.name,
-        email: formData.email,
-        phone: formData.phone || undefined,
-        subject: formData.subject,
-        message: formData.message,
+      const response = await fetch('/api/contact/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sender_name: formData.name,
+          sender_email: formData.email,
+          sender_phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
+      const result = await response.json();
 
-      // 2. Toujours enregistrer dans le store local (back-office temps réel)
-      const { AdminStore } = await import("@/lib/admin-store");
-      const created = AdminStore.addMessage({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        subject: formData.subject,
-        message: formData.message,
-      });
+      if (!response.ok) {
+        throw new Error(result.error || 'Échec de l\'envoi du message');
+      }
 
-      const reference = (supabaseResult.success && supabaseResult.reference)
-        ? supabaseResult.reference
-        : created.reference;
-
-      alert(`✅ Votre message (${reference}) a été transmis avec succès !\n\nNotre équipe vous répondra sous 24h ouvrées.`);
+      alert(`✅ Votre message (${result.reference}) a été transmis avec succès !\n\nNotre équipe vous répondra sous 24h ouvrées.`);
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
     } catch (err) {
       console.error("Erreur lors de l'envoi du message:", err);
-      alert("✅ Votre message a été envoyé ! Nous vous répondons sous 24h.");
+      alert("❌ Votre message n'a pas pu être envoyé. Veuillez réessayer.");
     } finally {
       setIsSubmitting(false);
     }
