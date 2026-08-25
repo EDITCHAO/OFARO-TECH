@@ -3,7 +3,7 @@
 -- ============================================================================
 
 -- Table des utilisateurs du back-office
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE users (
 );
 
 -- Table des logs de connexion
-CREATE TABLE login_logs (
+CREATE TABLE IF NOT EXISTS login_logs (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     email VARCHAR(255) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE login_logs (
 );
 
 -- Table des tentatives de connexion échouées (anti brute-force)
-CREATE TABLE failed_login_attempts (
+CREATE TABLE IF NOT EXISTS failed_login_attempts (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     ip_address VARCHAR(45) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE failed_login_attempts (
 );
 
 -- Table des demandes de devis
-CREATE TABLE quote_requests (
+CREATE TABLE IF NOT EXISTS quote_requests (
     id SERIAL PRIMARY KEY,
     -- Informations demandeur
     company_name VARCHAR(255) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE quote_requests (
 );
 
 -- Table des pièces jointes des devis
-CREATE TABLE quote_attachments (
+CREATE TABLE IF NOT EXISTS quote_attachments (
     id SERIAL PRIMARY KEY,
     quote_request_id INTEGER REFERENCES quote_requests(id) ON DELETE CASCADE,
     file_name VARCHAR(255) NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE quote_attachments (
 );
 
 -- Table des messages de contact
-CREATE TABLE contact_messages (
+CREATE TABLE IF NOT EXISTS contact_messages (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE contact_messages (
 );
 
 -- Table des demandes de services spécifiques
-CREATE TABLE service_requests (
+CREATE TABLE IF NOT EXISTS service_requests (
     id SERIAL PRIMARY KEY,
     -- Informations client
     client_name VARCHAR(255) NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE service_requests (
 );
 
 -- Table des demandes de stage
-CREATE TABLE internship_requests (
+CREATE TABLE IF NOT EXISTS internship_requests (
     id SERIAL PRIMARY KEY,
     -- Informations personnelles
     first_name VARCHAR(100) NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE internship_requests (
 );
 
 -- Table des offres d'emploi
-CREATE TABLE job_offers (
+CREATE TABLE IF NOT EXISTS job_offers (
     id SERIAL PRIMARY KEY,
     reference VARCHAR(50) UNIQUE NOT NULL, -- Référence de l'offre
     title VARCHAR(255) NOT NULL, -- Titre du poste
@@ -191,7 +191,7 @@ CREATE TABLE job_offers (
 );
 
 -- Table des candidatures
-CREATE TABLE applications (
+CREATE TABLE IF NOT EXISTS applications (
     id SERIAL PRIMARY KEY,
     -- Type de candidature
     application_type VARCHAR(50) CHECK (application_type IN ('offre', 'spontanee')),
@@ -226,7 +226,7 @@ CREATE TABLE applications (
 );
 
 -- Table des réalisations (portfolio)
-CREATE TABLE realizations (
+CREATE TABLE IF NOT EXISTS realizations (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
@@ -247,7 +247,7 @@ CREATE TABLE realizations (
 );
 
 -- Table des articles/actualités
-CREATE TABLE articles (
+CREATE TABLE IF NOT EXISTS articles (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
@@ -267,7 +267,7 @@ CREATE TABLE articles (
 );
 
 -- Table des témoignages
-CREATE TABLE testimonials (
+CREATE TABLE IF NOT EXISTS testimonials (
     id SERIAL PRIMARY KEY,
     client_name VARCHAR(255) NOT NULL,
     company VARCHAR(255),
@@ -282,7 +282,7 @@ CREATE TABLE testimonials (
 );
 
 -- Table des clients
-CREATE TABLE clients (
+CREATE TABLE IF NOT EXISTS clients (
     id SERIAL PRIMARY KEY,
     company_name VARCHAR(255) NOT NULL,
     sector VARCHAR(255),
@@ -299,7 +299,7 @@ CREATE TABLE clients (
 );
 
 -- Table des membres de l'équipe
-CREATE TABLE team_members (
+CREATE TABLE IF NOT EXISTS team_members (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
@@ -315,7 +315,7 @@ CREATE TABLE team_members (
 );
 
 -- Table de la médiathèque
-CREATE TABLE media_library (
+CREATE TABLE IF NOT EXISTS media_library (
     id SERIAL PRIMARY KEY,
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(500) NOT NULL,
@@ -332,7 +332,7 @@ CREATE TABLE media_library (
 );
 
 -- Table des documents téléchargeables
-CREATE TABLE downloadable_documents (
+CREATE TABLE IF NOT EXISTS downloadable_documents (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
@@ -346,7 +346,7 @@ CREATE TABLE downloadable_documents (
 );
 
 -- Table des paramètres SEO par page
-CREATE TABLE seo_settings (
+CREATE TABLE IF NOT EXISTS seo_settings (
     id SERIAL PRIMARY KEY,
     page_name VARCHAR(255) UNIQUE NOT NULL,
     page_url VARCHAR(500) NOT NULL,
@@ -362,7 +362,7 @@ CREATE TABLE seo_settings (
 );
 
 -- Table centralisée des contacts/clients
-CREATE TABLE contacts (
+CREATE TABLE IF NOT EXISTS contacts (
     id SERIAL PRIMARY KEY,
     -- Informations de base
     first_name VARCHAR(100),
@@ -390,7 +390,7 @@ CREATE TABLE contacts (
 );
 
 -- Table d'historique des demandes (toutes catégories)
-CREATE TABLE request_history (
+CREATE TABLE IF NOT EXISTS request_history (
     id SERIAL PRIMARY KEY,
     -- Référence à l'entité
     entity_type VARCHAR(50) NOT NULL, -- service_request, quote_request, contact_message, internship_request, application
@@ -410,7 +410,7 @@ CREATE TABLE request_history (
 );
 
 -- Table des statistiques du site
-CREATE TABLE site_statistics (
+CREATE TABLE IF NOT EXISTS site_statistics (
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL UNIQUE,
     visitors_count INTEGER DEFAULT 0,
@@ -425,21 +425,18 @@ CREATE TABLE site_statistics (
 -- Index pour optimisation des performances
 -- ============================================================================
 
-CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_users_role ON users(role);
-CREATE INDEX idx_quote_requests_status ON quote_requests(status);
-CREATE INDEX idx_quote_requests_created_at ON quote_requests(created_at DESC);
-CREATE INDEX idx_contact_messages_status ON contact_messages(status);
-CREATE INDEX idx_contact_messages_is_read ON contact_messages(is_read);
-CREATE INDEX idx_job_applications_status ON job_applications(status);
-CREATE INDEX idx_realizations_is_published ON realizations(is_published);
-CREATE INDEX idx_realizations_slug ON realizations(slug);
-CREATE INDEX idx_articles_is_published ON articles(is_published);
-CREATE INDEX idx_articles_slug ON articles(slug);
-CREATE INDEX idx_activity_logs_user_id ON activity_logs(user_id);
-CREATE INDEX idx_activity_logs_entity ON activity_logs(entity_type, entity_id);
-CREATE INDEX idx_media_library_uploaded_by ON media_library(uploaded_by);
-CREATE INDEX idx_site_statistics_date ON site_statistics(date DESC);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+CREATE INDEX IF NOT EXISTS idx_quote_requests_status ON quote_requests(status);
+CREATE INDEX IF NOT EXISTS idx_quote_requests_created_at ON quote_requests(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_contact_messages_status ON contact_messages(status);
+CREATE INDEX IF NOT EXISTS idx_contact_messages_is_read ON contact_messages(is_read);
+CREATE INDEX IF NOT EXISTS idx_realizations_is_published ON realizations(is_published);
+CREATE INDEX IF NOT EXISTS idx_realizations_slug ON realizations(slug);
+CREATE INDEX IF NOT EXISTS idx_articles_is_published ON articles(is_published);
+CREATE INDEX IF NOT EXISTS idx_articles_slug ON articles(slug);
+CREATE INDEX IF NOT EXISTS idx_media_library_uploaded_by ON media_library(uploaded_by);
+CREATE INDEX IF NOT EXISTS idx_site_statistics_date ON site_statistics(date DESC);
 
 -- ============================================================================
 -- Données initiales
@@ -454,7 +451,8 @@ VALUES (
     'OFARO TECH',
     'administrateur',
     true
-);
+)
+ON CONFLICT (email) DO NOTHING;
 
 -- Paramètres SEO des pages principales
 INSERT INTO seo_settings (page_name, page_url, meta_title, meta_description) VALUES
@@ -463,7 +461,8 @@ INSERT INTO seo_settings (page_name, page_url, meta_title, meta_description) VAL
 ('Services', '/services', 'Nos Services - OFARO TECH', 'Développement web, mobile, cybersécurité, réseaux et maintenance informatique.'),
 ('Réalisations', '/realisations', 'Nos Réalisations - OFARO TECH', 'Découvrez nos projets réussis et notre expertise technique.'),
 ('Secteurs', '/secteurs', 'Secteurs d''activité - OFARO TECH', 'Nous servons les banques, l''éducation, la santé, le commerce et l''administration publique.'),
-('Contact', '/contact', 'Contact - OFARO TECH', 'Contactez-nous pour vos projets IT et obtenez un devis personnalisé.');
+('Contact', '/contact', 'Contact - OFARO TECH', 'Contactez-nous pour vos projets IT et obtenez un devis personnalisé.')
+ON CONFLICT (page_name) DO NOTHING;
 
 -- ============================================================================
 -- Fin du schéma
