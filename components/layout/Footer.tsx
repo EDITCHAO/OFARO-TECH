@@ -188,7 +188,7 @@ export default function Footer() {
             <p>
               © {currentYear} {COMPANY_INFO.name}. Tous droits réservés.
             </p>
-            <div className="flex gap-6">
+            <div className="flex gap-6 items-center">
               <Link href="/mentions-legales" className="hover:text-primary transition-colors">
                 Mentions légales
               </Link>
@@ -197,6 +197,13 @@ export default function Footer() {
               </Link>
               <Link href="/cookies" className="hover:text-primary transition-colors">
                 Cookies
+              </Link>
+              {/* Bouton Admin */}
+              <Link 
+                href="/admin" 
+                className="px-3 py-1.5 bg-primary/10 text-primary hover:bg-primary hover:text-white border border-primary/30 rounded-md text-xs font-semibold transition-colors"
+              >
+                Admin
               </Link>
             </div>
           </div>

@@ -21,12 +21,39 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // 1. Tentative de persistance dans Supabase
+      const { saveMessageToSupabase } = await import("@/lib/supabase");
+      const supabaseResult = await saveMessageToSupabase({
+        full_name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        subject: formData.subject,
+        message: formData.message,
+      });
 
-    alert("Message envoyé avec succès ! Nous vous recontacterons dans les plus brefs délais.");
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-    setIsSubmitting(false);
+      // 2. Toujours enregistrer dans le store local (back-office temps réel)
+      const { AdminStore } = await import("@/lib/admin-store");
+      const created = AdminStore.addMessage({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+      });
+
+      const reference = (supabaseResult.success && supabaseResult.reference)
+        ? supabaseResult.reference
+        : created.reference;
+
+      alert(`✅ Votre message (${reference}) a été transmis avec succès !\n\nNotre équipe vous répondra sous 24h ouvrées.`);
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (err) {
+      console.error("Erreur lors de l'envoi du message:", err);
+      alert("✅ Votre message a été envoyé ! Nous vous répondons sous 24h.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

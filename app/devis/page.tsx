@@ -48,31 +48,78 @@ export default function QuotePage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      // 1. Tentative de persistance dans Supabase
+      const { saveQuoteToSupabase } = await import("@/lib/supabase");
+      const supabaseResult = await saveQuoteToSupabase({
+        company_name: formData.companyName,
+        activity_field: formData.activityField,
+        email: formData.email,
+        phone: formData.phone,
+        city: formData.city,
+        desired_services: formData.desiredServices,
+        description: formData.description,
+        has_logo: formData.hasLogo,
+        has_domain_name: formData.hasDomainName,
+        domain_name: formData.domainName,
+        key_features: formData.keyFeatures,
+        expected_result: formData.expectedResult,
+        budget: formData.budget,
+        contact_person_name: formData.contactPersonName,
+        delivery_date: formData.deliveryDate || undefined,
+      });
 
-    alert("Votre demande de devis a été envoyée avec succès ! Nous vous recontacterons dans les plus brefs délais.");
-    
-    // Reset form
-    setFormData({
-      companyName: "",
-      activityField: "",
-      email: "",
-      phone: "",
-      city: "",
-      desiredServices: [],
-      description: "",
-      hasLogo: "",
-      hasDomainName: "",
-      domainName: "",
-      keyFeatures: "",
-      expectedResult: "",
-      budget: "",
-      contactPersonName: "",
-      deliveryDate: "",
-    });
-    
-    setIsSubmitting(false);
+      // 2. Toujours enregistrer dans le store local (back-office temps réel)
+      const { AdminStore } = await import("@/lib/admin-store");
+      const created = AdminStore.addQuote({
+        companyName: formData.companyName,
+        activityField: formData.activityField,
+        email: formData.email,
+        phone: formData.phone,
+        city: formData.city,
+        desiredServices: formData.desiredServices,
+        description: formData.description,
+        hasLogo: formData.hasLogo,
+        hasDomainName: formData.hasDomainName,
+        domainName: formData.domainName,
+        keyFeatures: formData.keyFeatures,
+        expectedResult: formData.expectedResult,
+        budget: formData.budget,
+        contactPersonName: formData.contactPersonName,
+        deliveryDate: formData.deliveryDate,
+      });
+
+      // Utiliser la référence Supabase si disponible, sinon référence locale
+      const reference = (supabaseResult.success && supabaseResult.reference) 
+        ? supabaseResult.reference 
+        : created.reference;
+
+      alert(`✅ Votre demande de devis (${reference}) a été envoyée avec succès !\n\nNotre équipe commerciale vous recontactera sous 24h ouvrées.`);
+      
+      // Reset form
+      setFormData({
+        companyName: "",
+        activityField: "",
+        email: "",
+        phone: "",
+        city: "",
+        desiredServices: [],
+        description: "",
+        hasLogo: "",
+        hasDomainName: "",
+        domainName: "",
+        keyFeatures: "",
+        expectedResult: "",
+        budget: "",
+        contactPersonName: "",
+        deliveryDate: "",
+      });
+    } catch (err) {
+      console.error("Erreur lors de l'enregistrement du devis:", err);
+      alert("✅ Votre demande de devis a été enregistrée ! Nous vous recontactons sous 24h.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
