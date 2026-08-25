@@ -1,32 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
-import { query } from '../config/database';
-import { AppError } from '../middleware/error.middleware';
+const { query } = require('../config/database');
+const { AppError } = require('../middleware/error.middleware');
 
-/**
- * Soumettre une candidature
- * POST /api/applications/submit
- */
-export const submitApplication = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const submitApplication = async (req, res, next) => {
   try {
-    type MulterUploadedFile = {
-      fieldname: string;
-      originalname: string;
-      encoding: string;
-      mimetype: string;
-      size: number;
-      destination?: string;
-      filename: string;
-      path?: string;
-      buffer?: Buffer;
-    };
+    const files = req.files;
 
-    const files = (req as any).files as { [fieldname: string]: MulterUploadedFile[] };
-    
-    // Vérifier que les fichiers requis sont présents
     if (!files || !files.cv || !files.cover_letter) {
       return next(new AppError('Le CV et la lettre de motivation sont requis', 400));
     }
@@ -50,15 +28,13 @@ export const submitApplication = async (
       additional_message
     } = req.body;
 
-    // Validation du type de candidature
     if (!['offre', 'spontanee'].includes(application_type)) {
       return next(new AppError('Type de candidature invalide', 400));
     }
 
-    // Pour une candidature à une offre, vérifier que l'offre existe et est publiée
     if (application_type === 'offre') {
       if (!job_offer_id) {
-        return next(new AppError('L\'identifiant de l\'offre est requis', 400));
+        return next(new AppError("L'identifiant de l'offre est requis", 400));
       }
 
       const offerCheck = await query(
@@ -67,23 +43,16 @@ export const submitApplication = async (
       );
 
       if (offerCheck.rows.length === 0) {
-        return next(new AppError('Cette offre n\'est plus disponible', 404));
+        return next(new AppError("Cette offre n'est plus disponible", 404));
       }
-    } else {
-      // Pour une candidature spontanée, le poste recherché est requis
-      if (!position_sought) {
-        return next(new AppError('Le poste recherché est requis pour une candidature spontanée', 400));
-      }
+    } else if (!position_sought) {
+      return next(new AppError('Le poste recherché est requis pour une candidature spontanée', 400));
     }
 
-    // Génération du numéro de référence
-    const countResult = await query(
-      'SELECT COUNT(*) as total FROM applications'
-    );
-    const count = parseInt(countResult.rows[0].total) + 1;
+    const countResult = await query('SELECT COUNT(*) as total FROM applications');
+    const count = parseInt(countResult.rows[0].total, 10) + 1;
     const reference_number = `APP-${String(count).padStart(3, '0')}`;
 
-    // Vérifier si le contact existe déjà
     let contactResult = await query(
       'SELECT id FROM contacts WHERE email = $1',
       [email]
@@ -93,7 +62,6 @@ export const submitApplication = async (
     let contactId;
 
     if (contactResult.rows.length === 0) {
-      // Créer un nouveau contact
       const newContact = await query(
         `INSERT INTO contacts 
         (first_name, last_name, full_name, email, phone, contact_type, total_applications, source) 
@@ -103,7 +71,6 @@ export const submitApplication = async (
       );
       contactId = newContact.rows[0].id;
     } else {
-      // Mettre à jour le contact existant
       contactId = contactResult.rows[0].id;
       await query(
         `UPDATE contacts 
@@ -116,7 +83,6 @@ export const submitApplication = async (
       );
     }
 
-    // Insérer la candidature
     const result = await query(
       `INSERT INTO applications 
       (application_type, job_offer_id, first_name, last_name, email, phone, address, 
@@ -127,7 +93,7 @@ export const submitApplication = async (
       RETURNING *`,
       [
         application_type,
-        job_offer_id ? parseInt(job_offer_id) : null,
+        job_offer_id ? parseInt(job_offer_id, 10) : null,
         first_name,
         last_name,
         email,
@@ -149,7 +115,6 @@ export const submitApplication = async (
 
     const application = result.rows[0];
 
-    // Créer une entrée dans l'historique
     await query(
       `INSERT INTO request_history 
       (entity_type, entity_id, reference_number, action, new_status, description) 
@@ -162,7 +127,6 @@ export const submitApplication = async (
       ]
     );
 
-    // Ne pas exposer les chemins complets des fichiers
     const responseData = {
       ...application,
       cv_file_path: undefined,
@@ -178,4 +142,8 @@ export const submitApplication = async (
   } catch (error) {
     next(error);
   }
+};
+
+module.exports = {
+  submitApplication
 };

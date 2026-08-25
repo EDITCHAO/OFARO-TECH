@@ -1,17 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import { query } from '../config/database';
+const { query } = require('../config/database');
 
-/**
- * Récupérer toutes les offres d'emploi actives
- * GET /api/jobs/active
- */
-export const getActiveJobs = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getActiveJobs = async (req, res, next) => {
   try {
-    // Récupérer toutes les offres publiées et non expirées
     const result = await query(
       `SELECT 
         id,
@@ -47,4 +37,8 @@ export const getActiveJobs = async (
   } catch (error) {
     next(error);
   }
+};
+
+module.exports = {
+  getActiveJobs
 };

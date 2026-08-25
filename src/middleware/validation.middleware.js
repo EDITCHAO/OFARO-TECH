@@ -1,20 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
-import { validationResult } from 'express-validator';
+const { validationResult } = require('express-validator');
 
-export const validate = (req: Request, res: Response, next: NextFunction): void => {
+const validate = (req, res, next) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     res.status(400).json({
       success: false,
       error: 'Validation échouée',
-      details: errors.array().map(err => ({
+      details: errors.array().map((err) => ({
         field: err.type === 'field' ? err.path : undefined,
         message: err.msg
       }))
     });
     return;
   }
-  
+
   next();
+};
+
+module.exports = {
+  validate
 };
