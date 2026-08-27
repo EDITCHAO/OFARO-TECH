@@ -4,11 +4,6 @@ import { useState, useEffect } from 'react';
 import { FaSearch, FaFilter, FaFileExport, FaEye } from 'react-icons/fa';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 interface Quote {
   id: number;
   company_name: string;
@@ -43,6 +38,14 @@ export default function QuotesAdminPage() {
 
   const fetchQuotes = async () => {
     try {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (!supabaseUrl || !supabaseAnonKey) {
+        throw new Error('Variables Supabase manquantes');
+      }
+
+      const supabase = createClient(supabaseUrl, supabaseAnonKey);
       const { data, error } = await supabase
         .from('quote_requests')
         .select('*')
