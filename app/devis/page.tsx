@@ -69,30 +69,10 @@ export default function QuotePage() {
         delivery_date: formData.deliveryDate || undefined,
       });
 
-      // 2. Toujours enregistrer dans le store local (back-office temps réel)
-      const { AdminStore } = await import("@/lib/admin-store");
-      const created = AdminStore.addQuote({
-        companyName: formData.companyName,
-        activityField: formData.activityField,
-        email: formData.email,
-        phone: formData.phone,
-        city: formData.city,
-        desiredServices: formData.desiredServices,
-        description: formData.description,
-        hasLogo: formData.hasLogo,
-        hasDomainName: formData.hasDomainName,
-        domainName: formData.domainName,
-        keyFeatures: formData.keyFeatures,
-        expectedResult: formData.expectedResult,
-        budget: formData.budget,
-        contactPersonName: formData.contactPersonName,
-        deliveryDate: formData.deliveryDate,
-      });
-
-      // Utiliser la référence Supabase si disponible, sinon référence locale
+      // 2. Afficher le message de succès
       const reference = (supabaseResult.success && supabaseResult.reference) 
         ? supabaseResult.reference 
-        : created.reference;
+        : `DV-${Date.now().toString().slice(-6)}`;
 
       alert(`✅ Votre demande de devis (${reference}) a été envoyée avec succès !\n\nNotre équipe commerciale vous recontactera sous 24h ouvrées.`);
       

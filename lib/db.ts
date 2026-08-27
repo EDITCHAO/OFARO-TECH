@@ -10,7 +10,8 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || '',
   max: 20, // Nombre maximum de clients dans la pool
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 10000, // Augmenté à 10 secondes pour Supabase
+  ssl: process.env.DB_HOST?.includes('supabase.co') ? { rejectUnauthorized: false } : false, // SSL pour Supabase
 });
 
 // Test de connexion au démarrage

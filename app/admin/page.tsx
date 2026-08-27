@@ -66,34 +66,105 @@ export default function AdminDashboard() {
   const [messageStatusFilter, setMessageStatusFilter] = useState<string>("all");
 
   const refreshData = async () => {
-    setUsers(AdminStore.getUsers());
-    setServices(AdminStore.getServices());
-    setRealizations(AdminStore.getRealizations());
-    setTestimonials(AdminStore.getTestimonials());
-    setArticles(AdminStore.getArticles());
-    setQuotes(AdminStore.getQuotes());
-    setMessages(AdminStore.getMessages());
-    setApplications(AdminStore.getApplications());
-    setServiceRequests([]);
-    setClients(AdminStore.getClients());
-    setTeam(AdminStore.getTeam());
-    setDocuments(AdminStore.getDocuments());
-    setMedia(AdminStore.getMedia());
-    setSeo(AdminStore.getSEO());
-    setPages(AdminStore.getPages());
-    setLogs(AdminStore.getLogs());
-    setCurrentRole(AdminStore.getCurrentRole());
-
+    // Charger UNIQUEMENT depuis Supabase, pas depuis AdminStore
     try {
-      const response = await fetch('/api/admin/requests', { cache: 'no-store' });
-      if (!response.ok) throw new Error('Chargement admin impossible');
-      const data = await response.json();
-      setQuotes(data.quotes || []);
-      setMessages(data.messages || []);
-      setApplications(data.applications || []);
-      setServiceRequests(data.serviceRequests || []);
+      // Importer le client Supabase
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      // Charger les devis depuis Supabase
+      const { data: quotesData } = await supabase
+        .from('quote_requests')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      // Mapper les données Supabase vers le format attendu
+      const mappedQuotes = (quotesData || []).map((q: any) => ({
+        id: q.id,
+        reference: q.reference_number || `DV-${q.id}`,
+        companyName: q.company_name,
+        activityField: q.sector,
+        email: q.email,
+        phone: q.phone,
+        city: q.city,
+        contactPersonName: `${q.contact_first_name} ${q.contact_last_name}`,
+        desiredServices: typeof q.services === 'string' ? JSON.parse(q.services) : (q.services || []),
+        description: q.project_description,
+        hasLogo: q.has_logo ? 'Oui' : 'Non',
+        hasDomainName: q.has_domain ? 'Oui' : 'Non',
+        domainName: q.domain_name,
+        keyFeatures: q.key_feature,
+        expectedResult: q.expected_result,
+        budget: q.budget,
+        deliveryDate: q.desired_delivery_date,
+        status: q.status || 'Nouveau',
+        createdAt: q.created_at
+      }));
+      
+      // Charger les messages depuis Supabase
+      const { data: messagesData } = await supabase
+        .from('contact_messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      const mappedMessages = (messagesData || []).map((m: any) => ({
+        id: m.id,
+        name: m.full_name,
+        email: m.email,
+        phone: m.phone,
+        subject: m.subject,
+        message: m.message,
+        status: m.status || 'Nouveau',
+        createdAt: m.created_at
+      }));
+
+      // Charger les demandes de service depuis Supabase (via API PostgreSQL)
+      const serviceRequestsResponse = await fetch('/api/service-requests');
+      const serviceRequestsJson = await serviceRequestsResponse.json();
+
+      // Mapper les demandes de service au format attendu
+      const mappedServiceRequests = (serviceRequestsJson.success ? serviceRequestsJson.data : []).map((sr: any) => ({
+        id: sr.id,
+        name: sr.client_name,
+        email: sr.client_email,
+        phone: sr.client_phone,
+        service: sr.service_type,
+        description: sr.description,
+        message: sr.description, // Pour le modal qui cherche "message"
+        status: sr.status || 'Nouveau',
+        reference: sr.reference_number,
+        createdAt: new Date(sr.submitted_at).toLocaleDateString('fr-FR')
+      }));
+
+      // Mettre à jour les états avec les données Supabase
+      setQuotes(mappedQuotes);
+      setMessages(mappedMessages);
+      setServiceRequests(mappedServiceRequests);
+
+      // Pour les autres données qui n'ont pas encore d'API, garder AdminStore temporairement
+      setUsers(AdminStore.getUsers());
+      setServices(AdminStore.getServices());
+      setRealizations(AdminStore.getRealizations());
+      setTestimonials(AdminStore.getTestimonials());
+      setArticles(AdminStore.getArticles());
+      setApplications(AdminStore.getApplications());
+      setClients(AdminStore.getClients());
+      setTeam(AdminStore.getTeam());
+      setDocuments(AdminStore.getDocuments());
+      setMedia(AdminStore.getMedia());
+      setSeo(AdminStore.getSEO());
+      setPages(AdminStore.getPages());
+      setLogs(AdminStore.getLogs());
+      setCurrentRole(AdminStore.getCurrentRole());
     } catch (error) {
-      console.error('Impossible de synchroniser les demandes admin:', error);
+      console.error('Erreur chargement depuis Supabase:', error);
+      // Fallback vers AdminStore en cas d'erreur
+      setQuotes(AdminStore.getQuotes());
+      setMessages(AdminStore.getMessages());
+      setServiceRequests([]);
     }
   };
 
@@ -108,35 +179,96 @@ export default function AdminDashboard() {
   };
 
   // Fonctions de suppression avec confirmation
-  const handleDeleteQuote = (id: string, ref: string) => {
+  const handleDeleteQuote = async (id: string, ref: string) => {
     if (confirmDelete(`le devis ${ref}`)) {
-      AdminStore.deleteQuote(id);
-      refreshData();
-      showToast('Devis supprimé avec succès', 'success');
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        
+        const { error } = await supabase
+          .from('quote_requests')
+          .delete()
+          .eq('id', id);
+        
+        if (error) throw error;
+        
+        refreshData();
+        showToast('Devis supprimé avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur suppression:', error);
+        showToast('Erreur lors de la suppression', 'error');
+      }
     }
   };
 
-  const handleDeleteMessage = (id: string, name: string) => {
+  const handleDeleteMessage = async (id: string, name: string) => {
     if (confirmDelete(`le message de ${name}`)) {
-      AdminStore.deleteMessage(id);
-      refreshData();
-      showToast('Message supprimé avec succès', 'success');
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        
+        const { error } = await supabase
+          .from('contact_messages')
+          .delete()
+          .eq('id', id);
+        
+        if (error) throw error;
+        
+        refreshData();
+        showToast('Message supprimé avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur suppression:', error);
+        showToast('Erreur lors de la suppression', 'error');
+      }
     }
   };
 
-  const handleDeleteApplication = (id: string, name: string) => {
+  const handleDeleteApplication = async (id: string, name: string) => {
     if (confirmDelete(`la candidature de ${name}`)) {
-      AdminStore.deleteApplication(id);
-      refreshData();
-      showToast('Candidature supprimée avec succès', 'success');
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        
+        const { error } = await supabase
+          .from('applications')
+          .delete()
+          .eq('id', id);
+        
+        if (error) throw error;
+        
+        refreshData();
+        showToast('Candidature supprimée avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur suppression:', error);
+        showToast('Erreur lors de la suppression', 'error');
+      }
     }
   };
 
-  const handleDeleteServiceRequest = (id: string, ref: string) => {
+  const handleDeleteServiceRequest = async (id: string, ref: string) => {
     if (confirmDelete(`la demande de service ${ref}`)) {
-      AdminStore.deleteServiceRequest(id);
-      refreshData();
-      showToast('Demande de service supprimée avec succès', 'success');
+      try {
+        const response = await fetch(`/api/service-requests/${id}`, {
+          method: 'DELETE',
+        });
+        
+        if (!response.ok) throw new Error('Erreur suppression');
+        
+        refreshData();
+        showToast('Demande de service supprimée avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur suppression:', error);
+        showToast('Erreur lors de la suppression', 'error');
+      }
     }
   };
 

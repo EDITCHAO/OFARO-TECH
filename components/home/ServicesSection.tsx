@@ -126,62 +126,151 @@ export default function ServicesSection() {
         </div>
 
         {/* Service Request Form Section */}
-        <div className="bg-gradient-to-br from-primary to-primary-dark text-white p-8 md:p-12 rounded-2xl">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl font-bold mb-4">
-                Besoin d'un service spécifique ?
-              </h3>
-              <p className="text-lg opacity-90">
-                Remplissez ce formulaire pour demander un service et nous vous recontacterons rapidement
-              </p>
-            </div>
-
-            <form className="grid md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Nom complet"
-                className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
-                required
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
-                required
-              />
-              <input
-                type="tel"
-                placeholder="Téléphone"
-                className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
-              />
-              <select
-                className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-white/50"
-                required
-              >
-                <option value="" className="text-text">Sélectionner un service</option>
-                {SERVICES.map((service) => (
-                  <option key={service.id} value={service.slug} className="text-text">
-                    {service.title}
-                  </option>
-                ))}
-              </select>
-              <textarea
-                placeholder="Message / Description de votre besoin"
-                rows={4}
-                className="md:col-span-2 px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 resize-none"
-                required
-              ></textarea>
-              <button
-                type="submit"
-                className="md:col-span-2 bg-white text-primary font-bold py-4 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                Envoyer la demande
-              </button>
-            </form>
-          </div>
-        </div>
+        <ServiceRequestForm />
       </div>
     </section>
+  );
+}
+
+// Composant séparé pour le formulaire de demande de service
+function ServiceRequestForm() {
+  const [formData, setFormData] = useState({
+    client_name: '',
+    client_email: '',
+    client_phone: '',
+    service_type: '',
+    description: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('/api/service-requests/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: `Votre demande a été envoyée avec succès ! Référence : ${data.reference}`
+        });
+        // Réinitialiser le formulaire
+        setFormData({
+          client_name: '',
+          client_email: '',
+          client_phone: '',
+          service_type: '',
+          description: ''
+        });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: data.error || 'Une erreur est survenue'
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Impossible de soumettre la demande. Veuillez réessayer.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-primary to-primary-dark text-white p-8 md:p-12 rounded-2xl">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h3 className="text-3xl font-bold mb-4">
+            Besoin d'un service spécifique ?
+          </h3>
+          <p className="text-lg opacity-90">
+            Remplissez ce formulaire pour demander un service et nous vous recontacterons rapidement
+          </p>
+        </div>
+
+        {submitStatus && (
+          <div className={`mb-6 p-4 rounded-lg ${
+            submitStatus.type === 'success' 
+              ? 'bg-green-500/20 border border-green-500/50 text-white' 
+              : 'bg-red-500/20 border border-red-500/50 text-white'
+          }`}>
+            {submitStatus.message}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-4">
+          <input
+            type="text"
+            placeholder="Nom complet"
+            value={formData.client_name}
+            onChange={(e) => setFormData({...formData, client_name: e.target.value})}
+            className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+            disabled={isSubmitting}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={formData.client_email}
+            onChange={(e) => setFormData({...formData, client_email: e.target.value})}
+            className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+            disabled={isSubmitting}
+          />
+          <input
+            type="tel"
+            placeholder="Téléphone"
+            value={formData.client_phone}
+            onChange={(e) => setFormData({...formData, client_phone: e.target.value})}
+            className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+            disabled={isSubmitting}
+          />
+          <select
+            value={formData.service_type}
+            onChange={(e) => setFormData({...formData, service_type: e.target.value})}
+            className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+            disabled={isSubmitting}
+          >
+            <option value="" className="text-text">Sélectionner un service</option>
+            {SERVICES.map((service) => (
+              <option key={service.id} value={service.title} className="text-text">
+                {service.title}
+              </option>
+            ))}
+          </select>
+          <textarea
+            placeholder="Message / Description de votre besoin"
+            rows={4}
+            value={formData.description}
+            onChange={(e) => setFormData({...formData, description: e.target.value})}
+            className="md:col-span-2 px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 resize-none"
+            required
+            disabled={isSubmitting}
+          ></textarea>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="md:col-span-2 bg-white text-primary font-bold py-4 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? 'Envoi en cours...' : 'Envoyer la demande'}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
