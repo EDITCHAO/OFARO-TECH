@@ -101,7 +101,8 @@ export default function AdminDashboard() {
         budget: q.budget,
         deliveryDate: q.desired_delivery_date,
         status: q.status || 'Nouveau',
-        createdAt: q.created_at
+        createdAt: q.created_at,
+        isRead: q.is_read ?? false
       }));
       
       // Charger les messages depuis Supabase
@@ -112,12 +113,14 @@ export default function AdminDashboard() {
 
       const mappedMessages = (messagesData || []).map((m: any) => ({
         id: m.id,
+        reference: m.reference_number || `MSG-${m.id}`,
         name: m.full_name,
         email: m.email,
         phone: m.phone,
         subject: m.subject,
         message: m.message,
         status: m.status || 'Nouveau',
+        isRead: m.is_read ?? false,
         createdAt: m.created_at
       }));
 
