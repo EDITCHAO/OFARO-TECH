@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!supabaseUrl || !supabaseKey) {
       console.error('Variables Supabase manquantes sur le serveur');
       return NextResponse.json(
         { error: 'Le service est temporairement indisponible' },
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Validation email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,17 +43,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Génération du numéro de référence
-    const { count, error: countError } = await supabase
-      .from('service_requests')
-      .select('id', { count: 'exact', head: true });
-
-    if (countError) throw countError;
-
-    const reference_number = `SR-${String(count).padStart(3, '0')}`;
+    // Évite une requête COUNT qui peut être bloquée par les policies RLS.
+    const reference_number = `SR-${Date.now().toString().slice(-8)}`;
 
     // Insérer la demande de service
-    const { data: serviceRequest, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from('service_requests')
       .insert({
         client_name,
@@ -64,26 +58,18 @@ export async function POST(request: NextRequest) {
         reference_number,
         status: 'nouvelle'
       })
-      .select()
-      .single();
 
     if (insertError) throw insertError;
 
-    // Créer une entrée dans l'historique
-    const { error: historyError } = await supabase
-      .from('request_history')
-      .insert({
-        entity_type: 'service_request',
-        entity_id: serviceRequest.id,
-        reference_number,
-        action: 'created',
-        new_status: 'nouvelle',
-        description: `Nouvelle demande de service: ${service_type}`
-      });
-
-    if (historyError) {
-      console.warn('Historique de demande non enregistré:', historyError);
-    }
+    const serviceRequest = {
+      client_name,
+      client_email,
+      client_phone,
+      service_type,
+      description,
+      reference_number,
+      status: 'nouvelle'
+    };
 
     return NextResponse.json({
       success: true,
