@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db';
+import { createClient } from '@supabase/supabase-js';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      throw new Error('Variables Supabase manquantes');
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
     const {
       client_name,
@@ -31,68 +40,45 @@ export async function POST(request: NextRequest) {
     }
 
     // Génération du numéro de référence
-    const countResult = await query(
-      'SELECT COUNT(*) as total FROM service_requests'
-    );
-    const count = parseInt(countResult.rows[0].total) + 1;
+    const { count, error: countError } = await supabase
+      .from('service_requests')
+      .select('id', { count: 'exact', head: true });
+
+    if (countError) throw countError;
+
     const reference_number = `SR-${String(count).padStart(3, '0')}`;
 
     // Insérer la demande de service
-    const result = await query(
-      `INSERT INTO service_requests 
-      (client_name, client_email, client_phone, service_type, description, 
-       reference_number, status, submitted_at) 
-      VALUES ($1, $2, $3, $4, $5, $6, 'nouvelle', CURRENT_TIMESTAMP) 
-      RETURNING *`,
-      [
+    const { data: serviceRequest, error: insertError } = await supabase
+      .from('service_requests')
+      .insert({
         client_name,
         client_email,
         client_phone,
         service_type,
         description,
-        reference_number
-      ]
-    );
+        reference_number,
+        status: 'nouvelle'
+      })
+      .select()
+      .single();
 
-    const serviceRequest = result.rows[0];
+    if (insertError) throw insertError;
 
     // Créer une entrée dans l'historique
-    await query(
-      `INSERT INTO request_history 
-      (entity_type, entity_id, reference_number, action, new_status, description) 
-      VALUES ($1, $2, $3, 'created', 'nouvelle', $4)`,
-      [
-        'service_request',
-        serviceRequest.id,
+    const { error: historyError } = await supabase
+      .from('request_history')
+      .insert({
+        entity_type: 'service_request',
+        entity_id: serviceRequest.id,
         reference_number,
-        `Nouvelle demande de service: ${service_type}`
-      ]
-    );
+        action: 'created',
+        new_status: 'nouvelle',
+        description: `Nouvelle demande de service: ${service_type}`
+      });
 
-    // Vérifier si le contact existe déjà
-    let contact = await query(
-      'SELECT id FROM contacts WHERE email = $1',
-      [client_email]
-    );
-
-    if (contact.rows.length === 0) {
-      // Créer un nouveau contact
-      await query(
-        `INSERT INTO contacts 
-        (full_name, email, phone, contact_type, total_requests, source) 
-        VALUES ($1, $2, $3, 'prospect', 1, 'Site web - Demande de service')`,
-        [client_name, client_email, client_phone]
-      );
-    } else {
-      // Mettre à jour le contact existant
-      await query(
-        `UPDATE contacts 
-        SET total_requests = total_requests + 1,
-            last_contact_at = CURRENT_TIMESTAMP,
-            updated_at = CURRENT_TIMESTAMP
-        WHERE email = $1`,
-        [client_email]
-      );
+    if (historyError) {
+      console.warn('Historique de demande non enregistré:', historyError);
     }
 
     return NextResponse.json({
