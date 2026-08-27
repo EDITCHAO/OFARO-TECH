@@ -76,10 +76,12 @@ export default function AdminDashboard() {
       );
 
       // Charger les devis depuis Supabase
-      const { data: quotesData } = await supabase
+      const { data: quotesData, error: quotesError } = await supabase
         .from('quote_requests')
         .select('*')
         .order('created_at', { ascending: false });
+
+      if (quotesError) throw quotesError;
       
       // Mapper les données Supabase vers le format attendu
       const mappedQuotes = (quotesData || []).map((q: any) => ({
@@ -106,10 +108,12 @@ export default function AdminDashboard() {
       }));
       
       // Charger les messages depuis Supabase
-      const { data: messagesData } = await supabase
+      const { data: messagesData, error: messagesError } = await supabase
         .from('contact_messages')
         .select('*')
         .order('created_at', { ascending: false });
+
+      if (messagesError) throw messagesError;
 
       const mappedMessages = (messagesData || []).map((m: any) => ({
         id: m.id,
@@ -124,12 +128,16 @@ export default function AdminDashboard() {
         createdAt: m.created_at
       }));
 
-      // Charger les demandes de service depuis Supabase (via API PostgreSQL)
-      const serviceRequestsResponse = await fetch('/api/service-requests');
-      const serviceRequestsJson = await serviceRequestsResponse.json();
+      // Charger les demandes de service et les candidatures depuis Supabase
+      const { data: serviceRequestsData, error: serviceRequestsError } = await supabase
+        .from('service_requests')
+        .select('*')
+        .order('submitted_at', { ascending: false });
+
+      if (serviceRequestsError) throw serviceRequestsError;
 
       // Mapper les demandes de service au format attendu
-      const mappedServiceRequests = (serviceRequestsJson.success ? serviceRequestsJson.data : []).map((sr: any) => ({
+      const mappedServiceRequests = (serviceRequestsData || []).map((sr: any) => ({
         id: sr.id,
         name: sr.client_name,
         email: sr.client_email,
@@ -142,18 +150,58 @@ export default function AdminDashboard() {
         createdAt: new Date(sr.submitted_at).toLocaleDateString('fr-FR')
       }));
 
+      const [applicationsResult, internshipsResult] = await Promise.all([
+        supabase.from('applications').select('*').order('submitted_at', { ascending: false }),
+        supabase.from('internship_requests').select('*').order('submitted_at', { ascending: false })
+      ]);
+
+      if (applicationsResult.error) throw applicationsResult.error;
+      if (internshipsResult.error) throw internshipsResult.error;
+
+      const mappedApplications = [
+        ...(internshipsResult.data || []).map((application: any) => ({
+          id: `internship-${application.id}`,
+          reference: application.reference_number || `ST-${String(application.id).padStart(3, '0')}`,
+          type: 'Stage' as const,
+          position: application.internship_type || '',
+          fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
+          email: application.email,
+          phone: application.phone,
+          education: application.education_level || '',
+          experience: application.internship_objectives || '',
+          cvFileName: application.cv_file_name || '',
+          status: application.status === 'nouvelle' ? 'Nouvelle' : application.status,
+          createdAt: application.submitted_at
+        })),
+        ...(applicationsResult.data || []).map((application: any) => ({
+          id: `application-${application.id}`,
+          reference: application.reference_number || `APP-${String(application.id).padStart(3, '0')}`,
+          type: 'Emploi' as const,
+          position: application.position_sought || '',
+          fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
+          email: application.email,
+          phone: application.phone,
+          education: application.education_level || '',
+          experience: application.professional_experience || '',
+          cvFileName: application.cv_file_name || '',
+          status: application.status === 'nouvelle' ? 'Nouvelle' : application.status,
+          createdAt: application.submitted_at
+        }))
+      ];
+
       // Mettre à jour les états avec les données Supabase
       setQuotes(mappedQuotes);
       setMessages(mappedMessages);
       setServiceRequests(mappedServiceRequests);
+      setApplications(mappedApplications);
 
-      // Pour les autres données qui n'ont pas encore d'API, garder AdminStore temporairement
+      // Les contenus éditoriaux restent gérés localement tant que leurs tables ne sont pas branchées.
       setUsers(AdminStore.getUsers());
       setServices(AdminStore.getServices());
       setRealizations(AdminStore.getRealizations());
       setTestimonials(AdminStore.getTestimonials());
       setArticles(AdminStore.getArticles());
-      setApplications(AdminStore.getApplications());
+      setApplications([]);
       setClients(AdminStore.getClients());
       setTeam(AdminStore.getTeam());
       setDocuments(AdminStore.getDocuments());
@@ -164,10 +212,11 @@ export default function AdminDashboard() {
       setCurrentRole(AdminStore.getCurrentRole());
     } catch (error) {
       console.error('Erreur chargement depuis Supabase:', error);
-      // Fallback vers AdminStore en cas d'erreur
-      setQuotes(AdminStore.getQuotes());
-      setMessages(AdminStore.getMessages());
+      // Ne jamais afficher de fausses demandes si Supabase est indisponible.
+      setQuotes([]);
+      setMessages([]);
       setServiceRequests([]);
+      setApplications([]);
     }
   };
 
