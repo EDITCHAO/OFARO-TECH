@@ -5,15 +5,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-      throw new Error('Variables Supabase manquantes');
-    }
-
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
     const {
       client_name,
       client_email,
@@ -29,6 +20,19 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.error('Variables Supabase manquantes sur le serveur');
+      return NextResponse.json(
+        { error: 'Le service est temporairement indisponible' },
+        { status: 503 }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
     // Validation email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
