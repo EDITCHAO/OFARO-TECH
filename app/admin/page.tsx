@@ -170,6 +170,7 @@ export default function AdminDashboard() {
           education: application.education_level || '',
           experience: application.internship_objectives || '',
           cvFileName: application.cv_file_name || '',
+          cvFilePath: application.cv_file_path || '',
           status: application.status === 'nouvelle' ? 'Nouvelle' : application.status,
           createdAt: application.submitted_at
         })),
@@ -184,6 +185,7 @@ export default function AdminDashboard() {
           education: application.education_level || '',
           experience: application.professional_experience || '',
           cvFileName: application.cv_file_name || '',
+          cvFilePath: application.cv_file_path || '',
           status: application.status === 'nouvelle' ? 'Nouvelle' : application.status,
           createdAt: application.submitted_at
         }))
@@ -201,7 +203,7 @@ export default function AdminDashboard() {
       setRealizations(AdminStore.getRealizations());
       setTestimonials(AdminStore.getTestimonials());
       setArticles(AdminStore.getArticles());
-      setApplications([]);
+      // NE PAS écraser applications ici!
       setClients(AdminStore.getClients());
       setTeam(AdminStore.getTeam());
       setDocuments(AdminStore.getDocuments());
@@ -446,6 +448,18 @@ export default function AdminDashboard() {
       showToast("Erreur lors de l'upload", "error");
     } finally {
       setUploadingImage(false);
+    }
+  };
+
+  // Fonction de téléchargement PDF professionnel
+  const downloadItemAsPDF = async (item: any, type: 'devis' | 'service' | 'message' | 'candidature') => {
+    try {
+      const { generatePDF } = await import('@/lib/pdf-generator');
+      const fileName = await generatePDF(item, type);
+      showToast('PDF telecharge avec succes', 'success');
+    } catch (error) {
+      console.error('Erreur generation PDF:', error);
+      showToast('Erreur lors de la generation du PDF', 'error');
     }
   };
 
@@ -1147,6 +1161,12 @@ export default function AdminDashboard() {
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <div className="flex items-center justify-end gap-2">
+                              <button 
+                                onClick={() => downloadItemAsPDF(quote, 'devis')}
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                title="Télécharger PDF">
+                                <FaDownload />
+                              </button>
                               <button onClick={() => { setSelectedItem(quote); setModalType("view_quote"); setIsModalOpen(true); }}
                                 className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}>
                                 Consulter
@@ -1323,6 +1343,12 @@ export default function AdminDashboard() {
                             <td className="py-3.5 px-4 text-right">
                               <div className="flex items-center justify-end gap-2">
                                 <button 
+                                  onClick={() => downloadItemAsPDF(request, 'service')}
+                                  className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                  title="Télécharger PDF">
+                                  <FaDownload />
+                                </button>
+                                <button 
                                   onClick={() => { 
                                     setSelectedItem(request); 
                                     setModalType("view_service_request"); 
@@ -1484,6 +1510,12 @@ export default function AdminDashboard() {
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <div className="flex items-center justify-end gap-2">
+                              <button 
+                                onClick={() => downloadItemAsPDF(msg, 'message')}
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                title="Télécharger PDF">
+                                <FaDownload />
+                              </button>
                               <button onClick={() => { setSelectedItem(msg); setModalType("view_message"); setIsModalOpen(true); }}
                                 className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}>
                                 Lire
@@ -1615,6 +1647,12 @@ export default function AdminDashboard() {
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <div className="flex items-center justify-end gap-2">
+                              <button 
+                                onClick={() => downloadItemAsPDF(app, 'candidature')}
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                title="Télécharger PDF">
+                                <FaDownload />
+                              </button>
                               <button onClick={() => { setSelectedItem(app); setModalType("view_application"); setIsModalOpen(true); }}
                                 className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}>
                                 Voir CV
@@ -1938,6 +1976,35 @@ export default function AdminDashboard() {
                     <div className="text-gray-500">Budget : <span className="text-amber-600 font-bold">{selectedItem.budget}</span></div>
                   </div>
                 </div>
+                
+                {/* Section Services Demandés */}
+                {selectedItem.desiredServices && selectedItem.desiredServices.length > 0 && (
+                  <div className={`${c.bg} p-4 rounded-xl border ${c.border} space-y-2`}>
+                    <span className="text-gray-400 uppercase font-semibold text-[10px]">Services demandés ({selectedItem.desiredServices.length})</span>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {selectedItem.desiredServices.map((serviceId: string, idx: number) => {
+                        const serviceNames: { [key: string]: string } = {
+                          '1': 'Conception de systèmes informatiques',
+                          '2': 'Développement Web',
+                          '3': 'Développement Mobile',
+                          '4': 'Logiciels Desktop',
+                          '5': 'Design Graphique',
+                          '6': 'Réseaux Informatiques',
+                          '7': 'Cybersécurité',
+                          '8': 'Maintenance Informatique',
+                          '9': 'Fourniture de matériels',
+                          '10': 'Conseil IT'
+                        };
+                        return (
+                          <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                            {serviceNames[serviceId] || `Service ${serviceId}`}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 <div className={`${c.bg} p-4 rounded-xl border ${c.border} space-y-2`}>
                   <span className="text-gray-400 uppercase font-semibold text-[10px]">3. Description & Cahier des charges</span>
                   <p className="text-gray-700 leading-relaxed">{selectedItem.description}</p>
@@ -1952,8 +2019,14 @@ export default function AdminDashboard() {
                       <option>Nouveau</option><option>En cours</option><option>Traité</option><option>Sans suite</option>
                     </select>
                   </div>
-                  <button onClick={() => { setIsModalOpen(false); showToast("Fiche enregistrée"); }}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold ${c.btnPrimary}`}>Fermer</button>
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => downloadItemAsPDF(selectedItem, 'devis')}
+                      className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}>
+                      <FaDownload /> Télécharger PDF
+                    </button>
+                    <button onClick={() => { setIsModalOpen(false); showToast("Fiche enregistrée"); }}
+                      className={`px-4 py-2 rounded-xl text-sm font-bold ${c.btnPrimary}`}>Fermer</button>
+                  </div>
                 </div>
               </div>
             )}
@@ -2026,6 +2099,12 @@ export default function AdminDashboard() {
                     </select>
                   </div>
                   <div className="flex gap-2">
+                    <button 
+                      onClick={() => downloadItemAsPDF(selectedItem, 'service')}
+                      className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}
+                    >
+                      <FaDownload /> Télécharger PDF
+                    </button>
                     <a 
                       href={`mailto:${selectedItem.email}?subject=RE: Demande de service - ${selectedItem.service}`}
                       className={`px-4 py-2 rounded-xl text-xs font-semibold ${c.btnSecondary} flex items-center gap-2`}
@@ -2065,10 +2144,16 @@ export default function AdminDashboard() {
                   <textarea rows={3} placeholder="Saisissez votre réponse pour le client..."
                     className={`w-full p-3 rounded-xl ${c.input} text-xs`}></textarea>
                 </div>
-                <div className="flex justify-between items-center pt-2">
-                  <button onClick={() => { AdminStore.updateMessageStatus(selectedItem.id, "Traité"); setIsModalOpen(false); showToast(`Réponse envoyée à ${selectedItem.email}`); }}
-                    className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 text-sm ${c.btnPrimary}`}><FaReply /> Envoyer la réponse</button>
-                  <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Fermer</button>
+                <div className="flex justify-between items-center pt-2 gap-2">
+                  <button onClick={() => downloadItemAsPDF(selectedItem, 'message')}
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}>
+                    <FaDownload /> Télécharger PDF
+                  </button>
+                  <div className="flex gap-2">
+                    <button onClick={() => { AdminStore.updateMessageStatus(selectedItem.id, "Traité"); setIsModalOpen(false); showToast(`Réponse envoyée à ${selectedItem.email}`); }}
+                      className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 text-sm ${c.btnPrimary}`}><FaReply /> Envoyer la réponse</button>
+                    <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Fermer</button>
+                  </div>
                 </div>
               </div>
             )}
@@ -2094,13 +2179,26 @@ export default function AdminDashboard() {
                     <span className="text-xl">📄</span>
                     <div>
                       <div className="font-bold text-gray-800">{selectedItem.cvFileName}</div>
-                      <div className="text-[10px] text-gray-400">Document PDF vérifié</div>
+                      <div className="text-[10px] text-gray-400">Document PDF stocké sur Supabase</div>
                     </div>
                   </div>
-                  <button onClick={() => showToast(`Téléchargement de ${selectedItem.cvFileName}...`)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 ${c.btnPrimary}`}><FaDownload /> Télécharger CV</button>
+                  {selectedItem.cvFilePath && (
+                    <a 
+                      href={selectedItem.cvFilePath} 
+                      download={selectedItem.cvFileName}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 ${c.btnPrimary}`}
+                    >
+                      <FaDownload /> Télécharger CV
+                    </a>
+                  )}
                 </div>
-                <div className="flex justify-end pt-2">
+                <div className="flex justify-between items-center pt-2 gap-2">
+                  <button onClick={() => downloadItemAsPDF(selectedItem, 'candidature')}
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}>
+                    <FaDownload /> Télécharger PDF
+                  </button>
                   <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Fermer</button>
                 </div>
               </div>
