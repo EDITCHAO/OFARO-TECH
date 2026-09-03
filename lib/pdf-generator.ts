@@ -26,10 +26,10 @@ export const generatePDF = async (item: any, type: 'devis' | 'service' | 'messag
   let fileName = '';
 
   // Couleurs
-  const orange = [255, 107, 53];
-  const darkGray = [40, 40, 40];
-  const medGray = [100, 100, 100];
-  const lightGray = [245, 245, 245];
+  const orange: [number, number, number] = [255, 107, 53];
+  const darkGray: [number, number, number] = [40, 40, 40];
+  const medGray: [number, number, number] = [100, 100, 100];
+  const lightGray: [number, number, number] = [245, 245, 245];
 
   const checkNewPage = (space: number) => {
     if (yPos + space > pageHeight - 30) {
