@@ -130,7 +130,7 @@ export default function AdminDashboard() {
         expectedResult: q.expected_result,
         budget: q.budget,
         deliveryDate: q.desired_delivery_date,
-        status: normalizeStatus(q.status),
+        status: normalizeStatus(q.status) as QuoteStatus,
         createdAt: q.created_at,
         isRead: q.is_read ?? false
       }));
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
         phone: m.phone,
         subject: m.subject,
         message: m.message,
-        status: normalizeStatus(m.status),
+        status: normalizeStatus(m.status) as MessageStatus,
         isRead: m.is_read ?? false,
         createdAt: m.created_at
       }));
@@ -201,7 +201,7 @@ export default function AdminDashboard() {
           experience: application.internship_objectives || '',
           cvFileName: application.cv_file_name || '',
           cvFilePath: application.cv_file_path || '',
-          status: normalizeStatus(application.status),
+          status: normalizeStatus(application.status) as ApplicationStatus,
           createdAt: application.submitted_at
         })),
         ...(applicationsResult.data || []).map((application: any) => ({
@@ -216,7 +216,7 @@ export default function AdminDashboard() {
           experience: application.professional_experience || '',
           cvFileName: application.cv_file_name || '',
           cvFilePath: application.cv_file_path || '',
-          status: normalizeStatus(application.status),
+          status: normalizeStatus(application.status) as ApplicationStatus,
           createdAt: application.submitted_at
         }))
       ];
@@ -248,9 +248,9 @@ export default function AdminDashboard() {
         contactPersonName: `${q.contact_first_name} ${q.contact_last_name}`,
         desiredServices: typeof q.services === 'string' ? JSON.parse(q.services) : (q.services || []),
         description: q.project_description,
-        status: normalizeStatus(q.status),
+        status: normalizeStatus(q.status) as QuoteStatus,
         createdAt: q.created_at
-      })));
+      })) as QuoteRequestItem[]);
 
       setArchivedMessages((archivedMessagesData.data || []).map((m: any) => ({
         id: m.id,
@@ -260,9 +260,9 @@ export default function AdminDashboard() {
         phone: m.phone,
         subject: m.subject,
         message: m.message,
-        status: normalizeStatus(m.status),
+        status: normalizeStatus(m.status) as MessageStatus,
         createdAt: m.created_at
-      })));
+      })) as ContactMessageItem[]);
 
       setArchivedServiceRequests((archivedServiceData.data || []).map((sr: any) => ({
         id: sr.id,
@@ -284,7 +284,7 @@ export default function AdminDashboard() {
           fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
           email: application.email,
           phone: application.phone,
-          status: normalizeStatus(application.status),
+          status: normalizeStatus(application.status) as ApplicationStatus,
           createdAt: application.submitted_at
         })),
         ...(archivedAppsData.data || []).map((application: any) => ({
@@ -295,11 +295,11 @@ export default function AdminDashboard() {
           fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
           email: application.email,
           phone: application.phone,
-          status: normalizeStatus(application.status),
+          status: normalizeStatus(application.status) as ApplicationStatus,
           createdAt: application.submitted_at
         }))
       ];
-      setArchivedApplications(mappedArchivedApplications);
+      setArchivedApplications(mappedArchivedApplications as JobApplicationItem[]);
 
       // Les contenus éditoriaux restent gérés localement tant que leurs tables ne sont pas branchées.
       setUsers(AdminStore.getUsers());
