@@ -583,7 +583,7 @@ export default function AdminDashboard() {
       
       if (error) throw error;
       
-      // Mettre à jour l'état local
+      // Mettre à jour l'état local (serviceRequests est typé any[], pas de cast nécessaire)
       const updated = serviceRequests.map(sr => 
         sr.id === id ? { ...sr, status: newStatus } : sr
       );
@@ -618,7 +618,7 @@ export default function AdminDashboard() {
       
       // Mettre à jour l'état local
       const updated = quotes.map(q => 
-        q.id === id ? { ...q, status: newStatus } : q
+        q.id === id ? { ...q, status: newStatus as QuoteStatus } : q
       );
       setQuotes(updated);
       showToast(`Statut mis à jour : ${newStatus}`, 'success');
@@ -651,7 +651,7 @@ export default function AdminDashboard() {
       
       // Mettre à jour l'état local
       const updated = messages.map(m => 
-        m.id === id ? { ...m, status: newStatus } : m
+        m.id === id ? { ...m, status: newStatus as MessageStatus } : m
       );
       setMessages(updated);
       showToast(`Statut mis à jour : ${newStatus}`, 'success');
@@ -700,7 +700,7 @@ export default function AdminDashboard() {
       
       // Mettre à jour l'état local
       const updated = applications.map(app => 
-        app.id === id ? { ...app, status: newStatus } : app
+        app.id === id ? { ...app, status: newStatus as ApplicationStatus } : app
       );
       setApplications(updated);
       showToast(`Statut mis à jour : ${newStatus}`, 'success');
