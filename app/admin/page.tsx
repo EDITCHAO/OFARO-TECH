@@ -11,7 +11,7 @@ import {
   FaExternalLinkAlt, FaMobileAlt, FaLaptopCode, FaDesktop, FaPalette,
   FaNetworkWired, FaTools, FaServer, FaChartLine, FaBuilding, FaGraduationCap,
   FaHospital, FaShoppingCart, FaGlobe, FaCheckCircle, FaClock, FaExclamationTriangle,
-  FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera
+  FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera, FaArchive
 } from "react-icons/fa";
 
 import {
@@ -48,7 +48,14 @@ export default function AdminDashboard() {
   const [quotes, setQuotes] = useState<QuoteRequestItem[]>([]);
   const [messages, setMessages] = useState<ContactMessageItem[]>([]);
   const [applications, setApplications] = useState<JobApplicationItem[]>([]);
-  const [serviceRequests, setServiceRequests] = useState<any[]>([]); // Demandes de service
+  const [serviceRequests, setServiceRequests] = useState<any[]>([]);
+  
+  // États pour les éléments archivés
+  const [archivedQuotes, setArchivedQuotes] = useState<QuoteRequestItem[]>([]);
+  const [archivedMessages, setArchivedMessages] = useState<ContactMessageItem[]>([]);
+  const [archivedApplications, setArchivedApplications] = useState<JobApplicationItem[]>([]);
+  const [archivedServiceRequests, setArchivedServiceRequests] = useState<any[]>([]);
+  const [archiveCategory, setArchiveCategory] = useState<string>("devis"); // Onglet actif dans les archives // Demandes de service
   const [clients, setClients] = useState<ClientItem[]>([]);
   const [team, setTeam] = useState<TeamMemberItem[]>([]);
 
@@ -64,10 +71,30 @@ export default function AdminDashboard() {
   const [portfolioCategory, setPortfolioCategory] = useState<string>("all");
   const [quoteStatusFilter, setQuoteStatusFilter] = useState<string>("all");
   const [messageStatusFilter, setMessageStatusFilter] = useState<string>("all");
+  const [applicationStatusFilter, setApplicationStatusFilter] = useState<string>("all");
 
   const refreshData = async () => {
     // Charger UNIQUEMENT depuis Supabase, pas depuis AdminStore
     try {
+      // Fonction pour normaliser les statuts de la BDD vers l'affichage
+      const normalizeStatus = (dbStatus: string): string => {
+        const statusMap: { [key: string]: string } = {
+          'nouveau': 'Nouveau',
+          'nouvelle': 'Nouvelle',
+          'en_analyse': 'En analyse',
+          'en_cours': 'En cours de traitement',
+          'en_cours_de_traitement': 'En cours de traitement',
+          'traite': 'Traité',
+          'sans_suite': 'Sans suite',
+          'retenu': 'Retenu',
+          'acceptee': 'Retenu',
+          'rejete': 'Rejeté',
+          'refusee': 'Rejeté',
+          'rejetee': 'Rejeté'
+        };
+        return statusMap[dbStatus?.toLowerCase()] || dbStatus || 'Nouveau';
+      };
+
       // Importer le client Supabase
       const { createClient } = await import('@supabase/supabase-js');
       const supabase = createClient(
@@ -75,10 +102,11 @@ export default function AdminDashboard() {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
-      // Charger les devis depuis Supabase
+      // Charger les devis depuis Supabase (exclure les archivés)
       const { data: quotesData, error: quotesError } = await supabase
         .from('quote_requests')
         .select('*')
+        .eq('is_archived', false)
         .order('created_at', { ascending: false });
 
       if (quotesError) throw quotesError;
@@ -102,15 +130,16 @@ export default function AdminDashboard() {
         expectedResult: q.expected_result,
         budget: q.budget,
         deliveryDate: q.desired_delivery_date,
-        status: q.status || 'Nouveau',
+        status: normalizeStatus(q.status),
         createdAt: q.created_at,
         isRead: q.is_read ?? false
       }));
       
-      // Charger les messages depuis Supabase
+      // Charger les messages depuis Supabase (exclure les archivés)
       const { data: messagesData, error: messagesError } = await supabase
         .from('contact_messages')
         .select('*')
+        .eq('is_archived', false)
         .order('created_at', { ascending: false });
 
       if (messagesError) throw messagesError;
@@ -123,15 +152,16 @@ export default function AdminDashboard() {
         phone: m.phone,
         subject: m.subject,
         message: m.message,
-        status: m.status || 'Nouveau',
+        status: normalizeStatus(m.status),
         isRead: m.is_read ?? false,
         createdAt: m.created_at
       }));
 
-      // Charger les demandes de service et les candidatures depuis Supabase
+      // Charger les demandes de service depuis Supabase (exclure les archivées)
       const { data: serviceRequestsData, error: serviceRequestsError } = await supabase
         .from('service_requests')
         .select('*')
+        .eq('is_archived', false)
         .order('submitted_at', { ascending: false });
 
       if (serviceRequestsError) throw serviceRequestsError;
@@ -151,8 +181,8 @@ export default function AdminDashboard() {
       }));
 
       const [applicationsResult, internshipsResult] = await Promise.all([
-        supabase.from('applications').select('*').order('submitted_at', { ascending: false }),
-        supabase.from('internship_requests').select('*').order('submitted_at', { ascending: false })
+        supabase.from('applications').select('*').eq('is_archived', false).order('submitted_at', { ascending: false }),
+        supabase.from('internship_requests').select('*').eq('is_archived', false).order('submitted_at', { ascending: false })
       ]);
 
       if (applicationsResult.error) throw applicationsResult.error;
@@ -171,7 +201,7 @@ export default function AdminDashboard() {
           experience: application.internship_objectives || '',
           cvFileName: application.cv_file_name || '',
           cvFilePath: application.cv_file_path || '',
-          status: application.status === 'nouvelle' ? 'Nouvelle' : application.status,
+          status: normalizeStatus(application.status),
           createdAt: application.submitted_at
         })),
         ...(applicationsResult.data || []).map((application: any) => ({
@@ -186,7 +216,7 @@ export default function AdminDashboard() {
           experience: application.professional_experience || '',
           cvFileName: application.cv_file_name || '',
           cvFilePath: application.cv_file_path || '',
-          status: application.status === 'nouvelle' ? 'Nouvelle' : application.status,
+          status: normalizeStatus(application.status),
           createdAt: application.submitted_at
         }))
       ];
@@ -196,6 +226,80 @@ export default function AdminDashboard() {
       setMessages(mappedMessages);
       setServiceRequests(mappedServiceRequests);
       setApplications(mappedApplications);
+
+      // Charger les éléments archivés
+      const [archivedQuotesData, archivedMessagesData, archivedServiceData, archivedAppsData, archivedInternData] = await Promise.all([
+        supabase.from('quote_requests').select('*').eq('is_archived', true).order('created_at', { ascending: false }),
+        supabase.from('contact_messages').select('*').eq('is_archived', true).order('created_at', { ascending: false }),
+        supabase.from('service_requests').select('*').eq('is_archived', true).order('submitted_at', { ascending: false }),
+        supabase.from('applications').select('*').eq('is_archived', true).order('submitted_at', { ascending: false }),
+        supabase.from('internship_requests').select('*').eq('is_archived', true).order('submitted_at', { ascending: false })
+      ]);
+
+      // Mapper les données archivées
+      setArchivedQuotes((archivedQuotesData.data || []).map((q: any) => ({
+        id: q.id,
+        reference: q.reference_number || `DV-${q.id}`,
+        companyName: q.company_name,
+        activityField: q.sector,
+        email: q.email,
+        phone: q.phone,
+        city: q.city,
+        contactPersonName: `${q.contact_first_name} ${q.contact_last_name}`,
+        desiredServices: typeof q.services === 'string' ? JSON.parse(q.services) : (q.services || []),
+        description: q.project_description,
+        status: normalizeStatus(q.status),
+        createdAt: q.created_at
+      })));
+
+      setArchivedMessages((archivedMessagesData.data || []).map((m: any) => ({
+        id: m.id,
+        reference: m.reference_number || `MSG-${m.id}`,
+        name: m.full_name,
+        email: m.email,
+        phone: m.phone,
+        subject: m.subject,
+        message: m.message,
+        status: normalizeStatus(m.status),
+        createdAt: m.created_at
+      })));
+
+      setArchivedServiceRequests((archivedServiceData.data || []).map((sr: any) => ({
+        id: sr.id,
+        name: sr.client_name,
+        email: sr.client_email,
+        phone: sr.client_phone,
+        service: sr.service_type,
+        description: sr.description,
+        status: normalizeStatus(sr.status),
+        createdAt: sr.submitted_at
+      })));
+
+      const mappedArchivedApplications = [
+        ...(archivedInternData.data || []).map((application: any) => ({
+          id: `internship-${application.id}`,
+          reference: application.reference_number || `ST-${String(application.id).padStart(3, '0')}`,
+          type: 'Stage' as const,
+          position: application.internship_type || '',
+          fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
+          email: application.email,
+          phone: application.phone,
+          status: normalizeStatus(application.status),
+          createdAt: application.submitted_at
+        })),
+        ...(archivedAppsData.data || []).map((application: any) => ({
+          id: `application-${application.id}`,
+          reference: application.reference_number || `APP-${String(application.id).padStart(3, '0')}`,
+          type: 'Emploi' as const,
+          position: application.position_sought || '',
+          fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
+          email: application.email,
+          phone: application.phone,
+          status: normalizeStatus(application.status),
+          createdAt: application.submitted_at
+        }))
+      ];
+      setArchivedApplications(mappedArchivedApplications);
 
       // Les contenus éditoriaux restent gérés localement tant que leurs tables ne sont pas branchées.
       setUsers(AdminStore.getUsers());
@@ -232,9 +336,9 @@ export default function AdminDashboard() {
     }
   };
 
-  // Fonctions de suppression avec confirmation
-  const handleDeleteQuote = async (id: string, ref: string) => {
-    if (confirmDelete(`le devis ${ref}`)) {
+  // Fonctions d'archivage (remplacent la suppression)
+  const handleArchiveQuote = async (id: string, ref: string) => {
+    if (window.confirm(`Voulez-vous archiver le devis ${ref} ?`)) {
       try {
         const { createClient } = await import('@supabase/supabase-js');
         const supabase = createClient(
@@ -244,22 +348,22 @@ export default function AdminDashboard() {
         
         const { error } = await supabase
           .from('quote_requests')
-          .delete()
+          .update({ is_archived: true, updated_at: new Date().toISOString() })
           .eq('id', id);
         
         if (error) throw error;
         
         refreshData();
-        showToast('Devis supprimé avec succès', 'success');
+        showToast('Devis archivé avec succès', 'success');
       } catch (error) {
-        console.error('Erreur suppression:', error);
-        showToast('Erreur lors de la suppression', 'error');
+        console.error('Erreur archivage:', error);
+        showToast('Erreur lors de l\'archivage', 'error');
       }
     }
   };
 
-  const handleDeleteMessage = async (id: string, name: string) => {
-    if (confirmDelete(`le message de ${name}`)) {
+  const handleArchiveMessage = async (id: string, name: string) => {
+    if (window.confirm(`Voulez-vous archiver le message de ${name} ?`)) {
       try {
         const { createClient } = await import('@supabase/supabase-js');
         const supabase = createClient(
@@ -269,22 +373,51 @@ export default function AdminDashboard() {
         
         const { error } = await supabase
           .from('contact_messages')
-          .delete()
+          .update({ is_archived: true, updated_at: new Date().toISOString() })
           .eq('id', id);
         
         if (error) throw error;
         
         refreshData();
-        showToast('Message supprimé avec succès', 'success');
+        showToast('Message archivé avec succès', 'success');
       } catch (error) {
-        console.error('Erreur suppression:', error);
-        showToast('Erreur lors de la suppression', 'error');
+        console.error('Erreur archivage:', error);
+        showToast('Erreur lors de l\'archivage', 'error');
       }
     }
   };
 
-  const handleDeleteApplication = async (id: string, name: string) => {
-    if (confirmDelete(`la candidature de ${name}`)) {
+  const handleArchiveApplication = async (id: string, name: string) => {
+    if (window.confirm(`Voulez-vous archiver la candidature de ${name} ?`)) {
+      try {
+        // Extraire le vrai ID et la table
+        const [type, realId] = id.split('-');
+        const tableName = type === 'application' ? 'applications' : 'internship_requests';
+        
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        
+        const { error } = await supabase
+          .from(tableName)
+          .update({ is_archived: true, updated_at: new Date().toISOString() })
+          .eq('id', realId);
+        
+        if (error) throw error;
+        
+        refreshData();
+        showToast('Candidature archivée avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur archivage:', error);
+        showToast('Erreur lors de l\'archivage', 'error');
+      }
+    }
+  };
+
+  const handleArchiveServiceRequest = async (id: string, name: string) => {
+    if (window.confirm(`Voulez-vous archiver la demande de service de ${name} ?`)) {
       try {
         const { createClient } = await import('@supabase/supabase-js');
         const supabase = createClient(
@@ -293,36 +426,270 @@ export default function AdminDashboard() {
         );
         
         const { error } = await supabase
-          .from('applications')
-          .delete()
+          .from('service_requests')
+          .update({ is_archived: true, updated_at: new Date().toISOString() })
           .eq('id', id);
         
         if (error) throw error;
         
         refreshData();
-        showToast('Candidature supprimée avec succès', 'success');
+        showToast('Demande de service archivée avec succès', 'success');
       } catch (error) {
-        console.error('Erreur suppression:', error);
-        showToast('Erreur lors de la suppression', 'error');
+        console.error('Erreur archivage:', error);
+        showToast('Erreur lors de l\'archivage', 'error');
       }
     }
   };
 
-  const handleDeleteServiceRequest = async (id: string, ref: string) => {
-    if (confirmDelete(`la demande de service ${ref}`)) {
+  // Fonctions de restauration
+  const handleRestoreQuote = async (id: string, ref: string) => {
+    if (window.confirm(`Voulez-vous restaurer le devis ${ref} ?`)) {
       try {
-        const response = await fetch(`/api/service-requests/${id}`, {
-          method: 'DELETE',
-        });
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
         
-        if (!response.ok) throw new Error('Erreur suppression');
+        const { error } = await supabase
+          .from('quote_requests')
+          .update({ is_archived: false, updated_at: new Date().toISOString() })
+          .eq('id', id);
+        
+        if (error) throw error;
         
         refreshData();
-        showToast('Demande de service supprimée avec succès', 'success');
+        showToast('Devis restauré avec succès', 'success');
       } catch (error) {
-        console.error('Erreur suppression:', error);
-        showToast('Erreur lors de la suppression', 'error');
+        console.error('Erreur restauration:', error);
+        showToast('Erreur lors de la restauration', 'error');
       }
+    }
+  };
+
+  const handleRestoreMessage = async (id: string, name: string) => {
+    if (window.confirm(`Voulez-vous restaurer le message de ${name} ?`)) {
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        
+        const { error } = await supabase
+          .from('contact_messages')
+          .update({ is_archived: false, updated_at: new Date().toISOString() })
+          .eq('id', id);
+        
+        if (error) throw error;
+        
+        refreshData();
+        showToast('Message restauré avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur restauration:', error);
+        showToast('Erreur lors de la restauration', 'error');
+      }
+    }
+  };
+
+  const handleRestoreApplication = async (id: string, name: string) => {
+    if (window.confirm(`Voulez-vous restaurer la candidature de ${name} ?`)) {
+      try {
+        const [type, realId] = id.split('-');
+        const tableName = type === 'application' ? 'applications' : 'internship_requests';
+        
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        
+        const { error } = await supabase
+          .from(tableName)
+          .update({ is_archived: false, updated_at: new Date().toISOString() })
+          .eq('id', realId);
+        
+        if (error) throw error;
+        
+        refreshData();
+        showToast('Candidature restaurée avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur restauration:', error);
+        showToast('Erreur lors de la restauration', 'error');
+      }
+    }
+  };
+
+  const handleRestoreServiceRequest = async (id: string, name: string) => {
+    if (window.confirm(`Voulez-vous restaurer la demande de service de ${name} ?`)) {
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        
+        const { error } = await supabase
+          .from('service_requests')
+          .update({ is_archived: false, updated_at: new Date().toISOString() })
+          .eq('id', id);
+        
+        if (error) throw error;
+        
+        refreshData();
+        showToast('Demande de service restaurée avec succès', 'success');
+      } catch (error) {
+        console.error('Erreur restauration:', error);
+        showToast('Erreur lors de la restauration', 'error');
+      }
+    }
+  };
+
+  const handleUpdateServiceRequestStatus = async (id: string, newStatus: string) => {
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      // Convertir le statut de l'interface vers la BDD
+      const dbStatus = newStatus.toLowerCase().replace(/ /g, '_').replace(/é/g, 'e');
+      
+      const { error } = await supabase
+        .from('service_requests')
+        .update({ 
+          status: dbStatus,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      // Mettre à jour l'état local
+      const updated = serviceRequests.map(sr => 
+        sr.id === id ? { ...sr, status: newStatus } : sr
+      );
+      setServiceRequests(updated);
+      showToast(`Statut mis à jour : ${newStatus}`, 'success');
+    } catch (error) {
+      console.error('Erreur mise à jour statut:', error);
+      showToast('Erreur lors de la mise à jour du statut', 'error');
+    }
+  };
+
+  const handleUpdateQuoteStatus = async (id: string, newStatus: string) => {
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      // Convertir le statut de l'interface vers la BDD
+      const dbStatus = newStatus.toLowerCase().replace(/ /g, '_').replace(/é/g, 'e');
+      
+      const { error } = await supabase
+        .from('quote_requests')
+        .update({ 
+          status: dbStatus,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      // Mettre à jour l'état local
+      const updated = quotes.map(q => 
+        q.id === id ? { ...q, status: newStatus } : q
+      );
+      setQuotes(updated);
+      showToast(`Statut mis à jour : ${newStatus}`, 'success');
+    } catch (error) {
+      console.error('Erreur mise à jour statut devis:', error);
+      showToast('Erreur lors de la mise à jour du statut', 'error');
+    }
+  };
+
+  const handleUpdateMessageStatus = async (id: string, newStatus: string) => {
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      // Convertir le statut de l'interface vers la BDD
+      const dbStatus = newStatus.toLowerCase().replace(/ /g, '_').replace(/é/g, 'e');
+      
+      const { error } = await supabase
+        .from('contact_messages')
+        .update({ 
+          status: dbStatus,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      // Mettre à jour l'état local
+      const updated = messages.map(m => 
+        m.id === id ? { ...m, status: newStatus } : m
+      );
+      setMessages(updated);
+      showToast(`Statut mis à jour : ${newStatus}`, 'success');
+    } catch (error) {
+      console.error('Erreur mise à jour statut message:', error);
+      showToast('Erreur lors de la mise à jour du statut', 'error');
+    }
+  };
+
+  const handleUpdateApplicationStatus = async (id: string, newStatus: string) => {
+    try {
+      console.log('🔄 Mise à jour candidature:', { id, newStatus });
+      
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      // Convertir le statut de l'interface vers la BDD
+      const dbStatus = newStatus.toLowerCase().replace(/ /g, '_').replace(/é/g, 'e');
+      
+      console.log('📝 Statut converti:', { newStatus, dbStatus });
+      
+      // Extraire le vrai ID et la table
+      // id peut être "application-123" ou "internship-456"
+      const [type, realId] = id.split('-');
+      const tableName = type === 'application' ? 'applications' : 'internship_requests';
+      
+      console.log('🔍 Table et ID:', { type, realId, tableName });
+      
+      const { error } = await supabase
+        .from(tableName)
+        .update({ 
+          status: dbStatus,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', realId);
+      
+      if (error) {
+        console.error('❌ Erreur Supabase:', error);
+        throw error;
+      }
+      
+      console.log('✅ Mise à jour réussie dans Supabase');
+      
+      // Mettre à jour l'état local
+      const updated = applications.map(app => 
+        app.id === id ? { ...app, status: newStatus } : app
+      );
+      setApplications(updated);
+      showToast(`Statut mis à jour : ${newStatus}`, 'success');
+    } catch (error) {
+      console.error('Erreur mise à jour statut candidature:', error);
+      showToast('Erreur lors de la mise à jour du statut', 'error');
     }
   };
 
@@ -614,7 +981,7 @@ export default function AdminDashboard() {
                   { id: "demandes-service", label: "Demandes de service", icon: <FaCog />, badge: stats.demandesServiceNouv },
                   { id: "messages", label: "Messages de contact", icon: <FaEnvelope />, badge: stats.messagesNonLus },
                   { id: "candidatures", label: "Candidatures / Stages", icon: <FaGraduationCap />, badge: stats.candidaturesActives },
-                  { id: "clients", label: "Clients & Partenaires", icon: <FaBuilding /> }
+                  { id: "archives", label: "Archives", icon: <FaArchive /> }
                 ].map(item => {
                   const allowed = canAccess(item.id);
                   return (
@@ -1088,7 +1455,11 @@ export default function AdminDashboard() {
                 <select value={quoteStatusFilter} onChange={e => setQuoteStatusFilter(e.target.value)}
                   className={`${c.select} text-xs rounded-xl px-3 py-2`}>
                   <option value="all">Tous les statuts</option>
-                  <option>Nouveau</option><option>En cours</option><option>Traité</option><option>Sans suite</option>
+                  <option>Nouveau</option>
+                  <option>En analyse</option>
+                  <option>En cours de traitement</option>
+                  <option>Traité</option>
+                  <option>Sans suite</option>
                 </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
@@ -1154,9 +1525,13 @@ export default function AdminDashboard() {
                           <td className="py-3.5 px-4 text-xs font-semibold text-amber-600">{quote.budget}</td>
                           <td className="py-3.5 px-4 text-xs text-gray-400">{quote.deliveryDate || "Non spécifié"}</td>
                           <td className="py-3.5 px-4">
-                            <select value={quote.status} onChange={e => { AdminStore.updateQuoteStatus(quote.id, e.target.value as QuoteStatus); showToast(`Statut mis à jour : ${e.target.value}`); }}
+                            <select value={quote.status} onChange={e => handleUpdateQuoteStatus(quote.id, e.target.value)}
                               className={`${c.select} text-xs rounded-lg px-2 py-1`}>
-                              <option>Nouveau</option><option>En cours</option><option>Traité</option><option>Sans suite</option>
+                              <option>Nouveau</option>
+                              <option>En analyse</option>
+                              <option>En cours de traitement</option>
+                              <option>Traité</option>
+                              <option>Sans suite</option>
                             </select>
                           </td>
                           <td className="py-3.5 px-4 text-right">
@@ -1172,10 +1547,10 @@ export default function AdminDashboard() {
                                 Consulter
                               </button>
                               <button 
-                                onClick={() => handleDeleteQuote(quote.id, quote.reference)}
-                                className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition flex items-center gap-1"
-                                title="Supprimer">
-                                <FaTrash />
+                                onClick={() => handleArchiveQuote(quote.id, quote.reference)}
+                                className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                title="Archiver">
+                                <FaArchive />
                               </button>
                             </div>
                           </td>
@@ -1226,7 +1601,8 @@ export default function AdminDashboard() {
                 >
                   <option value="all">Tous les statuts</option>
                   <option>Nouveau</option>
-                  <option>En cours</option>
+                  <option>En analyse</option>
+                  <option>En cours de traitement</option>
                   <option>Traité</option>
                   <option>Sans suite</option>
                 </select>
@@ -1325,17 +1701,12 @@ export default function AdminDashboard() {
                             <td className="py-3.5 px-4">
                               <select 
                                 value={request.status || "Nouveau"} 
-                                onChange={e => {
-                                  const updated = serviceRequests.map(sr => 
-                                    sr.id === request.id ? { ...sr, status: e.target.value } : sr
-                                  );
-                                  setServiceRequests(updated);
-                                  showToast(`Statut mis à jour : ${e.target.value}`);
-                                }}
+                                onChange={e => handleUpdateServiceRequestStatus(request.id, e.target.value)}
                                 className={`${c.select} text-xs rounded-lg px-2 py-1`}
                               >
                                 <option>Nouveau</option>
-                                <option>En cours</option>
+                                <option>En analyse</option>
+                                <option>En cours de traitement</option>
                                 <option>Traité</option>
                                 <option>Sans suite</option>
                               </select>
@@ -1359,10 +1730,10 @@ export default function AdminDashboard() {
                                   Voir détails
                                 </button>
                                 <button 
-                                  onClick={() => handleDeleteServiceRequest(request.id, request.name)}
-                                  className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition flex items-center gap-1"
-                                  title="Supprimer">
-                                  <FaTrash />
+                                  onClick={() => handleArchiveServiceRequest(request.id, request.name)}
+                                  className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                  title="Archiver">
+                                  <FaArchive />
                                 </button>
                               </div>
                             </td>
@@ -1418,7 +1789,11 @@ export default function AdminDashboard() {
                 <select value={messageStatusFilter} onChange={e => setMessageStatusFilter(e.target.value)}
                   className={`${c.select} text-xs rounded-xl px-3 py-2`}>
                   <option value="all">Tous les statuts</option>
-                  <option>Nouveau</option><option>En cours</option><option>Traité</option>
+                  <option>Nouveau</option>
+                  <option>En analyse</option>
+                  <option>En cours de traitement</option>
+                  <option>Traité</option>
+                  <option>Sans suite</option>
                 </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
@@ -1503,9 +1878,13 @@ export default function AdminDashboard() {
                           </td>
                           <td className="py-3.5 px-4 text-xs text-gray-400">{msg.createdAt}</td>
                           <td className="py-3.5 px-4">
-                            <select value={msg.status} onChange={e => { AdminStore.updateMessageStatus(msg.id, e.target.value as MessageStatus); showToast(`Statut mis à jour : ${e.target.value}`); }}
+                            <select value={msg.status} onChange={e => handleUpdateMessageStatus(msg.id, e.target.value)}
                               className={`${c.select} text-xs rounded-lg px-2 py-1`}>
-                              <option>Nouveau</option><option>En cours</option><option>Traité</option>
+                              <option>Nouveau</option>
+                              <option>En analyse</option>
+                              <option>En cours de traitement</option>
+                              <option>Traité</option>
+                              <option>Sans suite</option>
                             </select>
                           </td>
                           <td className="py-3.5 px-4 text-right">
@@ -1521,10 +1900,10 @@ export default function AdminDashboard() {
                                 Lire
                               </button>
                               <button 
-                                onClick={() => handleDeleteMessage(msg.id, msg.name)}
-                                className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition flex items-center gap-1"
-                                title="Supprimer">
-                                <FaTrash />
+                                onClick={() => handleArchiveMessage(msg.id, msg.name)}
+                                className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                title="Archiver">
+                                <FaArchive />
                               </button>
                             </div>
                           </td>
@@ -1556,6 +1935,19 @@ export default function AdminDashboard() {
                     placeholder="Rechercher par nom, poste, formation..."
                     className={`w-full pl-9 pr-4 py-2 rounded-xl text-xs ${c.input}`} />
                 </div>
+                <select 
+                  value={applicationStatusFilter} 
+                  onChange={e => setApplicationStatusFilter(e.target.value)}
+                  className={`${c.select} text-xs rounded-xl px-3 py-2`}
+                >
+                  <option value="all">Tous les statuts</option>
+                  <option>Nouvelle</option>
+                  <option>En analyse</option>
+                  <option>En cours de traitement</option>
+                  <option>Retenu</option>
+                  <option>Rejeté</option>
+                  <option>Sans suite</option>
+                </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
                 <table className="w-full text-left text-sm">
@@ -1622,6 +2014,7 @@ export default function AdminDashboard() {
                   <tbody className={`divide-y ${c.border}`}>
                     {sortData(
                       applications
+                        .filter(app => applicationStatusFilter === "all" || app.status === applicationStatusFilter)
                         .filter(app => !searchTerm || (app.fullName + app.position + app.education + app.email).toLowerCase().includes(searchTerm.toLowerCase())),
                       sortField as keyof JobApplicationItem,
                       sortOrder
@@ -1641,9 +2034,15 @@ export default function AdminDashboard() {
                           <td className="py-3.5 px-4 text-xs text-gray-600">{app.education}</td>
                           <td className="py-3.5 px-4 text-xs text-gray-400">{app.createdAt}</td>
                           <td className="py-3.5 px-4">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(app.status)}`}>
-                              {app.status}
-                            </span>
+                            <select value={app.status} onChange={e => handleUpdateApplicationStatus(app.id, e.target.value)}
+                              className={`${c.select} text-xs rounded-lg px-2 py-1`}>
+                              <option>Nouvelle</option>
+                              <option>En analyse</option>
+                              <option>En cours de traitement</option>
+                              <option>Retenu</option>
+                              <option>Rejeté</option>
+                              <option>Sans suite</option>
+                            </select>
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <div className="flex items-center justify-end gap-2">
@@ -1658,10 +2057,10 @@ export default function AdminDashboard() {
                                 Voir CV
                               </button>
                               <button 
-                                onClick={() => handleDeleteApplication(app.id, app.fullName)}
-                                className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition flex items-center gap-1"
-                                title="Supprimer">
-                                <FaTrash />
+                                onClick={() => handleArchiveApplication(app.id, app.fullName)}
+                                className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                title="Archiver">
+                                <FaArchive />
                               </button>
                             </div>
                           </td>
@@ -1673,33 +2072,251 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ===== CLIENTS & PARTENAIRES ===== */}
-          {activeMenu === "clients" && (
+          {/* ===== ARCHIVES ===== */}
+          {activeMenu === "archives" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaBuilding className="text-orange-500" /> Fiches Clients & Partenaires</h1>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {clients.map(client => (
-                  <div key={client.id} className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow} hover:shadow-md transition ${c.cardHover}`}>
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white font-black text-sm shadow">{client.logoText}</div>
-                      <div>
-                        <h3 className="font-bold text-gray-900 text-sm">{client.name}</h3>
-                        <span className="text-xs text-gray-400">{client.sector}</span>
-                      </div>
-                    </div>
-                    <div className="text-xs text-gray-500 space-y-1 mb-4">
-                      <div>Contact : <span className="text-gray-800">{client.contactName}</span></div>
-                      <div>Email : <span className="text-gray-800">{client.contactEmail}</span></div>
-                      <div>Projets livrés : <span className="text-orange-600 font-bold">{client.projectsCount}</span></div>
-                    </div>
-                    <div className={`pt-3 border-t ${c.border} flex items-center justify-between text-xs`}>
-                      {renderStatusBadge(client.status)}
-                      <button onClick={() => showToast(`Fiche de ${client.name} consultée`)}
-                        className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-gray-700 text-xs font-semibold`}>Historique projets</button>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                    <FaArchive className="text-orange-500" /> Archives
+                  </h1>
+                  <p className="text-sm text-gray-500 mt-1">Gérez vos éléments archivés par catégorie</p>
+                </div>
               </div>
+
+              {/* Onglets de catégories */}
+              <div className={`flex flex-wrap gap-2 ${c.card} p-3 border ${c.border} rounded-2xl`}>
+                <button
+                  onClick={() => setArchiveCategory("devis")}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                    archiveCategory === "devis"
+                      ? "bg-orange-500 text-white shadow"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  <FaFileAlt className="inline mr-2" />
+                  Devis ({archivedQuotes.length})
+                </button>
+                <button
+                  onClick={() => setArchiveCategory("services")}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                    archiveCategory === "services"
+                      ? "bg-orange-500 text-white shadow"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  <FaCog className="inline mr-2" />
+                  Services ({archivedServiceRequests.length})
+                </button>
+                <button
+                  onClick={() => setArchiveCategory("messages")}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                    archiveCategory === "messages"
+                      ? "bg-orange-500 text-white shadow"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  <FaEnvelope className="inline mr-2" />
+                  Messages ({archivedMessages.length})
+                </button>
+                <button
+                  onClick={() => setArchiveCategory("candidatures")}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                    archiveCategory === "candidatures"
+                      ? "bg-orange-500 text-white shadow"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  <FaGraduationCap className="inline mr-2" />
+                  Candidatures ({archivedApplications.length})
+                </button>
+              </div>
+
+              {/* Devis archivés */}
+              {archiveCategory === "devis" && (
+                <div className="space-y-3">
+                  {archivedQuotes.length > 0 ? (
+                    <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
+                      <table className="w-full text-left text-sm">
+                        <thead>
+                          <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
+                            <th className="py-3 px-4">Réf.</th>
+                            <th className="py-3 px-4">Entreprise</th>
+                            <th className="py-3 px-4">Statut</th>
+                            <th className="py-3 px-4">Date</th>
+                            <th className="py-3 px-4 text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className={`divide-y ${c.border}`}>
+                          {archivedQuotes.map(quote => (
+                            <tr key={quote.id} className={c.tableRow}>
+                              <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{quote.reference}</td>
+                              <td className="py-3 px-4 font-semibold text-gray-800">{quote.companyName}</td>
+                              <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(quote.status)}`}>{quote.status}</span></td>
+                              <td className="py-3 px-4 text-xs text-gray-400">{quote.createdAt}</td>
+                              <td className="py-3 px-4 text-right">
+                                <button
+                                  onClick={() => handleRestoreQuote(quote.id, quote.reference)}
+                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
+                                  title="Restaurer">
+                                  <FaSync /> Restaurer
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
+                      <FaFileAlt className="text-gray-300 text-4xl mx-auto mb-3" />
+                      <p className="text-gray-500 font-medium">Aucun devis archivé</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Services archivés */}
+              {archiveCategory === "services" && (
+                <div className="space-y-3">
+                  {archivedServiceRequests.length > 0 ? (
+                    <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
+                      <table className="w-full text-left text-sm">
+                        <thead>
+                          <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
+                            <th className="py-3 px-4">Nom</th>
+                            <th className="py-3 px-4">Service</th>
+                            <th className="py-3 px-4">Statut</th>
+                            <th className="py-3 px-4">Date</th>
+                            <th className="py-3 px-4 text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className={`divide-y ${c.border}`}>
+                          {archivedServiceRequests.map(request => (
+                            <tr key={request.id} className={c.tableRow}>
+                              <td className="py-3 px-4 font-semibold text-gray-800">{request.name}</td>
+                              <td className="py-3 px-4 text-xs text-blue-600">{request.service}</td>
+                              <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(request.status)}`}>{request.status}</span></td>
+                              <td className="py-3 px-4 text-xs text-gray-400">{request.createdAt}</td>
+                              <td className="py-3 px-4 text-right">
+                                <button
+                                  onClick={() => handleRestoreServiceRequest(request.id, request.name)}
+                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
+                                  title="Restaurer">
+                                  <FaSync /> Restaurer
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
+                      <FaCog className="text-gray-300 text-4xl mx-auto mb-3" />
+                      <p className="text-gray-500 font-medium">Aucune demande de service archivée</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Messages archivés */}
+              {archiveCategory === "messages" && (
+                <div className="space-y-3">
+                  {archivedMessages.length > 0 ? (
+                    <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
+                      <table className="w-full text-left text-sm">
+                        <thead>
+                          <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
+                            <th className="py-3 px-4">Réf.</th>
+                            <th className="py-3 px-4">Nom</th>
+                            <th className="py-3 px-4">Sujet</th>
+                            <th className="py-3 px-4">Statut</th>
+                            <th className="py-3 px-4">Date</th>
+                            <th className="py-3 px-4 text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className={`divide-y ${c.border}`}>
+                          {archivedMessages.map(msg => (
+                            <tr key={msg.id} className={c.tableRow}>
+                              <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{msg.reference}</td>
+                              <td className="py-3 px-4 font-semibold text-gray-800">{msg.name}</td>
+                              <td className="py-3 px-4 text-xs text-gray-600">{msg.subject}</td>
+                              <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(msg.status)}`}>{msg.status}</span></td>
+                              <td className="py-3 px-4 text-xs text-gray-400">{msg.createdAt}</td>
+                              <td className="py-3 px-4 text-right">
+                                <button
+                                  onClick={() => handleRestoreMessage(msg.id, msg.name)}
+                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
+                                  title="Restaurer">
+                                  <FaSync /> Restaurer
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
+                      <FaEnvelope className="text-gray-300 text-4xl mx-auto mb-3" />
+                      <p className="text-gray-500 font-medium">Aucun message archivé</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Candidatures archivées */}
+              {archiveCategory === "candidatures" && (
+                <div className="space-y-3">
+                  {archivedApplications.length > 0 ? (
+                    <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
+                      <table className="w-full text-left text-sm">
+                        <thead>
+                          <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
+                            <th className="py-3 px-4">Réf.</th>
+                            <th className="py-3 px-4">Type</th>
+                            <th className="py-3 px-4">Candidat</th>
+                            <th className="py-3 px-4">Poste</th>
+                            <th className="py-3 px-4">Statut</th>
+                            <th className="py-3 px-4">Date</th>
+                            <th className="py-3 px-4 text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className={`divide-y ${c.border}`}>
+                          {archivedApplications.map(app => (
+                            <tr key={app.id} className={c.tableRow}>
+                              <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{app.reference}</td>
+                              <td className="py-3 px-4">
+                                <span className={`px-2 py-1 rounded text-xs font-bold ${app.type === 'Emploi' ? 'bg-blue-50 text-blue-600' : 'bg-violet-50 text-violet-600'}`}>
+                                  {app.type}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 font-semibold text-gray-800">{app.fullName}</td>
+                              <td className="py-3 px-4 text-xs text-orange-600">{app.position}</td>
+                              <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(app.status)}`}>{app.status}</span></td>
+                              <td className="py-3 px-4 text-xs text-gray-400">{app.createdAt}</td>
+                              <td className="py-3 px-4 text-right">
+                                <button
+                                  onClick={() => handleRestoreApplication(app.id, app.fullName)}
+                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
+                                  title="Restaurer">
+                                  <FaSync /> Restaurer
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
+                      <FaGraduationCap className="text-gray-300 text-4xl mx-auto mb-3" />
+                      <p className="text-gray-500 font-medium">Aucune candidature archivée</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
