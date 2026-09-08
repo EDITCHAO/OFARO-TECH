@@ -13,7 +13,8 @@ import {
   FaGlobe,
   FaShieldAlt,
   FaBullseye,
-  FaBolt
+  FaBolt,
+  FaClock
 } from 'react-icons/fa';
 
 export const metadata: Metadata = {
@@ -182,7 +183,7 @@ export default function CarrieresPage() {
                   href="#profils"
                   className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-blue-600 hover:text-blue-600 transition-all duration-300 font-medium"
                 >
-                  Découvrir les postes
+                  Découvrir nos offres
                 </Link>
               </div>
             </div>
@@ -272,99 +273,205 @@ export default function CarrieresPage() {
         </div>
       </section>
 
-      {/* Profiles Section */}
+      {/* Job Offers Section */}
       <section id="profils" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
+            <p className="text-sm font-semibold text-blue-600 mb-2 tracking-wide uppercase">
+              03 · Opportunités
+            </p>
             <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-              Les profils que nous <span className="italic text-blue-600">recherchons</span>
+              Nos offres <span className="italic text-blue-600">d&apos;emploi</span>
             </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Découvrez les postes disponibles et rejoignez une équipe passionnée par l&apos;innovation digitale.
+            </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            {/* Profils recherchés */}
-            <div className="bg-gray-50 p-8 rounded-2xl">
-              <div className="inline-block bg-white px-4 py-2 rounded-full text-sm font-semibold text-gray-700 mb-6">
-                A
-              </div>
-              <h3 className="text-2xl font-bold mb-3">
-                Profils <span className="italic text-blue-600">recherchés</span>
-              </h3>
-              <p className="text-gray-600 mb-8">
-                Différents niveaux d&apos;expertise, adaptés à la nature et aux enjeux de chaque projet.
-              </p>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-sm font-medium text-gray-700">
-                  <span className="text-xs text-gray-500">— NIVEAUX</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-700 border border-gray-200">
-                    Junior
-                  </span>
-                  <span className="px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-700 border border-gray-200">
-                    Confirmé
-                  </span>
-                  <span className="px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-700 border border-gray-200">
-                    Senior
-                  </span>
-                  <span className="px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-700 border border-gray-200">
-                    Expert
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Domaines */}
-            <div className="bg-gray-50 p-8 rounded-2xl">
-              <div className="inline-block bg-white px-4 py-2 rounded-full text-sm font-semibold text-gray-700 mb-6">
-                B
-              </div>
-              <h3 className="text-2xl font-bold mb-3">
-                Dans les <span className="italic text-blue-600">domaines</span>
-              </h3>
-              <p className="text-gray-600 mb-8">
-                Quatre champs d&apos;intervention où s&apos;exerce notre savoir-faire pluridisciplinaire.
-              </p>
-
-              <div className="space-y-4">
-                {domains.map((domain, index) => (
-                  <div key={index} className="flex gap-4">
-                    <span className="text-sm font-semibold text-gray-400 flex-shrink-0">
-                      {domain.number}
+          {/* Featured Job Offers (3 first) */}
+          <div className="max-w-5xl mx-auto space-y-6 mb-12">
+            {/* Offer 1 */}
+            <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      Développement
                     </span>
-                    <div>
-                      <h4 className="font-bold text-gray-900 mb-1">{domain.title}</h4>
-                      <p className="text-sm text-gray-600">{domain.description}</p>
+                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                      CDI
+                    </span>
+                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                      Confirmé
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    Développeur Full-Stack React/Node.js
+                  </h3>
+
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+                    <div className="flex items-center gap-2">
+                      <FaBriefcase className="w-4 h-4 text-gray-400" />
+                      Lomé, Togo
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaClock className="w-4 h-4 text-gray-400" />
+                      3+ ans d&apos;expérience
                     </div>
                   </div>
-                ))}
+
+                  <p className="text-gray-600 leading-relaxed mb-4">
+                    Rejoignez notre équipe pour concevoir et développer des applications web modernes et performantes. 
+                    Vous travaillerez sur des projets innovants avec des technologies de pointe.
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 text-sm">
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">React.js</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Node.js</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">TypeScript</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">PostgreSQL</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 lg:min-w-[160px]">
+                  <Link
+                    href="/carrieres#candidature"
+                    className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium text-center"
+                  >
+                    Postuler
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Offer 2 */}
+            <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      Design & UX
+                    </span>
+                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                      CDI
+                    </span>
+                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                      Confirmé
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    UI/UX Designer
+                  </h3>
+
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+                    <div className="flex items-center gap-2">
+                      <FaBriefcase className="w-4 h-4 text-gray-400" />
+                      Lomé, Togo
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaClock className="w-4 h-4 text-gray-400" />
+                      2-4 ans d&apos;expérience
+                    </div>
+                  </div>
+
+                  <p className="text-gray-600 leading-relaxed mb-4">
+                    Créez des expériences utilisateur exceptionnelles pour nos clients en Afrique et à l&apos;international. 
+                    Participez à la conception d&apos;interfaces élégantes et fonctionnelles.
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 text-sm">
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Figma</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">UI Design</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Prototypage</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Design System</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 lg:min-w-[160px]">
+                  <Link
+                    href="/carrieres#candidature"
+                    className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium text-center"
+                  >
+                    Postuler
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Offer 3 */}
+            <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      Gestion de projet
+                    </span>
+                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                      CDI
+                    </span>
+                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                      Senior
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    Chef de Projet Digital
+                  </h3>
+
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+                    <div className="flex items-center gap-2">
+                      <FaBriefcase className="w-4 h-4 text-gray-400" />
+                      Lomé, Togo
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaClock className="w-4 h-4 text-gray-400" />
+                      5+ ans d&apos;expérience
+                    </div>
+                  </div>
+
+                  <p className="text-gray-600 leading-relaxed mb-4">
+                    Pilotez des projets digitaux d&apos;envergure pour des clients prestigieux en Afrique de l&apos;Ouest. 
+                    Coordonnez les équipes et garantissez la réussite des projets.
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 text-sm">
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Gestion de projet</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Agile</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Leadership</span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Communication</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 lg:min-w-[160px]">
+                  <Link
+                    href="/carrieres#candidature"
+                    className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium text-center"
+                  >
+                    Postuler
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Detailed Profiles */}
-          <div className="mt-16 grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {profiles.map((profile, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl border border-gray-100">
-                <h4 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <FaBriefcase className="w-5 h-5 text-blue-600" />
-                  {profile.category}
-                </h4>
-                <ul className="space-y-3">
-                  {profile.roles.map((role, roleIndex) => (
-                    <li key={roleIndex} className="flex items-start gap-2 text-gray-700">
-                      <FaBolt className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>{role}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          {/* View All Button */}
+          <div className="text-center">
+            <Link
+              href="/offres"
+              className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-all duration-300 font-medium text-lg"
+            >
+              Voir toutes les offres
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+            <p className="text-sm text-gray-600 mt-4">
+              6 postes disponibles · CDI, Stage, Alternance
+            </p>
           </div>
 
           {/* Formation Section */}
-          <div className="mt-16 bg-gradient-to-br from-blue-50 to-purple-50 p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
+          <div className="mt-20 bg-gradient-to-br from-blue-50 to-purple-50 p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
             <div className="flex items-start gap-4 mb-6">
               <div className="bg-white p-3 rounded-lg">
                 <FaGraduationCap className="w-6 h-6 text-blue-600" />
