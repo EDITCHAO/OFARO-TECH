@@ -130,7 +130,6 @@ function FeaturedJobOffers() {
             experienceLevel={job.experience_level}
             description={job.description}
             status={job.status}
-            offerType="job"
           />
         ))}
       </div>
