@@ -108,7 +108,7 @@ export interface ContactMessageItem {
 export interface JobApplicationItem {
   id: string;
   reference: string;
-  type: 'Emploi' | 'Stage';
+  type: 'Emploi' | 'Stage' | 'Offre';
   position: string;
   fullName: string;
   email: string;
@@ -117,9 +117,11 @@ export interface JobApplicationItem {
   experience?: string;
   coverLetter?: string;
   cvFileName: string;
+  cvFilePath?: string;
   status: ApplicationStatus;
   createdAt: string;
   notes?: string;
+  applicationType?: string;
 }
 
 export interface ClientItem {
