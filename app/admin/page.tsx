@@ -204,14 +204,14 @@ export default function AdminDashboard() {
           status: normalizeStatus(application.status) as ApplicationStatus,
           createdAt: application.submitted_at
         })),
-        ...(applicationsResult.data || []).map((application: any) => {
+        ...(applicationsResult.data || []).map((application: any): JobApplicationItem => {
           // Debug: Afficher les valeurs pour voir ce qui arrive
           console.log('Application ID:', application.id, '| application_type:', application.application_type, '| job_offer_id:', application.job_offer_id);
           
           return {
             id: `application-${application.id}`,
             reference: application.reference_number || `APP-${String(application.id).padStart(3, '0')}`,
-            type: application.application_type === 'offre' ? 'Offre' : 'Emploi',
+            type: (application.application_type === 'offre' ? 'Offre' : 'Emploi') as 'Offre' | 'Emploi',
             position: application.position_sought || '',
             fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
             email: application.email,
