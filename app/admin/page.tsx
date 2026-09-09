@@ -11,7 +11,7 @@ import {
   FaExternalLinkAlt, FaMobileAlt, FaLaptopCode, FaDesktop, FaPalette,
   FaNetworkWired, FaTools, FaServer, FaChartLine, FaBuilding, FaGraduationCap,
   FaHospital, FaShoppingCart, FaGlobe, FaCheckCircle, FaClock, FaExclamationTriangle,
-  FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera, FaArchive
+  FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera, FaArchive, FaBriefcase
 } from "react-icons/fa";
 
 import {
@@ -204,21 +204,27 @@ export default function AdminDashboard() {
           status: normalizeStatus(application.status) as ApplicationStatus,
           createdAt: application.submitted_at
         })),
-        ...(applicationsResult.data || []).map((application: any) => ({
-          id: `application-${application.id}`,
-          reference: application.reference_number || `APP-${String(application.id).padStart(3, '0')}`,
-          type: 'Emploi' as const,
-          position: application.position_sought || '',
-          fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
-          email: application.email,
-          phone: application.phone,
-          education: application.education_level || '',
-          experience: application.professional_experience || '',
-          cvFileName: application.cv_file_name || '',
-          cvFilePath: application.cv_file_path || '',
-          status: normalizeStatus(application.status) as ApplicationStatus,
-          createdAt: application.submitted_at
-        }))
+        ...(applicationsResult.data || []).map((application: any) => {
+          // Debug: Afficher les valeurs pour voir ce qui arrive
+          console.log('Application ID:', application.id, '| application_type:', application.application_type, '| job_offer_id:', application.job_offer_id);
+          
+          return {
+            id: `application-${application.id}`,
+            reference: application.reference_number || `APP-${String(application.id).padStart(3, '0')}`,
+            type: application.application_type === 'offre' ? 'Offre' : 'Emploi',
+            position: application.position_sought || '',
+            fullName: `${application.first_name || ''} ${application.last_name || ''}`.trim(),
+            email: application.email,
+            phone: application.phone,
+            education: application.education_level || '',
+            experience: application.professional_experience || '',
+            cvFileName: application.cv_file_name || '',
+            cvFilePath: application.cv_file_path || '',
+            status: normalizeStatus(application.status) as ApplicationStatus,
+            createdAt: application.submitted_at,
+            applicationType: application.application_type // Ajout pour différencier
+          };
+        })
       ];
 
       // Mettre à jour les états avec les données Supabase
@@ -340,6 +346,77 @@ export default function AdminDashboard() {
       setMessages([]);
       setServiceRequests([]);
       setApplications([]);
+    }
+  };
+
+  // Fonction de gestion du tri
+  const handleMenuClick = async (menuId: string) => {
+    setActiveMenu(menuId);
+    
+    // Marquer les éléments comme lus selon le menu cliqué
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      if (menuId === 'messages') {
+        // Marquer tous les messages non lus comme lus
+        const unreadMessages = messages.filter(m => !m.isRead);
+        if (unreadMessages.length > 0) {
+          const { error } = await supabase
+            .from('contact_messages')
+            .update({ is_read: true })
+            .in('id', unreadMessages.map(m => m.id));
+          
+          if (!error) {
+            // Mettre à jour l'état local
+            setMessages(messages.map(m => ({ ...m, isRead: true })));
+          }
+        }
+      } else if (menuId === 'devis') {
+        // Marquer tous les devis non lus comme lus
+        const unreadQuotes = quotes.filter(q => !q.isRead);
+        if (unreadQuotes.length > 0) {
+          const { error } = await supabase
+            .from('quote_requests')
+            .update({ is_read: true })
+            .in('id', unreadQuotes.map(q => q.id));
+          
+          if (!error) {
+            // Mettre à jour l'état local
+            setQuotes(quotes.map(q => ({ ...q, isRead: true })));
+          }
+        }
+      } else if (menuId === 'demandes-service') {
+        // Marquer toutes les demandes de service "Nouveau" comme lues
+        const unreadServiceRequests = serviceRequests.filter(sr => 
+          sr.status === 'Nouveau' || sr.status === 'new' || sr.status === 'nouvelle'
+        );
+        if (unreadServiceRequests.length > 0) {
+          const { error } = await supabase
+            .from('service_requests')
+            .update({ 
+              status: 'en_analyse',
+              updated_at: new Date().toISOString()
+            })
+            .in('id', unreadServiceRequests.map(sr => sr.id));
+          
+          if (!error) {
+            // Mettre à jour l'état local - changer le statut de "Nouveau" à "En analyse"
+            setServiceRequests(serviceRequests.map(sr => 
+              (sr.status === 'Nouveau' || sr.status === 'new' || sr.status === 'nouvelle')
+                ? { ...sr, status: 'En analyse' }
+                : sr
+            ));
+          }
+        }
+      }
+      // Pas besoin de marquer les candidatures comme lues car le badge compte les statuts "Nouvelle" et "En analyse"
+      // qui doivent être changés manuellement par l'admin
+    } catch (error) {
+      console.error('Erreur lors du marquage comme lu:', error);
     }
   };
 
@@ -727,16 +804,16 @@ export default function AdminDashboard() {
     AdminStore.setCurrentRole(newRole);
     setCurrentRole(newRole);
     showToast(`Connecté en tant que [${newRole.toUpperCase()}]`);
-    if (newRole === "commercial" && !["dashboard","devis","messages","clients"].includes(activeMenu)) setActiveMenu("dashboard");
-    else if (newRole === "rh" && !["dashboard","candidatures"].includes(activeMenu)) setActiveMenu("dashboard");
-    else if (newRole === "editeur" && ["devis","messages","candidatures","clients","utilisateurs","seo","logs"].includes(activeMenu)) setActiveMenu("dashboard");
+    if (newRole === "commercial" && !["dashboard","devis","messages","clients"].includes(activeMenu)) handleMenuClick("dashboard");
+    else if (newRole === "rh" && !["dashboard","candidatures"].includes(activeMenu)) handleMenuClick("dashboard");
+    else if (newRole === "editeur" && ["devis","messages","candidatures","clients","utilisateurs","seo","logs"].includes(activeMenu)) handleMenuClick("dashboard");
   };
 
   const canAccess = (moduleId: string): boolean => {
     if (currentRole === "administrateur") return true;
     if (currentRole === "editeur") return ["dashboard","pages","articles","realisations","services","temoignages","mediatheque","documents"].includes(moduleId);
     if (currentRole === "commercial") return ["dashboard","devis","demandes-service","messages","clients"].includes(moduleId);
-    if (currentRole === "rh") return ["dashboard","candidatures"].includes(moduleId);
+    if (currentRole === "rh") return ["dashboard","candidatures","offres"].includes(moduleId);
     return false;
   };
 
@@ -975,7 +1052,7 @@ export default function AdminDashboard() {
                     <button
                       key={item.id}
                       disabled={!allowed}
-                      onClick={() => allowed && setActiveMenu(item.id)}
+                      onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${
                         activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
                       }`}
@@ -998,14 +1075,34 @@ export default function AdminDashboard() {
                   { id: "demandes-service", label: "Demandes de service", icon: <FaCog />, badge: stats.demandesServiceNouv },
                   { id: "messages", label: "Messages de contact", icon: <FaEnvelope />, badge: stats.messagesNonLus },
                   { id: "candidatures", label: "Candidatures / Stages", icon: <FaGraduationCap />, badge: stats.candidaturesActives },
+                  { id: "offres", label: "Gestion des offres", icon: <FaBriefcase /> },
                   { id: "archives", label: "Archives", icon: <FaArchive /> }
                 ].map(item => {
                   const allowed = canAccess(item.id);
+                  
+                  // Gestion spéciale pour "offres" → redirection externe
+                  if (item.id === "offres") {
+                    return (
+                      <Link
+                        key={item.id}
+                        href="/admin/offres"
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
+                          allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-base text-gray-500">{item.icon}</span>
+                          <span>{item.label}</span>
+                        </div>
+                      </Link>
+                    );
+                  }
+                  
                   return (
                     <button
                       key={item.id}
                       disabled={!allowed}
-                      onClick={() => allowed && setActiveMenu(item.id)}
+                      onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
                         activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
                       }`}
@@ -1041,7 +1138,7 @@ export default function AdminDashboard() {
                     <button
                       key={item.id}
                       disabled={!allowed}
-                      onClick={() => allowed && setActiveMenu(item.id)}
+                      onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${
                         activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
                       }`}
@@ -1100,7 +1197,7 @@ export default function AdminDashboard() {
                 ].map((kpi, idx) => (
                   <div
                     key={idx}
-                    onClick={() => kpi.menu && canAccess(kpi.menu) && setActiveMenu(kpi.menu)}
+                    onClick={() => kpi.menu && canAccess(kpi.menu) && handleMenuClick(kpi.menu)}
                     className={`${c.card} border ${c.border} p-5 rounded-2xl ${c.shadow} hover:shadow-md cursor-pointer transition-all hover:-translate-y-0.5 ${c.cardHover}`}
                   >
                     <div className="flex items-center justify-between text-gray-500 mb-2">
@@ -1123,7 +1220,7 @@ export default function AdminDashboard() {
                     <p className="text-xs text-gray-400 mt-0.5">Demandes soumises via le formulaire institutionnel</p>
                   </div>
                   {canAccess("devis") && (
-                    <button onClick={() => setActiveMenu("devis")} className="text-xs text-orange-600 hover:text-orange-700 font-semibold">
+                    <button onClick={() => handleMenuClick("devis")} className="text-xs text-orange-600 hover:text-orange-700 font-semibold">
                       Voir toutes les demandes ({quotes.length}) →
                     </button>
                   )}
@@ -1187,7 +1284,7 @@ export default function AdminDashboard() {
                 <div className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow}`}>
                   <div className={`flex items-center justify-between mb-4 pb-3 border-b ${c.border}`}>
                     <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2"><FaEnvelope className="text-orange-500" /> Derniers messages reçus</h3>
-                    {canAccess("messages") && <button onClick={() => setActiveMenu("messages")} className="text-xs text-orange-600 hover:underline">Tous →</button>}
+                    {canAccess("messages") && <button onClick={() => handleMenuClick("messages")} className="text-xs text-orange-600 hover:underline">Tous →</button>}
                   </div>
                   <div className="space-y-2.5">
                     {messages.slice(0, 3).map(m => (
@@ -1207,7 +1304,7 @@ export default function AdminDashboard() {
                 <div className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow}`}>
                   <div className={`flex items-center justify-between mb-4 pb-3 border-b ${c.border}`}>
                     <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2"><FaShieldAlt className="text-orange-500" /> Journal d'activité récent</h3>
-                    {canAccess("logs") && <button onClick={() => setActiveMenu("logs")} className="text-xs text-orange-600 hover:underline">Tous les logs →</button>}
+                    {canAccess("logs") && <button onClick={() => handleMenuClick("logs")} className="text-xs text-orange-600 hover:underline">Tous les logs →</button>}
                   </div>
                   <div className="space-y-2">
                     {logs.slice(0, 4).map(l => (
@@ -2051,15 +2148,23 @@ export default function AdminDashboard() {
                           <td className="py-3.5 px-4 text-xs text-gray-600">{app.education}</td>
                           <td className="py-3.5 px-4 text-xs text-gray-400">{app.createdAt}</td>
                           <td className="py-3.5 px-4">
-                            <select value={app.status} onChange={e => handleUpdateApplicationStatus(app.id, e.target.value)}
-                              className={`${c.select} text-xs rounded-lg px-2 py-1`}>
-                              <option>Nouvelle</option>
-                              <option>En analyse</option>
-                              <option>En cours de traitement</option>
-                              <option>Retenu</option>
-                              <option>Rejeté</option>
-                              <option>Sans suite</option>
-                            </select>
+                            {app.type === 'Offre' ? (
+                              // Badge fixe simple pour les candidatures aux offres
+                              <span className="px-3 py-1.5 rounded-lg bg-blue-100 text-blue-700 text-xs font-bold">
+                                OFFRE
+                              </span>
+                            ) : (
+                              // Menu déroulant pour les candidatures spontanées
+                              <select value={app.status} onChange={e => handleUpdateApplicationStatus(app.id, e.target.value)}
+                                className={`${c.select} text-xs rounded-lg px-2 py-1`}>
+                                <option>Nouvelle</option>
+                                <option>En analyse</option>
+                                <option>En cours de traitement</option>
+                                <option>Retenu</option>
+                                <option>Rejeté</option>
+                                <option>Sans suite</option>
+                              </select>
+                            )}
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <div className="flex items-center justify-end gap-2">

@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     const portfolio = formData.get('portfolio') as string;
     const message = formData.get('message') as string;
     const cvFile = formData.get('cv') as File;
+    const jobOfferId = formData.get('job_offer_id') as string | null;
 
     // Validation des champs requis
     if (!prenom || !nom || !email || !telephone || !poste || !message || !cvFile) {
@@ -99,8 +100,10 @@ export async function POST(request: NextRequest) {
 
     const cvUrl = urlData.publicUrl;
 
-    // Déterminer le type (Stage vs Emploi)
-    const applicationType = ['stage', 'alternance'].includes(poste.toLowerCase()) ? 'Stage' : 'Emploi';
+    // Déterminer le type d'application
+    // Si job_offer_id existe -> c'est une candidature pour une offre (type='offre')
+    // Sinon -> c'est une candidature spontanée (type='spontanee')
+    const applicationType = jobOfferId ? 'offre' : 'spontanee';
 
     // Insérer dans la base de données
     const { data, error } = await supabase
@@ -118,6 +121,8 @@ export async function POST(request: NextRequest) {
         cv_file_name: cvFile.name,
         cv_file_path: cvUrl,
         status: 'nouvelle',
+        application_type: applicationType,
+        job_offer_id: jobOfferId ? parseInt(jobOfferId) : null,
         submitted_at: new Date().toISOString()
       })
       .select()

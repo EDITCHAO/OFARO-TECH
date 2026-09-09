@@ -1,13 +1,40 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { FaShieldAlt } from 'react-icons/fa';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export default function ApplicationForm() {
+  const searchParams = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedJobTitle, setSelectedJobTitle] = useState('');
+  const [selectedJobRef, setSelectedJobRef] = useState('');
+  const [selectedJobId, setSelectedJobId] = useState('');
+
+  // Pré-remplir avec les paramètres URL
+  useEffect(() => {
+    const jobId = searchParams.get('offre');
+    const jobTitle = searchParams.get('titre');
+    const jobRef = searchParams.get('ref');
+
+    if (jobId) setSelectedJobId(jobId);
+    if (jobTitle) setSelectedJobTitle(jobTitle);
+    if (jobRef) setSelectedJobRef(jobRef);
+
+    // Scroll automatique vers le formulaire si on vient d'une offre
+    if (jobId && jobTitle) {
+      // Petit délai pour laisser la page charger
+      setTimeout(() => {
+        const formElement = document.getElementById('form-candidature');
+        if (formElement) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
+  }, [searchParams]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -77,7 +104,25 @@ export default function ApplicationForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg space-y-6">
+    <form id="form-candidature" onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg space-y-6">
+      {/* Champ caché pour l'ID de l'offre */}
+      {selectedJobId && (
+        <input type="hidden" name="job_offer_id" value={selectedJobId} />
+      )}
+
+      {/* Info de l'offre si présente */}
+      {selectedJobTitle && (
+        <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+          <p className="text-sm font-semibold text-blue-900 mb-1">
+            📌 Candidature pour l'offre :
+          </p>
+          <p className="text-lg font-bold text-blue-900">{selectedJobTitle}</p>
+          {selectedJobRef && (
+            <p className="text-xs text-gray-600 mt-1">Réf: {selectedJobRef}</p>
+          )}
+        </div>
+      )}
+
       {message && (
         <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
           {message.text}
@@ -150,29 +195,45 @@ export default function ApplicationForm() {
         <label htmlFor="poste" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
           Poste visé
         </label>
-        <select
-          id="poste"
-          name="poste"
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all bg-white"
-          required
-          disabled={isSubmitting}
-        >
-          <option value="">Candidature spontanée</option>
-          <option value="systeme-informatique">Architecte Système Informatique</option>
-          <option value="dev-fullstack">Développeur Full-Stack</option>
-          <option value="dev-frontend">Développeur Frontend</option>
-          <option value="dev-mobile">Développeur Mobile</option>
-          <option value="dev-backend">Développeur Backend</option>
-          <option value="devops">DevOps Engineer</option>
-          <option value="designer">UI/UX Designer</option>
-          <option value="chef-projet">Chef de projet</option>
-          <option value="reseaux-informatiques">Ingénieur Réseaux Informatiques</option>
-          <option value="cybersecurite">Expert Cybersécurité</option>
-          <option value="maintenance-informatique">Technicien Maintenance Informatique</option>
-          <option value="commercial">Commercial</option>
-          <option value="stage">Stage</option>
-          <option value="alternance">Alternance</option>
-        </select>
+        {selectedJobTitle ? (
+          <>
+            <input
+              type="text"
+              id="poste"
+              name="poste"
+              value={selectedJobTitle}
+              readOnly
+              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-gray-700 font-semibold cursor-not-allowed"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              💼 Candidature pour cette offre spécifique
+            </p>
+          </>
+        ) : (
+          <select
+            id="poste"
+            name="poste"
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all bg-white"
+            required
+            disabled={isSubmitting}
+          >
+            <option value="">Candidature spontanée</option>
+            <option value="systeme-informatique">Architecte Système Informatique</option>
+            <option value="dev-fullstack">Développeur Full-Stack</option>
+            <option value="dev-frontend">Développeur Frontend</option>
+            <option value="dev-mobile">Développeur Mobile</option>
+            <option value="dev-backend">Développeur Backend</option>
+            <option value="devops">DevOps Engineer</option>
+            <option value="designer">UI/UX Designer</option>
+            <option value="chef-projet">Chef de projet</option>
+            <option value="reseaux-informatiques">Ingénieur Réseaux Informatiques</option>
+            <option value="cybersecurite">Expert Cybersécurité</option>
+            <option value="maintenance-informatique">Technicien Maintenance Informatique</option>
+            <option value="commercial">Commercial</option>
+            <option value="stage">Stage</option>
+            <option value="alternance">Alternance</option>
+          </select>
+        )}
       </div>
 
       <div>

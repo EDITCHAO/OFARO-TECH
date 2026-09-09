@@ -171,6 +171,9 @@ CREATE TABLE job_offers (
     contract_type VARCHAR(100), -- CDI, CDD, Stage, Freelance, etc.
     location VARCHAR(255), -- Localisation
     work_mode VARCHAR(100), -- Présentiel, Remote, Hybride
+    -- Image de l'offre
+    image_url VARCHAR(500), -- URL de l'image de l'offre
+    image_alt VARCHAR(255), -- Texte alternatif pour l'image
     -- Description
     description TEXT NOT NULL,
     missions TEXT, -- Liste des missions
@@ -182,6 +185,37 @@ CREATE TABLE job_offers (
     -- Dates et statut
     publication_date DATE,
     application_deadline DATE,
+    status VARCHAR(50) DEFAULT 'brouillon' CHECK (status IN ('brouillon', 'publiee', 'suspendue', 'expiree', 'archivee')),
+    -- Métadonnées
+    created_by INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    published_at TIMESTAMP
+);
+
+-- Table des offres de stage
+CREATE TABLE internship_offers (
+    id SERIAL PRIMARY KEY,
+    reference VARCHAR(50) UNIQUE NOT NULL, -- Référence de l'offre
+    title VARCHAR(255) NOT NULL, -- Titre du stage
+    department VARCHAR(255), -- Service/Département
+    duration VARCHAR(100), -- 3 mois, 6 mois, etc.
+    location VARCHAR(255), -- Localisation
+    work_mode VARCHAR(100), -- Présentiel, Remote, Hybride
+    -- Image de l'offre
+    image_url VARCHAR(500), -- URL de l'image de l'offre
+    image_alt VARCHAR(255), -- Texte alternatif pour l'image
+    -- Description
+    description TEXT NOT NULL,
+    missions TEXT, -- Liste des missions
+    required_skills TEXT, -- Compétences recherchées
+    profile TEXT, -- Profil recherché
+    education_level VARCHAR(100), -- Niveau d'étude
+    benefits TEXT, -- Avantages du stage
+    -- Dates et statut
+    publication_date DATE,
+    application_deadline DATE,
+    start_date DATE, -- Date de début du stage
     status VARCHAR(50) DEFAULT 'brouillon' CHECK (status IN ('brouillon', 'publiee', 'suspendue', 'expiree', 'archivee')),
     -- Métadonnées
     created_by INTEGER REFERENCES users(id),

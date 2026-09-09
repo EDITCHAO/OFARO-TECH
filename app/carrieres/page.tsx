@@ -1,6 +1,11 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import ApplicationForm from '@/components/ApplicationForm';
+import JobOfferCard from '@/components/jobs/JobOfferCard';
 import {
   FaCode,
   FaRocket,
@@ -17,10 +22,134 @@ import {
   FaClock
 } from 'react-icons/fa';
 
-export const metadata: Metadata = {
-  title: 'Carrières - OFARO TECH | Rejoignez notre équipe',
-  description: 'Rejoignez OFARO TECH et construisez l\'avenir du numérique. Découvrez nos opportunités de carrière en développement, design, gestion de projet et plus encore.',
-};
+interface JobOffer {
+  id: number;
+  reference: string;
+  title: string;
+  department?: string;
+  contract_type?: string;
+  location: string;
+  work_mode?: string;
+  image_url?: string;
+  image_alt?: string;
+  description: string;
+  publication_date: string;
+  application_deadline?: string;
+  experience_level?: string;
+}
+
+// Composant pour afficher les 3 premières offres
+function FeaturedJobOffers() {
+  const [jobs, setJobs] = useState<JobOffer[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        // Utiliser Supabase directement au lieu du backend
+        const { supabase } = await import('@/lib/supabase');
+        
+        const { data, error } = await supabase
+          .from('job_offers')
+          .select('*')
+          .in('status', ['publiee', 'suspendue', 'expiree']) // Charger publiee, suspendue et expiree (pas brouillon)
+          .order('publication_date', { ascending: false })
+          .limit(3);
+
+        if (error) {
+          console.error('❌ Erreur Supabase:', error);
+          throw error;
+        }
+
+        console.log('✅ Offres chargées depuis Supabase:', data);
+
+        // Mapper les données au format attendu
+        const mappedJobs = (data || []).map((job: any) => ({
+          id: job.id,
+          reference: job.reference,
+          title: job.title,
+          department: job.department,
+          contract_type: job.contract_type,
+          location: job.location,
+          work_mode: job.work_mode,
+          image_url: job.image_url,
+          image_alt: job.image_alt,
+          description: job.description,
+          publication_date: job.publication_date,
+          application_deadline: job.application_deadline,
+          experience_level: job.experience_level,
+          status: job.status // Inclure le statut
+        }));
+
+        setJobs(mappedJobs);
+      } catch (error) {
+        console.error('Erreur chargement offres:', error);
+        setJobs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (jobs.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-600">Aucune offre d'emploi disponible pour le moment.</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        {jobs.map((job) => (
+          <JobOfferCard
+            key={job.id}
+            id={job.id}
+            reference={job.reference}
+            title={job.title}
+            department={job.department}
+            location={job.location}
+            contractType={job.contract_type}
+            workMode={job.work_mode}
+            imageUrl={job.image_url}
+            imageAlt={job.image_alt}
+            publicationDate={job.publication_date}
+            applicationDeadline={job.application_deadline}
+            experienceLevel={job.experience_level}
+            description={job.description}
+            status={job.status}
+            offerType="job"
+          />
+        ))}
+      </div>
+
+      {/* View All Button */}
+      <div className="text-center">
+        <Link
+          href="/offres"
+          className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-all duration-300 font-medium text-lg"
+        >
+          Voir toutes les offres
+          <span className="group-hover:translate-x-1 transition-transform">→</span>
+        </Link>
+        <p className="text-sm text-gray-600 mt-4">
+          Découvrez toutes nos opportunités · CDI, Stage, Alternance
+        </p>
+      </div>
+    </>
+  );
+}
 
 export default function CarrieresPage() {
   const advantages = [
@@ -178,7 +307,6 @@ export default function CarrieresPage() {
                   Déposer ma candidature
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </Link>
-                
                 <Link 
                   href="#profils"
                   className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-blue-600 hover:text-blue-600 transition-all duration-300 font-medium"
@@ -288,187 +416,8 @@ export default function CarrieresPage() {
             </p>
           </div>
 
-          {/* Featured Job Offers (3 first) */}
-          <div className="max-w-5xl mx-auto space-y-6 mb-12">
-            {/* Offer 1 */}
-            <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                      Développement
-                    </span>
-                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                      CDI
-                    </span>
-                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                      Confirmé
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                    Développeur Full-Stack React/Node.js
-                  </h3>
-
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
-                    <div className="flex items-center gap-2">
-                      <FaBriefcase className="w-4 h-4 text-gray-400" />
-                      Lomé, Togo
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <FaClock className="w-4 h-4 text-gray-400" />
-                      3+ ans d&apos;expérience
-                    </div>
-                  </div>
-
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    Rejoignez notre équipe pour concevoir et développer des applications web modernes et performantes. 
-                    Vous travaillerez sur des projets innovants avec des technologies de pointe.
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 text-sm">
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">React.js</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Node.js</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">TypeScript</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">PostgreSQL</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 lg:min-w-[160px]">
-                  <Link
-                    href="/carrieres#candidature"
-                    className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium text-center"
-                  >
-                    Postuler
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Offer 2 */}
-            <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                      Design & UX
-                    </span>
-                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                      CDI
-                    </span>
-                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                      Confirmé
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                    UI/UX Designer
-                  </h3>
-
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
-                    <div className="flex items-center gap-2">
-                      <FaBriefcase className="w-4 h-4 text-gray-400" />
-                      Lomé, Togo
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <FaClock className="w-4 h-4 text-gray-400" />
-                      2-4 ans d&apos;expérience
-                    </div>
-                  </div>
-
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    Créez des expériences utilisateur exceptionnelles pour nos clients en Afrique et à l&apos;international. 
-                    Participez à la conception d&apos;interfaces élégantes et fonctionnelles.
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 text-sm">
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Figma</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">UI Design</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Prototypage</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Design System</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 lg:min-w-[160px]">
-                  <Link
-                    href="/carrieres#candidature"
-                    className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium text-center"
-                  >
-                    Postuler
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Offer 3 */}
-            <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                      Gestion de projet
-                    </span>
-                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                      CDI
-                    </span>
-                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                      Senior
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                    Chef de Projet Digital
-                  </h3>
-
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
-                    <div className="flex items-center gap-2">
-                      <FaBriefcase className="w-4 h-4 text-gray-400" />
-                      Lomé, Togo
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <FaClock className="w-4 h-4 text-gray-400" />
-                      5+ ans d&apos;expérience
-                    </div>
-                  </div>
-
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    Pilotez des projets digitaux d&apos;envergure pour des clients prestigieux en Afrique de l&apos;Ouest. 
-                    Coordonnez les équipes et garantissez la réussite des projets.
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 text-sm">
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Gestion de projet</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Agile</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Leadership</span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full">Communication</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 lg:min-w-[160px]">
-                  <Link
-                    href="/carrieres#candidature"
-                    className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium text-center"
-                  >
-                    Postuler
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* View All Button */}
-          <div className="text-center">
-            <Link
-              href="/offres"
-              className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-all duration-300 font-medium text-lg"
-            >
-              Voir toutes les offres
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </Link>
-            <p className="text-sm text-gray-600 mt-4">
-              6 postes disponibles · CDI, Stage, Alternance
-            </p>
-          </div>
+          {/* Featured Job Offers - Cartes dynamiques */}
+          <FeaturedJobOffers />
 
           {/* Formation Section */}
           <div className="mt-20 bg-gradient-to-br from-blue-50 to-purple-50 p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
@@ -485,7 +434,7 @@ export default function CarrieresPage() {
                 </h3>
               </div>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-6 mt-8">
               <div className="bg-white p-6 rounded-xl">
                 <FaBullseye className="w-8 h-8 text-blue-600 mb-3" />
@@ -494,6 +443,7 @@ export default function CarrieresPage() {
                   3 à 6 mois pour découvrir le métier et contribuer à de vrais projets.
                 </p>
               </div>
+
               <div className="bg-white p-6 rounded-xl">
                 <FaUsers className="w-8 h-8 text-blue-600 mb-3" />
                 <h4 className="font-bold text-gray-900 mb-2">Alternance</h4>
@@ -501,6 +451,7 @@ export default function CarrieresPage() {
                   Formation en entreprise, montée en compétences progressive.
                 </p>
               </div>
+
               <div className="bg-white p-6 rounded-xl">
                 <FaAward className="w-8 h-8 text-blue-600 mb-3" />
                 <h4 className="font-bold text-gray-900 mb-2">Premier emploi</h4>
@@ -541,6 +492,7 @@ export default function CarrieresPage() {
                       <p>Lomé, Togo</p>
                     </div>
                   </div>
+
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <div className="w-2 h-2 rounded-full bg-blue-600"></div>
@@ -552,6 +504,7 @@ export default function CarrieresPage() {
                       </a>
                     </div>
                   </div>
+
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <div className="w-2 h-2 rounded-full bg-blue-600"></div>
@@ -568,7 +521,13 @@ export default function CarrieresPage() {
 
               {/* Right Form */}
               <div className="lg:col-span-3">
-                <ApplicationForm />
+                <Suspense fallback={
+                  <div className="bg-white p-8 rounded-2xl shadow-lg flex items-center justify-center h-96">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                  </div>
+                }>
+                  <ApplicationForm />
+                </Suspense>
               </div>
             </div>
           </div>

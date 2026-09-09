@@ -1,0 +1,16 @@
+# Dossier pour les images des offres d'emploi et de stage
+
+Placez ici les images des offres :
+- Format recommandé : JPG ou PNG
+- Dimensions recommandées : 800x600px ou ratio 4:3
+- Poids maximal : 500KB par image
+
+Exemples de noms de fichiers :
+- fullstack-developer.jpg
+- web-development-internship.jpg
+- cybersecurity-specialist.jpg
+- mobile-developer.jpg
+
+Images par défaut suggérées :
+- default-job-offer.jpg : Image générique pour les offres d'emploi
+- default-internship-offer.jpg : Image générique pour les offres de stage
