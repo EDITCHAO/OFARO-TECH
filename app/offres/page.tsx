@@ -21,6 +21,7 @@ type JobOffer = {
   publication_date: string;
   application_deadline?: string;
   experience_level?: string;
+  status?: string;
 };
 
 export default function OffresPage() {
