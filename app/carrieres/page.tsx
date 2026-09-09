@@ -36,6 +36,7 @@ interface JobOffer {
   publication_date: string;
   application_deadline?: string;
   experience_level?: string;
+  status?: string;
 }
 
 // Composant pour afficher les 3 premières offres
