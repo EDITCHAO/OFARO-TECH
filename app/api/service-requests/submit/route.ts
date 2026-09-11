@@ -58,6 +58,8 @@ export async function POST(request: NextRequest) {
         reference_number,
         status: 'nouvelle'
       })
+      .select()
+      .single();
 
     if (insertError) throw insertError;
 
