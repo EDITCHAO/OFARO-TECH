@@ -714,9 +714,19 @@ export default function AdminDashboard() {
 
         if (error) throw error;
 
+        // Mettre à jour l'état local
+        if (archiveCategory === 'devis') {
+          setArchivedQuotes(archivedQuotes.filter(q => !selectedArchives.includes(q.id)));
+        } else if (archiveCategory === 'messages') {
+          setArchivedMessages(archivedMessages.filter(m => !selectedArchives.includes(m.id)));
+        } else if (archiveCategory === 'services') {
+          setArchivedServiceRequests(archivedServiceRequests.filter(sr => !selectedArchives.includes(sr.id)));
+        } else if (archiveCategory === 'candidatures') {
+          setArchivedApplications(archivedApplications.filter(a => !selectedArchives.includes(a.id)));
+        }
+
         showToast(`${selectedArchives.length} éléments supprimés`, 'success');
         setSelectedArchives([]);
-        await fetchData();
       } catch (error) {
         console.error('Erreur suppression multiple:', error);
         showToast('Erreur lors de la suppression', 'error');
