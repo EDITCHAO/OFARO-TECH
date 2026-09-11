@@ -65,6 +65,7 @@ export default function AdminDashboard() {
   // États de tri pour les tableaux
   const [sortField, setSortField] = useState<string>('createdAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [emailReply, setEmailReply] = useState<string>('');
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [seo, setSeo] = useState<SEOSettingItem[]>([]);
@@ -90,6 +91,7 @@ export default function AdminDashboard() {
           'en_cours_de_traitement': 'En cours de traitement',
           'traite': 'Traité',
           'terminee': 'Traité',
+          'repondue': 'Répondue',
           'sans_suite': 'Sans suite',
           'rejetee': 'Sans suite',
           'rejete': 'Sans suite',
@@ -751,6 +753,43 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Erreur mise à jour statut message:', error);
       showToast('Erreur lors de la mise à jour du statut', 'error');
+    }
+  };
+
+  const handleSendEmailReply = async (messageId: string, clientEmail: string, clientName: string, subject: string, reply: string) => {
+    if (!reply || reply.trim() === '') {
+      showToast('Veuillez saisir une réponse', 'error');
+      return;
+    }
+
+    try {
+      // Envoyer l'email via l'API
+      const response = await fetch('/api/contact/reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: clientEmail,
+          clientName,
+          subject,
+          reply
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Erreur lors de l\'envoi');
+      }
+
+      // Mettre à jour le statut à "Répondue"
+      await handleUpdateMessageStatus(messageId, 'Répondue');
+
+      showToast(`Réponse envoyée à ${clientEmail}`, 'success');
+      setEmailReply(''); // Réinitialiser le champ
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Erreur envoi réponse:', error);
+      showToast('Erreur lors de l\'envoi de la réponse', 'error');
     }
   };
 
@@ -1865,9 +1904,7 @@ export default function AdminDashboard() {
                   <option value="all">Tous les statuts</option>
                   <option>Nouveau</option>
                   <option>En analyse</option>
-                  <option>En cours de traitement</option>
-                  <option>Traité</option>
-                  <option>Sans suite</option>
+                  <option>Répondue</option>
                 </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
@@ -1940,8 +1977,15 @@ export default function AdminDashboard() {
                       sortField as keyof ContactMessageItem,
                       sortOrder
                     ).map(msg => (
-                        <tr key={msg.id} className={c.tableRow + " transition"}>
-                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">{msg.reference}</td>
+                        <tr key={msg.id} className={`${c.tableRow} transition ${msg.status === 'Nouveau' ? 'bg-orange-50 border-l-4 border-l-orange-500' : ''}`}>
+                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">
+                            {msg.reference}
+                            {msg.status === 'Nouveau' && (
+                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500 text-white">
+                                NEW
+                              </span>
+                            )}
+                          </td>
                           <td className="py-3.5 px-4">
                             <div className="font-semibold text-gray-800">{msg.name}</div>
                             <div className="text-xs text-gray-400">{msg.phone || "Pas de tél"}</div>
@@ -1957,9 +2001,7 @@ export default function AdminDashboard() {
                               className={`${c.select} text-xs rounded-lg px-2 py-1`}>
                               <option>Nouveau</option>
                               <option>En analyse</option>
-                              <option>En cours de traitement</option>
-                              <option>Traité</option>
-                              <option>Sans suite</option>
+                              <option>Répondue</option>
                             </select>
                           </td>
                           <td className="py-3.5 px-4 text-right">
@@ -2850,8 +2892,13 @@ export default function AdminDashboard() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-gray-700 font-semibold">Réponse directe par email :</label>
-                  <textarea rows={3} placeholder="Saisissez votre réponse pour le client..."
-                    className={`w-full p-3 rounded-xl ${c.input} text-xs`}></textarea>
+                  <textarea 
+                    rows={3} 
+                    value={emailReply}
+                    onChange={(e) => setEmailReply(e.target.value)}
+                    placeholder="Saisissez votre réponse pour le client..."
+                    className={`w-full p-3 rounded-xl ${c.input} text-xs`}
+                  />
                 </div>
                 <div className="flex justify-between items-center pt-2 gap-2">
                   <button onClick={() => downloadItemAsPDF(selectedItem, 'message')}
@@ -2859,8 +2906,11 @@ export default function AdminDashboard() {
                     <FaDownload /> Télécharger PDF
                   </button>
                   <div className="flex gap-2">
-                    <button onClick={() => { AdminStore.updateMessageStatus(selectedItem.id, "Traité"); setIsModalOpen(false); showToast(`Réponse envoyée à ${selectedItem.email}`); }}
-                      className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 text-sm ${c.btnPrimary}`}><FaReply /> Envoyer la réponse</button>
+                    <button 
+                      onClick={() => handleSendEmailReply(selectedItem.id, selectedItem.email, selectedItem.name, selectedItem.subject, emailReply)}
+                      className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 text-sm ${c.btnPrimary}`}>
+                      <FaReply /> Envoyer la réponse
+                    </button>
                     <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Fermer</button>
                   </div>
                 </div>
