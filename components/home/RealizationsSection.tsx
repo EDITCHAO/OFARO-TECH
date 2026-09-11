@@ -10,7 +10,7 @@ const PROJECTS = [
     title: "Plateforme E-commerce Multi-vendeurs",
     category: "web",
     description: "Développement d'une plateforme e-commerce complète avec gestion multi-vendeurs, paiement en ligne et système de livraison",
-    image: "/images/projects/ecommerce.png",
+    image: "/images/projects/ecommerce.svg",
     technologies: ["Next.js", "Node.js", "PostgreSQL", "Stripe"],
     client: "Confidential",
     slug: "plateforme-ecommerce"
@@ -20,7 +20,7 @@ const PROJECTS = [
     title: "Application Mobile de Gestion Bancaire",
     category: "mobile",
     description: "Application mobile permettant la gestion complète des comptes bancaires, virements et paiements mobiles",
-    image: "/images/projects/banking-app.png",
+    image: "/images/projects/banking-app.svg",
     technologies: ["React Native", "Firebase", "Node.js"],
     client: "Banque XYZ",
     slug: "app-mobile-bancaire"
@@ -30,7 +30,7 @@ const PROJECTS = [
     title: "Système de Gestion Hospitalière",
     category: "web",
     description: "ERP complet pour la gestion des hôpitaux incluant patients, rendez-vous, pharmacie et facturation",
-    image: "/images/projects/hospital.png",
+    image: "/images/projects/hospital.svg",
     technologies: ["Laravel", "Vue.js", "MySQL"],
     client: "Hôpital Central",
     slug: "systeme-gestion-hopital"
@@ -40,7 +40,7 @@ const PROJECTS = [
     title: "Identité Visuelle Entreprise Tech",
     category: "design",
     description: "Création complète d'identité visuelle incluant logo, charte graphique et supports de communication",
-    image: "/images/projects/branding.png",
+    image: "/images/projects/branding.svg",
     technologies: ["Adobe Illustrator", "Figma", "Photoshop"],
     client: "TechCorp Inc.",
     slug: "identite-visuelle"
@@ -50,7 +50,7 @@ const PROJECTS = [
     title: "Infrastructure Réseau Entreprise",
     category: "network",
     description: "Mise en place d'une infrastructure réseau sécurisée avec VPN, firewall et supervision",
-    image: "/images/projects/network.png",
+    image: "/images/projects/network.svg",
     technologies: ["Cisco", "Mikrotik", "Zabbix"],
     client: "Groupe Industriel ABC",
     slug: "infrastructure-reseau"
@@ -60,7 +60,7 @@ const PROJECTS = [
     title: "Application de Gestion Scolaire",
     category: "web",
     description: "Plateforme complète de gestion d'établissement scolaire avec notes, absences et communication parents",
-    image: "/images/projects/school.png",
+    image: "/images/projects/school.svg",
     technologies: ["Django", "React", "PostgreSQL"],
     client: "Complexe Scolaire",
     slug: "gestion-scolaire"

@@ -43,9 +43,6 @@ export async function POST(request: NextRequest) {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Générer un numéro de référence unique
-    const reference_number = `MSG-${Date.now().toString().slice(-8)}`;
-
     // Insérer le message de contact
     const { data, error: insertError } = await supabase
       .from('contact_messages')
@@ -56,8 +53,7 @@ export async function POST(request: NextRequest) {
         subject,
         message,
         status: 'nouveau',
-        is_read: false,
-        reference_number
+        is_read: false
       })
       .select();
 
@@ -69,7 +65,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.',
-      reference: reference_number,
       data: data?.[0]
     }, { status: 201 });
 
