@@ -255,10 +255,12 @@ export default function ProjectsManagement() {
 
       if (result.success) {
         showToast(`Projet ${newStatus === 'active' ? 'publié' : 'mis en brouillon'}`, 'success');
-        fetchProjects();
+        // Recharger la liste sans quitter la page
+        await fetchProjects();
       }
     } catch (error) {
       console.error('Erreur changement statut:', error);
+      showToast('Erreur lors du changement de statut', 'error');
     }
   };
 

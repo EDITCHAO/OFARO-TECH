@@ -109,7 +109,7 @@ export default function RealizationsSection() {
                   <img 
                     src={project.image_url} 
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-400">
@@ -118,17 +118,17 @@ export default function RealizationsSection() {
                 )}
                 
                 {/* Category Badge */}
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-semibold rounded-full">
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-semibold rounded-full shadow-md">
                     {CATEGORIES.find(c => c.id === project.category)?.label}
                   </span>
                 </div>
 
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                {/* Bouton "Voir le projet" en bas au hover (ne cache pas l'image) */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Link
                     href={`/realisations/${project.id}`}
-                    className="text-white flex items-center gap-2 font-semibold hover:scale-110 transition-transform"
+                    className="text-white flex items-center justify-center gap-2 font-semibold hover:scale-105 transition-transform"
                   >
                     Voir le projet <FaExternalLinkAlt />
                   </Link>

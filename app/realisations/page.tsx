@@ -1,17 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import { FaExternalLinkAlt, FaFilter } from "react-icons/fa";
-import { PROJECTS, PROJECT_CATEGORIES } from "@/lib/projects";
+
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  client_name: string | null;
+  duration: string | null;
+  year: string;
+  image_url: string | null;
+  technologies: string[];
+  status: string;
+}
+
+const PROJECT_CATEGORIES = [
+  { id: "all", label: "Tous" },
+  { id: "web", label: "Web" },
+  { id: "mobile", label: "Mobile" },
+  { id: "design", label: "Design" },
+  { id: "network", label: "Réseaux" }
+];
 
 export default function RealizationsPage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredProjects = PROJECTS.filter((project) => {
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch('/api/projects');
+      const result = await response.json();
+      
+      if (result.success) {
+        setProjects(result.data);
+      }
+    } catch (error) {
+      console.error('Erreur chargement projets:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredProjects = projects.filter((project) => {
     const matchesCategory = activeCategory === "all" || project.category === activeCategory;
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           project.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -22,60 +63,41 @@ export default function RealizationsPage() {
     <>
       <Header />
       <main>
-        {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        {/* Hero Section avec Filtres intégrés */}
+        <section className="pt-32 pb-8 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
           <div className="container-custom">
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="max-w-4xl mx-auto text-center mb-8">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
                 Nos Réalisations
               </div>
               <h1 className="heading-1 mb-6">
                 Portfolio de nos projets réussis
               </h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-text-secondary leading-relaxed mb-8">
                 Découvrez quelques-uns des projets que nous avons réalisés avec succès pour nos clients dans différents secteurs d'activité
               </p>
-            </div>
-          </div>
-        </section>
 
-        {/* Filters & Search */}
-        <section className="py-8 bg-white sticky top-[120px] z-40 shadow-md">
-          <div className="container-custom">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              {/* Search */}
-              <div className="w-full md:w-96">
-                <input
-                  type="text"
-                  placeholder="Rechercher un projet..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-                />
-              </div>
-
-              {/* Category Filters */}
-              <div className="flex flex-wrap gap-2 items-center">
-                <FaFilter className="text-text-secondary hidden sm:block" />
+              {/* Filtres compacts en haut */}
+              <div className="flex flex-wrap gap-2 justify-center mb-4">
                 {PROJECT_CATEGORIES.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
                     className={`px-4 py-2 rounded-full font-semibold text-sm transition-all ${
                       activeCategory === category.id
-                        ? "bg-primary text-white shadow-lg scale-105"
-                        : "bg-background-secondary text-text hover:bg-primary/10 hover:text-primary"
+                        ? "bg-primary text-white shadow-lg"
+                        : "bg-white text-text hover:bg-primary/10 hover:text-primary"
                     }`}
                   >
                     {category.label}
                   </button>
                 ))}
               </div>
-            </div>
 
-            {/* Results Count */}
-            <div className="mt-4 text-sm text-text-secondary">
-              {filteredProjects.length} projet{filteredProjects.length > 1 ? "s" : ""} trouvé{filteredProjects.length > 1 ? "s" : ""}
+              {/* Compteur de résultats */}
+              <div className="text-sm text-text-secondary">
+                {loading ? "Chargement..." : `${filteredProjects.length} projet${filteredProjects.length > 1 ? "s" : ""}`}
+              </div>
             </div>
           </div>
         </section>
@@ -83,7 +105,11 @@ export default function RealizationsPage() {
         {/* Projects Grid */}
         <section className="section-padding bg-background-secondary">
           <div className="container-custom">
-            {filteredProjects.length > 0 ? (
+            {loading ? (
+              <div className="text-center py-16">
+                <p className="text-text-secondary">Chargement des projets...</p>
+              </div>
+            ) : filteredProjects.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredProjects.map((project, index) => (
                   <article
@@ -92,30 +118,33 @@ export default function RealizationsPage() {
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     {/* Project Image */}
-                    <div className="relative h-56 bg-gradient-to-br from-primary/20 to-primary/5 overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center">
-                          <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <div className="w-20 h-20 bg-primary/30 rounded-full flex items-center justify-center">
-                              <div className="w-16 h-16 bg-primary rounded-full"></div>
-                            </div>
+                    <div className="relative h-56 bg-gray-200 overflow-hidden">
+                      {project.image_url ? (
+                        <img 
+                          src={project.image_url} 
+                          alt={project.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-center text-gray-400">
+                            <p className="text-sm">Aucune image</p>
                           </div>
-                          <p className="text-sm text-text-secondary">Image du projet</p>
                         </div>
-                      </div>
+                      )}
 
                       {/* Category Badge */}
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-semibold rounded-full">
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-semibold rounded-full shadow-md">
                           {PROJECT_CATEGORIES.find((c) => c.id === project.category)?.label}
                         </span>
                       </div>
 
-                      {/* Overlay on Hover */}
-                      <div className="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      {/* Bouton "Voir le projet" en bas au hover (ne cache pas l'image) */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                         <Link
-                          href={`/realisations/${project.slug}`}
-                          className="text-white flex items-center gap-2 font-semibold hover:scale-110 transition-transform"
+                          href={`/realisations/${project.id}`}
+                          className="text-white flex items-center justify-center gap-2 font-semibold hover:scale-105 transition-transform"
                         >
                           Voir le projet <FaExternalLinkAlt />
                         </Link>
@@ -134,7 +163,7 @@ export default function RealizationsPage() {
 
                       {/* Technologies */}
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                        {project.technologies && Array.isArray(project.technologies) && project.technologies.slice(0, 3).map((tech, techIndex) => (
                           <span
                             key={techIndex}
                             className="px-2 py-1 bg-background-secondary text-text-secondary text-xs rounded"
@@ -142,7 +171,7 @@ export default function RealizationsPage() {
                             {tech}
                           </span>
                         ))}
-                        {project.technologies.length > 3 && (
+                        {project.technologies && project.technologies.length > 3 && (
                           <span className="px-2 py-1 bg-background-secondary text-text-secondary text-xs rounded">
                             +{project.technologies.length - 3}
                           </span>
@@ -150,9 +179,9 @@ export default function RealizationsPage() {
                       </div>
 
                       {/* Client */}
-                      {project.client && (
+                      {project.client_name && (
                         <div className="text-xs text-text-secondary border-t border-gray-100 pt-4">
-                          Client: <span className="font-semibold text-text">{project.client}</span>
+                          Client: <span className="font-semibold text-text">{project.client_name}</span>
                         </div>
                       )}
                     </div>
