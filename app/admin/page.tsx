@@ -1574,8 +1574,15 @@ export default function AdminDashboard() {
                       sortField as keyof QuoteRequestItem,
                       sortOrder
                     ).map(quote => (
-                        <tr key={quote.id} className={c.tableRow + " transition"}>
-                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">{quote.reference}</td>
+                        <tr key={quote.id} className={`${c.tableRow} transition ${quote.status === 'Nouveau' ? 'bg-orange-50 border-l-4 border-l-orange-500' : ''}`}>
+                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">
+                            {quote.reference}
+                            {quote.status === 'Nouveau' && (
+                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500 text-white">
+                                NEW
+                              </span>
+                            )}
+                          </td>
                           <td className="py-3.5 px-4">
                             <div className="font-semibold text-gray-800">{quote.companyName}</div>
                             <div className="text-xs text-gray-400">{quote.contactPersonName} • {quote.phone}</div>
@@ -1743,9 +1750,14 @@ export default function AdminDashboard() {
                         sortField as any,
                         sortOrder
                       ).map((request: any) => (
-                          <tr key={request.id} className={c.tableRow + " transition"}>
+                          <tr key={request.id} className={`${c.tableRow} transition ${request.status === 'Nouveau' ? 'bg-orange-50 border-l-4 border-l-orange-500' : ''}`}>
                             <td className="py-3.5 px-4 text-xs text-gray-400">
                               {request.createdAt || new Date().toLocaleDateString()}
+                              {request.status === 'Nouveau' && (
+                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500 text-white">
+                                  NEW
+                                </span>
+                              )}
                             </td>
                             <td className="py-3.5 px-4">
                               <div className="font-semibold text-gray-800">{request.name}</div>
