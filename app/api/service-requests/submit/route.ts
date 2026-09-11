@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const reference_number = `SR-${Date.now().toString().slice(-8)}`;
 
     // Insérer la demande de service
-    const { error: insertError } = await supabase
+    const { data, error: insertError } = await supabase
       .from('service_requests')
       .insert({
         client_name,
@@ -58,10 +58,12 @@ export async function POST(request: NextRequest) {
         reference_number,
         status: 'nouvelle'
       })
-      .select()
-      .single();
+      .select();
 
-    if (insertError) throw insertError;
+    if (insertError) {
+      console.error('Erreur insertion Supabase:', insertError);
+      throw insertError;
+    }
 
     const serviceRequest = {
       client_name,

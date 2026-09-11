@@ -13,12 +13,52 @@ export default function ContactSection() {
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement form submission logic
-    console.log("Form submitted:", formData);
-    alert("Message envoyé ! Nous vous recontacterons bientôt.");
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+      const response = await fetch('/api/contact/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sender_name: formData.name,
+          sender_email: formData.email,
+          sender_phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitMessage({
+          type: 'success',
+          text: data.message || 'Message envoyé avec succès !'
+        });
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+      } else {
+        setSubmitMessage({
+          type: 'error',
+          text: data.error || 'Erreur lors de l\'envoi du message'
+        });
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      setSubmitMessage({
+        type: 'error',
+        text: 'Une erreur est survenue. Veuillez réessayer.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -48,6 +88,17 @@ export default function ContactSection() {
           {/* Contact Form */}
           <div className="bg-white p-8 rounded-2xl shadow-lg">
             <h3 className="text-2xl font-bold text-text mb-6">Envoyez-nous un message</h3>
+            
+            {submitMessage && (
+              <div className={`mb-4 p-4 rounded-lg ${
+                submitMessage.type === 'success' 
+                  ? 'bg-green-100 text-green-800 border border-green-300' 
+                  : 'bg-red-100 text-red-800 border border-red-300'
+              }`}>
+                {submitMessage.text}
+              </div>
+            )}
+            
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-text mb-2">
@@ -132,10 +183,11 @@ export default function ContactSection() {
 
               <button
                 type="submit"
-                className="w-full btn-primary flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <FaPaperPlane />
-                Envoyer le message
+                {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
               </button>
             </form>
           </div>
