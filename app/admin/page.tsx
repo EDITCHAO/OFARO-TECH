@@ -23,6 +23,7 @@ import {
 } from "@/lib/admin-store";
 import { sortData, confirmDelete, getStatusColor } from "@/lib/admin-utils";
 import SortButton from "@/components/admin/SortButton";
+import ProjectsManagement from "@/components/admin/ProjectsManagement";
 
 export default function AdminDashboard() {
   const [activeMenu, setActiveMenu] = useState<string>("dashboard");
@@ -1416,101 +1417,7 @@ export default function AdminDashboard() {
 
           {/* ===== RÉALISATIONS (PORTFOLIO) avec Upload Photo ===== */}
           {activeMenu === "realisations" && (
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                    <FaProjectDiagram className="text-orange-500" /> Réalisations & Portfolio ({realizations.length} projets)
-                  </h1>
-                  <p className="text-sm text-gray-500 mt-1">Gérez les projets et uploadez les photos directement depuis l'interface</p>
-                </div>
-                <button onClick={() => { setSelectedItem({ id: String(Date.now()), title: "", description: "", category: "web", technologies: ["React", "Node.js"], client: "", slug: "", isPublished: true, date: new Date().toISOString().slice(0,10) }); setModalType("add_realization"); setIsModalOpen(true); }}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 ${c.btnPrimary}`}>
-                  <FaPlus /> Ajouter un projet
-                </button>
-              </div>
-
-              {/* Category Filter */}
-              <div className="flex flex-wrap gap-2">
-                {[{ id: "all", label: "Tous les projets" }, { id: "web", label: "Web (5)" }, { id: "mobile", label: "Mobile (2)" }, { id: "desktop", label: "Desktop (1)" }, { id: "design", label: "Design (2)" }, { id: "network", label: "Réseaux & Sécurité (2)" }].map(cat => (
-                  <button key={cat.id} onClick={() => setPortfolioCategory(cat.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition border ${
-                      portfolioCategory === cat.id
-                        ? "bg-orange-500 text-white border-orange-500 shadow-sm"
-                        : `${c.card} ${c.border} text-gray-600 hover:text-gray-900`
-                    }`}>
-                    {cat.label}
-                  </button>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {realizations
-                  .filter(r => portfolioCategory === "all" || r.category === portfolioCategory)
-                  .map(project => (
-                    <div key={project.id} className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow} hover:shadow-md transition ${c.cardHover}`}>
-                      {/* Image Preview / Upload Zone */}
-                      <div className="relative h-40 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center group overflow-hidden">
-                        {(project as any).imageUrl ? (
-                          <img src={(project as any).imageUrl} alt={project.title} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="text-center text-gray-400">
-                            <FaImage className="text-3xl mx-auto mb-1" />
-                            <span className="text-xs">Aucune photo</span>
-                          </div>
-                        )}
-                        {/* Upload button overlay */}
-                        {canAccess("realisations") && (
-                          <button
-                            onClick={() => {
-                              setSelectedItem(project);
-                              setModalType("upload_photo");
-                              setIsModalOpen(true);
-                              setUploadPreview(null);
-                              setUploadFile(null);
-                            }}
-                            className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white gap-2"
-                          >
-                            <FaCamera className="text-2xl" />
-                            <span className="text-xs font-semibold">Changer la photo</span>
-                          </button>
-                        )}
-                        <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-orange-500 text-white text-[10px] font-mono uppercase font-bold shadow">
-                          {project.category}
-                        </span>
-                      </div>
-
-                      <div className="p-4">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs text-gray-400">{project.client}</span>
-                          <span className={project.isPublished ? "text-xs text-emerald-600 font-semibold" : "text-xs text-gray-400"}>
-                            {project.isPublished ? "✓ Publié" : "○ Masqué"}
-                          </span>
-                        </div>
-                        <h3 className="font-bold text-gray-900 text-sm mb-1">{project.title}</h3>
-                        <p className="text-xs text-gray-500 mb-3 line-clamp-2">{project.description}</p>
-                        <div className="flex flex-wrap gap-1 mb-3">
-                          {project.technologies.slice(0, 4).map((t, idx) => (
-                            <span key={idx} className="px-2 py-0.5 rounded bg-gray-100 border border-gray-200 text-[10px] text-gray-600">{t}</span>
-                          ))}
-                        </div>
-                        <div className={`pt-3 border-t ${c.border} flex gap-2`}>
-                          <button
-                            onClick={() => { setSelectedItem(project); setModalType("upload_photo"); setIsModalOpen(true); setUploadPreview(null); setUploadFile(null); }}
-                            className={`flex-1 px-3 py-1.5 rounded-lg ${c.btnSecondary} text-xs font-semibold flex items-center justify-center gap-1.5 text-orange-600`}>
-                            <FaCamera /> Photo
-                          </button>
-                          <button
-                            onClick={() => { setSelectedItem(project); setModalType("edit_realization"); setIsModalOpen(true); }}
-                            className={`flex-1 px-3 py-1.5 rounded-lg ${c.btnSecondary} text-xs font-semibold text-gray-700`}>
-                            Modifier
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
+            <ProjectsManagement />
           )}
 
           {/* ===== SERVICES ===== */}
