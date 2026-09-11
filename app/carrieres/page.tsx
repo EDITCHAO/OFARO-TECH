@@ -322,11 +322,22 @@ export default function CarrieresPage() {
             {/* Right Image */}
             <div className="relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="aspect-[4/3] bg-gradient-to-br from-orange-500 via-orange-600 to-gray-900 flex items-center justify-center">
-                  <div className="text-white text-center p-8">
-                    <FaCode className="w-24 h-24 mx-auto mb-4 opacity-90" />
-                    <p className="text-2xl font-bold mb-2">L&apos;équipe OFARO TECH</p>
-                    <p className="text-lg opacity-90">Développeurs · Designers · Experts</p>
+                <div className="aspect-[4/3] relative">
+                  <img 
+                    src="/images/hero/careers-team.jpeg" 
+                    alt="L'équipe OFARO TECH - Développeurs, Designers, Experts"
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Overlay gradient pour améliorer la lisibilité du texte */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
+                  
+                  {/* Texte par-dessus l'image */}
+                  <div className="absolute inset-0 flex items-center justify-center text-white text-center p-8">
+                    <div>
+                      <FaCode className="w-16 h-16 mx-auto mb-4 opacity-90 drop-shadow-lg" />
+                      <p className="text-2xl font-bold mb-2 drop-shadow-lg">L&apos;équipe OFARO TECH</p>
+                      <p className="text-lg opacity-90 drop-shadow-lg">Développeurs · Designers · Experts</p>
+                    </div>
                   </div>
                 </div>
                 <div className="absolute bottom-6 left-6 bg-gray-900/90 backdrop-blur text-white px-4 py-2 rounded-lg text-sm font-medium">
@@ -538,22 +549,22 @@ export default function CarrieresPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-orange-500 via-orange-600 to-gray-900 text-white">
+      <section className="py-12 bg-gradient-to-br from-orange-500 via-orange-600 to-gray-900 text-white">
         <div className="container mx-auto px-4 text-center">
-          <FaHeart className="w-16 h-16 mx-auto mb-6 opacity-90" />
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+          <FaHeart className="w-12 h-12 mx-auto mb-4 opacity-90" />
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
             Prêt à rejoindre l&apos;aventure ?
           </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+          <p className="text-lg mb-6 max-w-2xl mx-auto opacity-90">
             Que vous soyez développeur passionné, designer créatif ou chef de projet ambitieux, 
             OFARO TECH vous offre un environnement stimulant pour exceller.
           </p>
           <Link 
             href="#candidature"
-            className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg hover:bg-gray-100 transition-all duration-300 font-semibold"
+            className="inline-flex items-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 font-semibold"
           >
             Postuler maintenant
-            <FaChartLine className="w-5 h-5" />
+            <FaChartLine className="w-4 h-4" />
           </Link>
         </div>
       </section>

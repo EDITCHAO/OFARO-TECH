@@ -11,7 +11,8 @@ import {
   FaExternalLinkAlt, FaMobileAlt, FaLaptopCode, FaDesktop, FaPalette,
   FaNetworkWired, FaTools, FaServer, FaChartLine, FaBuilding, FaGraduationCap,
   FaHospital, FaShoppingCart, FaGlobe, FaCheckCircle, FaClock, FaExclamationTriangle,
-  FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera, FaArchive, FaBriefcase
+  FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera, FaArchive, FaBriefcase,
+  FaBars
 } from "react-icons/fa";
 
 import {
@@ -32,6 +33,7 @@ export default function AdminDashboard() {
   const [modalType, setModalType] = useState<string>("");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<"success" | "error">("success");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false); // Nouveau état pour menu mobile
 
   // Image upload state
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -352,6 +354,7 @@ export default function AdminDashboard() {
   // Fonction de gestion du tri
   const handleMenuClick = async (menuId: string) => {
     setActiveMenu(menuId);
+    setIsMobileMenuOpen(false); // Fermer le menu mobile quand on clique sur un élément
     
     // Marquer les éléments comme lus selon le menu cliqué
     try {
@@ -957,18 +960,27 @@ export default function AdminDashboard() {
     <div className={`min-h-screen ${c.bg} text-gray-900 flex flex-col font-sans`}>
 
       {/* ===================== HEADER ===================== */}
-      <header className={`${c.header} border-b ${c.border} px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-30 ${c.shadowMd}`}>
+      <header className={`${c.header} border-b ${c.border} px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-30 ${c.shadowMd}`}>
         <div className="flex items-center gap-3">
+          {/* Bouton hamburger mobile */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition"
+            aria-label="Toggle menu"
+          >
+            <FaBars className="text-xl" />
+          </button>
+          
           <div className="flex items-center gap-3">
             <Image 
               src="/icon-192x192.jpeg" 
               alt="OFARO TECHNOLOGIE" 
               width={64} 
               height={64} 
-              className="h-16 w-16 rounded-lg" 
+              className="h-12 w-12 md:h-16 md:w-16 rounded-lg" 
               priority
             />
-            <div>
+            <div className="hidden sm:block">
               <div className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
                 OFARO TECH
                 <span className="text-xs px-2 py-0.5 rounded-md bg-orange-500/15 text-orange-300 border border-orange-400/40 font-mono font-semibold">BACK-OFFICE</span>
@@ -979,7 +991,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Role Switcher */}
-        <div className="flex items-center gap-1.5 bg-gray-900 p-1 rounded-xl border border-gray-700">
+        <div className="hidden lg:flex items-center gap-1.5 bg-gray-900 p-1 rounded-xl border border-gray-700">
           <span className="text-xs text-gray-300 font-semibold px-2 flex items-center gap-1.5">
             <FaUserShield className="text-orange-400" /> Rôle actif :
           </span>
@@ -1033,7 +1045,20 @@ export default function AdminDashboard() {
       <div className="flex-1 flex overflow-hidden">
 
         {/* ===================== SIDEBAR ===================== */}
-        <aside className={`w-64 ${c.sidebar} border-r border-gray-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto`}>
+        {/* Overlay pour mobile */}
+        {isMobileMenuOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+        
+        {/* Sidebar */}
+        <aside className={`
+          w-64 ${c.sidebar} border-r border-gray-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
+          fixed md:relative inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        `}>
           <nav className="p-4 space-y-5">
             {/* Section 1 */}
             <div>
@@ -1170,7 +1195,7 @@ export default function AdminDashboard() {
         </aside>
 
         {/* ===================== MAIN CONTENT ===================== */}
-        <main className={`flex-1 overflow-y-auto ${c.bg} p-8 space-y-8`}>
+        <main className={`flex-1 overflow-y-auto ${c.bg} p-4 md:p-8 space-y-6 md:space-y-8`}>
 
           {/* ===== DASHBOARD ===== */}
           {activeMenu === "dashboard" && (
@@ -1225,8 +1250,8 @@ export default function AdminDashboard() {
                     </button>
                   )}
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto -mx-4 sm:mx-0">
+                  <table className="w-full text-left text-xs sm:text-sm">
                     <thead>
                       <tr className={`${c.tableHead} text-xs uppercase tracking-wider border-b ${c.border}`}>
                         <th className="pb-3 px-4 font-semibold">Réf.</th>
@@ -1577,7 +1602,8 @@ export default function AdminDashboard() {
                 </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
                       <th className="py-3 px-4">
@@ -1671,7 +1697,8 @@ export default function AdminDashboard() {
                         </tr>
                       ))}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -1724,7 +1751,8 @@ export default function AdminDashboard() {
 
               {/* Table des demandes */}
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
                       <th className="py-3 px-4">
@@ -1855,7 +1883,8 @@ export default function AdminDashboard() {
                         ))
                     )}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
 
               {/* Message informatif */}
@@ -1911,7 +1940,8 @@ export default function AdminDashboard() {
                 </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
                       <th className="py-3 px-4">
@@ -2024,7 +2054,8 @@ export default function AdminDashboard() {
                         </tr>
                       ))}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -2064,7 +2095,8 @@ export default function AdminDashboard() {
                 </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
                       <th className="py-3 px-4">
@@ -2189,7 +2221,8 @@ export default function AdminDashboard() {
                         </tr>
                       ))}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -2489,7 +2522,8 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaUserTie className="text-orange-500" /> Gestion des Utilisateurs & Rôles</h1>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
                       <th className="py-3 px-4">Utilisateur</th><th className="py-3 px-4">Email</th>
@@ -2519,7 +2553,8 @@ export default function AdminDashboard() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -2547,7 +2582,8 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaGlobe className="text-orange-500" /> Paramètres SEO & Indexation</h1>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
                       <th className="py-3 px-4">Page</th><th className="py-3 px-4">URL</th>
@@ -2564,7 +2600,8 @@ export default function AdminDashboard() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -2574,7 +2611,8 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaShieldAlt className="text-orange-500" /> Journal de sécurité & Audit des logs</h1>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
                       <th className="py-3 px-4">Date & Heure</th><th className="py-3 px-4">Utilisateur</th>
@@ -2596,7 +2634,8 @@ export default function AdminDashboard() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </div>
           )}

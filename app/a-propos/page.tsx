@@ -93,19 +93,12 @@ export default function AboutPage() {
               </div>
 
               <div className="relative">
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl overflow-hidden shadow-2xl">
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center space-y-4">
-                      <div className="w-32 h-32 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
-                        <div className="w-24 h-24 bg-primary/30 rounded-full flex items-center justify-center">
-                          <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-2xl">
-                            OT
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-text-secondary">Image de l'équipe</p>
-                    </div>
-                  </div>
+                <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                  <img 
+                    src="/images/hero/equipe-ofaro.jpeg" 
+                    alt="L'équipe OFARO TECH"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
             </div>
