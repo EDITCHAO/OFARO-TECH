@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import ApplicationForm from '@/components/ApplicationForm';
 import JobOfferCard from '@/components/jobs/JobOfferCard';
 import {
@@ -97,7 +99,7 @@ function FeaturedJobOffers() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -138,7 +140,7 @@ function FeaturedJobOffers() {
       <div className="text-center">
         <Link
           href="/offres"
-          className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-all duration-300 font-medium text-lg"
+          className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-orange-500 transition-all duration-300 font-medium text-lg"
         >
           Voir toutes les offres
           <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -274,23 +276,24 @@ export default function CarrieresPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <Header />
+      <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-pink-600/5"></div>
+      <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-gray-50">
         
         <div className="container mx-auto px-4 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div>
               <div className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 mb-6">
-                <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                <span className="w-2 h-2 rounded-full bg-orange-500"></span>
                 CARRIÈRE · OFARO TECH
               </div>
 
               <h1 className="text-5xl lg:text-6xl font-bold mb-6">
                 Construire l&apos;avenir,{' '}
-                <span className="italic text-blue-600">ensemble</span>
+                <span className="italic text-orange-500">ensemble</span>
               </h1>
 
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
@@ -302,14 +305,14 @@ export default function CarrieresPage() {
               <div className="flex flex-wrap gap-4">
                 <Link 
                   href="#candidature"
-                  className="group inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-all duration-300 font-medium"
+                  className="group inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-orange-500 transition-all duration-300 font-medium"
                 >
                   Déposer ma candidature
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </Link>
                 <Link 
                   href="#profils"
-                  className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-blue-600 hover:text-blue-600 transition-all duration-300 font-medium"
+                  className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-orange-500 hover:text-orange-500 transition-all duration-300 font-medium"
                 >
                   Découvrir nos offres
                 </Link>
@@ -319,7 +322,7 @@ export default function CarrieresPage() {
             {/* Right Image */}
             <div className="relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="aspect-[4/3] bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 flex items-center justify-center">
+                <div className="aspect-[4/3] bg-gradient-to-br from-orange-500 via-orange-600 to-gray-900 flex items-center justify-center">
                   <div className="text-white text-center p-8">
                     <FaCode className="w-24 h-24 mx-auto mb-4 opacity-90" />
                     <p className="text-2xl font-bold mb-2">L&apos;équipe OFARO TECH</p>
@@ -339,11 +342,11 @@ export default function CarrieresPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-sm font-semibold text-blue-600 mb-2 tracking-wide uppercase">
+            <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
               01 · Pourquoi nous rejoindre
             </p>
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Un cadre pour <span className="italic text-blue-600">grandir</span>
+              Un cadre pour <span className="italic text-orange-500">grandir</span>
             </h2>
           </div>
 
@@ -351,9 +354,9 @@ export default function CarrieresPage() {
             {advantages.map((advantage, index) => (
               <div 
                 key={index}
-                className="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-blue-100"
+                className="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-orange-100"
               >
-                <div className="text-blue-600 mb-4 group-hover:scale-110 transition-transform">
+                <div className="text-orange-500 mb-4 group-hover:scale-110 transition-transform">
                   {advantage.icon}
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-gray-900">
@@ -372,11 +375,11 @@ export default function CarrieresPage() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-sm font-semibold text-blue-600 mb-2 tracking-wide uppercase">
+            <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
               02 · Notre culture
             </p>
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Les valeurs qui nous <span className="italic text-blue-600">rassemblent</span>
+              Les valeurs qui nous <span className="italic text-orange-500">rassemblent</span>
             </h2>
           </div>
 
@@ -386,7 +389,7 @@ export default function CarrieresPage() {
                 key={index}
                 className="group p-6 rounded-xl bg-white hover:shadow-lg transition-all duration-300"
               >
-                <div className="text-3xl font-bold text-gray-200 group-hover:text-blue-600 transition-colors mb-3">
+                <div className="text-3xl font-bold text-gray-200 group-hover:text-orange-500 transition-colors mb-3">
                   {value.number}
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-gray-900">
@@ -405,11 +408,11 @@ export default function CarrieresPage() {
       <section id="profils" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-sm font-semibold text-blue-600 mb-2 tracking-wide uppercase">
+            <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
               03 · Opportunités
             </p>
             <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-              Nos offres <span className="italic text-blue-600">d&apos;emploi</span>
+              Nos offres <span className="italic text-orange-500">d&apos;emploi</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Découvrez les postes disponibles et rejoignez une équipe passionnée par l&apos;innovation digitale.
@@ -420,13 +423,13 @@ export default function CarrieresPage() {
           <FeaturedJobOffers />
 
           {/* Formation Section */}
-          <div className="mt-20 bg-gradient-to-br from-blue-50 to-purple-50 p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto">
+          <div className="mt-20 bg-gradient-to-br from-orange-50 to-gray-50 p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto border border-orange-100">
             <div className="flex items-start gap-4 mb-6">
               <div className="bg-white p-3 rounded-lg">
-                <FaGraduationCap className="w-6 h-6 text-blue-600" />
+                <FaGraduationCap className="w-6 h-6 text-orange-500" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-blue-600 mb-2 tracking-wide uppercase">
+                <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
                   Formation & insertion professionnelle
                 </p>
                 <h3 className="text-2xl font-bold text-gray-900">
@@ -437,7 +440,7 @@ export default function CarrieresPage() {
 
             <div className="grid md:grid-cols-3 gap-6 mt-8">
               <div className="bg-white p-6 rounded-xl">
-                <FaBullseye className="w-8 h-8 text-blue-600 mb-3" />
+                <FaBullseye className="w-8 h-8 text-orange-500 mb-3" />
                 <h4 className="font-bold text-gray-900 mb-2">Stage</h4>
                 <p className="text-sm text-gray-600">
                   3 à 6 mois pour découvrir le métier et contribuer à de vrais projets.
@@ -445,7 +448,7 @@ export default function CarrieresPage() {
               </div>
 
               <div className="bg-white p-6 rounded-xl">
-                <FaUsers className="w-8 h-8 text-blue-600 mb-3" />
+                <FaUsers className="w-8 h-8 text-orange-500 mb-3" />
                 <h4 className="font-bold text-gray-900 mb-2">Alternance</h4>
                 <p className="text-sm text-gray-600">
                   Formation en entreprise, montée en compétences progressive.
@@ -453,7 +456,7 @@ export default function CarrieresPage() {
               </div>
 
               <div className="bg-white p-6 rounded-xl">
-                <FaAward className="w-8 h-8 text-blue-600 mb-3" />
+                <FaAward className="w-8 h-8 text-orange-500 mb-3" />
                 <h4 className="font-bold text-gray-900 mb-2">Premier emploi</h4>
                 <p className="text-sm text-gray-600">
                   Accompagnement personnalisé et parcours d&apos;intégration structuré.
@@ -471,11 +474,11 @@ export default function CarrieresPage() {
             <div className="grid lg:grid-cols-5 gap-12">
               {/* Left Info */}
               <div className="lg:col-span-2">
-                <p className="text-sm font-semibold text-blue-600 mb-4 tracking-wide uppercase">
+                <p className="text-sm font-semibold text-orange-500 mb-4 tracking-wide uppercase">
                   04 · Candidature
                 </p>
                 <h2 className="text-4xl font-bold mb-6">
-                  Soumettez votre <span className="italic text-blue-600">profil</span>
+                  Soumettez votre <span className="italic text-orange-500">profil</span>
                 </h2>
                 <p className="text-gray-600 mb-8 leading-relaxed">
                   Quelques informations suffisent. Notre équipe étudie chaque candidature avec attention 
@@ -484,8 +487,8 @@ export default function CarrieresPage() {
 
                 <div className="space-y-4 text-sm text-gray-600">
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                    <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">📍 Siège OFARO TECH</p>
@@ -494,24 +497,24 @@ export default function CarrieresPage() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                    <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">✉️ Email</p>
-                      <a href="mailto:rh@ofarotech.com" className="text-blue-600 hover:underline">
+                      <a href="mailto:rh@ofarotech.com" className="text-orange-500 hover:underline">
                         rh@ofarotech.com
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                    <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">📞 Téléphone</p>
-                      <a href="tel:+22892345678" className="text-blue-600 hover:underline">
+                      <a href="tel:+22892345678" className="text-orange-500 hover:underline">
                         +228 92 34 56 78
                       </a>
                     </div>
@@ -523,7 +526,7 @@ export default function CarrieresPage() {
               <div className="lg:col-span-3">
                 <Suspense fallback={
                   <div className="bg-white p-8 rounded-2xl shadow-lg flex items-center justify-center h-96">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
                   </div>
                 }>
                   <ApplicationForm />
@@ -535,7 +538,7 @@ export default function CarrieresPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white">
+      <section className="py-20 bg-gradient-to-br from-orange-500 via-orange-600 to-gray-900 text-white">
         <div className="container mx-auto px-4 text-center">
           <FaHeart className="w-16 h-16 mx-auto mb-6 opacity-90" />
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
@@ -555,5 +558,7 @@ export default function CarrieresPage() {
         </div>
       </section>
     </main>
+    <Footer />
+    </>
   );
 }
