@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { 
   FaPlus, FaEdit, FaTrash, FaEye, FaSearch, FaFilter, 
-  FaBriefcase, FaArrowLeft, FaCheckCircle, FaClock 
+  FaBriefcase, FaCheckCircle, FaClock 
 } from 'react-icons/fa';
 
 interface JobOffer {
@@ -150,7 +150,7 @@ export default function AdminOffresPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-full bg-gray-50">
       {/* Toast */}
       {toastMessage && (
         <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg ${
@@ -160,26 +160,19 @@ export default function AdminOffresPage() {
         </div>
       )}
 
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-6">
+      {/* Content */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-6">
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/admin"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <FaArrowLeft className="w-5 h-5" />
-              </Link>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                  <FaBriefcase className="w-6 h-6 text-blue-600" />
-                  Gestion des offres d'emploi
-                </h1>
-                <p className="text-sm text-gray-600 mt-1">
-                  {offers.length} {offers.length > 1 ? 'offres' : 'offre'} au total
-                </p>
-              </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                <FaBriefcase className="w-6 h-6 text-blue-600" />
+                Gestion des offres d'emploi
+              </h1>
+              <p className="text-sm text-gray-600 mt-1">
+                {offers.length} {offers.length > 1 ? 'offres' : 'offre'} au total
+              </p>
             </div>
 
             <Link
@@ -221,10 +214,6 @@ export default function AdminOffresPage() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Content */}
-      <div className="container mx-auto px-4 py-8">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
