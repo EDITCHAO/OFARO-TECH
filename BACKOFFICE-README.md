@@ -242,7 +242,7 @@ Pour les notifications :
 ```env
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=ofaro.tech@gmail.com
+SMTP_USER=contact@ofaro-tech.com
 SMTP_PASSWORD=votre_mot_de_passe_app
 ```
 
@@ -359,7 +359,7 @@ psql -U postgres -d ofaro_tech -f database/schema.sql
 
 ## 📞 Support
 
-- **Email** : ofaro.tech@gmail.com
+- **Email** : contact@ofaro-tech.com
 - **WhatsApp** : +228 XX XX XX XX
 
 ---

@@ -491,7 +491,7 @@ UPLOAD_DIR=./public/uploads
 # Email (pour notifications)
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=ofaro.tech@gmail.com
+SMTP_USER=contact@ofaro-tech.com
 SMTP_PASSWORD=your_app_password
 
 # 2FA

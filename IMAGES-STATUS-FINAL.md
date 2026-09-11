@@ -84,7 +84,7 @@ Les fichiers suivants dans `public/images/projects/` sont encore en **SVG** et d
    - En attente de vos images réelles
 
 5. ✅ **lib/constants.ts**
-   - Email changé vers: `ofaro.tech@gmail.com`
+   - Email changé vers: `contact@ofaro-tech.com`
 
 6. ✅ **Header.tsx & Footer.tsx**
    - Logo SVG inline (hexagone + texte)
@@ -99,7 +99,7 @@ Les fichiers suivants dans `public/images/projects/` sont encore en **SVG** et d
 - [x] 6 images secteurs ajoutées et configurées (home + page /secteurs)
 - [x] Icônes retirés des cartes secteurs
 - [x] Code mis à jour pour JPG au lieu de SVG
-- [x] Email changé vers ofaro.tech@gmail.com
+- [x] Email changé vers contact@ofaro-tech.com
 - [x] Logo inline SVG dans Header/Footer
 - [ ] **Images des 6 projets à remplacer (PNG/JPG)**
 

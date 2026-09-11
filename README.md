@@ -224,7 +224,7 @@ cp .env.example .env.local
 
 # Ajouter vos clés API
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-NEXT_PUBLIC_CONTACT_EMAIL=ofaro.tech@gmail.com
+NEXT_PUBLIC_CONTACT_EMAIL=contact@ofaro-tech.com
 ```
 
 ### Personnalisation
@@ -236,7 +236,7 @@ Les données de l'entreprise sont dans `lib/constants.ts` :
 export const COMPANY_INFO = {
   name: "OFARO TECH",
   phone: "+228 XX XX XX XX",
-  email: "ofaro.tech@gmail.com",
+  email: "contact@ofaro-tech.com",
   // ...
 };
 ```
@@ -246,7 +246,7 @@ export const COMPANY_INFO = {
 **OFARO TECH**
 - 📍 Adresse : Agbalepedo, Lomé, Togo
 - 📱 Téléphone : +228 XX XX XX XX
-- 📧 Email : ofaro.tech@gmail.com
+- 📧 Email : contact@ofaro-tech.com
 - 🌐 Site web : https://ofarotech.com
 
 ## 🤝 Contribution

@@ -7,7 +7,7 @@
 | Section | Fichiers | Statut |
 |---------|----------|--------|
 | **Logo** | SVG inline dans code | ✅ **100%** |
-| **Email** | ofaro.tech@gmail.com | ✅ **100%** |
+| **Email** | contact@ofaro-tech.com | ✅ **100%** |
 | **Hero Section** | 1 image JPG | ✅ **100%** |
 | **Secteurs (home)** | 6 images JPG | ✅ **100%** |
 | **Secteurs (page)** | 6 images JPG | ✅ **100%** |
@@ -61,7 +61,7 @@ public/images/
 
 ### 2. **Email** ✅
 **Fichiers modifiés:**
-- `lib/constants.ts` → `email: "ofaro.tech@gmail.com"`
+- `lib/constants.ts` → `email: "contact@ofaro-tech.com"`
 - `README.md`
 - `DEPLOYMENT.md`
 - `.env.example`
@@ -276,7 +276,7 @@ npm run build
 
 Si vous avez des questions ou problèmes:
 
-**Email:** ofaro.tech@gmail.com  
+**Email:** contact@ofaro-tech.com  
 **WhatsApp:** +228 XX XX XX XX
 
 ---
