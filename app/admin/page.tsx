@@ -679,7 +679,6 @@ export default function AdminDashboard() {
         }
 
         showToast(`${itemName} supprimé définitivement`, 'success');
-        await fetchData();
       } catch (error) {
         console.error('Erreur suppression:', error);
         showToast('Erreur lors de la suppression', 'error');
@@ -2282,54 +2281,62 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                    <FaBriefcase className="text-orange-500" /> Gestion des Offres
+                    <FaBriefcase className="text-orange-500" /> Gestion des Offres d'Emploi
                   </h1>
-                  <p className="text-sm text-gray-500 mt-1">Créez et gérez vos offres d'emploi et de stages</p>
-                </div>
-                <button 
-                  className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 text-sm ${c.btnPrimary}`}
-                  onClick={() => {
-                    setModalType("create_offer");
-                    setIsModalOpen(true);
-                  }}
-                >
-                  <FaBriefcase /> Créer une offre
-                </button>
-              </div>
-
-              {/* Onglets : Emploi / Stage */}
-              <div className={`flex gap-2 ${c.card} p-3 border ${c.border} rounded-2xl`}>
-                <button className="px-4 py-2 rounded-lg text-sm font-semibold bg-orange-500 text-white shadow">
-                  <FaBriefcase className="inline mr-2" />
-                  Offres d'emploi (0)
-                </button>
-                <button className="px-4 py-2 rounded-lg text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200">
-                  <FaGraduationCap className="inline mr-2" />
-                  Offres de stages (0)
-                </button>
-              </div>
-
-              {/* Placeholder - À implémenter */}
-              <div className={`${c.card} border ${c.border} rounded-2xl p-12 text-center`}>
-                <FaBriefcase className="text-gray-300 text-6xl mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-700 mb-2">
-                  Gestion des offres d'emploi et de stages
-                </h3>
-                <p className="text-gray-500 mb-6 max-w-2xl mx-auto">
-                  Cette section permettra de créer, modifier et publier des offres d'emploi et de stages qui apparaîtront sur votre page Carrières.
-                </p>
-                <div className="inline-flex flex-col gap-3 text-left bg-gray-50 p-6 rounded-xl">
-                  <p className="text-sm text-gray-600">
-                    <strong>Fonctionnalités à venir :</strong>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Cette fonctionnalité est disponible sur une page dédiée
                   </p>
-                  <ul className="text-sm text-gray-600 space-y-2 ml-4">
-                    <li>✓ Créer des offres d'emploi (CDI, CDD, Freelance)</li>
-                    <li>✓ Créer des offres de stages</li>
-                    <li>✓ Définir les compétences requises</li>
-                    <li>✓ Publier/Dépublier les offres</li>
-                    <li>✓ Voir les candidatures associées</li>
-                    <li>✓ Archiver les offres expirées</li>
-                  </ul>
+                </div>
+              </div>
+
+              {/* Redirection vers la page dédiée */}
+              <div className={`${c.card} border ${c.border} rounded-2xl p-12 text-center`}>
+                <FaBriefcase className="text-orange-500 text-6xl mx-auto mb-6" />
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Gestion complète des offres
+                </h3>
+                <p className="text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                  La gestion des offres d'emploi et de stages dispose d'une interface dédiée avec toutes les fonctionnalités : 
+                  création, modification, publication, gestion des statuts, upload d'images, etc.
+                </p>
+                <a
+                  href="/admin/offres"
+                  className={`inline-flex items-center gap-3 px-8 py-4 rounded-xl font-bold text-base ${c.btnPrimary} shadow-lg hover:shadow-xl transition-all`}
+                >
+                  <FaBriefcase className="text-xl" />
+                  Accéder à la gestion des offres
+                </a>
+                
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                  <div className="bg-gray-50 p-6 rounded-xl">
+                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                      <FaBriefcase className="text-orange-500 text-xl" />
+                    </div>
+                    <h4 className="font-bold text-gray-900 mb-2">Créer & Publier</h4>
+                    <p className="text-sm text-gray-600">
+                      Créez des offres complètes avec images, descriptions, compétences requises et publiez-les instantanément
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-6 rounded-xl">
+                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                      <FaCog className="text-orange-500 text-xl" />
+                    </div>
+                    <h4 className="font-bold text-gray-900 mb-2">Gérer les Statuts</h4>
+                    <p className="text-sm text-gray-600">
+                      Brouillon, Publiée, Suspendue, Expirée - Gérez le cycle de vie complet de vos offres
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-6 rounded-xl">
+                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                      <FaGraduationCap className="text-orange-500 text-xl" />
+                    </div>
+                    <h4 className="font-bold text-gray-900 mb-2">Candidatures</h4>
+                    <p className="text-sm text-gray-600">
+                      Consultez les candidatures reçues directement depuis la fiche de l'offre
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
