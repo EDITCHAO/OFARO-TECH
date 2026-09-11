@@ -66,6 +66,7 @@ export default function AdminDashboard() {
   const [sortField, setSortField] = useState<string>('createdAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [emailReply, setEmailReply] = useState<string>('');
+  const [selectedArchives, setSelectedArchives] = useState<string[]>([]);
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [seo, setSeo] = useState<SEOSettingItem[]>([]);
@@ -649,6 +650,81 @@ export default function AdminDashboard() {
     }
   };
 
+  // Fonctions de suppression définitive
+  const handleDeleteArchived = async (table: string, id: string, itemName: string) => {
+    if (window.confirm(`⚠️ ATTENTION: Voulez-vous SUPPRIMER DÉFINITIVEMENT ${itemName} ? Cette action est irréversible.`)) {
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+
+        const { error } = await supabase
+          .from(table)
+          .delete()
+          .eq('id', id);
+
+        if (error) throw error;
+
+        // Mettre à jour l'état local selon la table
+        if (table === 'quote_requests') {
+          setArchivedQuotes(archivedQuotes.filter(q => q.id !== id));
+        } else if (table === 'contact_messages') {
+          setArchivedMessages(archivedMessages.filter(m => m.id !== id));
+        } else if (table === 'service_requests') {
+          setArchivedServiceRequests(archivedServiceRequests.filter(sr => sr.id !== id));
+        } else if (table === 'applications' || table === 'internship_requests') {
+          setArchivedApplications(archivedApplications.filter(a => a.id !== id));
+        }
+
+        showToast(`${itemName} supprimé définitivement`, 'success');
+        await fetchData();
+      } catch (error) {
+        console.error('Erreur suppression:', error);
+        showToast('Erreur lors de la suppression', 'error');
+      }
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedArchives.length === 0) {
+      showToast('Aucun élément sélectionné', 'error');
+      return;
+    }
+
+    if (window.confirm(`⚠️ ATTENTION: Voulez-vous SUPPRIMER DÉFINITIVEMENT ${selectedArchives.length} éléments ? Cette action est irréversible.`)) {
+      try {
+        const { createClient} = await import('@supabase/supabase-js');
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+
+        // Déterminer la table selon la catégorie
+        let table = '';
+        if (archiveCategory === 'devis') table = 'quote_requests';
+        else if (archiveCategory === 'messages') table = 'contact_messages';
+        else if (archiveCategory === 'services') table = 'service_requests';
+        else if (archiveCategory === 'candidatures') table = 'applications';
+
+        const { error } = await supabase
+          .from(table)
+          .delete()
+          .in('id', selectedArchives);
+
+        if (error) throw error;
+
+        showToast(`${selectedArchives.length} éléments supprimés`, 'success');
+        setSelectedArchives([]);
+        await fetchData();
+      } catch (error) {
+        console.error('Erreur suppression multiple:', error);
+        showToast('Erreur lors de la suppression', 'error');
+      }
+    }
+  };
+
   const handleUpdateServiceRequestStatus = async (id: string, newStatus: string) => {
     try {
       const { createClient } = await import('@supabase/supabase-js');
@@ -1012,7 +1088,7 @@ export default function AdminDashboard() {
     <div className={`min-h-screen ${c.bg} text-gray-900 flex flex-col font-sans`}>
 
       {/* ===================== HEADER ===================== */}
-      <header className={`${c.header} border-b ${c.border} px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-30 ${c.shadowMd}`}>
+      <header className={`${c.header} border-b ${c.border} px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50 ${c.shadowMd}`}>
         <div className="flex items-center gap-3">
           {/* Bouton hamburger mobile */}
           <button
@@ -1108,7 +1184,7 @@ export default function AdminDashboard() {
         {/* Sidebar */}
         <aside className={`
           w-64 ${c.sidebar} border-r border-gray-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
-          fixed md:relative inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out
+          fixed md:relative inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
           <nav className="p-4 space-y-5">
@@ -2200,6 +2276,65 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* ===== GESTION DES OFFRES ===== */}
+          {activeMenu === "offres" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                    <FaBriefcase className="text-orange-500" /> Gestion des Offres
+                  </h1>
+                  <p className="text-sm text-gray-500 mt-1">Créez et gérez vos offres d'emploi et de stages</p>
+                </div>
+                <button 
+                  className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 text-sm ${c.btnPrimary}`}
+                  onClick={() => {
+                    setModalType("create_offer");
+                    setIsModalOpen(true);
+                  }}
+                >
+                  <FaBriefcase /> Créer une offre
+                </button>
+              </div>
+
+              {/* Onglets : Emploi / Stage */}
+              <div className={`flex gap-2 ${c.card} p-3 border ${c.border} rounded-2xl`}>
+                <button className="px-4 py-2 rounded-lg text-sm font-semibold bg-orange-500 text-white shadow">
+                  <FaBriefcase className="inline mr-2" />
+                  Offres d'emploi (0)
+                </button>
+                <button className="px-4 py-2 rounded-lg text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200">
+                  <FaGraduationCap className="inline mr-2" />
+                  Offres de stages (0)
+                </button>
+              </div>
+
+              {/* Placeholder - À implémenter */}
+              <div className={`${c.card} border ${c.border} rounded-2xl p-12 text-center`}>
+                <FaBriefcase className="text-gray-300 text-6xl mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-700 mb-2">
+                  Gestion des offres d'emploi et de stages
+                </h3>
+                <p className="text-gray-500 mb-6 max-w-2xl mx-auto">
+                  Cette section permettra de créer, modifier et publier des offres d'emploi et de stages qui apparaîtront sur votre page Carrières.
+                </p>
+                <div className="inline-flex flex-col gap-3 text-left bg-gray-50 p-6 rounded-xl">
+                  <p className="text-sm text-gray-600">
+                    <strong>Fonctionnalités à venir :</strong>
+                  </p>
+                  <ul className="text-sm text-gray-600 space-y-2 ml-4">
+                    <li>✓ Créer des offres d'emploi (CDI, CDD, Freelance)</li>
+                    <li>✓ Créer des offres de stages</li>
+                    <li>✓ Définir les compétences requises</li>
+                    <li>✓ Publier/Dépublier les offres</li>
+                    <li>✓ Voir les candidatures associées</li>
+                    <li>✓ Archiver les offres expirées</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* ===== ARCHIVES ===== */}
           {activeMenu === "archives" && (
             <div className="space-y-6">
@@ -2264,37 +2399,89 @@ export default function AdminDashboard() {
               {archiveCategory === "devis" && (
                 <div className="space-y-3">
                   {archivedQuotes.length > 0 ? (
-                    <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
-                      <table className="w-full text-left text-sm">
-                        <thead>
-                          <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
-                            <th className="py-3 px-4">Réf.</th>
-                            <th className="py-3 px-4">Entreprise</th>
-                            <th className="py-3 px-4">Statut</th>
-                            <th className="py-3 px-4">Date</th>
-                            <th className="py-3 px-4 text-right">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody className={`divide-y ${c.border}`}>
-                          {archivedQuotes.map(quote => (
-                            <tr key={quote.id} className={c.tableRow}>
-                              <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{quote.reference}</td>
-                              <td className="py-3 px-4 font-semibold text-gray-800">{quote.companyName}</td>
-                              <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(quote.status)}`}>{quote.status}</span></td>
-                              <td className="py-3 px-4 text-xs text-gray-400">{quote.createdAt}</td>
-                              <td className="py-3 px-4 text-right">
-                                <button
-                                  onClick={() => handleRestoreQuote(quote.id, quote.reference)}
-                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
-                                  title="Restaurer">
-                                  <FaSync /> Restaurer
-                                </button>
-                              </td>
+                    <>
+                      {/* Barre d'actions */}
+                      {selectedArchives.length > 0 && (
+                        <div className="flex items-center justify-between p-4 bg-orange-50 border border-orange-200 rounded-xl">
+                          <span className="text-sm font-semibold text-orange-700">
+                            {selectedArchives.length} élément(s) sélectionné(s)
+                          </span>
+                          <button
+                            onClick={handleDeleteSelected}
+                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-semibold transition flex items-center gap-2"
+                          >
+                            <FaTrash /> Supprimer définitivement
+                          </button>
+                        </div>
+                      )}
+                      <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
+                        <table className="w-full text-left text-sm">
+                          <thead>
+                            <tr className={`${c.tableHead} border-b ${c.border} text-xs uppercase tracking-wider`}>
+                              <th className="py-3 px-4 w-12">
+                                <input
+                                  type="checkbox"
+                                  checked={selectedArchives.length === archivedQuotes.length && archivedQuotes.length > 0}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      setSelectedArchives(archivedQuotes.map(q => q.id));
+                                    } else {
+                                      setSelectedArchives([]);
+                                    }
+                                  }}
+                                  className="w-4 h-4 rounded border-gray-300"
+                                />
+                              </th>
+                              <th className="py-3 px-4">Réf.</th>
+                              <th className="py-3 px-4">Entreprise</th>
+                              <th className="py-3 px-4">Statut</th>
+                              <th className="py-3 px-4">Date</th>
+                              <th className="py-3 px-4 text-right">Actions</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                          </thead>
+                          <tbody className={`divide-y ${c.border}`}>
+                            {archivedQuotes.map(quote => (
+                              <tr key={quote.id} className={c.tableRow}>
+                                <td className="py-3 px-4">
+                                  <input
+                                    type="checkbox"
+                                    checked={selectedArchives.includes(quote.id)}
+                                    onChange={(e) => {
+                                      if (e.target.checked) {
+                                        setSelectedArchives([...selectedArchives, quote.id]);
+                                      } else {
+                                        setSelectedArchives(selectedArchives.filter(id => id !== quote.id));
+                                      }
+                                    }}
+                                    className="w-4 h-4 rounded border-gray-300"
+                                  />
+                                </td>
+                                <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{quote.reference}</td>
+                                <td className="py-3 px-4 font-semibold text-gray-800">{quote.companyName}</td>
+                                <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(quote.status)}`}>{quote.status}</span></td>
+                                <td className="py-3 px-4 text-xs text-gray-400">{quote.createdAt}</td>
+                                <td className="py-3 px-4 text-right">
+                                  <div className="flex items-center justify-end gap-2">
+                                    <button
+                                      onClick={() => handleRestoreQuote(quote.id, quote.reference)}
+                                      className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1"
+                                      title="Restaurer">
+                                      <FaSync /> Restaurer
+                                    </button>
+                                    <button
+                                      onClick={() => handleDeleteArchived('quote_requests', quote.id, quote.reference)}
+                                      className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 text-xs font-semibold transition flex items-center gap-1"
+                                      title="Supprimer définitivement">
+                                      <FaTrash />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
                   ) : (
                     <div className="text-center py-12 bg-gray-50 rounded-2xl">
                       <FaFileAlt className="text-gray-300 text-4xl mx-auto mb-3" />
