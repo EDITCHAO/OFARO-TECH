@@ -1,0 +1,143 @@
+═══════════════════════════════════════════════════════════════
+   GUIDE RAPIDE - Configuration Supabase pour les Projets
+═══════════════════════════════════════════════════════════════
+
+🎯 OBJECTIF: Permettre l'upload et la gestion des projets dans l'admin
+
+⏱️ DURÉE: 5 minutes
+
+═══════════════════════════════════════════════════════════════
+  PARTIE 1: CRÉER LE BUCKET STORAGE "projects"
+═══════════════════════════════════════════════════════════════
+
+1. Allez sur: https://supabase.com/dashboard
+
+2. Sélectionnez votre projet (tidencxeznpjvnfebwmw)
+
+3. Menu gauche → Cliquez sur "Storage" 📦
+
+4. Cliquez sur le bouton vert "New bucket" (en haut à droite)
+
+5. Dans la fenêtre qui s'ouvre:
+   ┌─────────────────────────────────┐
+   │ Name of bucket:                 │
+   │ ┌─────────────────────────────┐ │
+   │ │ projects                    │ │  ← Tapez ceci
+   │ └─────────────────────────────┘ │
+   │                                 │
+   │ ☑ Public bucket                 │  ← COCHEZ !
+   │                                 │
+   │ [Cancel]  [Create bucket]       │  ← Cliquez
+   └─────────────────────────────────┘
+
+6. ✅ Terminé ! Le bucket "projects" est créé
+
+═══════════════════════════════════════════════════════════════
+  PARTIE 2: CRÉER LA TABLE "projects" 
+═══════════════════════════════════════════════════════════════
+
+1. Menu gauche → Cliquez sur "SQL Editor" 📝
+
+2. Cliquez sur "+ New query"
+
+3. Ouvrez le fichier sur votre PC:
+   📁 database/create-projects-table.sql
+
+4. Sélectionnez TOUT (Ctrl+A)
+
+5. Copiez TOUT (Ctrl+C)
+
+6. Retournez dans Supabase SQL Editor
+
+7. Collez dans l'éditeur (Ctrl+V)
+
+8. Cliquez sur "Run" (bouton vert) OU appuyez sur Ctrl+Enter
+
+9. ✅ Vous devriez voir:
+   - "Success. No rows returned"
+   - OU "6 rows affected" (données de test insérées)
+
+═══════════════════════════════════════════════════════════════
+  PARTIE 3: VÉRIFICATION
+═══════════════════════════════════════════════════════════════
+
+Test 1 - Vérifier la table:
+--------------------------
+1. Menu gauche → "Table Editor"
+2. Cherchez "projects" dans la liste
+3. Cliquez dessus
+4. ✅ Vous devriez voir 6 projets de test
+
+Test 2 - Vérifier le bucket:
+---------------------------
+1. Menu gauche → "Storage"
+2. Cliquez sur "projects"
+3. ✅ Dossier vide (c'est normal)
+
+═══════════════════════════════════════════════════════════════
+  PARTIE 4: TESTER SUR VOTRE SITE
+═══════════════════════════════════════════════════════════════
+
+1. Ouvrez un terminal PowerShell
+
+2. Allez dans le dossier du projet:
+   cd "c:\PROJET\OFARO TECH\ofaro-tech-website"
+
+3. Si le serveur tourne, arrêtez-le (Ctrl+C)
+
+4. Redémarrez le serveur:
+   npm run dev
+
+5. Ouvrez votre navigateur:
+   http://localhost:3000/admin
+
+6. Dans le menu gauche, cliquez sur:
+   "Réalisations (Portfolio)"
+
+7. ✅ Vous devriez voir:
+   - Le bouton "Ajouter un projet"
+   - 6 projets de test affichés
+
+═══════════════════════════════════════════════════════════════
+  🎉 C'EST TERMINÉ !
+═══════════════════════════════════════════════════════════════
+
+Vous pouvez maintenant:
+✅ Ajouter des projets
+✅ Uploader des images
+✅ Modifier les projets
+✅ Supprimer des projets
+✅ Gérer les technologies
+✅ Spécifier le client/entreprise
+
+Les projets s'affichent automatiquement sur la page d'accueil
+dans la section "Nos Réalisations" !
+
+═══════════════════════════════════════════════════════════════
+  ❌ EN CAS DE PROBLÈME
+═══════════════════════════════════════════════════════════════
+
+Problème: "Bucket not found"
+Solution: Retournez à la PARTIE 1 et créez le bucket
+
+Problème: "Table doesn't exist"
+Solution: Retournez à la PARTIE 2 et exécutez le SQL
+
+Problème: Images ne s'affichent pas
+Solution: Vérifiez que le bucket est PUBLIC:
+  Storage → projects → Settings → ☑ Public bucket
+
+Problème: "Permission denied"
+Solution: Dans le SQL Editor, ajoutez cette ligne et exécutez:
+  ALTER TABLE projects DISABLE ROW LEVEL SECURITY;
+
+═══════════════════════════════════════════════════════════════
+  📞 BESOIN D'AIDE ?
+═══════════════════════════════════════════════════════════════
+
+1. Ouvrez la console du navigateur (F12)
+2. Allez dans l'onglet "Console"
+3. Cherchez les erreurs en rouge
+4. Envoyez-moi le message d'erreur
+
+═══════════════════════════════════════════════════════════════

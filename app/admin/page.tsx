@@ -74,6 +74,7 @@ export default function AdminDashboard() {
   const [portfolioCategory, setPortfolioCategory] = useState<string>("all");
   const [quoteStatusFilter, setQuoteStatusFilter] = useState<string>("all");
   const [messageStatusFilter, setMessageStatusFilter] = useState<string>("all");
+  const [serviceRequestStatusFilter, setServiceRequestStatusFilter] = useState<string>("all");
   const [applicationStatusFilter, setApplicationStatusFilter] = useState<string>("all");
 
   const refreshData = async () => {
@@ -83,17 +84,20 @@ export default function AdminDashboard() {
       const normalizeStatus = (dbStatus: string): string => {
         const statusMap: { [key: string]: string } = {
           'nouveau': 'Nouveau',
-          'nouvelle': 'Nouvelle',
+          'nouvelle': 'Nouveau',
           'en_analyse': 'En analyse',
           'en_cours': 'En cours de traitement',
           'en_cours_de_traitement': 'En cours de traitement',
           'traite': 'Traité',
+          'terminee': 'Traité',
           'sans_suite': 'Sans suite',
+          'rejetee': 'Sans suite',
+          'rejete': 'Sans suite',
           'retenu': 'Retenu',
           'acceptee': 'Retenu',
-          'rejete': 'Rejeté',
           'refusee': 'Rejeté',
-          'rejetee': 'Rejeté'
+          'en_attente': 'En analyse',
+          'archivee': 'Archivé'
         };
         return statusMap[dbStatus?.toLowerCase()] || dbStatus || 'Nouveau';
       };
@@ -178,7 +182,7 @@ export default function AdminDashboard() {
         service: sr.service_type,
         description: sr.description,
         message: sr.description, // Pour le modal qui cherche "message"
-        status: sr.status || 'Nouveau',
+        status: normalizeStatus(sr.status),
         reference: sr.reference_number,
         createdAt: new Date(sr.submitted_at).toLocaleDateString('fr-FR')
       }));
@@ -651,8 +655,16 @@ export default function AdminDashboard() {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
-      // Convertir le statut de l'interface vers la BDD
-      const dbStatus = newStatus.toLowerCase().replace(/ /g, '_').replace(/é/g, 'e');
+      // Mapping depuis l'interface vers la BDD
+      const statusToDb: { [key: string]: string } = {
+        'Nouveau': 'nouvelle',
+        'En analyse': 'en_analyse',
+        'En cours de traitement': 'en_cours',
+        'Traité': 'terminee',
+        'Sans suite': 'rejetee'
+      };
+      
+      const dbStatus = statusToDb[newStatus] || 'nouvelle';
       
       const { error } = await supabase
         .from('service_requests')
@@ -1643,8 +1655,8 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <select 
-                  value={quoteStatusFilter} 
-                  onChange={e => setQuoteStatusFilter(e.target.value)}
+                  value={serviceRequestStatusFilter} 
+                  onChange={e => setServiceRequestStatusFilter(e.target.value)}
                   className={`${c.select} text-xs rounded-xl px-3 py-2`}
                 >
                   <option value="all">Tous les statuts</option>
@@ -1726,7 +1738,7 @@ export default function AdminDashboard() {
                     ) : (
                       sortData(
                         serviceRequests
-                          .filter(sr => quoteStatusFilter === "all" || sr.status === quoteStatusFilter)
+                          .filter(sr => serviceRequestStatusFilter === "all" || sr.status === serviceRequestStatusFilter)
                           .filter(sr => !searchTerm || (sr.name + sr.email + sr.phone + sr.service).toLowerCase().includes(searchTerm.toLowerCase())),
                         sortField as any,
                         sortOrder
