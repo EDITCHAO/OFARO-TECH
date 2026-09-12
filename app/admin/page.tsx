@@ -418,28 +418,8 @@ export default function AdminDashboard() {
           }
         }
       } else if (menuId === 'demandes-service') {
-        // Marquer toutes les demandes de service "Nouveau" comme lues
-        const unreadServiceRequests = serviceRequests.filter(sr => 
-          sr.status === 'Nouveau' || sr.status === 'new' || sr.status === 'nouvelle'
-        );
-        if (unreadServiceRequests.length > 0) {
-          const { error } = await supabase
-            .from('service_requests')
-            .update({ 
-              status: 'en_analyse',
-              updated_at: new Date().toISOString()
-            })
-            .in('id', unreadServiceRequests.map(sr => sr.id));
-          
-          if (!error) {
-            // Mettre à jour l'état local - changer le statut de "Nouveau" à "En analyse"
-            setServiceRequests(serviceRequests.map(sr => 
-              (sr.status === 'Nouveau' || sr.status === 'new' || sr.status === 'nouvelle')
-                ? { ...sr, status: 'En analyse' }
-                : sr
-            ));
-          }
-        }
+        // Pour les demandes de service, on ne change PAS automatiquement le statut
+        // L'admin doit le faire manuellement
       }
       // Pas besoin de marquer les candidatures comme lues car le badge compte les statuts "Nouvelle" et "En analyse"
       // qui doivent être changés manuellement par l'admin
