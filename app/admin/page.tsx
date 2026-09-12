@@ -1373,7 +1373,7 @@ export default function AdminDashboard() {
                   { label: "Devis en attente", value: stats.devisEnAttente, sub: "● Traitement requis sous 24h", color: "amber", icon: <FaFileAlt />, menu: "devis" },
                   { label: "Messages non lus", value: stats.messagesNonLus, sub: "✉ Formulaire de contact public", color: "cyan", icon: <FaEnvelope />, menu: "messages" },
                   { label: "Nouvelles demandes de services", value: stats.nouvellesDemandesServices, sub: "🔔 Demandes en attente de traitement", color: "emerald", icon: <FaTools />, menu: "service-requests" },
-                  { label: "Visiteurs ce mois", value: stats.visiteursCeMois.toLocaleString(), sub: `📈 ${stats.percentageChange >= 0 ? '+' : ''}${stats.percentageChange}% vs mois dernier`, color: "violet", icon: <FaChartLine />, menu: null },
+                  { label: "Visiteurs ce mois", value: stats.visiteursCeMois.toLocaleString(), sub: `📈 ${parseFloat(stats.percentageChange) >= 0 ? '+' : ''}${stats.percentageChange}% vs mois dernier`, color: "violet", icon: <FaChartLine />, menu: null },
                 ].map((kpi, idx) => (
                   <div
                     key={idx}
