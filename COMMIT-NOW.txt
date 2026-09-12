@@ -1,0 +1,43 @@
+═══════════════════════════════════════════════════════════════
+   COMMANDES POUR COMMITER LES MODIFICATIONS
+═══════════════════════════════════════════════════════════════
+
+Copiez et collez ces commandes une par une dans le terminal PowerShell:
+
+cd "c:\PROJET\OFARO TECH\ofaro-tech-website"
+
+git add components/admin/ProjectsManagement.tsx
+
+git add app/admin/page.tsx
+
+git add components/home/RealizationsSection.tsx
+
+git add app/api/projects/route.ts
+
+git add "app/api/projects/[id]/route.ts"
+
+git add app/api/projects/upload/route.ts
+
+git add database/create-projects-table.sql
+
+git add database/reset-and-create-projects.sql
+
+git add SETUP-SUPABASE-PROJECTS.md
+
+git add INSTALLATION-PROJETS.md
+
+git add GUIDE-RAPIDE-SETUP.txt
+
+git add FIX-SQL-ERROR.txt
+
+git commit -m "feat: Complete projects management system with admin interface"
+
+git push origin main
+
+═══════════════════════════════════════════════════════════════
+   OU EN UNE SEULE COMMANDE
+═══════════════════════════════════════════════════════════════
+
+cd "c:\PROJET\OFARO TECH\ofaro-tech-website" ; git add . ; git commit -m "feat: Complete projects management system" ; git push
+
+═══════════════════════════════════════════════════════════════

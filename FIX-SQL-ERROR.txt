@@ -1,0 +1,73 @@
+═══════════════════════════════════════════════════════════════
+   CORRECTION DE L'ERREUR "relation already exists"
+═══════════════════════════════════════════════════════════════
+
+❌ ERREUR REÇUE:
+   "relation idx_projects_status already exists"
+
+✅ SOLUTION:
+   Utiliser le script de réinitialisation au lieu du script normal
+
+═══════════════════════════════════════════════════════════════
+  ÉTAPES À SUIVRE
+═══════════════════════════════════════════════════════════════
+
+1. Allez sur Supabase Dashboard
+   https://supabase.com/dashboard
+
+2. Cliquez sur "SQL Editor" dans le menu gauche
+
+3. Cliquez sur "+ New query"
+
+4. Ouvrez le fichier sur votre PC:
+   📁 database/reset-and-create-projects.sql
+
+5. Copiez TOUT le contenu (Ctrl+A puis Ctrl+C)
+
+6. Collez dans l'éditeur SQL de Supabase (Ctrl+V)
+
+7. Cliquez sur "Run" (ou Ctrl+Enter)
+
+8. ✅ Vous devriez voir:
+   - "Table "projects" créée avec succès !"
+   - "nombre_projets: 6"
+
+═══════════════════════════════════════════════════════════════
+  QU'EST-CE QUE CE SCRIPT FAIT ?
+═══════════════════════════════════════════════════════════════
+
+1. Supprime l'ancienne table (si elle existe)
+2. Supprime les index (si ils existent)
+3. Supprime les policies (si elles existent)
+4. Recrée TOUT proprement
+5. Insère 6 projets de test
+
+C'est un RESET COMPLET - pas de risque de conflit !
+
+═══════════════════════════════════════════════════════════════
+  APRÈS L'EXÉCUTION
+═══════════════════════════════════════════════════════════════
+
+1. Redémarrez votre serveur:
+   npm run dev
+
+2. Allez sur:
+   http://localhost:3000/admin
+
+3. Cliquez sur "Réalisations (Portfolio)"
+
+4. ✅ Vous devriez voir 6 projets de test !
+
+═══════════════════════════════════════════════════════════════
+  N'OUBLIEZ PAS LE BUCKET !
+═══════════════════════════════════════════════════════════════
+
+Si vous n'avez pas encore créé le bucket "projects":
+
+1. Supabase → Storage
+2. New bucket
+3. Nom: projects
+4. ☑ Cochez "Public bucket"
+5. Create
+
+═══════════════════════════════════════════════════════════════

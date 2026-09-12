@@ -26,15 +26,16 @@ Vous devriez voir le bucket "projects" dans la liste avec une icône de cadenas 
 2. Cliquez sur **"+ New query"**
 
 ### 📋 Exécution du SQL
-3. Ouvrez le fichier `database/create-projects-table.sql` sur votre ordinateur
+3. Ouvrez le fichier `database/reset-and-create-projects.sql` sur votre ordinateur
+   (Utilisez ce fichier au lieu de create-projects-table.sql - il gère mieux les erreurs)
 4. **Copiez TOUT le contenu** (Ctrl+A puis Ctrl+C)
 5. **Collez** dans l'éditeur SQL de Supabase (Ctrl+V)
 6. Cliquez sur le bouton **"Run"** (ou appuyez sur Ctrl+Enter)
 
 ### ✅ Vérification
 Vous devriez voir :
-- ✅ Un message de succès
-- ✅ 6 projets insérés (données de test)
+- ✅ "Table "projects" créée avec succès !"
+- ✅ "nombre_projets: 6"
 
 ---
 

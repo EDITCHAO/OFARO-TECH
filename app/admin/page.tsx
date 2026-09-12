@@ -78,6 +78,7 @@ export default function AdminDashboard() {
   const [messageStatusFilter, setMessageStatusFilter] = useState<string>("all");
   const [serviceRequestStatusFilter, setServiceRequestStatusFilter] = useState<string>("all");
   const [applicationStatusFilter, setApplicationStatusFilter] = useState<string>("all");
+  const [visitorsStats, setVisitorsStats] = useState<{ currentMonth: number; percentageChange: string }>({ currentMonth: 0, percentageChange: '0' });
 
   const refreshData = async () => {
     // Charger UNIQUEMENT depuis Supabase, pas depuis AdminStore
@@ -349,6 +350,22 @@ export default function AdminDashboard() {
       setPages(AdminStore.getPages());
       setLogs(AdminStore.getLogs());
       setCurrentRole(AdminStore.getCurrentRole());
+
+      // Charger les statistiques de visiteurs
+      try {
+        const analyticsResponse = await fetch('/api/analytics/track');
+        if (analyticsResponse.ok) {
+          const analyticsData = await analyticsResponse.json();
+          setVisitorsStats({
+            currentMonth: analyticsData.currentMonth || 0,
+            percentageChange: analyticsData.percentageChange || '0'
+          });
+        }
+      } catch (analyticsError) {
+        console.debug('Impossible de charger les statistiques de visiteurs:', analyticsError);
+        // Garder les valeurs par défaut
+      }
+
     } catch (error) {
       console.error('Erreur chargement depuis Supabase:', error);
       // Ne jamais afficher de fausses demandes si Supabase est indisponible.
@@ -961,8 +978,9 @@ export default function AdminDashboard() {
     devisEnAttente: quotes.filter(q => q.status === "Nouveau").length,
     messagesNonLus: messages.filter(m => !m.isRead || m.status === "Nouveau").length,
     demandesServiceNouv: serviceRequests.filter(sr => sr.status === "Nouveau" || sr.status === "new").length,
-    realisationsPubliees: realizations.filter(r => r.isPublished).length,
-    visiteursCeMois: 2840,
+    nouvellesDemandesServices: serviceRequests.filter(sr => sr.status === "Nouveau" || sr.status === "nouvelle").length,
+    visiteursCeMois: visitorsStats.currentMonth,
+    percentageChange: visitorsStats.percentageChange,
     candidaturesActives: applications.filter(a => a.status === "Nouvelle" || a.status === "En analyse").length
   }), [quotes, messages, serviceRequests, realizations, applications]);
 
@@ -1354,8 +1372,8 @@ export default function AdminDashboard() {
                 {[
                   { label: "Devis en attente", value: stats.devisEnAttente, sub: "● Traitement requis sous 24h", color: "amber", icon: <FaFileAlt />, menu: "devis" },
                   { label: "Messages non lus", value: stats.messagesNonLus, sub: "✉ Formulaire de contact public", color: "cyan", icon: <FaEnvelope />, menu: "messages" },
-                  { label: "Réalisations publiées", value: `${stats.realisationsPubliees} / 12`, sub: "🚀 100% opérationnelles sur le site", color: "emerald", icon: <FaProjectDiagram />, menu: "realisations" },
-                  { label: "Visiteurs ce mois", value: stats.visiteursCeMois.toLocaleString(), sub: "📈 +18.4% par rapport à juillet", color: "violet", icon: <FaChartLine />, menu: null },
+                  { label: "Nouvelles demandes de services", value: stats.nouvellesDemandesServices, sub: "🔔 Demandes en attente de traitement", color: "emerald", icon: <FaTools />, menu: "service-requests" },
+                  { label: "Visiteurs ce mois", value: stats.visiteursCeMois.toLocaleString(), sub: `📈 ${stats.percentageChange >= 0 ? '+' : ''}${stats.percentageChange}% vs mois dernier`, color: "violet", icon: <FaChartLine />, menu: null },
                 ].map((kpi, idx) => (
                   <div
                     key={idx}
