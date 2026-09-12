@@ -3,8 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('=== Upload API Called ===');
+    
     const formData = await request.formData();
     const file = formData.get('file') as File;
+
+    console.log('File received:', file ? file.name : 'NO FILE');
 
     if (!file) {
       return NextResponse.json(
@@ -34,6 +38,9 @@ export async function POST(request: NextRequest) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+    console.log('Supabase URL configured:', !!supabaseUrl);
+    console.log('Supabase Key configured:', !!supabaseKey);
+
     if (!supabaseUrl || !supabaseKey) {
       return NextResponse.json(
         { error: 'Configuration Supabase manquante' },
@@ -46,6 +53,8 @@ export async function POST(request: NextRequest) {
     // Générer un nom de fichier unique
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+    console.log('Uploading file:', fileName, 'Size:', file.size, 'Type:', file.type);
 
     // Convertir le fichier en ArrayBuffer
     const arrayBuffer = await file.arrayBuffer();
@@ -60,9 +69,18 @@ export async function POST(request: NextRequest) {
         upsert: false
       });
 
+    console.log('Upload result:', { data, error });
+
     if (error) {
       console.error('Erreur upload Supabase:', error);
-      throw error;
+      return NextResponse.json(
+        { 
+          error: 'Erreur Supabase Storage',
+          details: error.message,
+          hint: 'Vérifiez que le bucket "projects" existe et est PUBLIC dans Supabase Storage'
+        },
+        { status: 500 }
+      );
     }
 
     // Obtenir l'URL publique
