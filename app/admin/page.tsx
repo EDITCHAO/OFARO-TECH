@@ -1223,6 +1223,19 @@ export default function AdminDashboard() {
                     </button>
                   );
                 })}
+                
+                {/* Gestion des offres - lien spécial */}
+                <Link
+                  href="/admin/offres"
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
+                    canAccess("offres") ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-base text-gray-500"><FaBriefcase /></span>
+                    <span>Gestion des offres</span>
+                  </div>
+                </Link>
               </div>
             </div>
 
@@ -1235,28 +1248,9 @@ export default function AdminDashboard() {
                   { id: "demandes-service", label: "Demandes de service", icon: <FaCog />, badge: stats.demandesServiceNouv },
                   { id: "messages", label: "Messages de contact", icon: <FaEnvelope />, badge: stats.messagesNonLus },
                   { id: "candidatures", label: "Candidatures / Stages", icon: <FaGraduationCap />, badge: stats.candidaturesActives },
-                  { id: "offres", label: "Gestion des offres", icon: <FaBriefcase /> },
                   { id: "archives", label: "Archives", icon: <FaArchive /> }
                 ].map(item => {
                   const allowed = canAccess(item.id);
-                  
-                  // Gestion spéciale pour "offres" → redirection externe
-                  if (item.id === "offres") {
-                    return (
-                      <Link
-                        key={item.id}
-                        href="/admin/offres"
-                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
-                          allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-base text-gray-500">{item.icon}</span>
-                          <span>{item.label}</span>
-                        </div>
-                      </Link>
-                    );
-                  }
                   
                   return (
                     <button
