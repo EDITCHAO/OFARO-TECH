@@ -1225,17 +1225,19 @@ export default function AdminDashboard() {
                 })}
                 
                 {/* Gestion des offres - lien spécial */}
-                <Link
-                  href="/admin/offres"
+                <button
+                  onClick={() => canAccess("offres") && handleMenuClick("offres")}
+                  disabled={!canAccess("offres")}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
-                    canAccess("offres") ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                    activeMenu === "offres" ? c.activeNav : canAccess("offres") ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-base text-gray-500"><FaBriefcase /></span>
+                    <span className={`text-base ${activeMenu === "offres" ? "text-white" : "text-gray-500"}`}><FaBriefcase /></span>
                     <span>Gestion des offres</span>
                   </div>
-                </Link>
+                  {!canAccess("offres") && <FaLock className="text-[10px] text-gray-300" />}
+                </button>
               </div>
             </div>
 
