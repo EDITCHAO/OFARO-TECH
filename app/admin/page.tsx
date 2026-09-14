@@ -2142,12 +2142,12 @@ export default function AdminDashboard() {
                   className={`${c.select} text-xs rounded-xl px-3 py-2`}
                 >
                   <option value="all">Tous les statuts</option>
-                  <option>Nouvelle</option>
-                  <option>En analyse</option>
-                  <option>En cours de traitement</option>
-                  <option>Retenu</option>
-                  <option>Rejeté</option>
-                  <option>Sans suite</option>
+                  <option value="Nouveau">Nouveau</option>
+                  <option value="En analyse">En analyse</option>
+                  <option value="En cours de traitement">En cours de traitement</option>
+                  <option value="Retenu">Retenu</option>
+                  <option value="Rejeté">Rejeté</option>
+                  <option value="Sans suite">Sans suite</option>
                 </select>
               </div>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
