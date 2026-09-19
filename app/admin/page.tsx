@@ -378,6 +378,20 @@ export default function AdminDashboard() {
 
   // Fonction de gestion du tri
   const handleMenuClick = async (menuId: string) => {
+    // Redirection directe pour certaines pages
+    if (menuId === 'equipe') {
+      window.location.href = '/admin/equipe';
+      return;
+    }
+    if (menuId === 'offres') {
+      window.location.href = '/admin/offres';
+      return;
+    }
+    if (menuId === 'mediatheque') {
+      window.location.href = '/admin/mediatheque';
+      return;
+    }
+    
     setActiveMenu(menuId);
     setIsMobileMenuOpen(false); // Fermer le menu mobile quand on clique sur un élément
     
@@ -2649,20 +2663,29 @@ export default function AdminDashboard() {
           {/* ===== ÉQUIPE ===== */}
           {activeMenu === "equipe" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaUsers className="text-orange-500" /> Membres de l'équipe OFARO TECH</h1>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                {team.map(member => (
-                  <div key={member.id} className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow} hover:shadow-md transition ${c.cardHover} text-center`}>
-                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-600 flex items-center justify-center text-white font-bold text-xl mb-3 shadow">{member.avatarText}</div>
-                    <h3 className="font-bold text-gray-900 text-sm">{member.name}</h3>
-                    <div className="text-xs text-orange-600 font-medium mb-2">{member.position}</div>
-                    <p className="text-xs text-gray-500 line-clamp-3 mb-3">{member.bio}</p>
-                    <div className={`pt-3 border-t ${c.border} text-xs text-gray-400 flex flex-col gap-0.5`}>
-                      <span className="truncate">{member.email}</span>
-                      <span className="text-[11px] text-gray-400">{member.phone}</span>
-                    </div>
-                  </div>
-                ))}
+              <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-sm">
+                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white mb-6 shadow-lg">
+                  <FaUsers className="text-3xl" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  Gestion de l'équipe OFARO TECH
+                </h2>
+                <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+                  Gérez les profils des membres de votre équipe : ajoutez, modifiez, supprimez et réorganisez l'ordre d'affichage sur le site.
+                </p>
+                <Link
+                  href="/admin/equipe"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
+                >
+                  <FaUsers className="w-5 h-5" />
+                  Gérer l'équipe
+                  <FaExternalLinkAlt className="w-4 h-4" />
+                </Link>
+                <div className="mt-8 pt-8 border-t border-gray-200">
+                  <p className="text-sm text-gray-500">
+                    💡 Vous pouvez ajouter des membres, uploader leurs photos, gérer leur visibilité et réorganiser l'ordre d'affichage
+                  </p>
+                </div>
               </div>
             </div>
           )}

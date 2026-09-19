@@ -7,6 +7,7 @@ import {
   FaPlus, FaEdit, FaTrash, FaEye, FaSearch, FaFilter, 
   FaBriefcase, FaCheckCircle, FaClock 
 } from 'react-icons/fa';
+import AdminLayout from '@/components/admin/AdminLayout';
 
 interface JobOffer {
   id: number;
@@ -150,7 +151,7 @@ export default function AdminOffresPage() {
   };
 
   return (
-    <div className="min-h-full bg-gray-50">
+    <AdminLayout activeMenu="offres">
       {/* Toast */}
       {toastMessage && (
         <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg ${
@@ -161,7 +162,8 @@ export default function AdminOffresPage() {
       )}
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="min-h-full bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-6">
@@ -351,7 +353,8 @@ export default function AdminOffresPage() {
             </table>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }

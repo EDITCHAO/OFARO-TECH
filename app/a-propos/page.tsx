@@ -1,5 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import TeamSection from "@/components/about/TeamSection";
 import { FaRocket, FaEye, FaHeart, FaCheckCircle } from "react-icons/fa";
 import { COMPANY_INFO } from "@/lib/constants";
 import Link from "next/link";
@@ -133,6 +134,9 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        {/* Team Section - L'équipe OFARO */}
+        <TeamSection />
 
         {/* Values */}
         <section className="section-padding bg-white">
