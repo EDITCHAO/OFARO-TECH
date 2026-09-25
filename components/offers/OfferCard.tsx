@@ -80,7 +80,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
       <div className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer h-full">
         {/* Badge Urgent */}
         {isUrgent && daysRemaining !== null && daysRemaining > 0 && (
-          <div className="absolute top-4 right-4 z-10 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+          <div className="absolute top-4 right-4 z-10 bg-danger-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
             🔥 Urgent
           </div>
         )}
@@ -88,24 +88,24 @@ const OfferCard: React.FC<OfferCardProps> = ({
         {/* Badge Type */}
         <div className="absolute top-4 left-4 z-10 flex gap-2">
           {offerType === 'job' && contractType && (
-            <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+            <span className="bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
               {contractType}
             </span>
           )}
           {offerType === 'internship' && (
-            <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+            <span className="bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
               Stage
             </span>
           )}
           {workMode && (
-            <span className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+            <span className="bg-ink/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
               {workMode}
             </span>
           )}
         </div>
 
         {/* Image */}
-        <div className="relative w-full h-56 overflow-hidden bg-gradient-to-br from-orange-400 to-orange-600">
+        <div className="relative w-full h-56 overflow-hidden bg-gradient-to-br from-primary-400 to-primary-600">
           {imageUrl || defaultImage ? (
             <Image
               src={imageUrl || defaultImage}
@@ -130,65 +130,65 @@ const OfferCard: React.FC<OfferCardProps> = ({
         {/* Contenu */}
         <div className="p-6">
           {/* Date et Référence */}
-          <div className="flex items-center justify-between mb-3 text-xs text-gray-500">
+          <div className="flex items-center justify-between mb-3 text-xs text-neutral-500">
             <div className="flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5" />
               <span>{formatDate(publicationDate)}</span>
             </div>
-            <span className="font-mono bg-gray-100 px-2 py-1 rounded">
+            <span className="font-mono bg-neutral-100 px-2 py-1 rounded">
               {reference}
             </span>
           </div>
 
           {/* Titre */}
-          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">
+          <h3 className="text-xl font-bold text-neutral-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
             {title}
           </h3>
 
           {/* Département */}
           {department && (
-            <p className="text-sm text-gray-600 mb-3">
+            <p className="text-sm text-neutral-600 mb-3">
               {department}
             </p>
           )}
 
           {/* Informations clés */}
           <div className="space-y-2 mb-4">
-            <div className="flex items-center gap-2 text-sm text-gray-700">
-              <MapPin className="w-4 h-4 text-orange-500 flex-shrink-0" />
+            <div className="flex items-center gap-2 text-sm text-neutral-700">
+              <MapPin className="w-4 h-4 text-primary-500 flex-shrink-0" />
               <span>{location}</span>
             </div>
 
             {duration && (
-              <div className="flex items-center gap-2 text-sm text-gray-700">
-                <Clock className="w-4 h-4 text-orange-500 flex-shrink-0" />
+              <div className="flex items-center gap-2 text-sm text-neutral-700">
+                <Clock className="w-4 h-4 text-primary-500 flex-shrink-0" />
                 <span>{duration}</span>
               </div>
             )}
 
             {experienceLevel && (
-              <div className="flex items-center gap-2 text-sm text-gray-700">
-                <Briefcase className="w-4 h-4 text-orange-500 flex-shrink-0" />
+              <div className="flex items-center gap-2 text-sm text-neutral-700">
+                <Briefcase className="w-4 h-4 text-primary-500 flex-shrink-0" />
                 <span>{experienceLevel}</span>
               </div>
             )}
 
             {startDate && (
-              <div className="flex items-center gap-2 text-sm text-gray-700">
-                <Calendar className="w-4 h-4 text-orange-500 flex-shrink-0" />
+              <div className="flex items-center gap-2 text-sm text-neutral-700">
+                <Calendar className="w-4 h-4 text-primary-500 flex-shrink-0" />
                 <span>Début: {formatDate(startDate)}</span>
               </div>
             )}
           </div>
 
           {/* Footer */}
-          <div className="pt-4 border-t border-gray-100">
+          <div className="pt-4 border-t border-neutral-100">
             {daysRemaining !== null && daysRemaining > 0 ? (
               <div className="flex items-center justify-between">
-                <span className={`text-sm font-medium ${isUrgent ? 'text-red-600' : 'text-gray-600'}`}>
+                <span className={`text-sm font-medium ${isUrgent ? 'text-danger-600' : 'text-neutral-600'}`}>
                   {daysRemaining} jour{daysRemaining > 1 ? 's' : ''} restant{daysRemaining > 1 ? 's' : ''}
                 </span>
-                <span className="text-orange-600 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                <span className="text-primary-600 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                   Postuler
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -197,7 +197,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
               </div>
             ) : (
               <div className="text-center">
-                <span className="text-orange-600 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                <span className="text-primary-600 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                   Voir les détails
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

@@ -48,7 +48,7 @@ export default function ServicesSection() {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
 
   return (
-    <section className="section-padding bg-background-secondary">
+    <section className="section-padding bg-surface-muted">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -204,8 +204,8 @@ function ServiceRequestForm() {
         {submitStatus && (
           <div className={`mb-6 p-4 rounded-lg ${
             submitStatus.type === 'success' 
-              ? 'bg-green-500/20 border border-green-500/50 text-white' 
-              : 'bg-red-500/20 border border-red-500/50 text-white'
+              ? 'bg-success-500/20 border border-success-500/50 text-white' 
+              : 'bg-danger-500/20 border border-danger-500/50 text-white'
           }`}>
             {submitStatus.message}
           </div>
@@ -246,9 +246,9 @@ function ServiceRequestForm() {
             required
             disabled={isSubmitting}
           >
-            <option value="" className="text-text">Sélectionner un service</option>
+            <option value="" className="text-ink">Sélectionner un service</option>
             {SERVICES.map((service) => (
-              <option key={service.id} value={service.title} className="text-text">
+              <option key={service.id} value={service.title} className="text-ink">
                 {service.title}
               </option>
             ))}
@@ -265,7 +265,7 @@ function ServiceRequestForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="md:col-span-2 bg-white text-primary font-bold py-4 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="md:col-span-2 bg-white text-primary font-bold py-4 rounded-lg hover:bg-neutral-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Envoi en cours...' : 'Envoyer la demande'}
           </button>

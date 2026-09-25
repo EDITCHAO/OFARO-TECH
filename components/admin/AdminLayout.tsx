@@ -60,27 +60,27 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
   };
 
   const c = {
-    bg: 'bg-gray-50',
-    sidebar: 'bg-gray-950',
-    header: 'bg-gray-950',
+    bg: 'bg-neutral-50',
+    sidebar: 'bg-neutral-950',
+    header: 'bg-neutral-950',
     card: 'bg-white',
-    border: 'border-gray-200',
-    text: 'text-gray-900',
-    activeNav: 'bg-orange-500 text-white border border-orange-400 font-semibold',
-    inactiveNav: 'text-gray-300 hover:text-white hover:bg-gray-800',
-    btnPrimary: 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white shadow-sm',
+    border: 'border-neutral-200',
+    text: 'text-neutral-900',
+    activeNav: 'bg-primary-500 text-white border border-primary-400 font-semibold',
+    inactiveNav: 'text-neutral-300 hover:text-white hover:bg-neutral-800',
+    btnPrimary: 'bg-gradient-to-r from-primary-500 to-primary-400 hover:from-primary-400 hover:to-warning-400 text-white shadow-sm',
     shadowMd: 'shadow-md',
   };
 
   return (
-    <div className={`min-h-screen ${c.bg} text-gray-900 flex flex-col font-sans`}>
+    <div className={`min-h-screen ${c.bg} text-neutral-900 flex flex-col font-sans`}>
       {/* HEADER */}
       <header className={`${c.header} border-b ${c.border} px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50 ${c.shadowMd}`}>
         <div className="flex items-center gap-3">
           {/* Bouton hamburger mobile */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition"
+            className="md:hidden p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-neutral-800 transition"
             aria-label="Toggle menu"
           >
             <FaBars className="text-xl" />
@@ -98,17 +98,17 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
             <div className="hidden sm:block">
               <div className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
                 OFARO TECH
-                <span className="text-xs px-2 py-0.5 rounded-md bg-orange-500/15 text-orange-300 border border-orange-400/40 font-mono font-semibold">BACK-OFFICE</span>
+                <span className="text-xs px-2 py-0.5 rounded-md bg-primary-500/15 text-primary-300 border border-primary-400/40 font-mono font-semibold">BACK-OFFICE</span>
               </div>
-              <div className="text-[11px] text-gray-400">Plateforme d'administration & gouvernance IT</div>
+              <div className="text-[11px] text-neutral-400">Plateforme d'administration & gouvernance IT</div>
             </div>
           </div>
         </div>
 
         {/* Role Switcher */}
-        <div className="hidden lg:flex items-center gap-1.5 bg-gray-900 p-1 rounded-xl border border-gray-700">
-          <span className="text-xs text-gray-300 font-semibold px-2 flex items-center gap-1.5">
-            <FaUserShield className="text-orange-400" /> Rôle actif :
+        <div className="hidden lg:flex items-center gap-1.5 bg-neutral-900 p-1 rounded-xl border border-neutral-700">
+          <span className="text-xs text-neutral-300 font-semibold px-2 flex items-center gap-1.5">
+            <FaUserShield className="text-primary-400" /> Rôle actif :
           </span>
           {(['administrateur', 'editeur', 'commercial', 'rh'] as const).map(role => (
             <button
@@ -116,8 +116,8 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
               onClick={() => handleRoleChange(role)}
               className={`px-3 py-1 text-xs font-semibold rounded-lg capitalize transition-all duration-200 ${
                 currentRole === role
-                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sm scale-105'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  ? 'bg-gradient-to-r from-primary-500 to-primary-400 text-white shadow-sm scale-105'
+                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800'
               }`}
             >
               {role}
@@ -128,15 +128,15 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
         <div className="flex items-center gap-3">
           <button
             onClick={() => showToast('Données synchronisées !', 'success')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-gray-900 border border-gray-700 hover:bg-gray-800 text-gray-200 shadow-sm transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-neutral-200 shadow-sm transition"
           >
-            <FaSync className="text-orange-400" />
+            <FaSync className="text-primary-400" />
             <span>Sync Données</span>
           </button>
           <Link href="/" target="_blank" className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${c.btnPrimary} transition`}>
             <FaExternalLinkAlt /> <span>Voir le site</span>
           </Link>
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold text-xs shadow">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center text-white font-bold text-xs shadow">
             {currentRole.slice(0, 2).toUpperCase()}
           </div>
         </div>
@@ -146,12 +146,12 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
       {toastMessage && (
         <div className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce border ${
           toastType === 'success'
-            ? 'bg-white border-emerald-200 text-gray-800'
-            : 'bg-white border-rose-200 text-gray-800'
+            ? 'bg-white border-success-200 text-neutral-800'
+            : 'bg-white border-danger-200 text-neutral-800'
         }`}>
           {toastType === 'success'
-            ? <FaCheckCircle className="text-emerald-500 text-lg" />
-            : <FaExclamationTriangle className="text-rose-500 text-lg" />}
+            ? <FaCheckCircle className="text-success-500 text-lg" />
+            : <FaExclamationTriangle className="text-danger-500 text-lg" />}
           <span className="text-sm font-medium">{toastMessage}</span>
         </div>
       )}
@@ -168,14 +168,14 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
         
         {/* SIDEBAR */}
         <aside className={`
-          w-64 ${c.sidebar} border-r border-gray-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
+          w-64 ${c.sidebar} border-r border-neutral-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
           fixed md:relative inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
           <nav className="p-4 space-y-5">
             {/* Section 1: Général (Contenu) */}
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">1. Général (Contenu)</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 px-3 mb-2">1. Général (Contenu)</div>
               <div className="space-y-0.5">
                 {[
                   { id: 'dashboard', label: 'Tableau de bord', icon: <FaChartBar /> },
@@ -192,12 +192,12 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
                       disabled={!allowed}
                       onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${
-                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : 'text-gray-300 cursor-not-allowed'
+                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : 'text-neutral-300 cursor-not-allowed'
                       }`}
                     >
-                      <span className={`text-base ${activeMenu === item.id ? 'text-white' : 'text-gray-500'}`}>{item.icon}</span>
+                      <span className={`text-base ${activeMenu === item.id ? 'text-white' : 'text-neutral-500'}`}>{item.icon}</span>
                       <span>{item.label}</span>
-                      {!allowed && <FaLock className="ml-auto text-[10px] text-gray-300" />}
+                      {!allowed && <FaLock className="ml-auto text-[10px] text-neutral-300" />}
                     </button>
                   );
                 })}
@@ -207,21 +207,21 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
                   onClick={() => canAccess('offres') && handleMenuClick('offres')}
                   disabled={!canAccess('offres')}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
-                    activeMenu === 'offres' ? c.activeNav : canAccess('offres') ? c.inactiveNav : 'text-gray-300 cursor-not-allowed'
+                    activeMenu === 'offres' ? c.activeNav : canAccess('offres') ? c.inactiveNav : 'text-neutral-300 cursor-not-allowed'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`text-base ${activeMenu === 'offres' ? 'text-white' : 'text-gray-500'}`}><FaBriefcase /></span>
+                    <span className={`text-base ${activeMenu === 'offres' ? 'text-white' : 'text-neutral-500'}`}><FaBriefcase /></span>
                     <span>Gestion des offres</span>
                   </div>
-                  {!canAccess('offres') && <FaLock className="text-[10px] text-gray-300" />}
+                  {!canAccess('offres') && <FaLock className="text-[10px] text-neutral-300" />}
                 </button>
               </div>
             </div>
 
             {/* Section 2: Relation Client & Ventes */}
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">2. Relation Client & Ventes</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 px-3 mb-2">2. Relation Client & Ventes</div>
               <div className="space-y-0.5">
                 {[
                   { id: 'devis', label: 'Demandes de devis', icon: <FaFileAlt /> },
@@ -237,14 +237,14 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
                       disabled={!allowed}
                       onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
-                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : 'text-gray-300 cursor-not-allowed'
+                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : 'text-neutral-300 cursor-not-allowed'
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <span className={`text-base ${activeMenu === item.id ? 'text-white' : 'text-gray-500'}`}>{item.icon}</span>
+                        <span className={`text-base ${activeMenu === item.id ? 'text-white' : 'text-neutral-500'}`}>{item.icon}</span>
                         <span>{item.label}</span>
                       </div>
-                      {!allowed && <FaLock className="text-[10px] text-gray-300" />}
+                      {!allowed && <FaLock className="text-[10px] text-neutral-300" />}
                     </button>
                   );
                 })}
@@ -253,7 +253,7 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
 
             {/* Section 3: Système & Gouvernance */}
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">3. Système & Gouvernance</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 px-3 mb-2">3. Système & Gouvernance</div>
               <div className="space-y-0.5">
                 {[
                   { id: 'equipe', label: 'Équipe OFARO', icon: <FaUsers /> },
@@ -270,12 +270,12 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
                       disabled={!allowed}
                       onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${
-                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : 'text-gray-300 cursor-not-allowed'
+                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : 'text-neutral-300 cursor-not-allowed'
                       }`}
                     >
-                      <span className={`text-base ${activeMenu === item.id ? 'text-white' : 'text-gray-500'}`}>{item.icon}</span>
+                      <span className={`text-base ${activeMenu === item.id ? 'text-white' : 'text-neutral-500'}`}>{item.icon}</span>
                       <span>{item.label}</span>
-                      {!allowed && <FaLock className="ml-auto text-[10px] text-gray-300" />}
+                      {!allowed && <FaLock className="ml-auto text-[10px] text-neutral-300" />}
                     </button>
                   );
                 })}
@@ -283,9 +283,9 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
             </div>
           </nav>
 
-          <div className="p-4 border-t border-gray-800">
-            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
-              <FaExternalLinkAlt className="text-base text-gray-500" />
+          <div className="p-4 border-t border-neutral-800">
+            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-neutral-300 hover:text-white hover:bg-neutral-800 transition-all">
+              <FaExternalLinkAlt className="text-base text-neutral-500" />
               <span>Déconnexion</span>
             </button>
           </div>

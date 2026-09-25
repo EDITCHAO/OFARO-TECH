@@ -58,7 +58,7 @@ export default function AboutPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
@@ -67,7 +67,7 @@ export default function AboutPage() {
               <h1 className="heading-1 mb-6">
                 Nous construisons l'avenir digital de l'Afrique
               </h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-ink-secondary leading-relaxed">
                 {COMPANY_INFO.description}
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function AboutPage() {
         </section>
 
         {/* Mission & Vision */}
-        <section className="section-padding bg-background-secondary">
+        <section className="section-padding bg-surface-muted">
           <div className="container-custom">
             <div className="grid md:grid-cols-2 gap-8">
               {/* Mission */}
@@ -115,7 +115,7 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-3xl mb-6">
                   <FaRocket />
                 </div>
-                <h3 className="text-3xl font-bold text-text mb-4">Notre Mission</h3>
+                <h3 className="text-3xl font-bold text-ink mb-4">Notre Mission</h3>
                 <p className="text-body">
                   {COMPANY_INFO.mission}
                 </p>
@@ -152,11 +152,11 @@ export default function AboutPage() {
               {values.map((value, index) => (
                 <div
                   key={index}
-                  className="bg-background-secondary p-8 rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                  className="bg-surface-muted p-8 rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
                 >
                   <div className="text-primary mb-4">{value.icon}</div>
-                  <h3 className="text-xl font-bold text-text mb-3">{value.title}</h3>
-                  <p className="text-text-secondary">{value.description}</p>
+                  <h3 className="text-xl font-bold text-ink mb-3">{value.title}</h3>
+                  <p className="text-ink-secondary">{value.description}</p>
                 </div>
               ))}
             </div>
@@ -164,7 +164,7 @@ export default function AboutPage() {
         </section>
 
         {/* Timeline */}
-        <section className="section-padding bg-background-secondary">
+        <section className="section-padding bg-surface-muted">
           <div className="container-custom">
             <div className="text-center max-w-3xl mx-auto mb-12">
               <h2 className="heading-2 mb-4">Notre parcours</h2>
@@ -189,8 +189,8 @@ export default function AboutPage() {
 
                       {/* Content */}
                       <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-                        <h3 className="text-xl font-bold text-text mb-2">{milestone.title}</h3>
-                        <p className="text-text-secondary">{milestone.description}</p>
+                        <h3 className="text-xl font-bold text-ink mb-2">{milestone.title}</h3>
+                        <p className="text-ink-secondary">{milestone.description}</p>
                       </div>
                     </div>
                   ))}
@@ -210,7 +210,7 @@ export default function AboutPage() {
               Prêt à transformer votre entreprise avec les meilleures solutions IT ? Contactez-nous dès aujourd'hui pour discuter de votre projet.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/contact" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+              <Link href="/contact" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-neutral-100 transition-colors">
                 Nous contacter
               </Link>
               <Link href="/devis" className="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors">

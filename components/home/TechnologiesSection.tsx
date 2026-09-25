@@ -60,16 +60,16 @@ export default function TechnologiesSection() {
   };
 
   const categories = [
-    { key: "frontend", label: "Frontend", color: "from-blue-500 to-cyan-500" },
-    { key: "backend", label: "Backend", color: "from-green-500 to-emerald-500" },
-    { key: "mobile", label: "Mobile", color: "from-purple-500 to-pink-500" },
-    { key: "database", label: "Bases de données", color: "from-orange-500 to-red-500" },
-    { key: "devops", label: "DevOps & Cloud", color: "from-indigo-500 to-blue-500" },
-    { key: "design", label: "Design", color: "from-pink-500 to-rose-500" }
+    { key: "frontend", label: "Frontend", color: "from-primary-500 to-primary-700" },
+    { key: "backend", label: "Backend", color: "from-ink to-neutral-700" },
+    { key: "mobile", label: "Mobile", color: "from-accent-500 to-accent-700" },
+    { key: "database", label: "Bases de données", color: "from-primary-500 to-primary-700" },
+    { key: "devops", label: "DevOps & Cloud", color: "from-ink to-neutral-700" },
+    { key: "design", label: "Design", color: "from-accent-500 to-accent-700" }
   ];
 
   return (
-    <section className="section-padding bg-background-secondary">
+    <section className="section-padding bg-surface-muted">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -112,7 +112,7 @@ export default function TechnologiesSection() {
                       </div>
 
                       {/* Name */}
-                      <div className="font-semibold text-text group-hover:text-primary transition-colors">
+                      <div className="font-semibold text-ink group-hover:text-primary transition-colors">
                         {tech.name}
                       </div>
                     </div>
@@ -132,7 +132,7 @@ export default function TechnologiesSection() {
             Notre équipe se forme continuellement aux dernières technologies pour vous garantir des solutions performantes et pérennes
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="/services" className="bg-white text-primary font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+            <a href="/services" className="bg-white text-primary font-bold py-3 px-8 rounded-lg hover:bg-neutral-100 transition-colors">
               Découvrir nos services
             </a>
             <a href="/contact" className="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors">

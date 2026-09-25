@@ -119,7 +119,7 @@ export default function TestUploadPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-neutral-50 p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">🧪 Test Upload Image Supabase</h1>
 
@@ -130,15 +130,15 @@ export default function TestUploadPage() {
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            className="block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
           />
 
           {preview && (
             <div className="mt-4">
-              <p className="text-sm text-gray-600 mb-2">Aperçu:</p>
+              <p className="text-sm text-neutral-600 mb-2">Aperçu:</p>
               <img src={preview} alt="Preview" className="max-w-sm rounded border" />
               {file && (
-                <div className="mt-2 text-sm text-gray-600">
+                <div className="mt-2 text-sm text-neutral-600">
                   <p>Nom: {file.name}</p>
                   <p>Taille: {(file.size / 1024).toFixed(2)} KB</p>
                   <p>Type: {file.type}</p>
@@ -155,13 +155,13 @@ export default function TestUploadPage() {
             <button
               onClick={testUpload}
               disabled={!file || loading}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Upload en cours...' : '📤 Tester Upload'}
             </button>
             <button
               onClick={checkBucket}
-              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+              className="bg-success-600 text-white px-6 py-3 rounded-lg hover:bg-success-700"
             >
               🔍 Vérifier Bucket
             </button>
@@ -171,7 +171,7 @@ export default function TestUploadPage() {
         {/* Résultat */}
         {uploadResult && (
           <div className={`rounded-lg shadow p-6 mb-6 ${
-            uploadResult.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
+            uploadResult.success ? 'bg-success-50 border border-success-200' : 'bg-danger-50 border border-danger-200'
           }`}>
             <h2 className="text-xl font-semibold mb-4">
               {uploadResult.success ? '✅ Upload Réussi!' : '❌ Erreur Upload'}
@@ -180,26 +180,26 @@ export default function TestUploadPage() {
             {uploadResult.success ? (
               <div className="space-y-4">
                 <div>
-                  <p className="font-semibold text-green-700">Fichier uploadé:</p>
+                  <p className="font-semibold text-success-700">Fichier uploadé:</p>
                   <p className="text-sm font-mono bg-white p-2 rounded">{uploadResult.fileName}</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-green-700">Chemin Supabase:</p>
+                  <p className="font-semibold text-success-700">Chemin Supabase:</p>
                   <p className="text-sm font-mono bg-white p-2 rounded break-all">{uploadResult.path}</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-green-700">URL publique:</p>
+                  <p className="font-semibold text-success-700">URL publique:</p>
                   <a 
                     href={uploadResult.publicUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-sm font-mono bg-white p-2 rounded block break-all text-blue-600 hover:underline"
+                    className="text-sm font-mono bg-white p-2 rounded block break-all text-primary-600 hover:underline"
                   >
                     {uploadResult.publicUrl}
                   </a>
                 </div>
                 <div className="mt-4">
-                  <p className="font-semibold text-green-700 mb-2">Image uploadée:</p>
+                  <p className="font-semibold text-success-700 mb-2">Image uploadée:</p>
                   <img 
                     src={uploadResult.publicUrl} 
                     alt="Uploaded" 
@@ -207,16 +207,16 @@ export default function TestUploadPage() {
                     onError={(e) => {
                       e.currentTarget.src = '';
                       e.currentTarget.alt = '❌ Erreur de chargement';
-                      e.currentTarget.className = 'p-4 bg-red-100 text-red-700 rounded';
+                      e.currentTarget.className = 'p-4 bg-danger-100 text-danger-700 rounded';
                     }}
                   />
                 </div>
               </div>
             ) : (
               <div className="space-y-2">
-                <p className="text-red-700 font-semibold">Erreur: {uploadResult.error}</p>
+                <p className="text-danger-700 font-semibold">Erreur: {uploadResult.error}</p>
                 <details className="mt-4">
-                  <summary className="cursor-pointer text-sm text-red-600 hover:text-red-800">
+                  <summary className="cursor-pointer text-sm text-danger-600 hover:text-danger-800">
                     Voir les détails
                   </summary>
                   <pre className="mt-2 bg-white p-4 rounded text-xs overflow-auto">
@@ -229,7 +229,7 @@ export default function TestUploadPage() {
         )}
 
         {/* Instructions */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+        <div className="bg-warning-50 border border-warning-200 rounded-lg p-6">
           <h3 className="font-semibold mb-2">📝 Instructions:</h3>
           <ol className="list-decimal list-inside space-y-2 text-sm">
             <li>Sélectionnez une image</li>
@@ -251,10 +251,10 @@ export default function TestUploadPage() {
 
         {/* Navigation */}
         <div className="mt-6 flex gap-4">
-          <a href="/admin/offres" className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700">
+          <a href="/admin/offres" className="bg-neutral-600 text-white px-6 py-3 rounded-lg hover:bg-neutral-700">
             ← Retour Admin
           </a>
-          <a href="/debug-offers" className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700">
+          <a href="/debug-offers" className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700">
             🔍 Debug Offres
           </a>
         </div>

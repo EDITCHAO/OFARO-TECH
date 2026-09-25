@@ -47,9 +47,9 @@ const OffersGrid: React.FC<OffersGridProps> = ({
   if (!offers || offers.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 mb-4">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-neutral-100 mb-4">
           <svg 
-            className="w-10 h-10 text-gray-400" 
+            className="w-10 h-10 text-neutral-400" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -62,10 +62,10 @@ const OffersGrid: React.FC<OffersGridProps> = ({
             />
           </svg>
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <h3 className="text-xl font-semibold text-neutral-900 mb-2">
           {emptyMessage || 'Aucune offre disponible'}
         </h3>
-        <p className="text-gray-600">
+        <p className="text-neutral-600">
           {offerType === 'job' 
             ? 'Revenez bientôt pour découvrir nos prochaines opportunités de carrière.' 
             : 'Revenez bientôt pour découvrir nos prochaines opportunités de stage.'}

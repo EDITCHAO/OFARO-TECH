@@ -83,7 +83,7 @@ export default function OffreDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -91,12 +91,12 @@ export default function OffreDetailPage() {
   if (error || !offer) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg mb-4">
+        <div className="bg-danger-50 border border-danger-200 text-danger-700 px-6 py-4 rounded-lg mb-4">
           {error || 'Offre non disponible'}
         </div>
         <button
           onClick={() => router.push('/offres')}
-          className="flex items-center gap-2 text-blue-600 hover:underline"
+          className="flex items-center gap-2 text-primary-600 hover:underline"
         >
           <FaArrowLeft /> Retour aux offres
         </button>
@@ -107,9 +107,9 @@ export default function OffreDetailPage() {
   const expired = offer.application_deadline && isExpired(offer.application_deadline);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Hero Section avec Image */}
-      <div className="relative h-96 bg-gradient-to-r from-blue-600 to-purple-600 overflow-hidden">
+      <div className="relative h-96 bg-gradient-to-r from-primary-600 to-primary-600 overflow-hidden">
         {offer.image_url ? (
           <img
             src={offer.image_url}
@@ -155,12 +155,12 @@ export default function OffreDetailPage() {
       <div className="max-w-5xl mx-auto px-4 -mt-6 mb-6">
         <div className="flex flex-wrap gap-2">
           {expired && (
-            <span className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold animate-pulse">
+            <span className="bg-danger-600 text-white px-4 py-2 rounded-full text-sm font-semibold animate-pulse">
               ❌ OFFRE EXPIRÉE
             </span>
           )}
           {offer.status === 'suspendue' && (
-            <span className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+            <span className="bg-primary-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
               ⏸️ SUSPENDUE
             </span>
           )}
@@ -175,24 +175,24 @@ export default function OffreDetailPage() {
             {/* Description */}
             <section className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <FaFileAlt className="text-blue-600" />
+                <FaFileAlt className="text-primary-600" />
                 Description du poste
               </h2>
-              <p className="text-gray-700 whitespace-pre-line">{offer.description}</p>
+              <p className="text-neutral-700 whitespace-pre-line">{offer.description}</p>
             </section>
 
             {/* Missions */}
             {offer.missions && (
               <section className="bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                  <FaCheckCircle className="text-green-600" />
+                  <FaCheckCircle className="text-success-600" />
                   Missions principales
                 </h2>
                 <ul className="space-y-2">
                   {parseListItems(offer.missions).map((mission, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="text-green-600 mt-1">✓</span>
-                      <span className="text-gray-700">{mission}</span>
+                      <span className="text-success-600 mt-1">✓</span>
+                      <span className="text-neutral-700">{mission}</span>
                     </li>
                   ))}
                 </ul>
@@ -203,14 +203,14 @@ export default function OffreDetailPage() {
             {offer.responsibilities && (
               <section className="bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                  <FaStar className="text-yellow-600" />
+                  <FaStar className="text-warning-600" />
                   Responsabilités
                 </h2>
                 <ul className="space-y-2">
                   {parseListItems(offer.responsibilities).map((resp, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="text-yellow-600 mt-1">★</span>
-                      <span className="text-gray-700">{resp}</span>
+                      <span className="text-warning-600 mt-1">★</span>
+                      <span className="text-neutral-700">{resp}</span>
                     </li>
                   ))}
                 </ul>
@@ -218,36 +218,36 @@ export default function OffreDetailPage() {
             )}
 
             {/* Profil Recherché */}
-            <section className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg shadow-md p-6 border border-blue-100">
-              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-blue-900">
-                <FaGraduationCap className="text-blue-600" />
+            <section className="bg-gradient-to-br from-primary-50 to-primary-50 rounded-lg shadow-md p-6 border border-primary-100">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-primary-900">
+                <FaGraduationCap className="text-primary-600" />
                 Profil recherché
               </h2>
 
               {/* Formation */}
               {offer.education_level && (
                 <div className="mb-6">
-                  <h3 className="font-semibold text-lg mb-3 text-blue-800">Formation</h3>
-                  <p className="text-gray-700 whitespace-pre-line">{offer.education_level}</p>
+                  <h3 className="font-semibold text-lg mb-3 text-primary-800">Formation</h3>
+                  <p className="text-neutral-700 whitespace-pre-line">{offer.education_level}</p>
                 </div>
               )}
 
               {/* Expérience */}
               {offer.experience_level && (
                 <div className="mb-6">
-                  <h3 className="font-semibold text-lg mb-3 text-blue-800">Expérience</h3>
-                  <p className="text-gray-700 whitespace-pre-line">{offer.experience_level}</p>
+                  <h3 className="font-semibold text-lg mb-3 text-primary-800">Expérience</h3>
+                  <p className="text-neutral-700 whitespace-pre-line">{offer.experience_level}</p>
                 </div>
               )}
 
               {/* Compétences techniques */}
               {offer.required_skills && (
                 <div className="mb-6">
-                  <h3 className="font-semibold text-lg mb-3 text-blue-800">Compétences techniques</h3>
+                  <h3 className="font-semibold text-lg mb-3 text-primary-800">Compétences techniques</h3>
                   <ul className="grid grid-cols-2 gap-2">
                     {parseListItems(offer.required_skills).map((skill, index) => (
-                      <li key={index} className="flex items-center gap-2 text-gray-700">
-                        <span className="text-blue-600">•</span>
+                      <li key={index} className="flex items-center gap-2 text-neutral-700">
+                        <span className="text-primary-600">•</span>
                         {skill}
                       </li>
                     ))}
@@ -258,11 +258,11 @@ export default function OffreDetailPage() {
               {/* Qualités personnelles */}
               {offer.profile && (
                 <div>
-                  <h3 className="font-semibold text-lg mb-3 text-blue-800">Qualités personnelles</h3>
+                  <h3 className="font-semibold text-lg mb-3 text-primary-800">Qualités personnelles</h3>
                   <ul className="grid grid-cols-2 gap-2">
                     {parseListItems(offer.profile).map((quality, index) => (
-                      <li key={index} className="flex items-center gap-2 text-gray-700">
-                        <span className="text-purple-600">✓</span>
+                      <li key={index} className="flex items-center gap-2 text-neutral-700">
+                        <span className="text-primary-600">✓</span>
                         {quality}
                       </li>
                     ))}
@@ -279,23 +279,23 @@ export default function OffreDetailPage() {
               <h3 className="font-bold text-lg mb-4">Informations</h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">Référence</p>
+                  <p className="text-sm text-neutral-600">Référence</p>
                   <p className="font-semibold">{offer.reference}</p>
                 </div>
                 {offer.department && (
                   <div>
-                    <p className="text-sm text-gray-600">Département</p>
+                    <p className="text-sm text-neutral-600">Département</p>
                     <p className="font-semibold">{offer.department}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-sm text-gray-600">Publication</p>
+                  <p className="text-sm text-neutral-600">Publication</p>
                   <p className="font-semibold">{formatDate(offer.publication_date)}</p>
                 </div>
                 {offer.application_deadline && (
                   <div>
-                    <p className="text-sm text-gray-600">Date limite</p>
-                    <p className={`font-semibold ${expired ? 'text-red-600' : 'text-green-600'}`}>
+                    <p className="text-sm text-neutral-600">Date limite</p>
+                    <p className={`font-semibold ${expired ? 'text-danger-600' : 'text-success-600'}`}>
                       {formatDate(offer.application_deadline)}
                     </p>
                   </div>
@@ -306,14 +306,14 @@ export default function OffreDetailPage() {
               {!expired && (
                 <a
                   href={`/carrieres?offre=${offer.id}&titre=${encodeURIComponent(offer.title)}&ref=${encodeURIComponent(offer.reference)}#candidature`}
-                  className="block w-full mt-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg text-center"
+                  className="block w-full mt-6 bg-gradient-to-r from-primary-600 to-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-primary-700 transition-all shadow-lg text-center"
                 >
                   Postuler maintenant
                 </a>
               )}
 
               {expired && (
-                <div className="mt-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm text-center">
+                <div className="mt-6 bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-lg text-sm text-center">
                   Cette offre n'accepte plus de candidatures
                 </div>
               )}

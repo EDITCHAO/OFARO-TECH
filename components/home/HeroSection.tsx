@@ -37,7 +37,7 @@ export default function HeroSection() {
               {COMPANY_INFO.slogan}
             </h1>
 
-            <p className="text-lg text-gray-100 max-w-2xl leading-relaxed drop-shadow">
+            <p className="text-lg text-neutral-100 max-w-2xl leading-relaxed drop-shadow">
               Nous accompagnons les entreprises, administrations et institutions dans leur transformation digitale avec des solutions technologiques innovantes et sur mesure.
             </p>
 
@@ -50,8 +50,8 @@ export default function HeroSection() {
               <Link href="/services" className="btn-secondary group">
                 Nos services
               </Link>
-              <button className="flex items-center gap-3 text-text hover:text-primary transition-colors font-semibold">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+              <button className="group flex items-center gap-3 text-white hover:text-primary-300 transition-colors font-semibold">
+                <div className="w-12 h-12 bg-white/10 border border-white/30 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-colors">
                   <FaPlay className="ml-1" />
                 </div>
                 <span>Voir la démo</span>
@@ -65,7 +65,7 @@ export default function HeroSection() {
                   <div className="text-3xl md:text-4xl font-bold text-primary drop-shadow-lg mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-gray-200">{stat.label}</div>
+                  <div className="text-sm text-neutral-200">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -77,36 +77,36 @@ export default function HeroSection() {
               {/* Floating Cards avec design amélioré */}
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-white/20 animate-float">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-green-500/90 rounded-lg flex items-center justify-center text-white text-2xl">
+                  <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center text-white text-2xl">
                     ✓
                   </div>
                   <div>
                     <div className="font-bold text-white text-xl">200+</div>
-                    <div className="text-sm text-gray-200">Projets livrés avec succès</div>
+                    <div className="text-sm text-neutral-200">Projets livrés avec succès</div>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-white/20 animate-float" style={{ animationDelay: "0.5s" }}>
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-primary/90 rounded-lg flex items-center justify-center text-white text-2xl">
+                  <div className="w-16 h-16 bg-accent rounded-lg flex items-center justify-center text-ink text-2xl">
                     ⭐
                   </div>
                   <div>
                     <div className="font-bold text-white text-xl">98%</div>
-                    <div className="text-sm text-gray-200">Taux de satisfaction client</div>
+                    <div className="text-sm text-neutral-200">Taux de satisfaction client</div>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-white/20 animate-float" style={{ animationDelay: "1s" }}>
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-blue-500/90 rounded-lg flex items-center justify-center text-white text-2xl">
+                  <div className="w-16 h-16 bg-white/15 border border-white/30 rounded-lg flex items-center justify-center text-white text-2xl">
                     🌍
                   </div>
                   <div>
                     <div className="font-bold text-white text-xl">24/7</div>
-                    <div className="text-sm text-gray-200">Support technique disponible</div>
+                    <div className="text-sm text-neutral-200">Support technique disponible</div>
                   </div>
                 </div>
               </div>
@@ -121,20 +121,6 @@ export default function HeroSection() {
           <div className="w-1 h-3 bg-primary rounded-full mx-auto animate-pulse"></div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 }

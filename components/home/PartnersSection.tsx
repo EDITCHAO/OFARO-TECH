@@ -13,7 +13,7 @@ export default function PartnersSection() {
   ];
 
   return (
-    <section className="section-padding bg-background-secondary">
+    <section className="section-padding bg-surface-muted">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -41,7 +41,7 @@ export default function PartnersSection() {
                     {partner.logo}
                   </span>
                 </div>
-                <div className="font-semibold text-text group-hover:text-primary transition-colors">
+                <div className="font-semibold text-ink group-hover:text-primary transition-colors">
                   {partner.name}
                 </div>
               </div>
@@ -51,7 +51,7 @@ export default function PartnersSection() {
 
         {/* Bottom Note */}
         <div className="mt-12 text-center">
-          <p className="text-text-secondary">
+          <p className="text-ink-secondary">
             Et bien d'autres partenaires technologiques de premier plan
           </p>
         </div>

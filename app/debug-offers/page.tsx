@@ -35,7 +35,7 @@ export default function DebugOffersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-neutral-50 p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">🔍 Debug - Offres en base de données</h1>
 
@@ -58,7 +58,7 @@ export default function DebugOffersPage() {
                     <p><strong>Référence:</strong> {offer.reference}</p>
                     <p><strong>Statut:</strong> 
                       <span className={`ml-2 px-2 py-1 rounded ${
-                        offer.status === 'publiee' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                        offer.status === 'publiee' ? 'bg-success-100 text-success-700' : 'bg-neutral-100 text-neutral-700'
                       }`}>
                         {offer.status}
                       </span>
@@ -74,7 +74,7 @@ export default function DebugOffersPage() {
                   <h4 className="font-semibold mb-2">Image:</h4>
                   {offer.image_url ? (
                     <div className="space-y-2">
-                      <div className="bg-gray-100 p-2 rounded">
+                      <div className="bg-neutral-100 p-2 rounded">
                         <p className="text-xs font-mono break-all">{offer.image_url}</p>
                       </div>
                       <div className="border rounded overflow-hidden">
@@ -93,14 +93,14 @@ export default function DebugOffersPage() {
                           href={offer.image_url} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-xs text-blue-600 hover:underline"
+                          className="text-xs text-primary-600 hover:underline"
                         >
                           🔗 Ouvrir l'image dans un nouvel onglet
                         </a>
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-red-50 border border-red-200 rounded p-4 text-sm text-red-700">
+                    <div className="bg-danger-50 border border-danger-200 rounded p-4 text-sm text-danger-700">
                       ❌ Aucune image (image_url est NULL)
                     </div>
                   )}
@@ -109,10 +109,10 @@ export default function DebugOffersPage() {
 
               {/* JSON complet */}
               <details className="mt-4">
-                <summary className="cursor-pointer text-sm font-semibold text-gray-600 hover:text-gray-900">
+                <summary className="cursor-pointer text-sm font-semibold text-neutral-600 hover:text-neutral-900">
                   Voir JSON complet
                 </summary>
-                <pre className="mt-2 bg-gray-100 p-3 rounded text-xs overflow-auto">
+                <pre className="mt-2 bg-neutral-100 p-3 rounded text-xs overflow-auto">
                   {JSON.stringify(offer, null, 2)}
                 </pre>
               </details>
@@ -121,27 +121,27 @@ export default function DebugOffersPage() {
         </div>
 
         {offers.length === 0 && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded p-6 text-center">
-            <p className="text-yellow-800">Aucune offre trouvée en base de données</p>
+          <div className="bg-warning-50 border border-warning-200 rounded p-6 text-center">
+            <p className="text-warning-800">Aucune offre trouvée en base de données</p>
           </div>
         )}
 
         <div className="mt-8 flex gap-4">
           <button
             onClick={fetchOffers}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+            className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700"
           >
             🔄 Rafraîchir
           </button>
           <a
             href="/admin/offres"
-            className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700"
+            className="bg-neutral-600 text-white px-6 py-3 rounded-lg hover:bg-neutral-700"
           >
             ← Admin
           </a>
           <a
             href="/carrieres"
-            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+            className="bg-success-600 text-white px-6 py-3 rounded-lg hover:bg-success-700"
           >
             Voir Carrières →
           </a>

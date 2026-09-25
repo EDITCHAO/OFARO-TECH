@@ -112,26 +112,26 @@ export default function ApplicationForm() {
 
       {/* Info de l'offre si présente */}
       {selectedJobTitle && (
-        <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-          <p className="text-sm font-semibold text-blue-900 mb-1">
+        <div className="bg-primary-50 border border-primary-200 p-4 rounded-lg">
+          <p className="text-sm font-semibold text-primary-900 mb-1">
             📌 Candidature pour l'offre :
           </p>
-          <p className="text-lg font-bold text-blue-900">{selectedJobTitle}</p>
+          <p className="text-lg font-bold text-primary-900">{selectedJobTitle}</p>
           {selectedJobRef && (
-            <p className="text-xs text-gray-600 mt-1">Réf: {selectedJobRef}</p>
+            <p className="text-xs text-neutral-600 mt-1">Réf: {selectedJobRef}</p>
           )}
         </div>
       )}
 
       {message && (
-        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-success-50 text-success-700 border border-success-200' : 'bg-danger-50 text-danger-700 border border-danger-200'}`}>
           {message.text}
         </div>
       )}
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="prenom" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+          <label htmlFor="prenom" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
             Prénom
           </label>
           <input
@@ -139,13 +139,13 @@ export default function ApplicationForm() {
             id="prenom"
             name="prenom"
             placeholder="Votre prénom"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all"
             required
             disabled={isSubmitting}
           />
         </div>
         <div>
-          <label htmlFor="nom" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+          <label htmlFor="nom" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
             Nom
           </label>
           <input
@@ -153,7 +153,7 @@ export default function ApplicationForm() {
             id="nom"
             name="nom"
             placeholder="Votre nom"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all"
             required
             disabled={isSubmitting}
           />
@@ -162,7 +162,7 @@ export default function ApplicationForm() {
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="email" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+          <label htmlFor="email" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
             Email
           </label>
           <input
@@ -170,13 +170,13 @@ export default function ApplicationForm() {
             id="email"
             name="email"
             placeholder="vous@email.com"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all"
             required
             disabled={isSubmitting}
           />
         </div>
         <div>
-          <label htmlFor="telephone" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+          <label htmlFor="telephone" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
             Téléphone
           </label>
           <input
@@ -184,7 +184,7 @@ export default function ApplicationForm() {
             id="telephone"
             name="telephone"
             placeholder="+228 ..."
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all"
             required
             disabled={isSubmitting}
           />
@@ -192,7 +192,7 @@ export default function ApplicationForm() {
       </div>
 
       <div>
-        <label htmlFor="poste" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+        <label htmlFor="poste" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
           Poste visé
         </label>
         {selectedJobTitle ? (
@@ -203,9 +203,9 @@ export default function ApplicationForm() {
               name="poste"
               value={selectedJobTitle}
               readOnly
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-gray-700 font-semibold cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-lg border border-neutral-200 bg-neutral-50 text-neutral-700 font-semibold cursor-not-allowed"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-neutral-500 mt-1">
               💼 Candidature pour cette offre spécifique
             </p>
           </>
@@ -213,7 +213,7 @@ export default function ApplicationForm() {
           <select
             id="poste"
             name="poste"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all bg-white"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all bg-white"
             required
             disabled={isSubmitting}
           >
@@ -237,7 +237,7 @@ export default function ApplicationForm() {
       </div>
 
       <div>
-        <label htmlFor="portfolio" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+        <label htmlFor="portfolio" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
           Lien portfolio / LinkedIn (optionnel)
         </label>
         <input
@@ -245,13 +245,13 @@ export default function ApplicationForm() {
           id="portfolio"
           name="portfolio"
           placeholder="https://..."
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+          className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all"
           disabled={isSubmitting}
         />
       </div>
 
       <div>
-        <label htmlFor="cv" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+        <label htmlFor="cv" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
           Télécharger votre CV (PDF uniquement)
         </label>
         <input
@@ -260,18 +260,18 @@ export default function ApplicationForm() {
           name="cv"
           accept=".pdf,application/pdf"
           onChange={handleFileChange}
-          className="w-full px-4 py-3 rounded-lg border-2 border-dashed border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          className="w-full px-4 py-3 rounded-lg border-2 border-dashed border-neutral-300 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
           required
           disabled={isSubmitting}
         />
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-xs text-neutral-500 mt-2">
           📄 Fichier PDF uniquement • Taille maximale: 5 MB
-          {selectedFile && <span className="text-green-600 font-semibold"> • {selectedFile.name} ({(selectedFile.size / 1024).toFixed(0)} KB)</span>}
+          {selectedFile && <span className="text-success-600 font-semibold"> • {selectedFile.name} ({(selectedFile.size / 1024).toFixed(0)} KB)</span>}
         </p>
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+        <label htmlFor="message" className="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-2">
           Message / Motivation
         </label>
         <textarea
@@ -279,17 +279,17 @@ export default function ApplicationForm() {
           name="message"
           rows={5}
           placeholder="Présentez-vous en quelques lignes : parcours, motivation, disponibilité..."
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
+          className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 outline-none transition-all resize-none"
           required
           disabled={isSubmitting}
         ></textarea>
       </div>
 
-      <div className="bg-blue-50 p-4 rounded-lg text-sm text-gray-600 flex items-start gap-3">
-        <FaShieldAlt className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+      <div className="bg-primary-50 p-4 rounded-lg text-sm text-neutral-600 flex items-start gap-3">
+        <FaShieldAlt className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
         <p>
           Vos données et documents sont traités de manière confidentielle, uniquement dans le cadre du recrutement.{' '}
-          <Link href="/mentions-legales" className="text-blue-600 hover:underline font-medium">
+          <Link href="/mentions-legales" className="text-primary-600 hover:underline font-medium">
             En savoir plus
           </Link>
         </p>
@@ -298,7 +298,7 @@ export default function ApplicationForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full group bg-gray-900 text-white py-4 rounded-lg hover:bg-blue-600 transition-all duration-300 font-semibold flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        className="w-full group bg-neutral-900 text-white py-4 rounded-lg hover:bg-primary-600 transition-all duration-300 font-semibold flex items-center justify-center gap-2 disabled:bg-neutral-400 disabled:cursor-not-allowed"
       >
         {isSubmitting ? (
           <>

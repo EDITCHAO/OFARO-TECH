@@ -38,7 +38,7 @@ export default function PresentationSection() {
             
             <div className="text-body space-y-4">
               <p>
-                <strong className="text-text">{COMPANY_INFO.name}</strong> est une société spécialisée dans les technologies de l'information et de la communication, établie à {COMPANY_INFO.city}, {COMPANY_INFO.country}.
+                <strong className="text-ink">{COMPANY_INFO.name}</strong> est une société spécialisée dans les technologies de l'information et de la communication, établie à {COMPANY_INFO.city}, {COMPANY_INFO.country}.
               </p>
               
               <p>
@@ -59,7 +59,7 @@ export default function PresentationSection() {
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <FaCheckCircle className="text-primary flex-shrink-0" />
-                  <span className="text-text">{item}</span>
+                  <span className="text-ink">{item}</span>
                 </div>
               ))}
             </div>
@@ -70,15 +70,15 @@ export default function PresentationSection() {
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className="bg-background-secondary p-6 rounded-xl hover:shadow-lg transition-shadow group"
+                className="bg-surface-muted p-6 rounded-xl hover:shadow-lg transition-shadow group"
               >
                 <div className="flex items-start gap-4">
                   <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors flex-shrink-0">
                     {item.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-text mb-2">{item.title}</h3>
-                    <p className="text-text-secondary">{item.description}</p>
+                    <h3 className="text-xl font-bold text-ink mb-2">{item.title}</h3>
+                    <p className="text-ink-secondary">{item.description}</p>
                   </div>
                 </div>
               </div>

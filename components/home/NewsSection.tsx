@@ -67,7 +67,7 @@ export default function NewsSection() {
           {NEWS.map((article) => (
             <article
               key={article.id}
-              className="group bg-background-secondary rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+              className="group bg-surface-muted rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
             >
               {/* Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/5 overflow-hidden">
@@ -78,7 +78,7 @@ export default function NewsSection() {
                         <div className="w-12 h-12 bg-primary rounded-full"></div>
                       </div>
                     </div>
-                    <p className="text-sm text-text-secondary">Image de l'article</p>
+                    <p className="text-sm text-ink-secondary">Image de l'article</p>
                   </div>
                 </div>
 
@@ -93,7 +93,7 @@ export default function NewsSection() {
               {/* Content */}
               <div className="p-6">
                 {/* Meta */}
-                <div className="flex items-center gap-4 text-sm text-text-secondary mb-3">
+                <div className="flex items-center gap-4 text-sm text-ink-secondary mb-3">
                   <div className="flex items-center gap-1">
                     <FaCalendar className="text-primary" />
                     <span>{formatDate(article.date)}</span>
@@ -105,12 +105,12 @@ export default function NewsSection() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold text-text mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                <h3 className="text-xl font-bold text-ink mb-3 group-hover:text-primary transition-colors line-clamp-2">
                   {article.title}
                 </h3>
 
                 {/* Excerpt */}
-                <p className="text-text-secondary text-sm mb-4 line-clamp-3">
+                <p className="text-ink-secondary text-sm mb-4 line-clamp-3">
                   {article.excerpt}
                 </p>
 

@@ -101,7 +101,7 @@ export default function TestimonialsSection() {
 
         {/* Main Testimonial */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-background-secondary to-white p-8 md:p-12 rounded-2xl shadow-xl">
+          <div className="bg-gradient-to-br from-surface-muted to-white p-8 md:p-12 rounded-2xl shadow-xl">
             {/* Quote Icon */}
             <div className="text-5xl text-primary mb-6">
               <FaQuoteLeft />
@@ -110,12 +110,12 @@ export default function TestimonialsSection() {
             {/* Rating */}
             <div className="flex gap-1 mb-6">
               {[...Array(currentTestimonial.rating)].map((_, index) => (
-                <FaStar key={index} className="text-yellow-400 text-xl" />
+                <FaStar key={index} className="text-warning-400 text-xl" />
               ))}
             </div>
 
             {/* Content */}
-            <blockquote className="text-xl md:text-2xl text-text leading-relaxed mb-8 italic">
+            <blockquote className="text-xl md:text-2xl text-ink leading-relaxed mb-8 italic">
               "{currentTestimonial.content}"
             </blockquote>
 
@@ -125,8 +125,8 @@ export default function TestimonialsSection() {
                 {currentTestimonial.name.charAt(0)}
               </div>
               <div>
-                <div className="font-bold text-lg text-text">{currentTestimonial.name}</div>
-                <div className="text-text-secondary">{currentTestimonial.position}</div>
+                <div className="font-bold text-lg text-ink">{currentTestimonial.name}</div>
+                <div className="text-ink-secondary">{currentTestimonial.position}</div>
                 <div className="text-primary font-semibold">{currentTestimonial.company}</div>
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function TestimonialsSection() {
                   className={`w-3 h-3 rounded-full transition-all ${
                     index === currentIndex
                       ? "bg-primary w-8"
-                      : "bg-gray-300 hover:bg-gray-400"
+                      : "bg-neutral-300 hover:bg-neutral-400"
                   }`}
                   aria-label={`Aller au témoignage ${index + 1}`}
                 />
@@ -170,21 +170,21 @@ export default function TestimonialsSection() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
-          <div className="text-center p-6 bg-background-secondary rounded-xl">
+          <div className="text-center p-6 bg-surface-muted rounded-xl">
             <div className="text-4xl font-bold text-primary mb-2">98%</div>
-            <div className="text-text-secondary">Satisfaction client</div>
+            <div className="text-ink-secondary">Satisfaction client</div>
           </div>
-          <div className="text-center p-6 bg-background-secondary rounded-xl">
+          <div className="text-center p-6 bg-surface-muted rounded-xl">
             <div className="text-4xl font-bold text-primary mb-2">200+</div>
-            <div className="text-text-secondary">Clients satisfaits</div>
+            <div className="text-ink-secondary">Clients satisfaits</div>
           </div>
-          <div className="text-center p-6 bg-background-secondary rounded-xl">
+          <div className="text-center p-6 bg-surface-muted rounded-xl">
             <div className="text-4xl font-bold text-primary mb-2">500+</div>
-            <div className="text-text-secondary">Projets réussis</div>
+            <div className="text-ink-secondary">Projets réussis</div>
           </div>
-          <div className="text-center p-6 bg-background-secondary rounded-xl">
+          <div className="text-center p-6 bg-surface-muted rounded-xl">
             <div className="text-4xl font-bold text-primary mb-2">5+</div>
-            <div className="text-text-secondary">Années d'expérience</div>
+            <div className="text-ink-secondary">Années d'expérience</div>
           </div>
         </div>
       </div>

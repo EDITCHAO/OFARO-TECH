@@ -121,9 +121,9 @@ export default function OffresPage() {
   const locations = Array.from(new Set(jobOffers.map(job => job.location).filter(Boolean)));
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <main className="min-h-screen bg-gradient-to-b from-neutral-50 to-white">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-orange-500 via-orange-600 to-gray-900 text-white">
+      <section className="relative py-20 bg-gradient-to-br from-primary-500 via-primary-600 to-neutral-900 text-white">
         <div className="container mx-auto px-4">
           <Link 
             href="/carrieres"
@@ -152,29 +152,29 @@ export default function OffresPage() {
       </section>
 
       {/* Filtres et Recherche */}
-      <section className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
+      <section className="bg-white border-b border-neutral-200 sticky top-0 z-10 shadow-sm">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Barre de recherche */}
             <div className="flex-1 relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Rechercher un poste, un département..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
               />
             </div>
 
             {/* Filtre type de contrat */}
             {contractTypes.length > 0 && (
               <div className="relative">
-                <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                 <select
                   value={selectedContractType}
                   onChange={(e) => setSelectedContractType(e.target.value)}
-                  className="pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
+                  className="pl-10 pr-8 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
                 >
                   <option value="all">Tous les contrats</option>
                   {contractTypes.map(type => (
@@ -190,7 +190,7 @@ export default function OffresPage() {
                 <select
                   value={selectedLocation}
                   onChange={(e) => setSelectedLocation(e.target.value)}
-                  className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
+                  className="px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
                 >
                   <option value="all">Toutes les villes</option>
                   {locations.map(location => (
@@ -204,7 +204,7 @@ export default function OffresPage() {
           {/* Compteur de résultats filtrés */}
           {(searchTerm || selectedContractType !== 'all' || selectedLocation !== 'all') && (
             <div className="mt-4 flex items-center justify-between">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-neutral-600">
                 {filteredOffers.length} {filteredOffers.length > 1 ? 'offres trouvées' : 'offre trouvée'}
               </p>
               <button
@@ -213,7 +213,7 @@ export default function OffresPage() {
                   setSelectedContractType('all');
                   setSelectedLocation('all');
                 }}
-                className="text-sm text-orange-500 hover:text-orange-600 font-medium"
+                className="text-sm text-primary-500 hover:text-primary-600 font-medium"
               >
                 Réinitialiser les filtres
               </button>
@@ -227,29 +227,29 @@ export default function OffresPage() {
         <div className="container mx-auto px-4">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             </div>
           ) : error ? (
             <div className="text-center py-20">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
-                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-danger-100 rounded-full mb-4">
+                <svg className="w-8 h-8 text-danger-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Erreur de chargement</h3>
-              <p className="text-gray-600 mb-4">{error}</p>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Erreur de chargement</h3>
+              <p className="text-neutral-600 mb-4">{error}</p>
               <button
                 onClick={() => window.location.reload()}
-                className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                className="bg-primary-500 text-white px-6 py-2 rounded-lg hover:bg-primary-600 transition-colors"
               >
                 Réessayer
               </button>
             </div>
           ) : filteredOffers.length === 0 ? (
             <div className="text-center py-20">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 mb-4">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-neutral-100 mb-4">
                 <svg 
-                  className="w-10 h-10 text-gray-400" 
+                  className="w-10 h-10 text-neutral-400" 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -262,12 +262,12 @@ export default function OffresPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">
                 {searchTerm || selectedContractType !== 'all' || selectedLocation !== 'all'
                   ? 'Aucune offre ne correspond à vos critères'
                   : 'Aucune offre disponible'}
               </h3>
-              <p className="text-gray-600">
+              <p className="text-neutral-600">
                 {searchTerm || selectedContractType !== 'all' || selectedLocation !== 'all'
                   ? 'Essayez de modifier vos filtres de recherche'
                   : 'Revenez bientôt pour découvrir nos prochaines opportunités de carrière.'}
@@ -300,18 +300,18 @@ export default function OffresPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-gradient-to-br from-orange-50 to-gray-50">
+      <section className="py-16 bg-gradient-to-br from-primary-50 to-neutral-50">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            <h3 className="text-2xl font-bold text-neutral-900 mb-4">
               Vous ne trouvez pas le poste idéal ?
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-neutral-600 mb-6">
               Envoyez-nous quand même votre candidature spontanée. Nous serons ravis d&apos;étudier votre profil pour de futures opportunités.
             </p>
             <Link
               href="/carrieres#candidature"
-              className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-orange-500 transition-all duration-300 font-medium"
+              className="inline-flex items-center gap-2 bg-neutral-900 text-white px-8 py-4 rounded-lg hover:bg-primary-500 transition-all duration-300 font-medium"
             >
               Candidature spontanée
             </Link>

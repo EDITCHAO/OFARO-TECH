@@ -9,7 +9,7 @@ export default function SectorsSection() {
       title: "Banques & Finances",
       description: "Nous accompagnons les banques et institutions financières dans la modernisation de leurs infrastructures IT, la sécurisation de leurs systèmes d'information, la mise en place de réseaux sécurisés et la maintenance de leurs équipements critiques.",
       services: ["Cybersécurité", "Réseaux sécurisés", "Serveurs", "Sauvegarde", "Support 24/7"],
-      color: "from-blue-500 to-blue-600",
+      color: "from-primary-500 to-primary-700",
       image: "/images/sectors/Banques & Finances.jpg"
     },
     {
@@ -17,7 +17,7 @@ export default function SectorsSection() {
       title: "Éducation",
       description: "Solutions numériques pour les écoles, universités et centres de formation. Nous digitalisons l'enseignement avec des plateformes modernes et performantes.",
       services: ["Plateformes e-learning", "Réseaux Wi-Fi", "Maintenance", "Fourniture de matériel"],
-      color: "from-green-500 to-green-600",
+      color: "from-ink to-neutral-700",
       image: "/images/sectors/Éducation.jpg"
     },
     {
@@ -25,7 +25,7 @@ export default function SectorsSection() {
       title: "Santé",
       description: "Nous développons et maintenons des solutions informatiques pour les hôpitaux, cliniques, laboratoires et centres de santé, garantissant la sécurité des données médicales.",
       services: ["Réseaux", "Gestion hospitalière", "Maintenance", "Sauvegarde", "Sécurité des données"],
-      color: "from-red-500 to-red-600",
+      color: "from-accent-500 to-accent-700",
       image: "/images/sectors/Santé.jpg"
     },
     {
@@ -33,7 +33,7 @@ export default function SectorsSection() {
       title: "Commerce & Distribution",
       description: "Solutions pour les magasins et entreprises commerciales, de la gestion de stock à la vidéosurveillance en passant par les systèmes de caisse.",
       services: ["Gestion de stock", "Caisse", "Réseau", "Vidéosurveillance", "Maintenance"],
-      color: "from-purple-500 to-purple-600",
+      color: "from-primary-500 to-primary-700",
       image: "/images/sectors/Commerce & Distribution.jpg"
     },
     {
@@ -41,7 +41,7 @@ export default function SectorsSection() {
       title: "Administration Publique",
       description: "Accompagnement des ministères, mairies, préfectures et établissements publics dans leur transformation numérique avec des solutions adaptées au secteur public.",
       services: ["Transformation digitale", "Réseaux sécurisés", "Formation", "Support"],
-      color: "from-indigo-500 to-indigo-600",
+      color: "from-ink to-neutral-700",
       image: "/images/sectors/Administration Publique.jpg"
     },
     {
@@ -49,7 +49,7 @@ export default function SectorsSection() {
       title: "ONG & Organisations Internationales",
       description: "Solutions adaptées aux besoins spécifiques des ONG et organisations internationales opérant en Afrique, avec un focus sur la fiabilité et la sécurité.",
       services: ["Gestion documentaire", "Maintenance", "Réseaux", "Support", "Sécurité informatique"],
-      color: "from-orange-500 to-orange-600",
+      color: "from-accent-500 to-accent-700",
       image: "/images/sectors/ONG & Organisations Internationales.jpg"
     }
   ];
@@ -75,7 +75,7 @@ export default function SectorsSection() {
           {sectors.map((sector, index) => (
             <div
               key={index}
-              className="group relative bg-background-secondary rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+              className="group relative bg-surface-muted rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
             >
               {/* Image Header avec overlay gradient */}
               <div className="relative h-48 overflow-hidden">
@@ -94,18 +94,18 @@ export default function SectorsSection() {
 
               {/* Content */}
               <div className="p-6">
-                <p className="text-text-secondary mb-6 leading-relaxed">
+                <p className="text-ink-secondary mb-6 leading-relaxed">
                   {sector.description}
                 </p>
 
                 {/* Services List */}
                 <div className="space-y-2">
-                  <p className="text-sm font-semibold text-text mb-3">Services associés :</p>
+                  <p className="text-sm font-semibold text-ink mb-3">Services associés :</p>
                   <div className="flex flex-wrap gap-2">
                     {sector.services.map((service, serviceIndex) => (
                       <span
                         key={serviceIndex}
-                        className="px-3 py-1 bg-white text-text-secondary text-xs rounded-full border border-gray-200"
+                        className="px-3 py-1 bg-white text-ink-secondary text-xs rounded-full border border-neutral-200"
                       >
                         {service}
                       </span>
@@ -122,10 +122,10 @@ export default function SectorsSection() {
 
         {/* Bottom Note */}
         <div className="mt-16 text-center bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 p-8 rounded-2xl">
-          <h3 className="text-2xl font-bold text-text mb-4">
+          <h3 className="text-2xl font-bold text-ink mb-4">
             Votre secteur n'est pas listé ?
           </h3>
-          <p className="text-text-secondary mb-6 max-w-2xl mx-auto">
+          <p className="text-ink-secondary mb-6 max-w-2xl mx-auto">
             Nous adaptons nos solutions à tous les secteurs d'activité. Contactez-nous pour discuter de vos besoins spécifiques.
           </p>
           <a href="/contact" className="btn-primary">

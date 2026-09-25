@@ -341,31 +341,31 @@ export default function AdminEquipePage() {
       {/* Toast */}
       {toastMessage && (
         <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg ${
-          toastType === 'success' ? 'bg-green-500' : 'bg-red-500'
+          toastType === 'success' ? 'bg-success-500' : 'bg-danger-500'
         } text-white`}>
           {toastMessage}
         </div>
       )}
 
       {/* Content */}
-      <div className="min-h-full bg-gray-50">
+      <div className="min-h-full bg-neutral-50">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                  <FaUsers className="w-6 h-6 text-orange-600" />
+                <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-3">
+                  <FaUsers className="w-6 h-6 text-primary-600" />
                   Gestion de l'équipe OFARO
                 </h1>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-neutral-600 mt-1">
                   {members.length} {members.length > 1 ? 'membres' : 'membre'} au total
                 </p>
               </div>
 
               <button
                 onClick={() => openModal()}
-                className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-all font-medium"
+                className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-all font-medium"
               >
                 <FaPlus className="w-4 h-4" />
                 Ajouter un membre
@@ -374,35 +374,35 @@ export default function AdminEquipePage() {
 
             {/* Search */}
             <div className="relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Rechercher un membre..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
               />
             </div>
           </div>
 
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
             </div>
           ) : filteredMembers.length === 0 ? (
             <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-              <FaUsers className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <FaUsers className="w-16 h-16 text-neutral-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">
                 Aucun membre trouvé
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-neutral-600 mb-6">
                 {searchTerm
                   ? 'Aucun membre ne correspond à votre recherche'
                   : 'Commencez par ajouter les membres de votre équipe'}
               </p>
               <button
                 onClick={() => openModal()}
-                className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-all font-medium"
+                className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-all font-medium"
               >
                 <FaPlus className="w-4 h-4" />
                 Ajouter un membre
@@ -411,25 +411,25 @@ export default function AdminEquipePage() {
           ) : (
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-neutral-50 border-b border-neutral-200">
                   <tr>
-                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Ordre</th>
-                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Photo</th>
-                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Membre</th>
-                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Contact</th>
-                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Affichage</th>
-                    <th className="text-right py-4 px-6 text-sm font-semibold text-gray-900">Actions</th>
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Ordre</th>
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Photo</th>
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Membre</th>
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Contact</th>
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Affichage</th>
+                    <th className="text-right py-4 px-6 text-sm font-semibold text-neutral-900">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-neutral-200">
                   {filteredMembers.map((member, index) => (
-                    <tr key={member.id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={member.id} className="hover:bg-neutral-50 transition-colors">
                       <td className="py-4 px-6">
                         <div className="flex flex-col gap-1">
                           <button
                             onClick={() => moveOrder(member.id, 'up')}
                             disabled={index === 0}
-                            className="p-1 text-gray-400 hover:text-orange-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                            className="p-1 text-neutral-400 hover:text-primary-600 disabled:opacity-30 disabled:cursor-not-allowed"
                             title="Monter"
                           >
                             <FaArrowUp className="w-3 h-3" />
@@ -437,7 +437,7 @@ export default function AdminEquipePage() {
                           <button
                             onClick={() => moveOrder(member.id, 'down')}
                             disabled={index === filteredMembers.length - 1}
-                            className="p-1 text-gray-400 hover:text-orange-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                            className="p-1 text-neutral-400 hover:text-primary-600 disabled:opacity-30 disabled:cursor-not-allowed"
                             title="Descendre"
                           >
                             <FaArrowDown className="w-3 h-3" />
@@ -445,7 +445,7 @@ export default function AdminEquipePage() {
                         </div>
                       </td>
                       <td className="py-4 px-6">
-                        <div className="w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600">
+                        <div className="w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-primary-500 to-primary-600">
                           {member.photo_url ? (
                             <Image
                               src={member.photo_url}
@@ -463,23 +463,23 @@ export default function AdminEquipePage() {
                       </td>
                       <td className="py-4 px-6">
                         <div>
-                          <h3 className="font-semibold text-gray-900 mb-1">{member.full_name}</h3>
-                          <p className="text-sm text-orange-600">{member.position}</p>
+                          <h3 className="font-semibold text-neutral-900 mb-1">{member.full_name}</h3>
+                          <p className="text-sm text-primary-600">{member.position}</p>
                           {member.department && (
-                            <p className="text-xs text-gray-500 mt-1">{member.department}</p>
+                            <p className="text-xs text-neutral-500 mt-1">{member.department}</p>
                           )}
                           {member.experience && (
-                            <p className="text-xs text-gray-400 mt-1">Exp: {member.experience}</p>
+                            <p className="text-xs text-neutral-400 mt-1">Exp: {member.experience}</p>
                           )}
                         </div>
                       </td>
                       <td className="py-4 px-6">
                         <div className="space-y-1 text-sm">
                           {member.professional_email && (
-                            <p className="text-gray-600">{member.professional_email}</p>
+                            <p className="text-neutral-600">{member.professional_email}</p>
                           )}
                           {member.phone && (
-                            <p className="text-gray-500">{member.phone}</p>
+                            <p className="text-neutral-500">{member.phone}</p>
                           )}
                         </div>
                       </td>
@@ -488,8 +488,8 @@ export default function AdminEquipePage() {
                           onClick={() => toggleDisplay(member.id, member.display_on_site)}
                           className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                             member.display_on_site
-                              ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                              ? 'bg-success-100 text-success-700 hover:bg-success-200'
+                              : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                           }`}
                         >
                           {member.display_on_site ? (
@@ -509,14 +509,14 @@ export default function AdminEquipePage() {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openModal(member)}
-                            className="p-2 text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                            className="p-2 text-neutral-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                             title="Modifier"
                           >
                             <FaEdit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDelete(member.id, member.full_name)}
-                            className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-neutral-600 hover:text-danger-600 hover:bg-danger-50 rounded-lg transition-colors"
                             title="Supprimer"
                           >
                             <FaTrash className="w-4 h-4" />
@@ -536,13 +536,13 @@ export default function AdminEquipePage() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900">
+            <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-neutral-900">
                 {editingMember ? 'Modifier le membre' : 'Ajouter un membre'}
               </h2>
               <button
                 onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-neutral-400 hover:text-neutral-600 transition-colors"
               >
                 <FaTimes className="w-6 h-6" />
               </button>
@@ -551,11 +551,11 @@ export default function AdminEquipePage() {
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Photo */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Photo *
                 </label>
                 <div className="flex items-center gap-4">
-                  <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600 flex-shrink-0">
+                  <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-primary-500 to-primary-600 flex-shrink-0">
                     {photoPreview ? (
                       <img
                         src={photoPreview}
@@ -579,12 +579,12 @@ export default function AdminEquipePage() {
                     />
                     <label
                       htmlFor="photo-upload"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg cursor-pointer transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-lg cursor-pointer transition-colors"
                     >
                       <FaUpload className="w-4 h-4" />
                       Choisir une photo
                     </label>
-                    <p className="text-xs text-gray-500 mt-2">
+                    <p className="text-xs text-neutral-500 mt-2">
                       JPG, PNG ou WebP. Max 5MB.
                     </p>
                   </div>
@@ -593,7 +593,7 @@ export default function AdminEquipePage() {
 
               {/* Nom complet */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Nom complet *
                 </label>
                 <input
@@ -601,14 +601,14 @@ export default function AdminEquipePage() {
                   required
                   value={formData.full_name || ''}
                   onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   placeholder="Ex: Jean-Baptiste KOUAME"
                 />
               </div>
 
               {/* Fonction */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Fonction / Poste *
                 </label>
                 <input
@@ -616,63 +616,63 @@ export default function AdminEquipePage() {
                   required
                   value={formData.position || ''}
                   onChange={(e) => setFormData({ ...formData, position: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   placeholder="Ex: Directeur Général & Fondateur"
                 />
               </div>
 
               {/* Département */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Département / Service
                 </label>
                 <input
                   type="text"
                   value={formData.department || ''}
                   onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   placeholder="Ex: Direction, Développement, Design..."
                 />
               </div>
 
               {/* Biographie */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Biographie
                 </label>
                 <textarea
                   rows={4}
                   value={formData.biography || ''}
                   onChange={(e) => setFormData({ ...formData, biography: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none resize-none"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none resize-none"
                   placeholder="Décrivez le parcours et l'expertise du membre..."
                 />
               </div>
 
               {/* Compétences */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Compétences / Spécialités
                 </label>
                 <input
                   type="text"
                   value={formData.skills || ''}
                   onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   placeholder="Ex: Leadership, Stratégie, Innovation (séparées par des virgules)"
                 />
               </div>
 
               {/* Expérience */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Expérience
                 </label>
                 <input
                   type="text"
                   value={formData.experience || ''}
                   onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                   placeholder="Ex: 5 ans, 10+ ans"
                 />
               </div>
@@ -680,28 +680,28 @@ export default function AdminEquipePage() {
               <div className="grid grid-cols-2 gap-4">
                 {/* Email */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Email professionnel
                   </label>
                   <input
                     type="email"
                     value={formData.professional_email || ''}
                     onChange={(e) => setFormData({ ...formData, professional_email: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                     placeholder="nom@ofaro-tech.com"
                   />
                 </div>
 
                 {/* Téléphone */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Téléphone
                   </label>
                   <input
                     type="tel"
                     value={formData.phone || ''}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
                     placeholder="+228 XX XX XX XX"
                   />
                 </div>
@@ -714,26 +714,26 @@ export default function AdminEquipePage() {
                   id="display_on_site"
                   checked={formData.display_on_site || false}
                   onChange={(e) => setFormData({ ...formData, display_on_site: e.target.checked })}
-                  className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-2 focus:ring-orange-500"
+                  className="w-5 h-5 text-primary-600 border-neutral-300 rounded focus:ring-2 focus:ring-primary-500"
                 />
-                <label htmlFor="display_on_site" className="text-sm font-medium text-gray-700">
+                <label htmlFor="display_on_site" className="text-sm font-medium text-neutral-700">
                   Afficher sur le site
                 </label>
               </div>
 
               {/* Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-neutral-200">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
                   disabled={uploadingPhoto}
-                  className="inline-flex items-center gap-2 px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-2 px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FaSave className="w-4 h-4" />
                   {uploadingPhoto ? 'Upload en cours...' : 'Enregistrer'}

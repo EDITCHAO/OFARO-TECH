@@ -45,14 +45,14 @@ export default function TestAPIPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-neutral-50 p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">🧪 Test API - Offres d'emploi</h1>
 
@@ -60,13 +60,13 @@ export default function TestAPIPage() {
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             🔌 Backend API (via Express)
-            <span className="text-sm text-gray-500">GET /api/jobs/active</span>
+            <span className="text-sm text-neutral-500">GET /api/jobs/active</span>
           </h2>
-          <pre className="bg-gray-100 p-4 rounded overflow-auto text-sm">
+          <pre className="bg-neutral-100 p-4 rounded overflow-auto text-sm">
             {JSON.stringify(backendData, null, 2)}
           </pre>
           {backendData && (
-            <div className="mt-4 p-4 bg-blue-50 rounded">
+            <div className="mt-4 p-4 bg-primary-50 rounded">
               <p className="font-semibold">Résumé:</p>
               <p>Nombre d'offres: {backendData.count || 0}</p>
               <p>Success: {backendData.success ? '✅' : '❌'}</p>
@@ -78,20 +78,20 @@ export default function TestAPIPage() {
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             🗄️ Supabase Direct (via client JS)
-            <span className="text-sm text-gray-500">SELECT * WHERE status='publiee'</span>
+            <span className="text-sm text-neutral-500">SELECT * WHERE status='publiee'</span>
           </h2>
-          <pre className="bg-gray-100 p-4 rounded overflow-auto text-sm">
+          <pre className="bg-neutral-100 p-4 rounded overflow-auto text-sm">
             {JSON.stringify(supabaseData, null, 2)}
           </pre>
           {supabaseData?.data && (
-            <div className="mt-4 p-4 bg-green-50 rounded">
+            <div className="mt-4 p-4 bg-success-50 rounded">
               <p className="font-semibold">Résumé:</p>
               <p>Nombre d'offres: {supabaseData.data.length}</p>
               {supabaseData.data.map((job: any) => (
                 <div key={job.id} className="mt-2 p-2 bg-white rounded border">
                   <p className="font-semibold">{job.title}</p>
-                  <p className="text-sm text-gray-600">Statut: {job.status}</p>
-                  <p className="text-sm text-gray-600">Image: {job.image_url || 'Aucune'}</p>
+                  <p className="text-sm text-neutral-600">Statut: {job.status}</p>
+                  <p className="text-sm text-neutral-600">Image: {job.image_url || 'Aucune'}</p>
                 </div>
               ))}
             </div>
@@ -99,7 +99,7 @@ export default function TestAPIPage() {
         </div>
 
         {/* Instructions */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+        <div className="bg-warning-50 border border-warning-200 rounded-lg p-6">
           <h3 className="font-semibold mb-2">📝 Diagnostic:</h3>
           <ul className="list-disc list-inside space-y-1 text-sm">
             <li>Si Backend API retourne des données → Backend fonctionne ✅</li>
@@ -113,19 +113,19 @@ export default function TestAPIPage() {
         <div className="mt-6 flex gap-4">
           <button
             onClick={fetchData}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+            className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700"
           >
             🔄 Rafraîchir
           </button>
           <a
             href="/admin/offres"
-            className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700"
+            className="bg-neutral-600 text-white px-6 py-3 rounded-lg hover:bg-neutral-700"
           >
             ← Retour Admin
           </a>
           <a
             href="/carrieres"
-            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+            className="bg-success-600 text-white px-6 py-3 rounded-lg hover:bg-success-700"
           >
             Voir Carrières →
           </a>

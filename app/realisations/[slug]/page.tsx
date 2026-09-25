@@ -44,7 +44,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto">
               <Link
@@ -59,7 +59,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               </div>
 
               <h1 className="heading-1 mb-6">{project.title}</h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-ink-secondary leading-relaxed">
                 {project.description}
               </p>
             </div>
@@ -81,7 +81,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                           <div className="w-16 h-16 bg-primary rounded-full"></div>
                         </div>
                       </div>
-                      <p className="text-text-secondary">Images du projet à ajouter</p>
+                      <p className="text-ink-secondary">Images du projet à ajouter</p>
                     </div>
                   </div>
                 </div>
@@ -107,25 +107,25 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 </div>
 
                 {/* Défis & Solutions */}
-                <div className="bg-background-secondary p-8 rounded-2xl">
+                <div className="bg-surface-muted p-8 rounded-2xl">
                   <h2 className="heading-3 mb-6">Défis et solutions</h2>
                   <div className="space-y-6">
                     <div>
-                      <h3 className="font-bold text-text mb-2 flex items-center gap-2">
-                        <span className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-sm">!</span>
+                      <h3 className="font-bold text-ink mb-2 flex items-center gap-2">
+                        <span className="w-8 h-8 bg-danger-100 text-danger-600 rounded-full flex items-center justify-center text-sm">!</span>
                         Défi principal
                       </h3>
-                      <p className="text-text-secondary ml-10">
+                      <p className="text-ink-secondary ml-10">
                         Développer une solution scalable capable de gérer un volume important d'utilisateurs 
                         tout en garantissant des performances optimales et une expérience utilisateur fluide.
                       </p>
                     </div>
                     <div>
-                      <h3 className="font-bold text-text mb-2 flex items-center gap-2">
-                        <span className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                      <h3 className="font-bold text-ink mb-2 flex items-center gap-2">
+                        <span className="w-8 h-8 bg-success-100 text-success-600 rounded-full flex items-center justify-center text-sm">✓</span>
                         Notre solution
                       </h3>
-                      <p className="text-text-secondary ml-10">
+                      <p className="text-ink-secondary ml-10">
                         Mise en place d'une architecture microservices moderne avec cache distribué, 
                         load balancing et optimisation des requêtes base de données pour garantir 
                         des temps de réponse rapides même sous forte charge.
@@ -140,19 +140,19 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="bg-white border-2 border-primary/20 p-6 rounded-xl">
                       <div className="text-4xl font-bold text-primary mb-2">+150%</div>
-                      <div className="text-text-secondary">Amélioration des performances</div>
+                      <div className="text-ink-secondary">Amélioration des performances</div>
                     </div>
                     <div className="bg-white border-2 border-primary/20 p-6 rounded-xl">
                       <div className="text-4xl font-bold text-primary mb-2">98%</div>
-                      <div className="text-text-secondary">Satisfaction utilisateur</div>
+                      <div className="text-ink-secondary">Satisfaction utilisateur</div>
                     </div>
                     <div className="bg-white border-2 border-primary/20 p-6 rounded-xl">
                       <div className="text-4xl font-bold text-primary mb-2">-40%</div>
-                      <div className="text-text-secondary">Réduction des coûts</div>
+                      <div className="text-ink-secondary">Réduction des coûts</div>
                     </div>
                     <div className="bg-white border-2 border-primary/20 p-6 rounded-xl">
                       <div className="text-4xl font-bold text-primary mb-2">100%</div>
-                      <div className="text-text-secondary">Objectifs atteints</div>
+                      <div className="text-ink-secondary">Objectifs atteints</div>
                     </div>
                   </div>
                 </div>
@@ -161,25 +161,25 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Project Info Card */}
-                <div className="bg-background-secondary p-6 rounded-xl">
-                  <h3 className="font-bold text-text mb-4">Informations du projet</h3>
+                <div className="bg-surface-muted p-6 rounded-xl">
+                  <h3 className="font-bold text-ink mb-4">Informations du projet</h3>
                   <div className="space-y-4">
                     {project.client && (
                       <div>
-                        <div className="flex items-center gap-2 text-text-secondary text-sm mb-1">
+                        <div className="flex items-center gap-2 text-ink-secondary text-sm mb-1">
                           <FaUser className="text-primary" />
                           Client
                         </div>
-                        <div className="font-semibold text-text">{project.client}</div>
+                        <div className="font-semibold text-ink">{project.client}</div>
                       </div>
                     )}
 
                     <div>
-                      <div className="flex items-center gap-2 text-text-secondary text-sm mb-1">
+                      <div className="flex items-center gap-2 text-ink-secondary text-sm mb-1">
                         <FaCode className="text-primary" />
                         Catégorie
                       </div>
-                      <div className="font-semibold text-text">{categoryLabel}</div>
+                      <div className="font-semibold text-ink">{categoryLabel}</div>
                     </div>
 
                     {project.url && (
@@ -199,13 +199,13 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 </div>
 
                 {/* Technologies */}
-                <div className="bg-background-secondary p-6 rounded-xl">
-                  <h3 className="font-bold text-text mb-4">Technologies utilisées</h3>
+                <div className="bg-surface-muted p-6 rounded-xl">
+                  <h3 className="font-bold text-ink mb-4">Technologies utilisées</h3>
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech, index) => (
                       <span
                         key={index}
-                        className="px-3 py-2 bg-white text-text font-medium text-sm rounded-lg shadow-sm"
+                        className="px-3 py-2 bg-white text-ink font-medium text-sm rounded-lg shadow-sm"
                       >
                         {tech}
                       </span>
@@ -221,7 +221,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                   </p>
                   <Link
                     href="/devis"
-                    className="block w-full bg-white text-primary font-bold py-3 px-4 rounded-lg text-center hover:bg-gray-100 transition-colors"
+                    className="block w-full bg-white text-primary font-bold py-3 px-4 rounded-lg text-center hover:bg-neutral-100 transition-colors"
                   >
                     Demander un devis
                   </Link>
@@ -233,7 +233,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
         {/* Related Projects */}
         {relatedProjects.length > 0 && (
-          <section className="section-padding bg-background-secondary">
+          <section className="section-padding bg-surface-muted">
             <div className="container-custom">
               <h2 className="heading-2 mb-8 text-center">Projets similaires</h2>
               <div className="grid md:grid-cols-3 gap-8">
@@ -247,10 +247,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                       <div className="w-20 h-20 bg-primary/30 rounded-full"></div>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-bold text-text mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      <h3 className="font-bold text-ink mb-2 group-hover:text-primary transition-colors line-clamp-2">
                         {relatedProject.title}
                       </h3>
-                      <p className="text-text-secondary text-sm line-clamp-2">
+                      <p className="text-ink-secondary text-sm line-clamp-2">
                         {relatedProject.description}
                       </p>
                     </div>
