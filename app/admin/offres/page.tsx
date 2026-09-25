@@ -127,14 +127,14 @@ export default function AdminOffresPage() {
 
   const getStatusBadge = (status: string) => {
     const statusConfig: { [key: string]: { label: string; color: string } } = {
-      'brouillon': { label: 'Brouillon', color: 'bg-gray-100 text-gray-700' },
-      'publiee': { label: 'Publiée', color: 'bg-green-100 text-green-700' },
-      'suspendue': { label: 'Suspendue', color: 'bg-yellow-100 text-yellow-700' },
-      'expiree': { label: 'Expirée', color: 'bg-red-100 text-red-700' },
-      'archivee': { label: 'Archivée', color: 'bg-gray-100 text-gray-500' }
+      'brouillon': { label: 'Brouillon', color: 'bg-neutral-100 text-neutral-700' },
+      'publiee': { label: 'Publiée', color: 'bg-success-100 text-success-700' },
+      'suspendue': { label: 'Suspendue', color: 'bg-warning-100 text-warning-700' },
+      'expiree': { label: 'Expirée', color: 'bg-danger-100 text-danger-700' },
+      'archivee': { label: 'Archivée', color: 'bg-neutral-100 text-neutral-500' }
     };
 
-    const config = statusConfig[status] || { label: status, color: 'bg-gray-100 text-gray-700' };
+    const config = statusConfig[status] || { label: status, color: 'bg-neutral-100 text-neutral-700' };
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-medium ${config.color}`}>
         {config.label}
@@ -155,31 +155,31 @@ export default function AdminOffresPage() {
       {/* Toast */}
       {toastMessage && (
         <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg ${
-          toastType === 'success' ? 'bg-green-500' : 'bg-red-500'
+          toastType === 'success' ? 'bg-success-500' : 'bg-danger-500'
         } text-white`}>
           {toastMessage}
         </div>
       )}
 
       {/* Content */}
-      <div className="min-h-full bg-gray-50">
+      <div className="min-h-full bg-neutral-50">
         <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                <FaBriefcase className="w-6 h-6 text-blue-600" />
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-3">
+                <FaBriefcase className="w-6 h-6 text-info-600" />
                 Gestion des offres d'emploi
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-neutral-600 mt-1">
                 {offers.length} {offers.length > 1 ? 'offres' : 'offre'} au total
               </p>
             </div>
 
             <Link
               href="/admin/offres/nouvelle"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all font-medium"
+              className="inline-flex items-center gap-2 bg-info-600 text-white px-6 py-3 rounded-lg hover:bg-info-700 transition-all font-medium"
             >
               <FaPlus className="w-4 h-4" />
               Nouvelle offre
@@ -189,22 +189,22 @@ export default function AdminOffresPage() {
           {/* Filtres */}
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Rechercher une offre..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-info-500 focus:border-transparent outline-none"
               />
             </div>
 
             <div className="relative">
-              <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
+                className="pl-10 pr-8 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-info-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
               >
                 <option value="all">Tous les statuts</option>
                 <option value="brouillon">Brouillon</option>
@@ -218,22 +218,22 @@ export default function AdminOffresPage() {
         </div>
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-info-600"></div>
           </div>
         ) : filteredOffers.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-            <FaBriefcase className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <FaBriefcase className="w-16 h-16 text-neutral-300 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-neutral-900 mb-2">
               Aucune offre trouvée
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-neutral-600 mb-6">
               {searchTerm || statusFilter !== 'all' 
                 ? 'Aucune offre ne correspond à vos critères de recherche'
                 : 'Commencez par créer votre première offre d\'emploi'}
             </p>
             <Link
               href="/admin/offres/nouvelle"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all font-medium"
+              className="inline-flex items-center gap-2 bg-info-600 text-white px-6 py-3 rounded-lg hover:bg-info-700 transition-all font-medium"
             >
               <FaPlus className="w-4 h-4" />
               Créer une offre
@@ -242,21 +242,21 @@ export default function AdminOffresPage() {
         ) : (
           <div className="bg-white rounded-lg shadow-sm overflow-hidden">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Image</th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Offre</th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Type / Lieu</th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Statut</th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-gray-900">Dates</th>
-                  <th className="text-right py-4 px-6 text-sm font-semibold text-gray-900">Actions</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Image</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Offre</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Type / Lieu</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Statut</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-neutral-900">Dates</th>
+                  <th className="text-right py-4 px-6 text-sm font-semibold text-neutral-900">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-neutral-200">
                 {filteredOffers.map((offer) => (
-                  <tr key={offer.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={offer.id} className="hover:bg-neutral-50 transition-colors">
                     <td className="py-4 px-6">
-                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-info-500 to-primary-600">
                         {offer.image_url ? (
                           <Image
                             src={offer.image_url}
@@ -274,21 +274,21 @@ export default function AdminOffresPage() {
                     </td>
                     <td className="py-4 px-6">
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{offer.title}</h3>
-                        <p className="text-sm text-gray-500">{offer.reference}</p>
+                        <h3 className="font-semibold text-neutral-900 mb-1">{offer.title}</h3>
+                        <p className="text-sm text-neutral-500">{offer.reference}</p>
                         {offer.department && (
-                          <p className="text-xs text-gray-400 mt-1">{offer.department}</p>
+                          <p className="text-xs text-neutral-400 mt-1">{offer.department}</p>
                         )}
                       </div>
                     </td>
                     <td className="py-4 px-6">
                       <div className="space-y-1">
                         {offer.contract_type && (
-                          <span className="block text-sm text-gray-700">{offer.contract_type}</span>
+                          <span className="block text-sm text-neutral-700">{offer.contract_type}</span>
                         )}
-                        <span className="block text-sm text-gray-500">{offer.location}</span>
+                        <span className="block text-sm text-neutral-500">{offer.location}</span>
                         {offer.work_mode && (
-                          <span className="block text-xs text-gray-400">{offer.work_mode}</span>
+                          <span className="block text-xs text-neutral-400">{offer.work_mode}</span>
                         )}
                       </div>
                     </td>
@@ -309,12 +309,12 @@ export default function AdminOffresPage() {
                     </td>
                     <td className="py-4 px-6">
                       <div className="space-y-1 text-sm">
-                        <div className="flex items-center gap-2 text-gray-600">
+                        <div className="flex items-center gap-2 text-neutral-600">
                           <FaClock className="w-3 h-3" />
                           <span>{formatDate(offer.publication_date)}</span>
                         </div>
                         {offer.application_deadline && (
-                          <div className="flex items-center gap-2 text-gray-500">
+                          <div className="flex items-center gap-2 text-neutral-500">
                             <FaCheckCircle className="w-3 h-3" />
                             <span className="text-xs">Jusqu'au {formatDate(offer.application_deadline)}</span>
                           </div>
@@ -326,21 +326,21 @@ export default function AdminOffresPage() {
                         <Link
                           href={`/offres/${offer.id}`}
                           target="_blank"
-                          className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-neutral-600 hover:text-info-600 hover:bg-info-50 rounded-lg transition-colors"
                           title="Voir l'offre"
                         >
                           <FaEye className="w-4 h-4" />
                         </Link>
                         <Link
                           href={`/admin/offres/${offer.id}/modifier`}
-                          className="p-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                          className="p-2 text-neutral-600 hover:text-success-600 hover:bg-success-50 rounded-lg transition-colors"
                           title="Modifier"
                         >
                           <FaEdit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => handleDelete(offer.id, offer.title)}
-                          className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-neutral-600 hover:text-danger-600 hover:bg-danger-50 rounded-lg transition-colors"
                           title="Supprimer"
                         >
                           <FaTrash className="w-4 h-4" />

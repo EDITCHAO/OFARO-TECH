@@ -54,16 +54,16 @@ export default function RealizationsSection() {
 
   if (loading) {
     return (
-      <section className="section-padding bg-background-secondary">
+      <section className="section-padding bg-surface-muted">
         <div className="container-custom text-center">
-          <p className="text-text-secondary">Chargement des projets...</p>
+          <p className="text-ink-secondary">Chargement des projets...</p>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="section-padding bg-background-secondary">
+    <section className="section-padding bg-surface-muted">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -87,7 +87,7 @@ export default function RealizationsSection() {
               className={`px-6 py-2 rounded-full font-semibold transition-all ${
                 activeCategory === category.id
                   ? "bg-primary text-white shadow-lg scale-105"
-                  : "bg-white text-text hover:bg-primary/10 hover:text-primary"
+                  : "bg-white text-ink hover:bg-primary/10 hover:text-primary"
               }`}
             >
               {category.label}
@@ -104,7 +104,7 @@ export default function RealizationsSection() {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Project Image */}
-              <div className="relative h-48 overflow-hidden bg-gray-200">
+              <div className="relative h-48 overflow-hidden bg-neutral-200">
                 {project.image_url ? (
                   <img 
                     src={project.image_url} 
@@ -112,7 +112,7 @@ export default function RealizationsSection() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  <div className="w-full h-full flex items-center justify-center text-neutral-400">
                     Aucune image
                   </div>
                 )}
@@ -137,10 +137,10 @@ export default function RealizationsSection() {
 
               {/* Project Info */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-text mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-bold text-ink mb-2 group-hover:text-primary transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-text-secondary text-sm mb-4 line-clamp-2">
+                <p className="text-ink-secondary text-sm mb-4 line-clamp-2">
                   {project.description}
                 </p>
 
@@ -149,13 +149,13 @@ export default function RealizationsSection() {
                   {project.technologies && Array.isArray(project.technologies) && project.technologies.slice(0, 3).map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="px-2 py-1 bg-background-secondary text-text-secondary text-xs rounded"
+                      className="px-2 py-1 bg-surface-muted text-ink-secondary text-xs rounded"
                     >
                       {tech}
                     </span>
                   ))}
                   {project.technologies && Array.isArray(project.technologies) && project.technologies.length > 3 && (
-                    <span className="px-2 py-1 bg-background-secondary text-text-secondary text-xs rounded">
+                    <span className="px-2 py-1 bg-surface-muted text-ink-secondary text-xs rounded">
                       +{project.technologies.length - 3}
                     </span>
                   )}
@@ -163,8 +163,8 @@ export default function RealizationsSection() {
 
                 {/* Client (if available) */}
                 {project.client_name && (
-                  <div className="text-xs text-text-secondary">
-                    Client: <span className="font-semibold text-text">{project.client_name}</span>
+                  <div className="text-xs text-ink-secondary">
+                    Client: <span className="font-semibold text-ink">{project.client_name}</span>
                   </div>
                 )}
               </div>

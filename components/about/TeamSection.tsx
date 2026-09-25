@@ -49,7 +49,7 @@ export default function TeamSection() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
           </div>
         </div>
       </section>
@@ -61,14 +61,14 @@ export default function TeamSection() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <section className="py-20 bg-gradient-to-br from-neutral-50 to-white">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Notre <span className="text-orange-500">Équipe</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">
+            Notre <span className="text-primary-500">Équipe</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
             Des experts passionnés qui transforment vos idées en solutions digitales innovantes
           </p>
         </div>
@@ -81,7 +81,7 @@ export default function TeamSection() {
               className="group relative rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2 h-80"
             >
               {/* Photo qui prend tout le carré */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-primary-600">
                 {member.photo_url ? (
                   <Image
                     src={member.photo_url}
@@ -106,7 +106,7 @@ export default function TeamSection() {
                 <h3 className="text-xl font-bold mb-2 drop-shadow-lg">
                   {member.full_name}
                 </h3>
-                <p className="text-sm font-medium text-orange-300 drop-shadow-md">
+                <p className="text-sm font-medium text-primary-300 drop-shadow-md">
                   {member.position}
                 </p>
               </div>
@@ -122,7 +122,7 @@ export default function TeamSection() {
           <div className="text-center mt-16">
             <a
               href="/a-propos"
-              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              className="inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               Voir plus
             </a>

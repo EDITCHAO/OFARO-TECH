@@ -24,7 +24,7 @@ export default function SectorsPage() {
       ],
       challenges: "Garantir la sécurité des transactions et des données sensibles tout en assurant une disponibilité maximale des services.",
       solutions: "Architecture haute disponibilité, chiffrement des données, authentification forte et surveillance continue.",
-      color: "from-blue-500 to-blue-600",
+      color: "from-primary-500 to-primary-700",
       image: "/images/sectors/Banques & Finances.jpg"
     },
     {
@@ -41,7 +41,7 @@ export default function SectorsPage() {
       ],
       challenges: "Créer un environnement numérique accessible et intuitif pour étudiants et enseignants.",
       solutions: "Plateformes intuitives, infrastructure réseau robuste et formation continue du personnel.",
-      color: "from-green-500 to-green-600",
+      color: "from-ink to-neutral-700",
       image: "/images/sectors/Éducation.jpg"
     },
     {
@@ -58,7 +58,7 @@ export default function SectorsPage() {
       ],
       challenges: "Assurer la confidentialité des données patients et la conformité aux normes de santé.",
       solutions: "Systèmes sécurisés conformes aux réglementations, sauvegardes automatiques et accès contrôlé.",
-      color: "from-red-500 to-red-600",
+      color: "from-accent-500 to-accent-700",
       image: "/images/sectors/Santé.jpg"
     },
     {
@@ -75,7 +75,7 @@ export default function SectorsPage() {
       ],
       challenges: "Optimiser la gestion des stocks et améliorer l'expérience client.",
       solutions: "Systèmes intégrés de gestion, automatisation des processus et analytics en temps réel.",
-      color: "from-purple-500 to-purple-600",
+      color: "from-primary-500 to-primary-700",
       image: "/images/sectors/Commerce & Distribution.jpg"
     },
     {
@@ -92,7 +92,7 @@ export default function SectorsPage() {
       ],
       challenges: "Moderniser les services publics tout en garantissant la sécurité et l'accessibilité.",
       solutions: "Solutions évolutives, formation continue et accompagnement dans la conduite du changement.",
-      color: "from-indigo-500 to-indigo-600",
+      color: "from-ink to-neutral-700",
       image: "/images/sectors/Administration Publique.jpg"
     },
     {
@@ -109,7 +109,7 @@ export default function SectorsPage() {
       ],
       challenges: "Assurer la continuité des opérations dans des environnements variés et parfois instables.",
       solutions: "Solutions cloud, systèmes de sauvegarde robustes et support technique réactif.",
-      color: "from-orange-500 to-orange-600",
+      color: "from-accent-500 to-accent-700",
       image: "/images/sectors/ONG & Organisations Internationales.jpg"
     }
   ];
@@ -119,7 +119,7 @@ export default function SectorsPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
@@ -128,7 +128,7 @@ export default function SectorsPage() {
               <h1 className="heading-1 mb-6">
                 Des solutions IT adaptées à votre secteur
               </h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-ink-secondary leading-relaxed">
                 Notre expertise s'étend à de nombreux secteurs d'activité avec des solutions sur mesure pour chaque métier
               </p>
             </div>
@@ -159,7 +159,7 @@ export default function SectorsPage() {
 
                     {/* Services List */}
                     <div className="mb-4">
-                      <h3 className="font-bold text-text mb-3 flex items-center gap-2 text-sm">
+                      <h3 className="font-bold text-ink mb-3 flex items-center gap-2 text-sm">
                         <FaCheckCircle className="text-primary text-xs" />
                         Services proposés
                       </h3>
@@ -167,7 +167,7 @@ export default function SectorsPage() {
                         {sector.services.map((service, serviceIndex) => (
                           <div
                             key={serviceIndex}
-                            className="flex items-center gap-2 text-text-secondary text-xs"
+                            className="flex items-center gap-2 text-ink-secondary text-xs"
                           >
                             <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0"></div>
                             {service}
@@ -178,14 +178,14 @@ export default function SectorsPage() {
 
                     {/* Challenges & Solutions */}
                     <div className="space-y-2">
-                      <div className="bg-red-50 border-l-3 border-red-500 p-2.5 rounded">
-                        <h4 className="font-semibold text-text mb-1 text-xs">🎯 Défis du secteur</h4>
-                        <p className="text-text-secondary text-xs leading-relaxed">{sector.challenges}</p>
+                      <div className="bg-danger-50 border-l-3 border-danger-500 p-2.5 rounded">
+                        <h4 className="font-semibold text-ink mb-1 text-xs">🎯 Défis du secteur</h4>
+                        <p className="text-ink-secondary text-xs leading-relaxed">{sector.challenges}</p>
                       </div>
 
-                      <div className="bg-green-50 border-l-3 border-green-500 p-2.5 rounded">
-                        <h4 className="font-semibold text-text mb-1 text-xs">✅ Nos solutions</h4>
-                        <p className="text-text-secondary text-xs leading-relaxed">{sector.solutions}</p>
+                      <div className="bg-success-50 border-l-3 border-success-500 p-2.5 rounded">
+                        <h4 className="font-semibold text-ink mb-1 text-xs">✅ Nos solutions</h4>
+                        <p className="text-ink-secondary text-xs leading-relaxed">{sector.solutions}</p>
                       </div>
                     </div>
                   </div>
@@ -218,7 +218,7 @@ export default function SectorsPage() {
         </section>
 
         {/* Stats */}
-        <section className="section-padding bg-background-secondary">
+        <section className="section-padding bg-surface-muted">
           <div className="container-custom">
             <div className="text-center mb-12">
               <h2 className="heading-2 mb-4">Notre impact par secteur</h2>
@@ -230,19 +230,19 @@ export default function SectorsPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
                 <div className="text-5xl font-bold text-primary mb-2">50+</div>
-                <div className="text-text-secondary">Établissements financiers</div>
+                <div className="text-ink-secondary">Établissements financiers</div>
               </div>
               <div className="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
                 <div className="text-5xl font-bold text-primary mb-2">30+</div>
-                <div className="text-text-secondary">Écoles et universités</div>
+                <div className="text-ink-secondary">Écoles et universités</div>
               </div>
               <div className="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
                 <div className="text-5xl font-bold text-primary mb-2">20+</div>
-                <div className="text-text-secondary">Centres de santé</div>
+                <div className="text-ink-secondary">Centres de santé</div>
               </div>
               <div className="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
                 <div className="text-5xl font-bold text-primary mb-2">100+</div>
-                <div className="text-text-secondary">Entreprises commerciales</div>
+                <div className="text-ink-secondary">Entreprises commerciales</div>
               </div>
             </div>
           </div>
@@ -258,7 +258,7 @@ export default function SectorsPage() {
               Nous adaptons nos solutions à tous les secteurs d'activité. Contactez-nous pour discuter de vos besoins spécifiques.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/contact" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+              <Link href="/contact" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-neutral-100 transition-colors">
                 Discutons de votre projet
               </Link>
               <Link href="/devis" className="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors">

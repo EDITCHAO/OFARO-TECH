@@ -61,7 +61,7 @@ export default function ContactPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
@@ -70,7 +70,7 @@ export default function ContactPage() {
               <h1 className="heading-1 mb-6">
                 Parlons de votre projet
               </h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-ink-secondary leading-relaxed">
                 Notre équipe est à votre disposition pour répondre à toutes vos questions et vous accompagner dans la réalisation de vos projets IT
               </p>
             </div>
@@ -86,8 +86,8 @@ export default function ContactPage() {
                 <h2 className="heading-3 mb-6">Envoyez-nous un message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-text mb-2">
-                      Nom complet <span className="text-red-500">*</span>
+                    <label htmlFor="name" className="block text-sm font-semibold text-ink mb-2">
+                      Nom complet <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -96,15 +96,15 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="Votre nom complet"
                     />
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="email" className="block text-sm font-semibold text-text mb-2">
-                        Email <span className="text-red-500">*</span>
+                      <label htmlFor="email" className="block text-sm font-semibold text-ink mb-2">
+                        Email <span className="text-danger-500">*</span>
                       </label>
                       <input
                         type="email"
@@ -113,13 +113,13 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                         placeholder="votre@email.com"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-semibold text-text mb-2">
+                      <label htmlFor="phone" className="block text-sm font-semibold text-ink mb-2">
                         Téléphone
                       </label>
                       <input
@@ -128,15 +128,15 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                         placeholder="+228 XX XX XX XX"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-semibold text-text mb-2">
-                      Objet <span className="text-red-500">*</span>
+                    <label htmlFor="subject" className="block text-sm font-semibold text-ink mb-2">
+                      Objet <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -145,14 +145,14 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="Objet de votre message"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-text mb-2">
-                      Message <span className="text-red-500">*</span>
+                    <label htmlFor="message" className="block text-sm font-semibold text-ink mb-2">
+                      Message <span className="text-danger-500">*</span>
                     </label>
                     <textarea
                       id="message"
@@ -161,7 +161,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
                       placeholder="Décrivez votre projet ou votre besoin..."
                     ></textarea>
                   </div>
@@ -192,16 +192,16 @@ export default function ContactPage() {
                   <h2 className="heading-3 mb-6">Nos coordonnées</h2>
                   <div className="space-y-4">
                     {/* Phone */}
-                    <div className="bg-background-secondary p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div className="bg-surface-muted p-6 rounded-xl hover:shadow-lg transition-shadow">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl flex-shrink-0">
                           <FaPhoneAlt />
                         </div>
                         <div>
-                          <h4 className="font-bold text-text mb-2">Téléphone</h4>
+                          <h4 className="font-bold text-ink mb-2">Téléphone</h4>
                           <a
                             href={`tel:${COMPANY_INFO.phone}`}
-                            className="text-text-secondary hover:text-primary transition-colors"
+                            className="text-ink-secondary hover:text-primary transition-colors"
                           >
                             {COMPANY_INFO.phone}
                           </a>
@@ -210,18 +210,18 @@ export default function ContactPage() {
                     </div>
 
                     {/* WhatsApp */}
-                    <div className="bg-green-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div className="bg-success-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-xl flex-shrink-0">
+                        <div className="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center text-success-600 text-xl flex-shrink-0">
                           <FaWhatsapp />
                         </div>
                         <div>
-                          <h4 className="font-bold text-text mb-2">WhatsApp</h4>
+                          <h4 className="font-bold text-ink mb-2">WhatsApp</h4>
                           <a
                             href={`https://wa.me/${COMPANY_INFO.whatsapp.replace(/\s/g, "")}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-green-600 transition-colors"
+                            className="text-ink-secondary hover:text-success-600 transition-colors"
                           >
                             {COMPANY_INFO.whatsapp}
                           </a>
@@ -230,16 +230,16 @@ export default function ContactPage() {
                     </div>
 
                     {/* Email */}
-                    <div className="bg-background-secondary p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div className="bg-surface-muted p-6 rounded-xl hover:shadow-lg transition-shadow">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl flex-shrink-0">
                           <FaEnvelope />
                         </div>
                         <div>
-                          <h4 className="font-bold text-text mb-2">Email</h4>
+                          <h4 className="font-bold text-ink mb-2">Email</h4>
                           <a
                             href={`mailto:${COMPANY_INFO.email}`}
-                            className="text-text-secondary hover:text-primary transition-colors break-all"
+                            className="text-ink-secondary hover:text-primary transition-colors break-all"
                           >
                             {COMPANY_INFO.email}
                           </a>
@@ -248,14 +248,14 @@ export default function ContactPage() {
                     </div>
 
                     {/* Address */}
-                    <div className="bg-background-secondary p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div className="bg-surface-muted p-6 rounded-xl hover:shadow-lg transition-shadow">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl flex-shrink-0">
                           <FaMapMarkerAlt />
                         </div>
                         <div>
-                          <h4 className="font-bold text-text mb-2">Adresse</h4>
-                          <p className="text-text-secondary">
+                          <h4 className="font-bold text-ink mb-2">Adresse</h4>
+                          <p className="text-ink-secondary">
                             {COMPANY_INFO.address}<br />
                             {COMPANY_INFO.city}, {COMPANY_INFO.country}
                           </p>
@@ -279,12 +279,12 @@ export default function ContactPage() {
                 </div>
 
                 {/* Map */}
-                <div className="bg-background-secondary p-4 rounded-xl">
+                <div className="bg-surface-muted p-4 rounded-xl">
                   <div className="aspect-video bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center">
                     <div className="text-center">
                       <FaMapMarkerAlt className="text-5xl text-primary mx-auto mb-3" />
-                      <p className="text-text-secondary">Carte Google Maps</p>
-                      <p className="text-xs text-text-secondary mt-2">
+                      <p className="text-ink-secondary">Carte Google Maps</p>
+                      <p className="text-xs text-ink-secondary mt-2">
                         {COMPANY_INFO.address}, {COMPANY_INFO.city}
                       </p>
                     </div>
@@ -296,7 +296,7 @@ export default function ContactPage() {
         </section>
 
         {/* FAQ Section */}
-        <section className="section-padding bg-background-secondary">
+        <section className="section-padding bg-surface-muted">
           <div className="container-custom max-w-4xl">
             <h2 className="heading-2 text-center mb-12">Questions fréquentes</h2>
             <div className="space-y-4">
@@ -319,11 +319,11 @@ export default function ContactPage() {
                 }
               ].map((faq, index) => (
                 <details key={index} className="bg-white p-6 rounded-xl group">
-                  <summary className="font-bold text-text cursor-pointer list-none flex items-center justify-between">
+                  <summary className="font-bold text-ink cursor-pointer list-none flex items-center justify-between">
                     {faq.q}
                     <span className="text-primary group-open:rotate-180 transition-transform">▼</span>
                   </summary>
-                  <p className="text-text-secondary mt-4 leading-relaxed">{faq.a}</p>
+                  <p className="text-ink-secondary mt-4 leading-relaxed">{faq.a}</p>
                 </details>
               ))}
             </div>

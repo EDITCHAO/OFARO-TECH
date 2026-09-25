@@ -78,33 +78,33 @@ const JobOfferCard: React.FC<JobOfferCardProps> = ({
   };
 
   return (
-    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-neutral-100">
       {/* Badges en haut à gauche et droite */}
       <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
         {/* Badge EXPIRÉ - priorité maximale */}
         {isExpired && (
-          <span className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1 animate-pulse">
+          <span className="bg-danger-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1 animate-pulse">
             ❌ EXPIRÉ
           </span>
         )}
         
         {/* Badge SUSPENDUE */}
         {isSuspended && !isExpired && (
-          <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
+          <span className="bg-neutral-700 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
             ⏸️ SUSPENDUE
           </span>
         )}
         
         {/* Badge urgent (7 jours ou moins) */}
         {isUrgent && !isExpired && !isSuspended && (
-          <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
+          <span className="bg-warning-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
             ⚠️ Expire bientôt
           </span>
         )}
         
         {/* Badge type de contrat */}
         {contractType && (
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+          <span className="bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
             {contractType}
           </span>
         )}
@@ -113,14 +113,14 @@ const JobOfferCard: React.FC<JobOfferCardProps> = ({
       {/* Badge mode de travail en haut à droite */}
       {workMode && (
         <div className="absolute top-4 right-4 z-10">
-          <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
-            🟣 {workMode}
+          <span className="bg-ink/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
+            {workMode}
           </span>
         </div>
       )}
 
       {/* Image */}
-      <div className="relative w-full h-56 overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
+      <div className="relative w-full h-56 overflow-hidden bg-gradient-to-br from-primary-500 to-primary-600">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -151,7 +151,7 @@ const JobOfferCard: React.FC<JobOfferCardProps> = ({
         
         {/* Département en bas de l'image */}
         {department && (
-          <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur text-gray-900 px-3 py-1 rounded-lg text-xs font-semibold">
+          <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur text-neutral-900 px-3 py-1 rounded-lg text-xs font-semibold">
             {department}
           </div>
         )}
@@ -160,7 +160,7 @@ const JobOfferCard: React.FC<JobOfferCardProps> = ({
       {/* Contenu */}
       <div className="p-6">
         {/* Date et heure */}
-        <div className="flex items-center gap-4 mb-3 text-xs text-gray-500">
+        <div className="flex items-center gap-4 mb-3 text-xs text-neutral-500">
           <div className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5" />
             <span>{formatDate(publicationDate)}</span>
@@ -173,28 +173,28 @@ const JobOfferCard: React.FC<JobOfferCardProps> = ({
 
         {/* Titre */}
         <Link href={`/offres/${id}`}>
-          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 cursor-pointer">
+          <h3 className="text-xl font-bold text-neutral-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2 cursor-pointer">
             {title}
           </h3>
         </Link>
 
         {/* Description courte */}
         {description && (
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+          <p className="text-sm text-neutral-600 mb-4 line-clamp-2">
             {description}
           </p>
         )}
 
         {/* Informations clés */}
         <div className="space-y-2 mb-4">
-          <div className="flex items-center gap-2 text-sm text-gray-700">
-            <MapPin className="w-4 h-4 text-blue-500 flex-shrink-0" />
+          <div className="flex items-center gap-2 text-sm text-neutral-700">
+            <MapPin className="w-4 h-4 text-primary-500 flex-shrink-0" />
             <span>{location}</span>
           </div>
 
           {experienceLevel && (
-            <div className="flex items-center gap-2 text-sm text-gray-700">
-              <TrendingUp className="w-4 h-4 text-blue-500 flex-shrink-0" />
+            <div className="flex items-center gap-2 text-sm text-neutral-700">
+              <TrendingUp className="w-4 h-4 text-primary-500 flex-shrink-0" />
               <span>{experienceLevel}</span>
             </div>
           )}
@@ -202,15 +202,15 @@ const JobOfferCard: React.FC<JobOfferCardProps> = ({
           {/* Date d'expiration */}
           {applicationDeadline && (
             <div className="flex items-center gap-2 text-sm">
-              <Calendar className="w-4 h-4 text-blue-500 flex-shrink-0" />
+              <Calendar className="w-4 h-4 text-primary-500 flex-shrink-0" />
               <span className={`font-medium ${
-                isExpired ? 'text-red-600' : 
-                isUrgent ? 'text-orange-600' : 
-                'text-gray-700'
+                isExpired ? 'text-danger-600' : 
+                isUrgent ? 'text-primary-600' : 
+                'text-neutral-700'
               }`}>
                 {isExpired ? 'Expiré le' : 'Expire le'} {formatDate(applicationDeadline)}
                 {daysRemaining !== null && daysRemaining > 0 && (
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-neutral-500">
                     ({daysRemaining} jour{daysRemaining > 1 ? 's' : ''} restant{daysRemaining > 1 ? 's' : ''})
                   </span>
                 )}
@@ -220,14 +220,14 @@ const JobOfferCard: React.FC<JobOfferCardProps> = ({
         </div>
 
         {/* Footer avec référence et bouton */}
-        <div className="pt-4 border-t border-gray-100">
+        <div className="pt-4 border-t border-neutral-100">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-500 font-mono">
+            <span className="text-xs text-neutral-500 font-mono">
               {reference}
             </span>
             <Link
               href={`/offres/${id}`}
-              className="text-blue-600 font-semibold text-sm hover:text-blue-700 group-hover:translate-x-1 transition-all inline-flex items-center gap-1"
+              className="text-primary-600 font-semibold text-sm hover:text-primary-700 group-hover:translate-x-1 transition-all inline-flex items-center gap-1"
             >
               Voir détails
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -24,7 +24,7 @@ export default function Header() {
       isScrolled ? "bg-white shadow-lg py-2" : "bg-white/95 backdrop-blur-sm py-4"
     }`}>
       {/* Top Bar */}
-      <div className="bg-text text-white py-2 hidden md:block">
+      <div className="bg-ink text-white py-2 hidden md:block">
         <div className="container-custom">
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-6">
@@ -74,10 +74,10 @@ export default function Header() {
               
               {/* Text Logo */}
               <div className="flex flex-col">
-                <div className="font-bold text-xl sm:text-2xl text-text tracking-wider">
+                <div className="font-bold text-xl sm:text-2xl text-ink tracking-wider">
                   OFARO
                 </div>
-                <div className="text-xs sm:text-sm text-text-secondary tracking-widest -mt-1">
+                <div className="text-xs sm:text-sm text-ink-secondary tracking-widest -mt-1">
                   TECHNOLOGIE
                 </div>
               </div>
@@ -95,7 +95,7 @@ export default function Header() {
               >
                 <Link
                   href={link.href}
-                  className="text-text hover:text-primary transition-colors font-medium flex items-center gap-1"
+                  className="text-ink hover:text-primary transition-colors font-medium flex items-center gap-1"
                 >
                   {link.label}
                   {link.subMenu && <FaChevronDown className="text-xs" />}
@@ -108,7 +108,7 @@ export default function Header() {
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="block px-4 py-2 text-sm text-text hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="block px-4 py-2 text-sm text-ink hover:bg-primary/10 hover:text-primary transition-colors"
                       >
                         {item.label}
                       </Link>
@@ -129,7 +129,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-text text-2xl p-2"
+            className="lg:hidden text-ink text-2xl p-2"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
@@ -144,7 +144,7 @@ export default function Header() {
                 <div key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-text hover:text-primary transition-colors font-medium block py-2"
+                    className="text-ink hover:text-primary transition-colors font-medium block py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
@@ -155,7 +155,7 @@ export default function Header() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="text-sm text-text-secondary hover:text-primary transition-colors py-1"
+                          className="text-sm text-ink-secondary hover:text-primary transition-colors py-1"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           {item.label}

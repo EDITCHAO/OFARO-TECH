@@ -15,7 +15,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-text text-white">
+    <footer className="bg-ink text-white">
       {/* Main Footer */}
       <div className="container-custom section-padding">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -49,12 +49,12 @@ export default function Footer() {
                 <div className="font-bold text-lg text-white tracking-wider">
                   OFARO
                 </div>
-                <div className="text-xs text-gray-400 tracking-widest -mt-1">
+                <div className="text-xs text-neutral-400 tracking-widest -mt-1">
                   TECHNOLOGIE
                 </div>
               </div>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-neutral-400 text-sm leading-relaxed">
               {COMPANY_INFO.description}
             </p>
             <div className="flex gap-3">
@@ -113,7 +113,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-primary transition-colors text-sm"
+                    className="text-neutral-400 hover:text-primary transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -130,7 +130,7 @@ export default function Footer() {
                 <li key={service.id}>
                   <Link
                     href={`/services/${service.slug}`}
-                    className="text-gray-400 hover:text-primary transition-colors text-sm"
+                    className="text-neutral-400 hover:text-primary transition-colors text-sm"
                   >
                     {service.title}
                   </Link>
@@ -143,7 +143,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">Contact</h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-gray-400">
+              <li className="flex items-start gap-3 text-sm text-neutral-400">
                 <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" />
                 <span>
                   {COMPANY_INFO.address}, {COMPANY_INFO.city}, {COMPANY_INFO.country}
@@ -151,7 +151,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <FaPhoneAlt className="text-primary flex-shrink-0" />
-                <a href={`tel:${COMPANY_INFO.phone}`} className="text-gray-400 hover:text-primary transition-colors">
+                <a href={`tel:${COMPANY_INFO.phone}`} className="text-neutral-400 hover:text-primary transition-colors">
                   {COMPANY_INFO.phone}
                 </a>
               </li>
@@ -161,19 +161,19 @@ export default function Footer() {
                   href={`https://wa.me/${COMPANY_INFO.whatsapp.replace(/\s/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-primary transition-colors"
+                  className="text-neutral-400 hover:text-primary transition-colors"
                 >
                   {COMPANY_INFO.whatsapp}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <FaEnvelope className="text-primary flex-shrink-0" />
-                <a href={`mailto:${COMPANY_INFO.email}`} className="text-gray-400 hover:text-primary transition-colors">
+                <a href={`mailto:${COMPANY_INFO.email}`} className="text-neutral-400 hover:text-primary transition-colors">
                   {COMPANY_INFO.email}
                 </a>
               </li>
             </ul>
-            <div className="mt-4 text-sm text-gray-400">
+            <div className="mt-4 text-sm text-neutral-400">
               <p className="font-semibold text-white mb-1">Horaires</p>
               <p>{COMPANY_INFO.openingHours}</p>
             </div>
@@ -184,7 +184,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="container-custom py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-400">
             <p>
               © {currentYear} {COMPANY_INFO.name}. Tous droits réservés.
             </p>

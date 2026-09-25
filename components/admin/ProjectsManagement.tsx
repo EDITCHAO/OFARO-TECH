@@ -277,7 +277,7 @@ export default function ProjectsManagement() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-gray-500">Chargement des projets...</p>
+        <p className="text-neutral-500">Chargement des projets...</p>
       </div>
     );
   }
@@ -287,12 +287,12 @@ export default function ProjectsManagement() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Réalisations (Portfolio)</h2>
-          <p className="text-gray-600 mt-1">{projects.length} projet(s)</p>
+          <h2 className="text-2xl font-bold text-neutral-900">Réalisations (Portfolio)</h2>
+          <p className="text-neutral-600 mt-1">{projects.length} projet(s)</p>
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition"
+          className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition"
         >
           <FaPlus /> Ajouter un projet
         </button>
@@ -309,7 +309,7 @@ export default function ProjectsManagement() {
               className="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden"
             >
               {/* Image */}
-              <div className="relative h-48 bg-gray-200">
+              <div className="relative h-48 bg-neutral-200">
                 {project.image_url ? (
                   <img
                     src={project.image_url}
@@ -317,7 +317,7 @@ export default function ProjectsManagement() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  <div className="w-full h-full flex items-center justify-center text-neutral-400">
                     <FaImage size={48} />
                   </div>
                 )}
@@ -326,8 +326,8 @@ export default function ProjectsManagement() {
                 <div className="absolute top-2 right-2">
                   <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                     project.status === 'active' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-success-100 text-success-800' 
+                      : 'bg-neutral-100 text-neutral-800'
                   }`}>
                     {project.status === 'active' ? 'Publié' : 'Brouillon'}
                   </span>
@@ -335,7 +335,7 @@ export default function ProjectsManagement() {
 
                 {/* Category Badge */}
                 <div className="absolute top-2 left-2">
-                  <span className="px-2 py-1 bg-orange-500 text-white rounded-full text-xs font-semibold flex items-center gap-1">
+                  <span className="px-2 py-1 bg-primary-500 text-white rounded-full text-xs font-semibold flex items-center gap-1">
                     <CategoryIcon size={12} />
                     {CATEGORIES.find(c => c.id === project.category)?.label}
                   </span>
@@ -344,10 +344,10 @@ export default function ProjectsManagement() {
 
               {/* Content */}
               <div className="p-4">
-                <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-1">
+                <h3 className="font-bold text-lg text-neutral-900 mb-2 line-clamp-1">
                   {project.title}
                 </h3>
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                <p className="text-sm text-neutral-600 mb-3 line-clamp-2">
                   {project.description}
                 </p>
 
@@ -357,13 +357,13 @@ export default function ProjectsManagement() {
                     {project.technologies.slice(0, 3).map((tech, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
+                        className="px-2 py-1 bg-neutral-100 text-neutral-700 text-xs rounded"
                       >
                         {tech}
                       </span>
                     ))}
                     {project.technologies.length > 3 && (
-                      <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                      <span className="px-2 py-1 bg-neutral-100 text-neutral-700 text-xs rounded">
                         +{project.technologies.length - 3}
                       </span>
                     )}
@@ -372,8 +372,8 @@ export default function ProjectsManagement() {
 
                 {/* Client */}
                 {project.client_name && (
-                  <p className="text-xs text-gray-500 mb-3">
-                    Client: <span className="font-semibold text-gray-700">{project.client_name}</span>
+                  <p className="text-xs text-neutral-500 mb-3">
+                    Client: <span className="font-semibold text-neutral-700">{project.client_name}</span>
                   </p>
                 )}
 
@@ -381,20 +381,20 @@ export default function ProjectsManagement() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleToggleStatus(project)}
-                    className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm"
+                    className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition text-sm"
                   >
                     {project.status === 'active' ? <FaEyeSlash size={14} /> : <FaEye size={14} />}
                     {project.status === 'active' ? 'Masquer' : 'Publier'}
                   </button>
                   <button
                     onClick={() => handleOpenModal(project)}
-                    className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm"
+                    className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-info-500 text-white rounded-lg hover:bg-info-600 transition text-sm"
                   >
                     <FaEdit size={14} /> Modifier
                   </button>
                   <button
                     onClick={() => handleDelete(project.id)}
-                    className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                    className="px-3 py-2 bg-danger-500 text-white rounded-lg hover:bg-danger-600 transition"
                   >
                     <FaTrash size={14} />
                   </button>
@@ -411,12 +411,12 @@ export default function ProjectsManagement() {
           <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
             <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-xl font-bold text-neutral-900">
                 {editingProject ? 'Modifier le projet' : 'Nouveau projet'}
               </h3>
               <button
                 onClick={handleCloseModal}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-neutral-500 hover:text-neutral-700"
               >
                 <FaTimes size={20} />
               </button>
@@ -426,10 +426,10 @@ export default function ProjectsManagement() {
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Image Upload */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
                   Image du projet
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                <div className="border-2 border-dashed border-neutral-300 rounded-lg p-4">
                   {previewImage ? (
                     <div className="relative">
                       <img
@@ -443,7 +443,7 @@ export default function ProjectsManagement() {
                           setPreviewImage(null);
                           setFormData(prev => ({ ...prev, image_url: "" }));
                         }}
-                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                        className="absolute top-2 right-2 p-2 bg-danger-500 text-white rounded-full hover:bg-danger-600"
                       >
                         <FaTimes />
                       </button>
@@ -453,11 +453,11 @@ export default function ProjectsManagement() {
                       onClick={() => fileInputRef.current?.click()}
                       className="cursor-pointer text-center py-8"
                     >
-                      <FaUpload className="mx-auto text-gray-400 mb-2" size={32} />
-                      <p className="text-sm text-gray-600">
+                      <FaUpload className="mx-auto text-neutral-400 mb-2" size={32} />
+                      <p className="text-sm text-neutral-600">
                         {uploadingImage ? 'Upload en cours...' : 'Cliquez pour uploader une image'}
                       </p>
-                      <p className="text-xs text-gray-500 mt-1">JPG, PNG ou WEBP (max 5MB)</p>
+                      <p className="text-xs text-neutral-500 mt-1">JPG, PNG ou WEBP (max 5MB)</p>
                     </div>
                   )}
                   <input
@@ -473,14 +473,14 @@ export default function ProjectsManagement() {
 
               {/* Title */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Titre du projet <span className="text-red-500">*</span>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Titre du projet <span className="text-danger-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Ex: Application de Suivi de Flotte"
                   required
                 />
@@ -488,8 +488,8 @@ export default function ProjectsManagement() {
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Catégorie <span className="text-red-500">*</span>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Catégorie <span className="text-danger-500">*</span>
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {CATEGORIES.map((cat) => {
@@ -501,8 +501,8 @@ export default function ProjectsManagement() {
                         onClick={() => setFormData(prev => ({ ...prev, category: cat.id }))}
                         className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition ${
                           formData.category === cat.id
-                            ? 'border-orange-500 bg-orange-50 text-orange-700'
-                            : 'border-gray-300 hover:border-gray-400'
+                            ? 'border-primary-500 bg-primary-50 text-primary-700'
+                            : 'border-neutral-300 hover:border-neutral-400'
                         }`}
                       >
                         <Icon />
@@ -515,14 +515,14 @@ export default function ProjectsManagement() {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Description <span className="text-red-500">*</span>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Description <span className="text-danger-500">*</span>
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Décrivez le projet en détail..."
                   required
                 />
@@ -530,21 +530,21 @@ export default function ProjectsManagement() {
 
               {/* Client Name */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
                   Nom du client / Entreprise
                 </label>
                 <input
                   type="text"
                   value={formData.client_name}
                   onChange={(e) => setFormData(prev => ({ ...prev, client_name: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Ex: TransLog Togo"
                 />
               </div>
 
               {/* Technologies */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
                   Technologies utilisées
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -558,13 +558,13 @@ export default function ProjectsManagement() {
                         handleAddTechnology();
                       }
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Ex: Flutter, Firebase, etc."
                   />
                   <button
                     type="button"
                     onClick={handleAddTechnology}
-                    className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                   >
                     <FaPlus />
                   </button>
@@ -574,13 +574,13 @@ export default function ProjectsManagement() {
                     {formData.technologies.map((tech, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                        className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-100 text-neutral-700 rounded-full text-sm"
                       >
                         {tech}
                         <button
                           type="button"
                           onClick={() => handleRemoveTechnology(tech)}
-                          className="text-red-500 hover:text-red-700"
+                          className="text-danger-500 hover:text-danger-700"
                         >
                           <FaTimes size={12} />
                         </button>
@@ -593,26 +593,26 @@ export default function ProjectsManagement() {
               {/* Duration & Year */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-neutral-700 mb-2">
                     Durée
                   </label>
                   <input
                     type="text"
                     value={formData.duration}
                     onChange={(e) => setFormData(prev => ({ ...prev, duration: e.target.value }))}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Ex: 6 mois"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-neutral-700 mb-2">
                     Année
                   </label>
                   <input
                     type="text"
                     value={formData.year}
                     onChange={(e) => setFormData(prev => ({ ...prev, year: e.target.value }))}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     placeholder="2025"
                   />
                 </div>
@@ -623,13 +623,13 @@ export default function ProjectsManagement() {
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 flex items-center justify-center gap-2"
                 >
                   <FaSave />
                   {editingProject ? 'Mettre à jour' : 'Créer le projet'}

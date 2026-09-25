@@ -43,7 +43,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto">
               <Link
@@ -53,7 +53,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                 ← Retour aux services
               </Link>
               <h1 className="heading-1 mb-6">{service.title}</h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-ink-secondary leading-relaxed">
                 {service.description}
               </p>
             </div>
@@ -89,10 +89,10 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                     {service.features.map((feature, index) => (
                       <div
                         key={index}
-                        className="flex items-start gap-3 bg-background-secondary p-4 rounded-lg"
+                        className="flex items-start gap-3 bg-surface-muted p-4 rounded-lg"
                       >
                         <FaCheckCircle className="text-primary text-xl flex-shrink-0 mt-1" />
-                        <span className="text-text font-medium">{feature}</span>
+                        <span className="text-ink font-medium">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -107,8 +107,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                         1
                       </div>
                       <div>
-                        <h3 className="font-bold text-text mb-1">Expertise reconnue</h3>
-                        <p className="text-text-secondary">
+                        <h3 className="font-bold text-ink mb-1">Expertise reconnue</h3>
+                        <p className="text-ink-secondary">
                           Notre équipe possède les certifications et l'expérience nécessaires pour garantir la qualité de nos prestations.
                         </p>
                       </div>
@@ -118,8 +118,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                         2
                       </div>
                       <div>
-                        <h3 className="font-bold text-text mb-1">Solutions sur mesure</h3>
-                        <p className="text-text-secondary">
+                        <h3 className="font-bold text-ink mb-1">Solutions sur mesure</h3>
+                        <p className="text-ink-secondary">
                           Nous adaptons nos services à vos besoins spécifiques et à votre budget.
                         </p>
                       </div>
@@ -129,8 +129,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                         3
                       </div>
                       <div>
-                        <h3 className="font-bold text-text mb-1">Support continu</h3>
-                        <p className="text-text-secondary">
+                        <h3 className="font-bold text-ink mb-1">Support continu</h3>
+                        <p className="text-ink-secondary">
                           Nous assurons un suivi régulier et un support technique réactif après la livraison.
                         </p>
                       </div>
@@ -140,8 +140,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                         4
                       </div>
                       <div>
-                        <h3 className="font-bold text-text mb-1">Technologies modernes</h3>
-                        <p className="text-text-secondary">
+                        <h3 className="font-bold text-ink mb-1">Technologies modernes</h3>
+                        <p className="text-ink-secondary">
                           Nous utilisons les outils et technologies les plus performants du marché.
                         </p>
                       </div>
@@ -169,8 +169,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                           {item.step}
                         </div>
                         <div>
-                          <h3 className="font-bold text-text mb-1">{item.title}</h3>
-                          <p className="text-text-secondary text-sm">{item.description}</p>
+                          <h3 className="font-bold text-ink mb-1">{item.title}</h3>
+                          <p className="text-ink-secondary text-sm">{item.description}</p>
                         </div>
                       </div>
                     ))}
@@ -191,7 +191,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                   <div className="space-y-3">
                     <Link
                       href="/devis"
-                      className="block w-full bg-white text-primary font-bold py-3 px-6 rounded-lg text-center hover:bg-gray-100 transition-colors"
+                      className="block w-full bg-white text-primary font-bold py-3 px-6 rounded-lg text-center hover:bg-neutral-100 transition-colors"
                     >
                       Demander un devis
                     </Link>
@@ -205,8 +205,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                 </div>
 
                 {/* Related Services */}
-                <div className="bg-background-secondary p-6 rounded-xl">
-                  <h3 className="text-xl font-bold text-text mb-4">Services connexes</h3>
+                <div className="bg-surface-muted p-6 rounded-xl">
+                  <h3 className="text-xl font-bold text-ink mb-4">Services connexes</h3>
                   <div className="space-y-3">
                     {relatedServices.map((relatedService) => (
                       <Link
@@ -214,10 +214,10 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                         href={`/services/${relatedService.slug}`}
                         className="block p-3 bg-white rounded-lg hover:shadow-md transition-shadow group"
                       >
-                        <h4 className="font-semibold text-text group-hover:text-primary transition-colors text-sm mb-1">
+                        <h4 className="font-semibold text-ink group-hover:text-primary transition-colors text-sm mb-1">
                           {relatedService.title}
                         </h4>
-                        <p className="text-xs text-text-secondary line-clamp-2">
+                        <p className="text-xs text-ink-secondary line-clamp-2">
                           {relatedService.description}
                         </p>
                       </Link>

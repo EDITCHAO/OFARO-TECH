@@ -981,15 +981,15 @@ export default function AdminDashboard() {
   const renderStatusBadge = (status: string) => {
     switch (status) {
       case "Nouveau": case "Nouvelle":
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-200">● {status}</span>;
+        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-warning-100 text-warning-700 border border-warning-200">● {status}</span>;
       case "En cours": case "En analyse": case "Entretien":
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 border border-orange-200">● {status}</span>;
+        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-100 text-primary-700 border border-primary-200">● {status}</span>;
       case "Traité": case "Retenu": case "Publié": case "Actif": case "Succès":
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200">✓ {status}</span>;
+        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-success-100 text-success-700 border border-success-200">✓ {status}</span>;
       case "Sans suite": case "Rejeté": case "Inactif": case "Échec":
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-700 border border-rose-200">✕ {status}</span>;
+        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-danger-100 text-danger-700 border border-danger-200">✕ {status}</span>;
       default:
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">● {status}</span>;
+        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-600">● {status}</span>;
     }
   };
 
@@ -1079,34 +1079,34 @@ export default function AdminDashboard() {
   /* ===================== CSS TOKEN VARS ===================== */
   // Light theme color palette
   const c = {
-    bg: "bg-gray-50",
-    sidebar: "bg-gray-950",
-    header: "bg-gray-950",
+    bg: "bg-neutral-50",
+    sidebar: "bg-neutral-950",
+    header: "bg-neutral-950",
     card: "bg-white",
-    cardHover: "hover:border-orange-400",
-    border: "border-gray-200",
-    borderStrong: "border-gray-300",
-    text: "text-gray-900",
-    textSub: "text-gray-500",
-    textMuted: "text-gray-400",
-    accent: "text-orange-500",
-    accentBg: "bg-orange-50",
-    accentBorder: "border-orange-200",
-    activeNav: "bg-orange-500 text-white border border-orange-400 font-semibold",
-    inactiveNav: "text-gray-300 hover:text-white hover:bg-gray-800",
-    tableHead: "bg-gray-50 text-gray-500",
-    tableRow: "hover:bg-gray-50",
-    input: "bg-white border border-gray-200 text-gray-800 placeholder-gray-400 focus:border-orange-400 focus:ring-1 focus:ring-orange-200",
-    select: "bg-white border border-gray-200 text-gray-800 focus:border-orange-400 focus:outline-none cursor-pointer",
-    btnPrimary: "bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white shadow-sm",
-    btnSecondary: "bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 shadow-sm",
-    btnDanger: "bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-600",
+    cardHover: "hover:border-primary-400",
+    border: "border-neutral-200",
+    borderStrong: "border-neutral-300",
+    text: "text-neutral-900",
+    textSub: "text-neutral-500",
+    textMuted: "text-neutral-400",
+    accent: "text-primary-500",
+    accentBg: "bg-primary-50",
+    accentBorder: "border-primary-200",
+    activeNav: "bg-primary-500 text-white border border-primary-400 font-semibold",
+    inactiveNav: "text-neutral-300 hover:text-white hover:bg-neutral-800",
+    tableHead: "bg-neutral-50 text-neutral-500",
+    tableRow: "hover:bg-neutral-50",
+    input: "bg-white border border-neutral-200 text-neutral-800 placeholder-neutral-400 focus:border-primary-400 focus:ring-1 focus:ring-primary-200",
+    select: "bg-white border border-neutral-200 text-neutral-800 focus:border-primary-400 focus:outline-none cursor-pointer",
+    btnPrimary: "bg-gradient-to-r from-primary-500 to-primary-400 hover:from-primary-400 hover:to-warning-400 text-white shadow-sm",
+    btnSecondary: "bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-700 shadow-sm",
+    btnDanger: "bg-danger-50 border border-danger-200 hover:bg-danger-100 text-danger-600",
     shadow: "shadow-sm",
     shadowMd: "shadow-md",
   };
 
   return (
-    <div className={`min-h-screen ${c.bg} text-gray-900 flex flex-col font-sans`}>
+    <div className={`min-h-screen ${c.bg} text-neutral-900 flex flex-col font-sans`}>
 
       {/* ===================== HEADER ===================== */}
       <header className={`${c.header} border-b ${c.border} px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50 ${c.shadowMd}`}>
@@ -1114,7 +1114,7 @@ export default function AdminDashboard() {
           {/* Bouton hamburger mobile */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition"
+            className="md:hidden p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-neutral-800 transition"
             aria-label="Toggle menu"
           >
             <FaBars className="text-xl" />
@@ -1132,17 +1132,17 @@ export default function AdminDashboard() {
             <div className="hidden sm:block">
               <div className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
                 OFARO TECH
-                <span className="text-xs px-2 py-0.5 rounded-md bg-orange-500/15 text-orange-300 border border-orange-400/40 font-mono font-semibold">BACK-OFFICE</span>
+                <span className="text-xs px-2 py-0.5 rounded-md bg-primary-500/15 text-primary-300 border border-primary-400/40 font-mono font-semibold">BACK-OFFICE</span>
               </div>
-              <div className="text-[11px] text-gray-400">Plateforme d'administration & gouvernance IT</div>
+              <div className="text-[11px] text-neutral-400">Plateforme d'administration & gouvernance IT</div>
             </div>
           </div>
         </div>
 
         {/* Role Switcher */}
-        <div className="hidden lg:flex items-center gap-1.5 bg-gray-900 p-1 rounded-xl border border-gray-700">
-          <span className="text-xs text-gray-300 font-semibold px-2 flex items-center gap-1.5">
-            <FaUserShield className="text-orange-400" /> Rôle actif :
+        <div className="hidden lg:flex items-center gap-1.5 bg-neutral-900 p-1 rounded-xl border border-neutral-700">
+          <span className="text-xs text-neutral-300 font-semibold px-2 flex items-center gap-1.5">
+            <FaUserShield className="text-primary-400" /> Rôle actif :
           </span>
           {(["administrateur", "editeur", "commercial", "rh"] as UserRole[]).map(role => (
             <button
@@ -1150,8 +1150,8 @@ export default function AdminDashboard() {
               onClick={() => handleRoleChange(role)}
               className={`px-3 py-1 text-xs font-semibold rounded-lg capitalize transition-all duration-200 ${
                 currentRole === role
-                  ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sm scale-105"
-                  : "text-gray-300 hover:text-white hover:bg-gray-800"
+                  ? "bg-gradient-to-r from-primary-500 to-primary-400 text-white shadow-sm scale-105"
+                  : "text-neutral-300 hover:text-white hover:bg-neutral-800"
               }`}
             >
               {role}
@@ -1162,15 +1162,15 @@ export default function AdminDashboard() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => { AdminStore.resetToDefault(); showToast("Données réinitialisées et synchronisées !"); }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-gray-900 border border-gray-700 hover:bg-gray-800 text-gray-200 shadow-sm transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-neutral-200 shadow-sm transition"
           >
-            <FaSync className="text-orange-400" />
+            <FaSync className="text-primary-400" />
             <span>Sync Données</span>
           </button>
           <Link href="/" target="_blank" className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${c.btnPrimary} transition`}>
             <FaExternalLinkAlt /> <span>Voir le site</span>
           </Link>
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold text-xs shadow">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center text-white font-bold text-xs shadow">
             {currentRole.slice(0, 2).toUpperCase()}
           </div>
         </div>
@@ -1180,12 +1180,12 @@ export default function AdminDashboard() {
       {toastMessage && (
         <div className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce border ${
           toastType === "success"
-            ? "bg-white border-emerald-200 text-gray-800"
-            : "bg-white border-rose-200 text-gray-800"
+            ? "bg-white border-success-200 text-neutral-800"
+            : "bg-white border-danger-200 text-neutral-800"
         }`}>
           {toastType === "success"
-            ? <FaCheckCircle className="text-emerald-500 text-lg" />
-            : <FaExclamationTriangle className="text-rose-500 text-lg" />}
+            ? <FaCheckCircle className="text-success-500 text-lg" />
+            : <FaExclamationTriangle className="text-danger-500 text-lg" />}
           <span className="text-sm font-medium">{toastMessage}</span>
         </div>
       )}
@@ -1204,14 +1204,14 @@ export default function AdminDashboard() {
         
         {/* Sidebar */}
         <aside className={`
-          w-64 ${c.sidebar} border-r border-gray-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
+          w-64 ${c.sidebar} border-r border-neutral-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
           fixed md:relative inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
           <nav className="p-4 space-y-5">
             {/* Section 1 */}
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">1. Général (Contenu)</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 px-3 mb-2">1. Général (Contenu)</div>
               <div className="space-y-0.5">
                 {[
                   { id: "dashboard", label: "Tableau de bord", icon: <FaChartBar /> },
@@ -1228,12 +1228,12 @@ export default function AdminDashboard() {
                       disabled={!allowed}
                       onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${
-                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-neutral-300 cursor-not-allowed"
                       }`}
                     >
-                      <span className={`text-base ${activeMenu === item.id ? "text-white" : "text-gray-500"}`}>{item.icon}</span>
+                      <span className={`text-base ${activeMenu === item.id ? "text-white" : "text-neutral-500"}`}>{item.icon}</span>
                       <span>{item.label}</span>
-                      {!allowed && <FaLock className="ml-auto text-[10px] text-gray-300" />}
+                      {!allowed && <FaLock className="ml-auto text-[10px] text-neutral-300" />}
                     </button>
                   );
                 })}
@@ -1243,21 +1243,21 @@ export default function AdminDashboard() {
                   onClick={() => canAccess("offres") && handleMenuClick("offres")}
                   disabled={!canAccess("offres")}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
-                    activeMenu === "offres" ? c.activeNav : canAccess("offres") ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                    activeMenu === "offres" ? c.activeNav : canAccess("offres") ? c.inactiveNav : "text-neutral-300 cursor-not-allowed"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`text-base ${activeMenu === "offres" ? "text-white" : "text-gray-500"}`}><FaBriefcase /></span>
+                    <span className={`text-base ${activeMenu === "offres" ? "text-white" : "text-neutral-500"}`}><FaBriefcase /></span>
                     <span>Gestion des offres</span>
                   </div>
-                  {!canAccess("offres") && <FaLock className="text-[10px] text-gray-300" />}
+                  {!canAccess("offres") && <FaLock className="text-[10px] text-neutral-300" />}
                 </button>
               </div>
             </div>
 
             {/* Section 2 */}
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">2. Relation Client & Ventes</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 px-3 mb-2">2. Relation Client & Ventes</div>
               <div className="space-y-0.5">
                 {[
                   { id: "devis", label: "Demandes de devis", icon: <FaFileAlt />, badge: stats.devisEnAttente },
@@ -1274,17 +1274,17 @@ export default function AdminDashboard() {
                       disabled={!allowed}
                       onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
-                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-neutral-300 cursor-not-allowed"
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <span className={`text-base ${activeMenu === item.id ? "text-white" : "text-gray-500"}`}>{item.icon}</span>
+                        <span className={`text-base ${activeMenu === item.id ? "text-white" : "text-neutral-500"}`}>{item.icon}</span>
                         <span>{item.label}</span>
                       </div>
                       {allowed && item.badge !== undefined && item.badge > 0 && (
-                        <span className="bg-orange-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full">{item.badge}</span>
+                        <span className="bg-primary-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full">{item.badge}</span>
                       )}
-                      {!allowed && <FaLock className="text-[10px] text-gray-300" />}
+                      {!allowed && <FaLock className="text-[10px] text-neutral-300" />}
                     </button>
                   );
                 })}
@@ -1293,7 +1293,7 @@ export default function AdminDashboard() {
 
             {/* Section 3 */}
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">3. Système & Gouvernance</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 px-3 mb-2">3. Système & Gouvernance</div>
               <div className="space-y-0.5">
                 {[
                   { id: "equipe", label: "Équipe OFARO", icon: <FaUsers /> },
@@ -1310,12 +1310,12 @@ export default function AdminDashboard() {
                       disabled={!allowed}
                       onClick={() => allowed && handleMenuClick(item.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${
-                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                        activeMenu === item.id ? c.activeNav : allowed ? c.inactiveNav : "text-neutral-300 cursor-not-allowed"
                       }`}
                     >
-                      <span className={`text-base ${activeMenu === item.id ? "text-white" : "text-gray-500"}`}>{item.icon}</span>
+                      <span className={`text-base ${activeMenu === item.id ? "text-white" : "text-neutral-500"}`}>{item.icon}</span>
                       <span>{item.label}</span>
-                      {!allowed && <FaLock className="ml-auto text-[10px] text-gray-300" />}
+                      {!allowed && <FaLock className="ml-auto text-[10px] text-neutral-300" />}
                     </button>
                   );
                 })}
@@ -1324,15 +1324,15 @@ export default function AdminDashboard() {
           </nav>
 
           {/* Profile Footer */}
-          <div className="p-4 border-t border-gray-800 bg-gray-950">
+          <div className="p-4 border-t border-neutral-800 bg-neutral-950">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-orange-500 border border-orange-400 flex items-center justify-center text-white font-bold text-sm">
+              <div className="w-9 h-9 rounded-xl bg-primary-500 border border-primary-400 flex items-center justify-center text-white font-bold text-sm">
                 {currentRole.slice(0, 2).toUpperCase()}
               </div>
               <div className="overflow-hidden">
                 <div className="text-xs font-semibold text-white truncate">{currentRole}@ofarotech.com</div>
-                <div className="text-[11px] text-emerald-500 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Connecté • 2FA Actif
+                <div className="text-[11px] text-success-500 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-success-400 inline-block"></span> Connecté • 2FA Actif
                 </div>
               </div>
             </div>
@@ -1347,13 +1347,13 @@ export default function AdminDashboard() {
             <div className="space-y-8">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                    <FaChartBar className="text-orange-500" /> Tableau de bord général
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+                    <FaChartBar className="text-primary-500" /> Tableau de bord général
                   </h1>
-                  <p className="text-sm text-gray-500 mt-1">Supervision en temps réel des activités commerciales et du contenu du site institutionnel</p>
+                  <p className="text-sm text-neutral-500 mt-1">Supervision en temps réel des activités commerciales et du contenu du site institutionnel</p>
                 </div>
                 <span className={`text-xs ${c.btnSecondary} px-3 py-1.5 rounded-lg flex items-center gap-1.5`}>
-                  <FaClock className="text-orange-500" /> Actualisé à l'instant
+                  <FaClock className="text-primary-500" /> Actualisé à l'instant
                 </span>
               </div>
 
@@ -1370,11 +1370,11 @@ export default function AdminDashboard() {
                     onClick={() => kpi.menu && canAccess(kpi.menu) && handleMenuClick(kpi.menu)}
                     className={`${c.card} border ${c.border} p-5 rounded-2xl ${c.shadow} hover:shadow-md cursor-pointer transition-all hover:-translate-y-0.5 ${c.cardHover}`}
                   >
-                    <div className="flex items-center justify-between text-gray-500 mb-2">
+                    <div className="flex items-center justify-between text-neutral-500 mb-2">
                       <span className="text-xs font-semibold uppercase tracking-wider">{kpi.label}</span>
                       <span className={`p-2 rounded-xl bg-${kpi.color}-50 text-${kpi.color}-500`}>{kpi.icon}</span>
                     </div>
-                    <div className="text-3xl font-black text-gray-900">{kpi.value}</div>
+                    <div className="text-3xl font-black text-neutral-900">{kpi.value}</div>
                     <div className={`text-xs text-${kpi.color}-500 mt-2`}>{kpi.sub}</div>
                   </div>
                 ))}
@@ -1384,13 +1384,13 @@ export default function AdminDashboard() {
               <div className={`${c.card} border ${c.border} rounded-2xl p-6 ${c.shadow}`}>
                 <div className={`flex items-center justify-between mb-5 pb-4 border-b ${c.border}`}>
                   <div>
-                    <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
-                      <FaFileAlt className="text-orange-500" /> Dernières demandes de devis reçues
+                    <h2 className="text-base font-bold text-neutral-900 flex items-center gap-2">
+                      <FaFileAlt className="text-primary-500" /> Dernières demandes de devis reçues
                     </h2>
-                    <p className="text-xs text-gray-400 mt-0.5">Demandes soumises via le formulaire institutionnel</p>
+                    <p className="text-xs text-neutral-400 mt-0.5">Demandes soumises via le formulaire institutionnel</p>
                   </div>
                   {canAccess("devis") && (
-                    <button onClick={() => handleMenuClick("devis")} className="text-xs text-orange-600 hover:text-orange-700 font-semibold">
+                    <button onClick={() => handleMenuClick("devis")} className="text-xs text-primary-600 hover:text-primary-700 font-semibold">
                       Voir toutes les demandes ({quotes.length}) →
                     </button>
                   )}
@@ -1411,17 +1411,17 @@ export default function AdminDashboard() {
                     <tbody className={`divide-y ${c.border}`}>
                       {quotes.slice(0, 5).map(q => (
                         <tr key={q.id} className={c.tableRow + " transition-colors"}>
-                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">{q.reference}</td>
+                          <td className="py-3.5 px-4 font-mono font-bold text-primary-600 text-xs">{q.reference}</td>
                           <td className="py-3.5 px-4">
-                            <div className="font-semibold text-gray-800 text-sm">{q.companyName}</div>
-                            <div className="text-xs text-gray-400">{q.activityField} • {q.city}</div>
+                            <div className="font-semibold text-neutral-800 text-sm">{q.companyName}</div>
+                            <div className="text-xs text-neutral-400">{q.activityField} • {q.city}</div>
                           </td>
                           <td className="py-3.5 px-4">
-                            <div className="text-gray-700 text-sm">{q.contactPersonName}</div>
-                            <div className="text-xs text-gray-400">{q.email}</div>
+                            <div className="text-neutral-700 text-sm">{q.contactPersonName}</div>
+                            <div className="text-xs text-neutral-400">{q.email}</div>
                           </td>
-                          <td className="py-3.5 px-4 text-xs font-semibold text-amber-600">{q.budget}</td>
-                          <td className="py-3.5 px-4 text-xs text-gray-400">{q.createdAt}</td>
+                          <td className="py-3.5 px-4 text-xs font-semibold text-warning-600">{q.budget}</td>
+                          <td className="py-3.5 px-4 text-xs text-neutral-400">{q.createdAt}</td>
                           <td className="py-3.5 px-4">
                             {canAccess("devis") ? (
                               <select
@@ -1438,7 +1438,7 @@ export default function AdminDashboard() {
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <button onClick={() => { setSelectedItem(q); setModalType("view_quote"); setIsModalOpen(true); }}
-                              className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-xs font-semibold text-orange-600 transition`}>
+                              className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-xs font-semibold text-primary-600 transition`}>
                               Détails
                             </button>
                           </td>
@@ -1453,19 +1453,19 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow}`}>
                   <div className={`flex items-center justify-between mb-4 pb-3 border-b ${c.border}`}>
-                    <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2"><FaEnvelope className="text-orange-500" /> Derniers messages reçus</h3>
-                    {canAccess("messages") && <button onClick={() => handleMenuClick("messages")} className="text-xs text-orange-600 hover:underline">Tous →</button>}
+                    <h3 className="font-bold text-neutral-900 text-sm flex items-center gap-2"><FaEnvelope className="text-primary-500" /> Derniers messages reçus</h3>
+                    {canAccess("messages") && <button onClick={() => handleMenuClick("messages")} className="text-xs text-primary-600 hover:underline">Tous →</button>}
                   </div>
                   <div className="space-y-2.5">
                     {messages.slice(0, 3).map(m => (
                       <div key={m.id} onClick={() => { setSelectedItem(m); setModalType("view_message"); setIsModalOpen(true); }}
-                        className={`p-3 ${c.bg} hover:bg-gray-100 border ${c.border} rounded-xl cursor-pointer transition`}>
+                        className={`p-3 ${c.bg} hover:bg-neutral-100 border ${c.border} rounded-xl cursor-pointer transition`}>
                         <div className="flex items-center justify-between">
-                          <span className="font-bold text-xs text-gray-800">{m.name}</span>
-                          <span className="text-[11px] text-gray-400">{m.createdAt}</span>
+                          <span className="font-bold text-xs text-neutral-800">{m.name}</span>
+                          <span className="text-[11px] text-neutral-400">{m.createdAt}</span>
                         </div>
-                        <div className="text-xs text-orange-600 font-medium mt-0.5">{m.subject}</div>
-                        <div className="text-xs text-gray-400 line-clamp-1 mt-0.5">{m.message}</div>
+                        <div className="text-xs text-primary-600 font-medium mt-0.5">{m.subject}</div>
+                        <div className="text-xs text-neutral-400 line-clamp-1 mt-0.5">{m.message}</div>
                       </div>
                     ))}
                   </div>
@@ -1473,17 +1473,17 @@ export default function AdminDashboard() {
 
                 <div className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow}`}>
                   <div className={`flex items-center justify-between mb-4 pb-3 border-b ${c.border}`}>
-                    <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2"><FaShieldAlt className="text-orange-500" /> Journal d'activité récent</h3>
-                    {canAccess("logs") && <button onClick={() => handleMenuClick("logs")} className="text-xs text-orange-600 hover:underline">Tous les logs →</button>}
+                    <h3 className="font-bold text-neutral-900 text-sm flex items-center gap-2"><FaShieldAlt className="text-primary-500" /> Journal d'activité récent</h3>
+                    {canAccess("logs") && <button onClick={() => handleMenuClick("logs")} className="text-xs text-primary-600 hover:underline">Tous les logs →</button>}
                   </div>
                   <div className="space-y-2">
                     {logs.slice(0, 4).map(l => (
                       <div key={l.id} className={`text-xs flex items-start justify-between gap-3 p-2 rounded-lg ${c.bg} border ${c.border}`}>
                         <div>
-                          <span className="font-semibold text-gray-700">{l.action}</span>
-                          <div className="text-[11px] text-gray-400">{l.user} • {l.module}</div>
+                          <span className="font-semibold text-neutral-700">{l.action}</span>
+                          <div className="text-[11px] text-neutral-400">{l.user} • {l.module}</div>
                         </div>
-                        <span className="text-[11px] text-gray-400 font-mono flex-shrink-0">{l.timestamp.split(",")[1]}</span>
+                        <span className="text-[11px] text-neutral-400 font-mono flex-shrink-0">{l.timestamp.split(",")[1]}</span>
                       </div>
                     ))}
                   </div>
@@ -1495,22 +1495,22 @@ export default function AdminDashboard() {
           {/* ===== PAGES STATIQUES ===== */}
           {activeMenu === "pages" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaFileAlt className="text-orange-500" /> Gestion des pages statiques</h1>
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaFileAlt className="text-primary-500" /> Gestion des pages statiques</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {pages.map(page => (
                   <div key={page.id} className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow} hover:shadow-md transition ${c.cardHover}`}>
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="font-bold text-gray-900">{page.title}</h3>
-                        <span className="text-xs font-mono text-orange-600">{page.slug}</span>
+                        <h3 className="font-bold text-neutral-900">{page.title}</h3>
+                        <span className="text-xs font-mono text-primary-600">{page.slug}</span>
                       </div>
-                      <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">{page.status}</span>
+                      <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-success-50 text-success-600 border border-success-200">{page.status}</span>
                     </div>
-                    <p className="text-xs text-gray-500 mb-4 line-clamp-2">{page.description}</p>
-                    <div className={`pt-3 border-t ${c.border} flex items-center justify-between text-xs text-gray-400`}>
+                    <p className="text-xs text-neutral-500 mb-4 line-clamp-2">{page.description}</p>
+                    <div className={`pt-3 border-t ${c.border} flex items-center justify-between text-xs text-neutral-400`}>
                       <span>{page.sectionsCount} sections</span>
                       <button onClick={() => { setSelectedItem(page); setModalType("edit_page"); setIsModalOpen(true); }}
-                        className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-orange-600 font-semibold text-xs transition`}>
+                        className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-primary-600 font-semibold text-xs transition`}>
                         Éditer contenu
                       </button>
                     </div>
@@ -1525,8 +1525,8 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaNewspaper className="text-orange-500" /> Articles & Actualités</h1>
-                  <p className="text-sm text-gray-500 mt-1">Publications officielles et nouveautés technologiques</p>
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaNewspaper className="text-primary-500" /> Articles & Actualités</h1>
+                  <p className="text-sm text-neutral-500 mt-1">Publications officielles et nouveautés technologiques</p>
                 </div>
                 <button onClick={() => { setSelectedItem({ id: String(Date.now()), title: "", excerpt: "", content: "", category: "Actualités", author: "Direction OFARO TECH", date: new Date().toISOString().slice(0,10), slug: "", isPublished: true, viewsCount: 0 }); setModalType("add_article"); setIsModalOpen(true); }}
                   className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 ${c.btnPrimary}`}>
@@ -1537,17 +1537,17 @@ export default function AdminDashboard() {
                 {articles.map(article => (
                   <div key={article.id} className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow} hover:shadow-md transition ${c.cardHover}`}>
                     <div className="p-5">
-                      <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-orange-50 text-orange-600 border border-orange-200 font-semibold">{article.category}</span>
+                      <div className="flex items-center justify-between text-xs text-neutral-500 mb-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-600 border border-primary-200 font-semibold">{article.category}</span>
                         <span>{article.date}</span>
                       </div>
-                      <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2">{article.title}</h3>
-                      <p className="text-xs text-gray-500 mb-4 line-clamp-3">{article.excerpt}</p>
-                      <div className={`pt-3 border-t ${c.border} flex items-center justify-between text-xs text-gray-400`}>
+                      <h3 className="font-bold text-neutral-900 text-base mb-2 line-clamp-2">{article.title}</h3>
+                      <p className="text-xs text-neutral-500 mb-4 line-clamp-3">{article.excerpt}</p>
+                      <div className={`pt-3 border-t ${c.border} flex items-center justify-between text-xs text-neutral-400`}>
                         <span>👁 {article.viewsCount} vues</span>
                         <div className="flex gap-2">
                           <button onClick={() => { setSelectedItem(article); setModalType("edit_article"); setIsModalOpen(true); }}
-                            className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-orange-600 font-semibold text-xs`}>Modifier</button>
+                            className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-primary-600 font-semibold text-xs`}>Modifier</button>
                           <button onClick={() => { const updated = articles.filter(a => a.id !== article.id); AdminStore.saveArticles(updated); showToast(`Article supprimé`); }}
                             className={`p-1.5 rounded-lg ${c.btnDanger}`}><FaTrash /></button>
                         </div>
@@ -1567,27 +1567,27 @@ export default function AdminDashboard() {
           {/* ===== SERVICES ===== */}
           {activeMenu === "services" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaCog className="text-orange-500" /> Gestion des 10 Services</h1>
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaCog className="text-primary-500" /> Gestion des 10 Services</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {services.map(srv => (
                   <div key={srv.id} className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow} hover:shadow-md transition ${c.cardHover}`}>
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-500 text-lg"><FaLaptopCode /></div>
+                        <div className="w-10 h-10 rounded-xl bg-primary-50 border border-primary-200 flex items-center justify-center text-primary-500 text-lg"><FaLaptopCode /></div>
                         <div>
-                          <h3 className="font-bold text-gray-900 text-sm">{srv.title}</h3>
-                          <span className="text-xs text-gray-400 font-mono">/services/{srv.slug}</span>
+                          <h3 className="font-bold text-neutral-900 text-sm">{srv.title}</h3>
+                          <span className="text-xs text-neutral-400 font-mono">/services/{srv.slug}</span>
                         </div>
                       </div>
-                      <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">{srv.isPublished ? "Actif" : "Désactivé"}</span>
+                      <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-success-50 text-success-600 border border-success-200">{srv.isPublished ? "Actif" : "Désactivé"}</span>
                     </div>
-                    <p className="text-xs text-gray-500 my-3">{srv.description}</p>
-                    <div className="grid grid-cols-2 gap-1 text-xs text-gray-600 mb-4">
-                      {srv.features.map((f, idx) => (<div key={idx} className="flex items-center gap-1.5"><span className="text-orange-500">•</span> {f}</div>))}
+                    <p className="text-xs text-neutral-500 my-3">{srv.description}</p>
+                    <div className="grid grid-cols-2 gap-1 text-xs text-neutral-600 mb-4">
+                      {srv.features.map((f, idx) => (<div key={idx} className="flex items-center gap-1.5"><span className="text-primary-500">•</span> {f}</div>))}
                     </div>
                     <div className={`pt-3 border-t ${c.border} flex justify-end`}>
                       <button onClick={() => { setSelectedItem(srv); setModalType("edit_service"); setIsModalOpen(true); }}
-                        className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}>Éditer service</button>
+                        className={`px-3 py-1 rounded-lg ${c.btnSecondary} text-primary-600 text-xs font-semibold transition`}>Éditer service</button>
                     </div>
                   </div>
                 ))}
@@ -1599,22 +1599,22 @@ export default function AdminDashboard() {
           {activeMenu === "temoignages" && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaStar className="text-orange-500" /> Témoignages & Avis Clients</h1>
+                <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaStar className="text-primary-500" /> Témoignages & Avis Clients</h1>
                 <button onClick={() => { setSelectedItem({ id: String(Date.now()), name: "", position: "", company: "", content: "", rating: 5, isPublished: true, date: new Date().toLocaleDateString("fr-FR") }); setModalType("add_testimonial"); setIsModalOpen(true); }}
                   className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 ${c.btnPrimary}`}><FaPlus /> Ajouter</button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {testimonials.map(t => (
                   <div key={t.id} className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow} hover:shadow-md transition ${c.cardHover}`}>
-                    <div className="flex items-center gap-1 text-amber-400 mb-3 text-sm">{[...Array(t.rating)].map((_, i) => <FaStar key={i} />)}</div>
-                    <p className="text-xs text-gray-600 italic mb-4">"{t.content}"</p>
+                    <div className="flex items-center gap-1 text-warning-400 mb-3 text-sm">{[...Array(t.rating)].map((_, i) => <FaStar key={i} />)}</div>
+                    <p className="text-xs text-neutral-600 italic mb-4">"{t.content}"</p>
                     <div className={`pt-3 border-t ${c.border} flex items-center justify-between`}>
                       <div>
-                        <div className="font-bold text-gray-900 text-xs">{t.name}</div>
-                        <div className="text-[11px] text-gray-400">{t.position} • <span className="text-orange-600">{t.company}</span></div>
+                        <div className="font-bold text-neutral-900 text-xs">{t.name}</div>
+                        <div className="text-[11px] text-neutral-400">{t.position} • <span className="text-primary-600">{t.company}</span></div>
                       </div>
                       <button onClick={() => { setSelectedItem(t); setModalType("edit_testimonial"); setIsModalOpen(true); }}
-                        className={`px-2.5 py-1 rounded-lg ${c.btnSecondary} text-gray-700 text-xs`}>Éditer</button>
+                        className={`px-2.5 py-1 rounded-lg ${c.btnSecondary} text-neutral-700 text-xs`}>Éditer</button>
                     </div>
                   </div>
                 ))}
@@ -1627,17 +1627,17 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaFileAlt className="text-orange-500" /> Demandes de Devis ({quotes.length})</h1>
-                  <p className="text-sm text-gray-500 mt-1">Formulaires complets : entreprise, cahier des charges, contact et budget</p>
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaFileAlt className="text-primary-500" /> Demandes de Devis ({quotes.length})</h1>
+                  <p className="text-sm text-neutral-500 mt-1">Formulaires complets : entreprise, cahier des charges, contact et budget</p>
                 </div>
                 <button onClick={() => exportToCSV(quotes, "devis_ofaro_tech")}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${c.btnSecondary}`}>
-                  <FaDownload className="text-orange-500" /> Exporter CSV
+                  <FaDownload className="text-primary-500" /> Exporter CSV
                 </button>
               </div>
               <div className={`flex flex-wrap items-center gap-3 ${c.card} p-4 rounded-2xl border ${c.border} ${c.shadow}`}>
                 <div className="flex-1 min-w-[200px] relative">
-                  <FaSearch className="absolute left-3 top-3 text-gray-400 text-xs" />
+                  <FaSearch className="absolute left-3 top-3 text-neutral-400 text-xs" />
                   <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
                     placeholder="Rechercher par entreprise, contact, ville ou référence..."
                     className={`w-full pl-9 pr-4 py-2 rounded-xl text-xs ${c.input}`} />
@@ -1706,22 +1706,22 @@ export default function AdminDashboard() {
                       sortField as keyof QuoteRequestItem,
                       sortOrder
                     ).map(quote => (
-                        <tr key={quote.id} className={`${c.tableRow} transition ${quote.status === 'Nouveau' ? 'bg-orange-50 border-l-4 border-l-orange-500' : ''}`}>
-                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">
+                        <tr key={quote.id} className={`${c.tableRow} transition ${quote.status === 'Nouveau' ? 'bg-primary-50 border-l-4 border-l-orange-500' : ''}`}>
+                          <td className="py-3.5 px-4 font-mono font-bold text-primary-600 text-xs">
                             {quote.reference}
                             {quote.status === 'Nouveau' && (
-                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500 text-white">
+                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-500 text-white">
                                 NEW
                               </span>
                             )}
                           </td>
                           <td className="py-3.5 px-4">
-                            <div className="font-semibold text-gray-800">{quote.companyName}</div>
-                            <div className="text-xs text-gray-400">{quote.contactPersonName} • {quote.phone}</div>
+                            <div className="font-semibold text-neutral-800">{quote.companyName}</div>
+                            <div className="text-xs text-neutral-400">{quote.contactPersonName} • {quote.phone}</div>
                           </td>
-                          <td className="py-3.5 px-4 text-xs text-gray-600">{quote.desiredServices.length} service(s)</td>
-                          <td className="py-3.5 px-4 text-xs font-semibold text-amber-600">{quote.budget}</td>
-                          <td className="py-3.5 px-4 text-xs text-gray-400">{quote.deliveryDate || "Non spécifié"}</td>
+                          <td className="py-3.5 px-4 text-xs text-neutral-600">{quote.desiredServices.length} service(s)</td>
+                          <td className="py-3.5 px-4 text-xs font-semibold text-warning-600">{quote.budget}</td>
+                          <td className="py-3.5 px-4 text-xs text-neutral-400">{quote.deliveryDate || "Non spécifié"}</td>
                           <td className="py-3.5 px-4">
                             <select value={quote.status} onChange={e => handleUpdateQuoteStatus(quote.id, e.target.value)}
                               className={`${c.select} text-xs rounded-lg px-2 py-1`}>
@@ -1736,17 +1736,17 @@ export default function AdminDashboard() {
                             <div className="flex items-center justify-end gap-2">
                               <button 
                                 onClick={() => downloadItemAsPDF(quote, 'devis')}
-                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-info-600 text-xs font-semibold transition flex items-center gap-1`}
                                 title="Télécharger PDF">
                                 <FaDownload />
                               </button>
                               <button onClick={() => { setSelectedItem(quote); setModalType("view_quote"); setIsModalOpen(true); }}
-                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}>
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-primary-600 text-xs font-semibold transition`}>
                                 Consulter
                               </button>
                               <button 
                                 onClick={() => handleArchiveQuote(quote.id, quote.reference)}
-                                className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                className="px-3 py-1.5 rounded-lg bg-warning-50 hover:bg-warning-100 text-warning-700 text-xs font-semibold transition flex items-center gap-1"
                                 title="Archiver">
                                 <FaArchive />
                               </button>
@@ -1766,10 +1766,10 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                    <FaCog className="text-orange-500" /> Demandes de Service ({serviceRequests.length})
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+                    <FaCog className="text-primary-500" /> Demandes de Service ({serviceRequests.length})
                   </h1>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-neutral-500 mt-1">
                     Demandes spécifiques de services soumises depuis le formulaire du site public
                   </p>
                 </div>
@@ -1777,14 +1777,14 @@ export default function AdminDashboard() {
                   onClick={() => exportToCSV(serviceRequests, "demandes_service_ofaro")}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${c.btnSecondary}`}
                 >
-                  <FaDownload className="text-orange-500" /> Exporter CSV
+                  <FaDownload className="text-primary-500" /> Exporter CSV
                 </button>
               </div>
 
               {/* Filtres */}
               <div className={`flex flex-wrap items-center gap-3 ${c.card} p-4 rounded-2xl border ${c.border} ${c.shadow}`}>
                 <div className="flex-1 min-w-[200px] relative">
-                  <FaSearch className="absolute left-3 top-3 text-gray-400 text-xs" />
+                  <FaSearch className="absolute left-3 top-3 text-neutral-400 text-xs" />
                   <input 
                     type="text" 
                     value={searchTerm} 
@@ -1866,9 +1866,9 @@ export default function AdminDashboard() {
                       <tr>
                         <td colSpan={6} className="py-12 text-center">
                           <div className="flex flex-col items-center gap-3">
-                            <FaCog className="text-gray-300 text-4xl" />
-                            <p className="text-gray-500 font-medium">Aucune demande de service pour le moment</p>
-                            <p className="text-xs text-gray-400">
+                            <FaCog className="text-neutral-300 text-4xl" />
+                            <p className="text-neutral-500 font-medium">Aucune demande de service pour le moment</p>
+                            <p className="text-xs text-neutral-400">
                               Les demandes soumises via le formulaire &quot;Besoin d&apos;un service spécifique ?&quot; apparaîtront ici
                             </p>
                           </div>
@@ -1882,24 +1882,24 @@ export default function AdminDashboard() {
                         sortField as any,
                         sortOrder
                       ).map((request: any) => (
-                          <tr key={request.id} className={`${c.tableRow} transition ${request.status === 'Nouveau' ? 'bg-orange-50 border-l-4 border-l-orange-500' : ''}`}>
-                            <td className="py-3.5 px-4 text-xs text-gray-400">
+                          <tr key={request.id} className={`${c.tableRow} transition ${request.status === 'Nouveau' ? 'bg-primary-50 border-l-4 border-l-orange-500' : ''}`}>
+                            <td className="py-3.5 px-4 text-xs text-neutral-400">
                               {request.createdAt || new Date().toLocaleDateString()}
                               {request.status === 'Nouveau' && (
-                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500 text-white">
+                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-500 text-white">
                                   NEW
                                 </span>
                               )}
                             </td>
                             <td className="py-3.5 px-4">
-                              <div className="font-semibold text-gray-800">{request.name}</div>
+                              <div className="font-semibold text-neutral-800">{request.name}</div>
                             </td>
                             <td className="py-3.5 px-4">
-                              <div className="text-xs text-gray-600">{request.email}</div>
-                              <div className="text-xs text-gray-400">{request.phone}</div>
+                              <div className="text-xs text-neutral-600">{request.email}</div>
+                              <div className="text-xs text-neutral-400">{request.phone}</div>
                             </td>
                             <td className="py-3.5 px-4">
-                              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-info-50 text-info-700 border border-info-200">
                                 {request.service || "Service non spécifié"}
                               </span>
                             </td>
@@ -1920,7 +1920,7 @@ export default function AdminDashboard() {
                               <div className="flex items-center justify-end gap-2">
                                 <button 
                                   onClick={() => downloadItemAsPDF(request, 'service')}
-                                  className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                  className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-info-600 text-xs font-semibold transition flex items-center gap-1`}
                                   title="Télécharger PDF">
                                   <FaDownload />
                                 </button>
@@ -1930,13 +1930,13 @@ export default function AdminDashboard() {
                                     setModalType("view_service_request"); 
                                     setIsModalOpen(true); 
                                   }}
-                                  className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}
+                                  className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-primary-600 text-xs font-semibold transition`}
                                 >
                                   Voir détails
                                 </button>
                                 <button 
                                   onClick={() => handleArchiveServiceRequest(request.id, request.name)}
-                                  className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                  className="px-3 py-1.5 rounded-lg bg-warning-50 hover:bg-warning-100 text-warning-700 text-xs font-semibold transition flex items-center gap-1"
                                   title="Archiver">
                                   <FaArchive />
                                 </button>
@@ -1953,14 +1953,14 @@ export default function AdminDashboard() {
               {/* Message informatif */}
               <div className={`${c.card} border-2 border-dashed ${c.accentBorder} ${c.accentBg} rounded-2xl p-6`}>
                 <div className="flex items-start gap-4">
-                  <FaInfoCircle className="text-orange-500 text-2xl flex-shrink-0 mt-1" />
+                  <FaInfoCircle className="text-primary-500 text-2xl flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">💡 À propos des demandes de service</h3>
-                    <p className="text-sm text-gray-600 mb-3">
+                    <h3 className="font-bold text-neutral-900 mb-2">💡 À propos des demandes de service</h3>
+                    <p className="text-sm text-neutral-600 mb-3">
                       Ce module capture les demandes spécifiques soumises via le formulaire orange 
                       &quot;Besoin d&apos;un service spécifique ?&quot; présent sur la page d&apos;accueil et les pages de services.
                     </p>
-                    <ul className="text-xs text-gray-500 space-y-1.5">
+                    <ul className="text-xs text-neutral-500 space-y-1.5">
                       <li>✓ Plus simple que le devis complet (pas de cahier des charges détaillé)</li>
                       <li>✓ Idéal pour les demandes ponctuelles et les premiers contacts</li>
                       <li>✓ Les données sont synchronisées avec la base de données du site</li>
@@ -1977,17 +1977,17 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaEnvelope className="text-orange-500" /> Messages de contact ({messages.length})</h1>
-                  <p className="text-sm text-gray-500 mt-1">Boîte de réception des messages soumis depuis le site public</p>
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaEnvelope className="text-primary-500" /> Messages de contact ({messages.length})</h1>
+                  <p className="text-sm text-neutral-500 mt-1">Boîte de réception des messages soumis depuis le site public</p>
                 </div>
                 <button onClick={() => exportToCSV(messages, "messages_contact_ofaro")}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${c.btnSecondary}`}>
-                  <FaDownload className="text-orange-500" /> Exporter CSV
+                  <FaDownload className="text-primary-500" /> Exporter CSV
                 </button>
               </div>
               <div className={`flex flex-wrap items-center gap-3 ${c.card} p-4 rounded-2xl border ${c.border} ${c.shadow}`}>
                 <div className="flex-1 min-w-[200px] relative">
-                  <FaSearch className="absolute left-3 top-3 text-gray-400 text-xs" />
+                  <FaSearch className="absolute left-3 top-3 text-neutral-400 text-xs" />
                   <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
                     placeholder="Rechercher par nom, email, sujet..."
                     className={`w-full pl-9 pr-4 py-2 rounded-xl text-xs ${c.input}`} />
@@ -2070,25 +2070,25 @@ export default function AdminDashboard() {
                       sortField as keyof ContactMessageItem,
                       sortOrder
                     ).map(msg => (
-                        <tr key={msg.id} className={`${c.tableRow} transition ${msg.status === 'Nouveau' ? 'bg-orange-50 border-l-4 border-l-orange-500' : ''}`}>
-                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">
+                        <tr key={msg.id} className={`${c.tableRow} transition ${msg.status === 'Nouveau' ? 'bg-primary-50 border-l-4 border-l-orange-500' : ''}`}>
+                          <td className="py-3.5 px-4 font-mono font-bold text-primary-600 text-xs">
                             {msg.reference}
                             {msg.status === 'Nouveau' && (
-                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500 text-white">
+                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-500 text-white">
                                 NEW
                               </span>
                             )}
                           </td>
                           <td className="py-3.5 px-4">
-                            <div className="font-semibold text-gray-800">{msg.name}</div>
-                            <div className="text-xs text-gray-400">{msg.phone || "Pas de tél"}</div>
+                            <div className="font-semibold text-neutral-800">{msg.name}</div>
+                            <div className="text-xs text-neutral-400">{msg.phone || "Pas de tél"}</div>
                           </td>
-                          <td className="py-3.5 px-4 text-xs text-gray-600">{msg.email}</td>
+                          <td className="py-3.5 px-4 text-xs text-neutral-600">{msg.email}</td>
                           <td className="py-3.5 px-4">
-                            <div className="font-medium text-gray-700 text-xs">{msg.subject}</div>
-                            <div className="text-xs text-gray-400 line-clamp-1">{msg.message}</div>
+                            <div className="font-medium text-neutral-700 text-xs">{msg.subject}</div>
+                            <div className="text-xs text-neutral-400 line-clamp-1">{msg.message}</div>
                           </td>
-                          <td className="py-3.5 px-4 text-xs text-gray-400">{msg.createdAt}</td>
+                          <td className="py-3.5 px-4 text-xs text-neutral-400">{msg.createdAt}</td>
                           <td className="py-3.5 px-4">
                             <select value={msg.status} onChange={e => handleUpdateMessageStatus(msg.id, e.target.value)}
                               className={`${c.select} text-xs rounded-lg px-2 py-1`}>
@@ -2101,17 +2101,17 @@ export default function AdminDashboard() {
                             <div className="flex items-center justify-end gap-2">
                               <button 
                                 onClick={() => downloadItemAsPDF(msg, 'message')}
-                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-info-600 text-xs font-semibold transition flex items-center gap-1`}
                                 title="Télécharger PDF">
                                 <FaDownload />
                               </button>
                               <button onClick={() => { setSelectedItem(msg); setModalType("view_message"); setIsModalOpen(true); }}
-                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}>
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-primary-600 text-xs font-semibold transition`}>
                                 Lire
                               </button>
                               <button 
                                 onClick={() => handleArchiveMessage(msg.id, msg.name)}
-                                className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                className="px-3 py-1.5 rounded-lg bg-warning-50 hover:bg-warning-100 text-warning-700 text-xs font-semibold transition flex items-center gap-1"
                                 title="Archiver">
                                 <FaArchive />
                               </button>
@@ -2131,17 +2131,17 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaGraduationCap className="text-orange-500" /> Candidatures & Stages RH ({applications.length})</h1>
-                  <p className="text-sm text-gray-500 mt-1">Candidatures soumises via la page Carrières</p>
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaGraduationCap className="text-primary-500" /> Candidatures & Stages RH ({applications.length})</h1>
+                  <p className="text-sm text-neutral-500 mt-1">Candidatures soumises via la page Carrières</p>
                 </div>
                 <button onClick={() => exportToCSV(applications, "candidatures_ofaro_tech")}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${c.btnSecondary}`}>
-                  <FaDownload className="text-orange-500" /> Exporter CSV
+                  <FaDownload className="text-primary-500" /> Exporter CSV
                 </button>
               </div>
               <div className={`flex flex-wrap items-center gap-3 ${c.card} p-4 rounded-2xl border ${c.border} ${c.shadow}`}>
                 <div className="flex-1 min-w-[200px] relative">
-                  <FaSearch className="absolute left-3 top-3 text-gray-400 text-xs" />
+                  <FaSearch className="absolute left-3 top-3 text-neutral-400 text-xs" />
                   <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
                     placeholder="Rechercher par nom, poste, formation..."
                     className={`w-full pl-9 pr-4 py-2 rounded-xl text-xs ${c.input}`} />
@@ -2232,23 +2232,23 @@ export default function AdminDashboard() {
                       sortOrder
                     ).map(app => (
                         <tr key={app.id} className={c.tableRow + " transition"}>
-                          <td className="py-3.5 px-4 font-mono font-bold text-orange-600 text-xs">{app.reference}</td>
+                          <td className="py-3.5 px-4 font-mono font-bold text-primary-600 text-xs">{app.reference}</td>
                           <td className="py-3.5 px-4">
-                            <span className={`px-2 py-1 rounded text-xs font-bold ${app.type === 'Emploi' ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-violet-50 text-violet-600 border border-violet-200'}`}>
+                            <span className={`px-2 py-1 rounded text-xs font-bold ${app.type === 'Emploi' ? 'bg-info-50 text-info-600 border border-info-200' : 'bg-primary-50 text-primary-600 border border-primary-200'}`}>
                               {app.type}
                             </span>
                           </td>
                           <td className="py-3.5 px-4">
-                            <div className="font-semibold text-gray-800">{app.fullName}</div>
-                            <div className="text-xs text-gray-400">{app.phone}</div>
+                            <div className="font-semibold text-neutral-800">{app.fullName}</div>
+                            <div className="text-xs text-neutral-400">{app.phone}</div>
                           </td>
-                          <td className="py-3.5 px-4 text-xs font-medium text-orange-600">{app.position}</td>
-                          <td className="py-3.5 px-4 text-xs text-gray-600">{app.education}</td>
-                          <td className="py-3.5 px-4 text-xs text-gray-400">{app.createdAt}</td>
+                          <td className="py-3.5 px-4 text-xs font-medium text-primary-600">{app.position}</td>
+                          <td className="py-3.5 px-4 text-xs text-neutral-600">{app.education}</td>
+                          <td className="py-3.5 px-4 text-xs text-neutral-400">{app.createdAt}</td>
                           <td className="py-3.5 px-4">
                             {app.type === 'Offre' ? (
                               // Badge fixe simple pour les candidatures aux offres
-                              <span className="px-3 py-1.5 rounded-lg bg-blue-100 text-blue-700 text-xs font-bold">
+                              <span className="px-3 py-1.5 rounded-lg bg-info-100 text-info-700 text-xs font-bold">
                                 OFFRE
                               </span>
                             ) : (
@@ -2268,17 +2268,17 @@ export default function AdminDashboard() {
                             <div className="flex items-center justify-end gap-2">
                               <button 
                                 onClick={() => downloadItemAsPDF(app, 'candidature')}
-                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-blue-600 text-xs font-semibold transition flex items-center gap-1`}
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-info-600 text-xs font-semibold transition flex items-center gap-1`}
                                 title="Télécharger PDF">
                                 <FaDownload />
                               </button>
                               <button onClick={() => { setSelectedItem(app); setModalType("view_application"); setIsModalOpen(true); }}
-                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 text-xs font-semibold transition`}>
+                                className={`px-3 py-1.5 rounded-lg ${c.btnSecondary} text-primary-600 text-xs font-semibold transition`}>
                                 Voir CV
                               </button>
                               <button 
                                 onClick={() => handleArchiveApplication(app.id, app.fullName)}
-                                className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold transition flex items-center gap-1"
+                                className="px-3 py-1.5 rounded-lg bg-warning-50 hover:bg-warning-100 text-warning-700 text-xs font-semibold transition flex items-center gap-1"
                                 title="Archiver">
                                 <FaArchive />
                               </button>
@@ -2298,10 +2298,10 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                    <FaBriefcase className="text-orange-500" /> Gestion des Offres d'Emploi
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+                    <FaBriefcase className="text-primary-500" /> Gestion des Offres d'Emploi
                   </h1>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-neutral-500 mt-1">
                     Cette fonctionnalité est disponible sur une page dédiée
                   </p>
                 </div>
@@ -2309,11 +2309,11 @@ export default function AdminDashboard() {
 
               {/* Redirection vers la page dédiée */}
               <div className={`${c.card} border ${c.border} rounded-2xl p-12 text-center`}>
-                <FaBriefcase className="text-orange-500 text-6xl mx-auto mb-6" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <FaBriefcase className="text-primary-500 text-6xl mx-auto mb-6" />
+                <h3 className="text-2xl font-bold text-neutral-900 mb-4">
                   Gestion complète des offres
                 </h3>
-                <p className="text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-neutral-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                   La gestion des offres d'emploi et de stages dispose d'une interface dédiée avec toutes les fonctionnalités : 
                   création, modification, publication, gestion des statuts, upload d'images, etc.
                 </p>
@@ -2326,32 +2326,32 @@ export default function AdminDashboard() {
                 </a>
                 
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-                  <div className="bg-gray-50 p-6 rounded-xl">
-                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                      <FaBriefcase className="text-orange-500 text-xl" />
+                  <div className="bg-neutral-50 p-6 rounded-xl">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                      <FaBriefcase className="text-primary-500 text-xl" />
                     </div>
-                    <h4 className="font-bold text-gray-900 mb-2">Créer & Publier</h4>
-                    <p className="text-sm text-gray-600">
+                    <h4 className="font-bold text-neutral-900 mb-2">Créer & Publier</h4>
+                    <p className="text-sm text-neutral-600">
                       Créez des offres complètes avec images, descriptions, compétences requises et publiez-les instantanément
                     </p>
                   </div>
                   
-                  <div className="bg-gray-50 p-6 rounded-xl">
-                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                      <FaCog className="text-orange-500 text-xl" />
+                  <div className="bg-neutral-50 p-6 rounded-xl">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                      <FaCog className="text-primary-500 text-xl" />
                     </div>
-                    <h4 className="font-bold text-gray-900 mb-2">Gérer les Statuts</h4>
-                    <p className="text-sm text-gray-600">
+                    <h4 className="font-bold text-neutral-900 mb-2">Gérer les Statuts</h4>
+                    <p className="text-sm text-neutral-600">
                       Brouillon, Publiée, Suspendue, Expirée - Gérez le cycle de vie complet de vos offres
                     </p>
                   </div>
                   
-                  <div className="bg-gray-50 p-6 rounded-xl">
-                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                      <FaGraduationCap className="text-orange-500 text-xl" />
+                  <div className="bg-neutral-50 p-6 rounded-xl">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                      <FaGraduationCap className="text-primary-500 text-xl" />
                     </div>
-                    <h4 className="font-bold text-gray-900 mb-2">Candidatures</h4>
-                    <p className="text-sm text-gray-600">
+                    <h4 className="font-bold text-neutral-900 mb-2">Candidatures</h4>
+                    <p className="text-sm text-neutral-600">
                       Consultez les candidatures reçues directement depuis la fiche de l'offre
                     </p>
                   </div>
@@ -2365,10 +2365,10 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                    <FaArchive className="text-orange-500" /> Archives
+                  <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+                    <FaArchive className="text-primary-500" /> Archives
                   </h1>
-                  <p className="text-sm text-gray-500 mt-1">Gérez vos éléments archivés par catégorie</p>
+                  <p className="text-sm text-neutral-500 mt-1">Gérez vos éléments archivés par catégorie</p>
                 </div>
               </div>
 
@@ -2378,8 +2378,8 @@ export default function AdminDashboard() {
                   onClick={() => setArchiveCategory("devis")}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
                     archiveCategory === "devis"
-                      ? "bg-orange-500 text-white shadow"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-primary-500 text-white shadow"
+                      : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                   }`}
                 >
                   <FaFileAlt className="inline mr-2" />
@@ -2389,8 +2389,8 @@ export default function AdminDashboard() {
                   onClick={() => setArchiveCategory("services")}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
                     archiveCategory === "services"
-                      ? "bg-orange-500 text-white shadow"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-primary-500 text-white shadow"
+                      : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                   }`}
                 >
                   <FaCog className="inline mr-2" />
@@ -2400,8 +2400,8 @@ export default function AdminDashboard() {
                   onClick={() => setArchiveCategory("messages")}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
                     archiveCategory === "messages"
-                      ? "bg-orange-500 text-white shadow"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-primary-500 text-white shadow"
+                      : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                   }`}
                 >
                   <FaEnvelope className="inline mr-2" />
@@ -2411,8 +2411,8 @@ export default function AdminDashboard() {
                   onClick={() => setArchiveCategory("candidatures")}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
                     archiveCategory === "candidatures"
-                      ? "bg-orange-500 text-white shadow"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-primary-500 text-white shadow"
+                      : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                   }`}
                 >
                   <FaGraduationCap className="inline mr-2" />
@@ -2427,13 +2427,13 @@ export default function AdminDashboard() {
                     <>
                       {/* Barre d'actions */}
                       {selectedArchives.length > 0 && (
-                        <div className="flex items-center justify-between p-4 bg-orange-50 border border-orange-200 rounded-xl">
-                          <span className="text-sm font-semibold text-orange-700">
+                        <div className="flex items-center justify-between p-4 bg-primary-50 border border-primary-200 rounded-xl">
+                          <span className="text-sm font-semibold text-primary-700">
                             {selectedArchives.length} élément(s) sélectionné(s)
                           </span>
                           <button
                             onClick={handleDeleteSelected}
-                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-semibold transition flex items-center gap-2"
+                            className="px-4 py-2 bg-danger-600 hover:bg-danger-700 text-white rounded-lg text-sm font-semibold transition flex items-center gap-2"
                           >
                             <FaTrash /> Supprimer définitivement
                           </button>
@@ -2454,7 +2454,7 @@ export default function AdminDashboard() {
                                       setSelectedArchives([]);
                                     }
                                   }}
-                                  className="w-4 h-4 rounded border-gray-300"
+                                  className="w-4 h-4 rounded border-neutral-300"
                                 />
                               </th>
                               <th className="py-3 px-4">Réf.</th>
@@ -2478,24 +2478,24 @@ export default function AdminDashboard() {
                                         setSelectedArchives(selectedArchives.filter(id => id !== quote.id));
                                       }
                                     }}
-                                    className="w-4 h-4 rounded border-gray-300"
+                                    className="w-4 h-4 rounded border-neutral-300"
                                   />
                                 </td>
-                                <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{quote.reference}</td>
-                                <td className="py-3 px-4 font-semibold text-gray-800">{quote.companyName}</td>
+                                <td className="py-3 px-4 font-mono text-primary-600 text-xs font-bold">{quote.reference}</td>
+                                <td className="py-3 px-4 font-semibold text-neutral-800">{quote.companyName}</td>
                                 <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(quote.status)}`}>{quote.status}</span></td>
-                                <td className="py-3 px-4 text-xs text-gray-400">{quote.createdAt}</td>
+                                <td className="py-3 px-4 text-xs text-neutral-400">{quote.createdAt}</td>
                                 <td className="py-3 px-4 text-right">
                                   <div className="flex items-center justify-end gap-2">
                                     <button
                                       onClick={() => handleRestoreQuote(quote.id, quote.reference)}
-                                      className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1"
+                                      className="px-3 py-1.5 rounded-lg bg-success-50 hover:bg-success-100 text-success-700 text-xs font-semibold transition flex items-center gap-1"
                                       title="Restaurer">
                                       <FaSync /> Restaurer
                                     </button>
                                     <button
                                       onClick={() => handleDeleteArchived('quote_requests', quote.id, quote.reference)}
-                                      className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 text-xs font-semibold transition flex items-center gap-1"
+                                      className="px-3 py-1.5 rounded-lg bg-danger-50 hover:bg-danger-100 text-danger-700 text-xs font-semibold transition flex items-center gap-1"
                                       title="Supprimer définitivement">
                                       <FaTrash />
                                     </button>
@@ -2508,9 +2508,9 @@ export default function AdminDashboard() {
                       </div>
                     </>
                   ) : (
-                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
-                      <FaFileAlt className="text-gray-300 text-4xl mx-auto mb-3" />
-                      <p className="text-gray-500 font-medium">Aucun devis archivé</p>
+                    <div className="text-center py-12 bg-neutral-50 rounded-2xl">
+                      <FaFileAlt className="text-neutral-300 text-4xl mx-auto mb-3" />
+                      <p className="text-neutral-500 font-medium">Aucun devis archivé</p>
                     </div>
                   )}
                 </div>
@@ -2534,14 +2534,14 @@ export default function AdminDashboard() {
                         <tbody className={`divide-y ${c.border}`}>
                           {archivedServiceRequests.map(request => (
                             <tr key={request.id} className={c.tableRow}>
-                              <td className="py-3 px-4 font-semibold text-gray-800">{request.name}</td>
-                              <td className="py-3 px-4 text-xs text-blue-600">{request.service}</td>
+                              <td className="py-3 px-4 font-semibold text-neutral-800">{request.name}</td>
+                              <td className="py-3 px-4 text-xs text-info-600">{request.service}</td>
                               <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(request.status)}`}>{request.status}</span></td>
-                              <td className="py-3 px-4 text-xs text-gray-400">{request.createdAt}</td>
+                              <td className="py-3 px-4 text-xs text-neutral-400">{request.createdAt}</td>
                               <td className="py-3 px-4 text-right">
                                 <button
                                   onClick={() => handleRestoreServiceRequest(request.id, request.name)}
-                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
+                                  className="px-3 py-1.5 rounded-lg bg-success-50 hover:bg-success-100 text-success-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
                                   title="Restaurer">
                                   <FaSync /> Restaurer
                                 </button>
@@ -2552,9 +2552,9 @@ export default function AdminDashboard() {
                       </table>
                     </div>
                   ) : (
-                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
-                      <FaCog className="text-gray-300 text-4xl mx-auto mb-3" />
-                      <p className="text-gray-500 font-medium">Aucune demande de service archivée</p>
+                    <div className="text-center py-12 bg-neutral-50 rounded-2xl">
+                      <FaCog className="text-neutral-300 text-4xl mx-auto mb-3" />
+                      <p className="text-neutral-500 font-medium">Aucune demande de service archivée</p>
                     </div>
                   )}
                 </div>
@@ -2579,15 +2579,15 @@ export default function AdminDashboard() {
                         <tbody className={`divide-y ${c.border}`}>
                           {archivedMessages.map(msg => (
                             <tr key={msg.id} className={c.tableRow}>
-                              <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{msg.reference}</td>
-                              <td className="py-3 px-4 font-semibold text-gray-800">{msg.name}</td>
-                              <td className="py-3 px-4 text-xs text-gray-600">{msg.subject}</td>
+                              <td className="py-3 px-4 font-mono text-primary-600 text-xs font-bold">{msg.reference}</td>
+                              <td className="py-3 px-4 font-semibold text-neutral-800">{msg.name}</td>
+                              <td className="py-3 px-4 text-xs text-neutral-600">{msg.subject}</td>
                               <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(msg.status)}`}>{msg.status}</span></td>
-                              <td className="py-3 px-4 text-xs text-gray-400">{msg.createdAt}</td>
+                              <td className="py-3 px-4 text-xs text-neutral-400">{msg.createdAt}</td>
                               <td className="py-3 px-4 text-right">
                                 <button
                                   onClick={() => handleRestoreMessage(msg.id, msg.name)}
-                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
+                                  className="px-3 py-1.5 rounded-lg bg-success-50 hover:bg-success-100 text-success-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
                                   title="Restaurer">
                                   <FaSync /> Restaurer
                                 </button>
@@ -2598,9 +2598,9 @@ export default function AdminDashboard() {
                       </table>
                     </div>
                   ) : (
-                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
-                      <FaEnvelope className="text-gray-300 text-4xl mx-auto mb-3" />
-                      <p className="text-gray-500 font-medium">Aucun message archivé</p>
+                    <div className="text-center py-12 bg-neutral-50 rounded-2xl">
+                      <FaEnvelope className="text-neutral-300 text-4xl mx-auto mb-3" />
+                      <p className="text-neutral-500 font-medium">Aucun message archivé</p>
                     </div>
                   )}
                 </div>
@@ -2626,20 +2626,20 @@ export default function AdminDashboard() {
                         <tbody className={`divide-y ${c.border}`}>
                           {archivedApplications.map(app => (
                             <tr key={app.id} className={c.tableRow}>
-                              <td className="py-3 px-4 font-mono text-orange-600 text-xs font-bold">{app.reference}</td>
+                              <td className="py-3 px-4 font-mono text-primary-600 text-xs font-bold">{app.reference}</td>
                               <td className="py-3 px-4">
-                                <span className={`px-2 py-1 rounded text-xs font-bold ${app.type === 'Emploi' ? 'bg-blue-50 text-blue-600' : 'bg-violet-50 text-violet-600'}`}>
+                                <span className={`px-2 py-1 rounded text-xs font-bold ${app.type === 'Emploi' ? 'bg-info-50 text-info-600' : 'bg-primary-50 text-primary-600'}`}>
                                   {app.type}
                                 </span>
                               </td>
-                              <td className="py-3 px-4 font-semibold text-gray-800">{app.fullName}</td>
-                              <td className="py-3 px-4 text-xs text-orange-600">{app.position}</td>
+                              <td className="py-3 px-4 font-semibold text-neutral-800">{app.fullName}</td>
+                              <td className="py-3 px-4 text-xs text-primary-600">{app.position}</td>
                               <td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(app.status)}`}>{app.status}</span></td>
-                              <td className="py-3 px-4 text-xs text-gray-400">{app.createdAt}</td>
+                              <td className="py-3 px-4 text-xs text-neutral-400">{app.createdAt}</td>
                               <td className="py-3 px-4 text-right">
                                 <button
                                   onClick={() => handleRestoreApplication(app.id, app.fullName)}
-                                  className="px-3 py-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
+                                  className="px-3 py-1.5 rounded-lg bg-success-50 hover:bg-success-100 text-success-700 text-xs font-semibold transition flex items-center gap-1 ml-auto"
                                   title="Restaurer">
                                   <FaSync /> Restaurer
                                 </button>
@@ -2650,9 +2650,9 @@ export default function AdminDashboard() {
                       </table>
                     </div>
                   ) : (
-                    <div className="text-center py-12 bg-gray-50 rounded-2xl">
-                      <FaGraduationCap className="text-gray-300 text-4xl mx-auto mb-3" />
-                      <p className="text-gray-500 font-medium">Aucune candidature archivée</p>
+                    <div className="text-center py-12 bg-neutral-50 rounded-2xl">
+                      <FaGraduationCap className="text-neutral-300 text-4xl mx-auto mb-3" />
+                      <p className="text-neutral-500 font-medium">Aucune candidature archivée</p>
                     </div>
                   )}
                 </div>
@@ -2663,26 +2663,26 @@ export default function AdminDashboard() {
           {/* ===== ÉQUIPE ===== */}
           {activeMenu === "equipe" && (
             <div className="space-y-6">
-              <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-sm">
-                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white mb-6 shadow-lg">
+              <div className="bg-white border border-neutral-200 rounded-2xl p-12 text-center shadow-sm">
+                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center text-white mb-6 shadow-lg">
                   <FaUsers className="text-3xl" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-neutral-900 mb-4">
                   Gestion de l'équipe OFARO TECH
                 </h2>
-                <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+                <p className="text-neutral-600 mb-8 max-w-2xl mx-auto">
                   Gérez les profils des membres de votre équipe : ajoutez, modifiez, supprimez et réorganisez l'ordre d'affichage sur le site.
                 </p>
                 <Link
                   href="/admin/equipe"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-500 to-primary-400 hover:from-primary-400 hover:to-warning-400 text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
                 >
                   <FaUsers className="w-5 h-5" />
                   Gérer l'équipe
                   <FaExternalLinkAlt className="w-4 h-4" />
                 </Link>
-                <div className="mt-8 pt-8 border-t border-gray-200">
-                  <p className="text-sm text-gray-500">
+                <div className="mt-8 pt-8 border-t border-neutral-200">
+                  <p className="text-sm text-neutral-500">
                     💡 Vous pouvez ajouter des membres, uploader leurs photos, gérer leur visibilité et réorganiser l'ordre d'affichage
                   </p>
                 </div>
@@ -2693,18 +2693,18 @@ export default function AdminDashboard() {
           {/* ===== DOCUMENTS ===== */}
           {activeMenu === "documents" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaFolder className="text-orange-500" /> Bibliothèque de documents</h1>
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaFolder className="text-primary-500" /> Bibliothèque de documents</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {documents.map(doc => (
                   <div key={doc.id} className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow} hover:shadow-md transition ${c.cardHover} flex items-start gap-4`}>
-                    <div className="w-12 h-12 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-500 text-sm font-bold flex-shrink-0">PDF</div>
+                    <div className="w-12 h-12 rounded-xl bg-danger-50 border border-danger-200 flex items-center justify-center text-danger-500 text-sm font-bold flex-shrink-0">PDF</div>
                     <div className="flex-1 space-y-1">
-                      <h3 className="font-bold text-gray-900 text-sm">{doc.title}</h3>
-                      <div className="text-xs text-gray-400">{doc.category} • {doc.fileSize} • Mis à jour le {doc.updatedAt}</div>
-                      <div className="text-xs text-orange-600 font-semibold pt-1">📥 {doc.downloadCount} téléchargements</div>
+                      <h3 className="font-bold text-neutral-900 text-sm">{doc.title}</h3>
+                      <div className="text-xs text-neutral-400">{doc.category} • {doc.fileSize} • Mis à jour le {doc.updatedAt}</div>
+                      <div className="text-xs text-primary-600 font-semibold pt-1">📥 {doc.downloadCount} téléchargements</div>
                     </div>
                     <button onClick={() => showToast(`Téléchargement de ${doc.fileName}...`)}
-                      className={`p-2 rounded-lg ${c.btnSecondary} text-gray-600 text-xs`}><FaDownload /></button>
+                      className={`p-2 rounded-lg ${c.btnSecondary} text-neutral-600 text-xs`}><FaDownload /></button>
                   </div>
                 ))}
               </div>
@@ -2714,7 +2714,7 @@ export default function AdminDashboard() {
           {/* ===== UTILISATEURS ===== */}
           {activeMenu === "utilisateurs" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaUserTie className="text-orange-500" /> Gestion des Utilisateurs & Rôles</h1>
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaUserTie className="text-primary-500" /> Gestion des Utilisateurs & Rôles</h1>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs sm:text-sm">
@@ -2728,19 +2728,19 @@ export default function AdminDashboard() {
                   <tbody className={`divide-y ${c.border}`}>
                     {users.map(u => (
                       <tr key={u.id} className={c.tableRow + " transition"}>
-                        <td className="py-3.5 px-4 font-bold text-gray-800">{u.firstName} {u.lastName}</td>
-                        <td className="py-3.5 px-4 text-xs font-mono text-gray-600">{u.email}</td>
+                        <td className="py-3.5 px-4 font-bold text-neutral-800">{u.firstName} {u.lastName}</td>
+                        <td className="py-3.5 px-4 text-xs font-mono text-neutral-600">{u.email}</td>
                         <td className="py-3.5 px-4">
-                          <span className="px-2.5 py-1 rounded-lg text-xs font-bold capitalize bg-orange-50 text-orange-600 border border-orange-200">{u.role}</span>
+                          <span className="px-2.5 py-1 rounded-lg text-xs font-bold capitalize bg-primary-50 text-primary-600 border border-primary-200">{u.role}</span>
                         </td>
                         <td className="py-3.5 px-4">
-                          <span className={u.twoFactorEnabled ? "text-emerald-600 text-xs font-bold" : "text-gray-400 text-xs"}>
+                          <span className={u.twoFactorEnabled ? "text-success-600 text-xs font-bold" : "text-neutral-400 text-xs"}>
                             {u.twoFactorEnabled ? "✓ Activé" : "○ Désactivé"}
                           </span>
                         </td>
-                        <td className="py-3.5 px-4 text-xs text-gray-400">{u.lastLoginAt} (IP {u.lastLoginIp})</td>
+                        <td className="py-3.5 px-4 text-xs text-neutral-400">{u.lastLoginAt} (IP {u.lastLoginIp})</td>
                         <td className="py-3.5 px-4">
-                          <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">
+                          <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-success-50 text-success-600 border border-success-200">
                             {u.isActive ? "Actif" : "Bloqué"}
                           </span>
                         </td>
@@ -2756,14 +2756,14 @@ export default function AdminDashboard() {
           {/* ===== MÉDIATHÈQUE ===== */}
           {activeMenu === "mediatheque" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaDatabase className="text-orange-500" /> Médiathèque centralisée</h1>
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaDatabase className="text-primary-500" /> Médiathèque centralisée</h1>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {media.map(item => (
                   <div key={item.id} className={`${c.card} border ${c.border} rounded-xl p-3 ${c.shadow} hover:shadow-md transition ${c.cardHover} flex flex-col justify-between`}>
-                    <div className={`aspect-square ${c.bg} rounded-lg flex items-center justify-center text-gray-400 text-2xl mb-2 border ${c.border}`}><FaDatabase /></div>
+                    <div className={`aspect-square ${c.bg} rounded-lg flex items-center justify-center text-neutral-400 text-2xl mb-2 border ${c.border}`}><FaDatabase /></div>
                     <div>
-                      <div className="font-bold text-gray-800 text-xs truncate" title={item.name}>{item.name}</div>
-                      <div className="text-[10px] text-gray-400">{item.folder} • {item.size}</div>
+                      <div className="font-bold text-neutral-800 text-xs truncate" title={item.name}>{item.name}</div>
+                      <div className="text-[10px] text-neutral-400">{item.folder} • {item.size}</div>
                     </div>
                   </div>
                 ))}
@@ -2774,7 +2774,7 @@ export default function AdminDashboard() {
           {/* ===== SEO ===== */}
           {activeMenu === "seo" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaGlobe className="text-orange-500" /> Paramètres SEO & Indexation</h1>
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaGlobe className="text-primary-500" /> Paramètres SEO & Indexation</h1>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs sm:text-sm">
@@ -2787,10 +2787,10 @@ export default function AdminDashboard() {
                   <tbody className={`divide-y ${c.border}`}>
                     {seo.map(s => (
                       <tr key={s.id} className={c.tableRow + " transition"}>
-                        <td className="py-3.5 px-4 font-bold text-gray-800">{s.pageName}</td>
-                        <td className="py-3.5 px-4 text-xs font-mono text-orange-600">{s.path}</td>
-                        <td className="py-3.5 px-4 text-xs text-gray-600 max-w-md truncate">{s.metaTitle}</td>
-                        <td className="py-3.5 px-4 text-xs font-semibold text-emerald-600">{s.robots}</td>
+                        <td className="py-3.5 px-4 font-bold text-neutral-800">{s.pageName}</td>
+                        <td className="py-3.5 px-4 text-xs font-mono text-primary-600">{s.path}</td>
+                        <td className="py-3.5 px-4 text-xs text-neutral-600 max-w-md truncate">{s.metaTitle}</td>
+                        <td className="py-3.5 px-4 text-xs font-semibold text-success-600">{s.robots}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -2803,7 +2803,7 @@ export default function AdminDashboard() {
           {/* ===== LOGS DE SÉCURITÉ ===== */}
           {activeMenu === "logs" && (
             <div className="space-y-6">
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><FaShieldAlt className="text-orange-500" /> Journal de sécurité & Audit des logs</h1>
+              <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2"><FaShieldAlt className="text-primary-500" /> Journal de sécurité & Audit des logs</h1>
               <div className={`${c.card} border ${c.border} rounded-2xl overflow-hidden ${c.shadow}`}>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs sm:text-sm">
@@ -2818,12 +2818,12 @@ export default function AdminDashboard() {
                   <tbody className={`divide-y ${c.border}`}>
                     {logs.map(log => (
                       <tr key={log.id} className={c.tableRow + " transition text-xs"}>
-                        <td className="py-3 px-4 font-mono text-gray-400">{log.timestamp}</td>
-                        <td className="py-3 px-4 font-semibold text-gray-700">{log.user}</td>
-                        <td className="py-3 px-4 capitalize text-orange-600">{log.role}</td>
-                        <td className="py-3 px-4 text-gray-600">{log.module}</td>
-                        <td className="py-3 px-4 text-gray-700">{log.action}</td>
-                        <td className="py-3 px-4 font-mono text-gray-400">{log.ip}</td>
+                        <td className="py-3 px-4 font-mono text-neutral-400">{log.timestamp}</td>
+                        <td className="py-3 px-4 font-semibold text-neutral-700">{log.user}</td>
+                        <td className="py-3 px-4 capitalize text-primary-600">{log.role}</td>
+                        <td className="py-3 px-4 text-neutral-600">{log.module}</td>
+                        <td className="py-3 px-4 text-neutral-700">{log.action}</td>
+                        <td className="py-3 px-4 font-mono text-neutral-400">{log.ip}</td>
                         <td className="py-3 px-4">{renderStatusBadge(log.status)}</td>
                       </tr>
                     ))}
@@ -2844,7 +2844,7 @@ export default function AdminDashboard() {
 
             {/* Modal Header */}
             <div className={`flex items-center justify-between pb-3 border-b ${c.border}`}>
-              <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
+              <h2 className="text-base font-bold text-neutral-900 flex items-center gap-2">
                 {modalType === "view_quote" && `📋 Fiche Devis [${selectedItem.reference}]`}
                 {modalType === "view_service_request" && `🔧 Demande de Service`}
                 {modalType === "view_message" && `✉ Message de Contact [${selectedItem.reference}]`}
@@ -2854,7 +2854,7 @@ export default function AdminDashboard() {
                 {modalType.startsWith("add_") && `➕ Création`}
               </h2>
               <button onClick={() => { setIsModalOpen(false); setUploadPreview(null); setUploadFile(null); }}
-                className={`p-2 rounded-lg ${c.btnSecondary} text-gray-600 transition`}>
+                className={`p-2 rounded-lg ${c.btnSecondary} text-neutral-600 transition`}>
                 <FaTimes />
               </button>
             </div>
@@ -2862,21 +2862,21 @@ export default function AdminDashboard() {
             {/* MODAL: Upload Photo Réalisation */}
             {modalType === "upload_photo" && (
               <div className="space-y-5">
-                <p className="text-sm text-gray-500">Uploadez une photo pour illustrer ce projet. Elle sera sauvegardée dans Supabase Storage et l'URL enregistrée en base de données.</p>
+                <p className="text-sm text-neutral-500">Uploadez une photo pour illustrer ce projet. Elle sera sauvegardée dans Supabase Storage et l'URL enregistrée en base de données.</p>
 
                 {/* Current image */}
                 {(selectedItem as any).imageUrl && !uploadPreview && (
                   <div className="space-y-2">
-                    <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Photo actuelle :</p>
-                    <img src={(selectedItem as any).imageUrl} alt="Actuelle" className="w-full h-48 object-cover rounded-xl border border-gray-200" />
+                    <p className="text-xs font-semibold text-neutral-600 uppercase tracking-wider">Photo actuelle :</p>
+                    <img src={(selectedItem as any).imageUrl} alt="Actuelle" className="w-full h-48 object-cover rounded-xl border border-neutral-200" />
                   </div>
                 )}
 
                 {/* Upload Preview */}
                 {uploadPreview && (
                   <div className="space-y-2">
-                    <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Aperçu de la nouvelle photo :</p>
-                    <img src={uploadPreview} alt="Aperçu" className="w-full h-48 object-cover rounded-xl border-2 border-orange-300 shadow" />
+                    <p className="text-xs font-semibold text-neutral-600 uppercase tracking-wider">Aperçu de la nouvelle photo :</p>
+                    <img src={uploadPreview} alt="Aperçu" className="w-full h-48 object-cover rounded-xl border-2 border-primary-300 shadow" />
                   </div>
                 )}
 
@@ -2884,14 +2884,14 @@ export default function AdminDashboard() {
                 <div
                   onClick={() => fileInputRef.current?.click()}
                   className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition ${
-                    uploadPreview ? "border-orange-300 bg-orange-50" : "border-gray-300 bg-gray-50 hover:border-orange-400 hover:bg-orange-50"
+                    uploadPreview ? "border-primary-300 bg-primary-50" : "border-neutral-300 bg-neutral-50 hover:border-primary-400 hover:bg-primary-50"
                   }`}
                 >
-                  <FaCloudUploadAlt className="text-4xl text-gray-400 mx-auto mb-3" />
-                  <p className="text-sm font-semibold text-gray-700">
+                  <FaCloudUploadAlt className="text-4xl text-neutral-400 mx-auto mb-3" />
+                  <p className="text-sm font-semibold text-neutral-700">
                     {uploadPreview ? "Cliquer pour changer la photo" : "Cliquer pour sélectionner une photo"}
                   </p>
-                  <p className="text-xs text-gray-400 mt-1">Formats : JPG, PNG, WebP • Taille max : 10 MB</p>
+                  <p className="text-xs text-neutral-400 mt-1">Formats : JPG, PNG, WebP • Taille max : 10 MB</p>
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -2903,22 +2903,22 @@ export default function AdminDashboard() {
 
                 {uploadFile && (
                   <div className={`flex items-center gap-3 p-3 ${c.bg} border ${c.border} rounded-xl`}>
-                    <FaImage className="text-orange-500 text-lg" />
+                    <FaImage className="text-primary-500 text-lg" />
                     <div>
-                      <div className="text-xs font-semibold text-gray-800">{uploadFile.name}</div>
-                      <div className="text-[11px] text-gray-400">{(uploadFile.size / 1024).toFixed(1)} KB • {uploadFile.type}</div>
+                      <div className="text-xs font-semibold text-neutral-800">{uploadFile.name}</div>
+                      <div className="text-[11px] text-neutral-400">{(uploadFile.size / 1024).toFixed(1)} KB • {uploadFile.type}</div>
                     </div>
                   </div>
                 )}
 
                 <div className={`flex justify-end gap-3 pt-3 border-t ${c.border}`}>
                   <button onClick={() => { setIsModalOpen(false); setUploadPreview(null); setUploadFile(null); }}
-                    className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Annuler</button>
+                    className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-neutral-600 text-sm`}>Annuler</button>
                   <button
                     onClick={() => handleImageUpload(selectedItem.id)}
                     disabled={!uploadFile || uploadingImage}
                     className={`px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${
-                      uploadFile && !uploadingImage ? c.btnPrimary : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      uploadFile && !uploadingImage ? c.btnPrimary : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                     }`}
                   >
                     {uploadingImage ? (
@@ -2936,23 +2936,23 @@ export default function AdminDashboard() {
               <div className="space-y-4 text-xs">
                 <div className={`grid grid-cols-2 gap-4 ${c.bg} p-4 rounded-xl border ${c.border}`}>
                   <div>
-                    <span className="text-gray-400 uppercase font-semibold text-[10px]">1. Entreprise & Demandeur</span>
-                    <div className="font-bold text-gray-900 text-sm mt-1">{selectedItem.companyName}</div>
-                    <div className="text-gray-500">{selectedItem.activityField} • {selectedItem.city}</div>
-                    <div className="text-gray-500">{selectedItem.email} • {selectedItem.phone}</div>
+                    <span className="text-neutral-400 uppercase font-semibold text-[10px]">1. Entreprise & Demandeur</span>
+                    <div className="font-bold text-neutral-900 text-sm mt-1">{selectedItem.companyName}</div>
+                    <div className="text-neutral-500">{selectedItem.activityField} • {selectedItem.city}</div>
+                    <div className="text-neutral-500">{selectedItem.email} • {selectedItem.phone}</div>
                   </div>
                   <div>
-                    <span className="text-gray-400 uppercase font-semibold text-[10px]">2. Responsable de projet</span>
-                    <div className="font-bold text-gray-900 text-sm mt-1">{selectedItem.contactPersonName}</div>
-                    <div className="text-gray-500">Livraison : <span className="text-orange-600">{selectedItem.deliveryDate || "Non spécifié"}</span></div>
-                    <div className="text-gray-500">Budget : <span className="text-amber-600 font-bold">{selectedItem.budget}</span></div>
+                    <span className="text-neutral-400 uppercase font-semibold text-[10px]">2. Responsable de projet</span>
+                    <div className="font-bold text-neutral-900 text-sm mt-1">{selectedItem.contactPersonName}</div>
+                    <div className="text-neutral-500">Livraison : <span className="text-primary-600">{selectedItem.deliveryDate || "Non spécifié"}</span></div>
+                    <div className="text-neutral-500">Budget : <span className="text-warning-600 font-bold">{selectedItem.budget}</span></div>
                   </div>
                 </div>
                 
                 {/* Section Services Demandés */}
                 {selectedItem.desiredServices && selectedItem.desiredServices.length > 0 && (
                   <div className={`${c.bg} p-4 rounded-xl border ${c.border} space-y-2`}>
-                    <span className="text-gray-400 uppercase font-semibold text-[10px]">Services demandés ({selectedItem.desiredServices.length})</span>
+                    <span className="text-neutral-400 uppercase font-semibold text-[10px]">Services demandés ({selectedItem.desiredServices.length})</span>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {selectedItem.desiredServices.map((serviceId: string, idx: number) => {
                         const serviceNames: { [key: string]: string } = {
@@ -2968,7 +2968,7 @@ export default function AdminDashboard() {
                           '10': 'Conseil IT'
                         };
                         return (
-                          <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                          <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-info-50 text-info-700 border border-info-200">
                             {serviceNames[serviceId] || `Service ${serviceId}`}
                           </span>
                         );
@@ -2978,14 +2978,14 @@ export default function AdminDashboard() {
                 )}
 
                 <div className={`${c.bg} p-4 rounded-xl border ${c.border} space-y-2`}>
-                  <span className="text-gray-400 uppercase font-semibold text-[10px]">3. Description & Cahier des charges</span>
-                  <p className="text-gray-700 leading-relaxed">{selectedItem.description}</p>
-                  {selectedItem.keyFeatures && <div><span className="text-gray-500 font-semibold">Fonctionnalités phares :</span><p className="text-gray-700 mt-0.5">{selectedItem.keyFeatures}</p></div>}
-                  {selectedItem.expectedResult && <div><span className="text-gray-500 font-semibold">Résultat attendu :</span><p className="text-gray-700 mt-0.5">{selectedItem.expectedResult}</p></div>}
+                  <span className="text-neutral-400 uppercase font-semibold text-[10px]">3. Description & Cahier des charges</span>
+                  <p className="text-neutral-700 leading-relaxed">{selectedItem.description}</p>
+                  {selectedItem.keyFeatures && <div><span className="text-neutral-500 font-semibold">Fonctionnalités phares :</span><p className="text-neutral-700 mt-0.5">{selectedItem.keyFeatures}</p></div>}
+                  {selectedItem.expectedResult && <div><span className="text-neutral-500 font-semibold">Résultat attendu :</span><p className="text-neutral-700 mt-0.5">{selectedItem.expectedResult}</p></div>}
                 </div>
                 <div className="flex items-center justify-between pt-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-gray-700">Modifier le statut :</span>
+                    <span className="font-semibold text-neutral-700">Modifier le statut :</span>
                     <select value={selectedItem.status} onChange={e => { AdminStore.updateQuoteStatus(selectedItem.id, e.target.value as QuoteStatus); setSelectedItem({ ...selectedItem, status: e.target.value }); showToast(`Statut mis à jour : ${e.target.value}`); }}
                       className={`${c.select} text-xs rounded-lg px-3 py-1.5`}>
                       <option>Nouveau</option><option>En cours</option><option>Traité</option><option>Sans suite</option>
@@ -2993,7 +2993,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex items-center gap-2">
                     <button onClick={() => downloadItemAsPDF(selectedItem, 'devis')}
-                      className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}>
+                      className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 ${c.btnSecondary} text-primary-600`}>
                       <FaDownload /> Télécharger PDF
                     </button>
                     <button onClick={() => { setIsModalOpen(false); showToast("Fiche enregistrée"); }}
@@ -3008,21 +3008,21 @@ export default function AdminDashboard() {
               <div className="space-y-4 text-xs">
                 <div className={`grid grid-cols-2 gap-4 ${c.bg} p-4 rounded-xl border ${c.border}`}>
                   <div>
-                    <span className="text-gray-400 uppercase font-semibold text-[10px]">Informations Contact</span>
-                    <div className="font-bold text-gray-900 text-sm mt-1">{selectedItem.name}</div>
-                    <div className="text-gray-500 mt-1">
+                    <span className="text-neutral-400 uppercase font-semibold text-[10px]">Informations Contact</span>
+                    <div className="font-bold text-neutral-900 text-sm mt-1">{selectedItem.name}</div>
+                    <div className="text-neutral-500 mt-1">
                       <div>📧 {selectedItem.email}</div>
                       <div>📞 {selectedItem.phone}</div>
                     </div>
                   </div>
                   <div>
-                    <span className="text-gray-400 uppercase font-semibold text-[10px]">Service Demandé</span>
+                    <span className="text-neutral-400 uppercase font-semibold text-[10px]">Service Demandé</span>
                     <div className="mt-2">
-                      <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                      <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold bg-info-50 text-info-700 border border-info-200">
                         {selectedItem.service || "Service non spécifié"}
                       </span>
                     </div>
-                    <div className="text-gray-400 text-xs mt-2">
+                    <div className="text-neutral-400 text-xs mt-2">
                       Reçu le : {selectedItem.createdAt || new Date().toLocaleDateString()}
                     </div>
                   </div>
@@ -3030,17 +3030,17 @@ export default function AdminDashboard() {
 
                 {selectedItem.message && (
                   <div className={`${c.bg} p-4 rounded-xl border ${c.border} space-y-2`}>
-                    <span className="text-gray-400 uppercase font-semibold text-[10px]">Message / Description du besoin</span>
-                    <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{selectedItem.message}</p>
+                    <span className="text-neutral-400 uppercase font-semibold text-[10px]">Message / Description du besoin</span>
+                    <p className="text-neutral-700 leading-relaxed whitespace-pre-wrap">{selectedItem.message}</p>
                   </div>
                 )}
 
                 <div className={`${c.accentBg} border-2 border-dashed ${c.accentBorder} p-4 rounded-xl`}>
                   <div className="flex items-start gap-3">
-                    <FaInfoCircle className="text-orange-500 flex-shrink-0 mt-0.5" />
-                    <div className="text-xs text-gray-600">
-                      <p className="font-semibold text-gray-900 mb-1">💡 Recommandations</p>
-                      <ul className="space-y-1 text-gray-600">
+                    <FaInfoCircle className="text-primary-500 flex-shrink-0 mt-0.5" />
+                    <div className="text-xs text-neutral-600">
+                      <p className="font-semibold text-neutral-900 mb-1">💡 Recommandations</p>
+                      <ul className="space-y-1 text-neutral-600">
                         <li>• Contactez le client sous 24h pour confirmer la réception</li>
                         <li>• Proposez un échange téléphonique pour préciser les besoins</li>
                         <li>• Si pertinent, envoyez un lien vers le formulaire de devis complet</li>
@@ -3051,7 +3051,7 @@ export default function AdminDashboard() {
 
                 <div className="flex items-center justify-between pt-2 gap-3">
                   <div className="flex items-center gap-2 flex-1">
-                    <span className="font-semibold text-gray-700 text-xs">Statut :</span>
+                    <span className="font-semibold text-neutral-700 text-xs">Statut :</span>
                     <select 
                       value={selectedItem.status || "Nouveau"} 
                       onChange={e => { 
@@ -3073,7 +3073,7 @@ export default function AdminDashboard() {
                   <div className="flex gap-2">
                     <button 
                       onClick={() => downloadItemAsPDF(selectedItem, 'service')}
-                      className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}
+                      className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${c.btnSecondary} text-primary-600`}
                     >
                       <FaDownload /> Télécharger PDF
                     </button>
@@ -3100,19 +3100,19 @@ export default function AdminDashboard() {
                 <div className={`${c.bg} p-4 rounded-xl border ${c.border}`}>
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <div className="font-bold text-gray-900 text-sm">{selectedItem.name}</div>
-                      <div className="text-gray-500">{selectedItem.email} • {selectedItem.phone || "Pas de téléphone"}</div>
+                      <div className="font-bold text-neutral-900 text-sm">{selectedItem.name}</div>
+                      <div className="text-neutral-500">{selectedItem.email} • {selectedItem.phone || "Pas de téléphone"}</div>
                     </div>
-                    <span className="text-gray-400">{selectedItem.createdAt}</span>
+                    <span className="text-neutral-400">{selectedItem.createdAt}</span>
                   </div>
-                  <div className="text-orange-600 font-semibold mt-2">Objet : {selectedItem.subject}</div>
+                  <div className="text-primary-600 font-semibold mt-2">Objet : {selectedItem.subject}</div>
                 </div>
                 <div className={`${c.bg} p-4 rounded-xl border ${c.border}`}>
-                  <span className="text-gray-400 uppercase font-semibold text-[10px]">Contenu du message :</span>
-                  <p className="text-gray-700 mt-2 leading-relaxed whitespace-pre-wrap">{selectedItem.message}</p>
+                  <span className="text-neutral-400 uppercase font-semibold text-[10px]">Contenu du message :</span>
+                  <p className="text-neutral-700 mt-2 leading-relaxed whitespace-pre-wrap">{selectedItem.message}</p>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-gray-700 font-semibold">Réponse directe par email :</label>
+                  <label className="text-neutral-700 font-semibold">Réponse directe par email :</label>
                   <textarea 
                     rows={3} 
                     value={emailReply}
@@ -3123,7 +3123,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="flex justify-between items-center pt-2 gap-2">
                   <button onClick={() => downloadItemAsPDF(selectedItem, 'message')}
-                    className={`px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}>
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 ${c.btnSecondary} text-primary-600`}>
                     <FaDownload /> Télécharger PDF
                   </button>
                   <div className="flex gap-2">
@@ -3132,7 +3132,7 @@ export default function AdminDashboard() {
                       className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 text-sm ${c.btnPrimary}`}>
                       <FaReply /> Envoyer la réponse
                     </button>
-                    <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Fermer</button>
+                    <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-neutral-600 text-sm`}>Fermer</button>
                   </div>
                 </div>
               </div>
@@ -3142,24 +3142,24 @@ export default function AdminDashboard() {
             {modalType === "view_application" && (
               <div className="space-y-4 text-xs">
                 <div className={`${c.bg} p-4 rounded-xl border ${c.border} space-y-2`}>
-                  <div className="font-bold text-gray-900 text-base">{selectedItem.fullName}</div>
-                  <div className="text-orange-600 font-semibold">{selectedItem.position} ({selectedItem.type})</div>
-                  <div className="text-gray-500">{selectedItem.email} • {selectedItem.phone}</div>
-                  <div className="text-gray-700 pt-2 font-medium">Formation : {selectedItem.education}</div>
-                  {selectedItem.experience && <div className="text-gray-500">Expérience : {selectedItem.experience}</div>}
+                  <div className="font-bold text-neutral-900 text-base">{selectedItem.fullName}</div>
+                  <div className="text-primary-600 font-semibold">{selectedItem.position} ({selectedItem.type})</div>
+                  <div className="text-neutral-500">{selectedItem.email} • {selectedItem.phone}</div>
+                  <div className="text-neutral-700 pt-2 font-medium">Formation : {selectedItem.education}</div>
+                  {selectedItem.experience && <div className="text-neutral-500">Expérience : {selectedItem.experience}</div>}
                 </div>
                 {selectedItem.coverLetter && (
                   <div className={`${c.bg} p-4 rounded-xl border ${c.border}`}>
-                    <span className="text-gray-400 uppercase font-semibold text-[10px]">Lettre de motivation :</span>
-                    <p className="text-gray-700 mt-1 leading-relaxed">{selectedItem.coverLetter}</p>
+                    <span className="text-neutral-400 uppercase font-semibold text-[10px]">Lettre de motivation :</span>
+                    <p className="text-neutral-700 mt-1 leading-relaxed">{selectedItem.coverLetter}</p>
                   </div>
                 )}
                 <div className={`${c.bg} p-4 rounded-xl border ${c.border} flex items-center justify-between`}>
                   <div className="flex items-center gap-3">
                     <span className="text-xl">📄</span>
                     <div>
-                      <div className="font-bold text-gray-800">{selectedItem.cvFileName}</div>
-                      <div className="text-[10px] text-gray-400">Document PDF stocké sur Supabase</div>
+                      <div className="font-bold text-neutral-800">{selectedItem.cvFileName}</div>
+                      <div className="text-[10px] text-neutral-400">Document PDF stocké sur Supabase</div>
                     </div>
                   </div>
                   {selectedItem.cvFilePath && (
@@ -3176,10 +3176,10 @@ export default function AdminDashboard() {
                 </div>
                 <div className="flex justify-between items-center pt-2 gap-2">
                   <button onClick={() => downloadItemAsPDF(selectedItem, 'candidature')}
-                    className={`px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 ${c.btnSecondary} text-orange-600`}>
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 ${c.btnSecondary} text-primary-600`}>
                     <FaDownload /> Télécharger PDF
                   </button>
-                  <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Fermer</button>
+                  <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-neutral-600 text-sm`}>Fermer</button>
                 </div>
               </div>
             )}
@@ -3188,17 +3188,17 @@ export default function AdminDashboard() {
             {(modalType.startsWith("edit_") || modalType.startsWith("add_")) && modalType !== "upload_photo" && (
               <div className="space-y-4 text-xs">
                 <div className="space-y-2">
-                  <label className="text-gray-700 font-semibold">Titre / Libellé :</label>
+                  <label className="text-neutral-700 font-semibold">Titre / Libellé :</label>
                   <input type="text" defaultValue={selectedItem.title || selectedItem.name || ""}
                     className={`w-full p-2.5 rounded-xl ${c.input} text-sm`} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-gray-700 font-semibold">Description / Contenu :</label>
+                  <label className="text-neutral-700 font-semibold">Description / Contenu :</label>
                   <textarea rows={4} defaultValue={selectedItem.description || selectedItem.content || selectedItem.excerpt || ""}
                     className={`w-full p-2.5 rounded-xl ${c.input} text-sm`}></textarea>
                 </div>
                 <div className={`flex justify-end gap-3 pt-3 border-t ${c.border}`}>
-                  <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm`}>Annuler</button>
+                  <button onClick={() => setIsModalOpen(false)} className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-neutral-600 text-sm`}>Annuler</button>
                   <button onClick={() => { setIsModalOpen(false); showToast("Enregistrement effectué avec succès"); }}
                     className={`px-4 py-2 rounded-xl font-bold text-sm ${c.btnPrimary}`}>Enregistrer</button>
                 </div>

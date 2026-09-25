@@ -69,7 +69,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="section-padding bg-background-secondary">
+    <section className="section-padding bg-surface-muted">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -87,13 +87,13 @@ export default function ContactSection() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="bg-white p-8 rounded-2xl shadow-lg">
-            <h3 className="text-2xl font-bold text-text mb-6">Envoyez-nous un message</h3>
+            <h3 className="text-2xl font-bold text-ink mb-6">Envoyez-nous un message</h3>
             
             {submitMessage && (
               <div className={`mb-4 p-4 rounded-lg ${
                 submitMessage.type === 'success' 
-                  ? 'bg-green-100 text-green-800 border border-green-300' 
-                  : 'bg-red-100 text-red-800 border border-red-300'
+                  ? 'bg-success-100 text-success-800 border border-success-300' 
+                  : 'bg-danger-100 text-danger-800 border border-danger-300'
               }`}>
                 {submitMessage.text}
               </div>
@@ -101,8 +101,8 @@ export default function ContactSection() {
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-text mb-2">
-                  Nom complet <span className="text-red-500">*</span>
+                <label htmlFor="name" className="block text-sm font-semibold text-ink mb-2">
+                  Nom complet <span className="text-danger-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -111,15 +111,15 @@ export default function ContactSection() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                   placeholder="Votre nom complet"
                 />
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-text mb-2">
-                    Email <span className="text-red-500">*</span>
+                  <label htmlFor="email" className="block text-sm font-semibold text-ink mb-2">
+                    Email <span className="text-danger-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -128,13 +128,13 @@ export default function ContactSection() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                     placeholder="votre@email.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold text-text mb-2">
+                  <label htmlFor="phone" className="block text-sm font-semibold text-ink mb-2">
                     Téléphone
                   </label>
                   <input
@@ -143,15 +143,15 @@ export default function ContactSection() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                     placeholder="+228 XX XX XX XX"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-semibold text-text mb-2">
-                  Objet <span className="text-red-500">*</span>
+                <label htmlFor="subject" className="block text-sm font-semibold text-ink mb-2">
+                  Objet <span className="text-danger-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -160,14 +160,14 @@ export default function ContactSection() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                   placeholder="Objet de votre message"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-text mb-2">
-                  Message <span className="text-red-500">*</span>
+                <label htmlFor="message" className="block text-sm font-semibold text-ink mb-2">
+                  Message <span className="text-danger-500">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -176,7 +176,7 @@ export default function ContactSection() {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
                   placeholder="Décrivez votre projet ou votre besoin..."
                 ></textarea>
               </div>
@@ -201,10 +201,10 @@ export default function ContactSection() {
                   <FaPhoneAlt />
                 </div>
                 <div>
-                  <h4 className="font-bold text-text mb-2">Téléphone</h4>
+                  <h4 className="font-bold text-ink mb-2">Téléphone</h4>
                   <a
                     href={`tel:${COMPANY_INFO.phone}`}
-                    className="text-text-secondary hover:text-primary transition-colors"
+                    className="text-ink-secondary hover:text-primary transition-colors"
                   >
                     {COMPANY_INFO.phone}
                   </a>
@@ -214,16 +214,16 @@ export default function ContactSection() {
 
             <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-xl flex-shrink-0">
+                <div className="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center text-success-600 text-xl flex-shrink-0">
                   <FaWhatsapp />
                 </div>
                 <div>
-                  <h4 className="font-bold text-text mb-2">WhatsApp</h4>
+                  <h4 className="font-bold text-ink mb-2">WhatsApp</h4>
                   <a
                     href={`https://wa.me/${COMPANY_INFO.whatsapp.replace(/\s/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text-secondary hover:text-green-600 transition-colors"
+                    className="text-ink-secondary hover:text-success-600 transition-colors"
                   >
                     {COMPANY_INFO.whatsapp}
                   </a>
@@ -237,10 +237,10 @@ export default function ContactSection() {
                   <FaEnvelope />
                 </div>
                 <div>
-                  <h4 className="font-bold text-text mb-2">Email</h4>
+                  <h4 className="font-bold text-ink mb-2">Email</h4>
                   <a
                     href={`mailto:${COMPANY_INFO.email}`}
-                    className="text-text-secondary hover:text-primary transition-colors"
+                    className="text-ink-secondary hover:text-primary transition-colors"
                   >
                     {COMPANY_INFO.email}
                   </a>
@@ -254,8 +254,8 @@ export default function ContactSection() {
                   <FaMapMarkerAlt />
                 </div>
                 <div>
-                  <h4 className="font-bold text-text mb-2">Adresse</h4>
-                  <p className="text-text-secondary">
+                  <h4 className="font-bold text-ink mb-2">Adresse</h4>
+                  <p className="text-ink-secondary">
                     {COMPANY_INFO.address}<br />
                     {COMPANY_INFO.city}, {COMPANY_INFO.country}
                   </p>
@@ -274,8 +274,8 @@ export default function ContactSection() {
               <div className="aspect-video bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center">
                 <div className="text-center">
                   <FaMapMarkerAlt className="text-4xl text-primary mx-auto mb-2" />
-                  <p className="text-text-secondary text-sm">Carte Google Maps</p>
-                  <p className="text-xs text-text-secondary mt-1">À intégrer</p>
+                  <p className="text-ink-secondary text-sm">Carte Google Maps</p>
+                  <p className="text-xs text-ink-secondary mt-1">À intégrer</p>
                 </div>
               </div>
             </div>

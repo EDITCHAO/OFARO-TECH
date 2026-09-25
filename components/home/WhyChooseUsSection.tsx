@@ -60,17 +60,17 @@ export default function WhyChooseUsSection() {
               className="group relative"
             >
               {/* Card */}
-              <div className="bg-background-secondary p-8 rounded-xl h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div className="bg-surface-muted p-8 rounded-xl h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 {/* Icon */}
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-3xl mb-6 group-hover:bg-primary group-hover:text-white group-hover:scale-110 transition-all duration-300">
                   {reason.icon}
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-text mb-3 group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-bold text-ink mb-3 group-hover:text-primary transition-colors">
                   {reason.title}
                 </h3>
-                <p className="text-text-secondary leading-relaxed">
+                <p className="text-ink-secondary leading-relaxed">
                   {reason.description}
                 </p>
 
@@ -84,10 +84,10 @@ export default function WhyChooseUsSection() {
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
           <div className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 p-8 rounded-2xl">
-            <h3 className="text-2xl font-bold text-text mb-4">
+            <h3 className="text-2xl font-bold text-ink mb-4">
               Prêt à démarrer votre projet ?
             </h3>
-            <p className="text-text-secondary mb-6 max-w-2xl mx-auto">
+            <p className="text-ink-secondary mb-6 max-w-2xl mx-auto">
               Contactez-nous dès aujourd'hui pour discuter de vos besoins et découvrir comment nous pouvons vous aider à atteindre vos objectifs
             </p>
             <div className="flex flex-wrap justify-center gap-4">

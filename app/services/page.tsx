@@ -54,7 +54,7 @@ export default function ServicesPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
@@ -63,7 +63,7 @@ export default function ServicesPage() {
               <h1 className="heading-1 mb-6">
                 Des solutions IT complètes pour votre entreprise
               </h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-ink-secondary leading-relaxed">
                 Nous offrons une gamme complète de services pour accompagner votre transformation digitale, de la conception à la maintenance.
               </p>
             </div>
@@ -80,7 +80,7 @@ export default function ServicesPage() {
                   href={`/services/${service.slug}`}
                   className="group"
                 >
-                  <div className="relative bg-background-secondary rounded-xl h-full overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                  <div className="relative bg-surface-muted rounded-xl h-full overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                     {/* Image de fond avec lazy loading */}
                     <div className="absolute inset-0">
                       <img 
@@ -135,7 +135,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="section-padding bg-background-secondary">
+        <section className="section-padding bg-surface-muted">
           <div className="container-custom">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -156,11 +156,11 @@ export default function ServicesPage() {
                 <div className="mt-8 grid sm:grid-cols-2 gap-4">
                   <div className="bg-white p-6 rounded-xl">
                     <div className="text-4xl font-bold text-primary mb-2">98%</div>
-                    <div className="text-text-secondary">Satisfaction client</div>
+                    <div className="text-ink-secondary">Satisfaction client</div>
                   </div>
                   <div className="bg-white p-6 rounded-xl">
                     <div className="text-4xl font-bold text-primary mb-2">24/7</div>
-                    <div className="text-text-secondary">Support technique</div>
+                    <div className="text-ink-secondary">Support technique</div>
                   </div>
                 </div>
               </div>
@@ -173,8 +173,8 @@ export default function ServicesPage() {
                   { title: "Support continu", description: "Accompagnement et maintenance après la livraison" }
                 ].map((item, index) => (
                   <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                    <h3 className="font-bold text-text mb-2">{item.title}</h3>
-                    <p className="text-text-secondary text-sm">{item.description}</p>
+                    <h3 className="font-bold text-ink mb-2">{item.title}</h3>
+                    <p className="text-ink-secondary text-sm">{item.description}</p>
                   </div>
                 ))}
               </div>
@@ -192,7 +192,7 @@ export default function ServicesPage() {
               Contactez-nous dès aujourd'hui pour obtenir un devis personnalisé et gratuit
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/devis" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+              <Link href="/devis" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-neutral-100 transition-colors">
                 Demander un devis
               </Link>
               <Link href="/contact" className="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors">

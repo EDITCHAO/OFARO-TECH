@@ -107,7 +107,7 @@ export default function QuotePage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-16 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
@@ -116,7 +116,7 @@ export default function QuotePage() {
               <h1 className="heading-1 mb-6">
                 Obtenez un devis gratuit et personnalisé
               </h1>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-ink-secondary leading-relaxed">
                 Veuillez remplir ce formulaire qui tient lieu de cahier des charges. Nous reprenons très vite contact avec vous dès sa réception.
               </p>
             </div>
@@ -128,7 +128,7 @@ export default function QuotePage() {
           <div className="container-custom max-w-5xl">
             <form onSubmit={handleSubmit} className="space-y-12">
               {/* Section 1: Informations Entreprise */}
-              <div className="bg-background-secondary p-8 rounded-2xl">
+              <div className="bg-surface-muted p-8 rounded-2xl">
                 <h2 className="heading-3 mb-6 flex items-center gap-3">
                   <span className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">1</span>
                   Informations sur votre entreprise
@@ -136,8 +136,8 @@ export default function QuotePage() {
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Nom de l'entreprise <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Nom de l'entreprise <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -145,14 +145,14 @@ export default function QuotePage() {
                       value={formData.companyName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="Nom de votre entreprise"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Champ d'activité <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Champ d'activité <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -160,14 +160,14 @@ export default function QuotePage() {
                       value={formData.activityField}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="Ex: Commerce, Santé, Éducation..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Email <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Email <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -175,14 +175,14 @@ export default function QuotePage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="votre@email.com"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Téléphone <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Téléphone <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="tel"
@@ -190,14 +190,14 @@ export default function QuotePage() {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="+228 XX XX XX XX"
                     />
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Ville <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Ville <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -205,7 +205,7 @@ export default function QuotePage() {
                       value={formData.city}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="Lomé, Togo"
                     />
                   </div>
@@ -213,7 +213,7 @@ export default function QuotePage() {
               </div>
 
               {/* Section 2: Informations Projet */}
-              <div className="bg-background-secondary p-8 rounded-2xl">
+              <div className="bg-surface-muted p-8 rounded-2xl">
                 <h2 className="heading-3 mb-6 flex items-center gap-3">
                   <span className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">2</span>
                   Informations sur le projet
@@ -221,8 +221,8 @@ export default function QuotePage() {
 
                 {/* Services désirés */}
                 <div className="mb-6">
-                  <label className="block text-sm font-semibold text-text mb-3">
-                    Services désirés <span className="text-red-500">*</span>
+                  <label className="block text-sm font-semibold text-ink mb-3">
+                    Services désirés <span className="text-danger-500">*</span>
                   </label>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {SERVICES.map(service => (
@@ -236,7 +236,7 @@ export default function QuotePage() {
                           onChange={() => handleServiceChange(service.id)}
                           className="w-5 h-5 text-primary focus:ring-primary rounded"
                         />
-                        <span className="text-text">{service.title}</span>
+                        <span className="text-ink">{service.title}</span>
                       </label>
                     ))}
                   </div>
@@ -244,8 +244,8 @@ export default function QuotePage() {
 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Description du projet <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Description du projet <span className="text-danger-500">*</span>
                     </label>
                     <textarea
                       name="description"
@@ -253,22 +253,22 @@ export default function QuotePage() {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
                       placeholder="Décrivez votre projet en détail..."
                     />
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-text mb-2">
-                        Disposez-vous d'un logo ? <span className="text-red-500">*</span>
+                      <label className="block text-sm font-semibold text-ink mb-2">
+                        Disposez-vous d'un logo ? <span className="text-danger-500">*</span>
                       </label>
                       <select
                         name="hasLogo"
                         value={formData.hasLogo}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       >
                         <option value="">Sélectionner...</option>
                         <option value="oui">Oui</option>
@@ -277,15 +277,15 @@ export default function QuotePage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-text mb-2">
-                        Disposez-vous d'un nom de domaine ? <span className="text-red-500">*</span>
+                      <label className="block text-sm font-semibold text-ink mb-2">
+                        Disposez-vous d'un nom de domaine ? <span className="text-danger-500">*</span>
                       </label>
                       <select
                         name="hasDomainName"
                         value={formData.hasDomainName}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       >
                         <option value="">Sélectionner...</option>
                         <option value="oui">Oui</option>
@@ -296,7 +296,7 @@ export default function QuotePage() {
 
                   {formData.hasDomainName === "oui" && (
                     <div>
-                      <label className="block text-sm font-semibold text-text mb-2">
+                      <label className="block text-sm font-semibold text-ink mb-2">
                         Votre nom de domaine
                       </label>
                       <input
@@ -304,15 +304,15 @@ export default function QuotePage() {
                         name="domainName"
                         value={formData.domainName}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                         placeholder="www.votredomaine.com"
                       />
                     </div>
                   )}
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Fonctionnalités phares à implémenter <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Fonctionnalités phares à implémenter <span className="text-danger-500">*</span>
                     </label>
                     <textarea
                       name="keyFeatures"
@@ -320,14 +320,14 @@ export default function QuotePage() {
                       onChange={handleChange}
                       required
                       rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
                       placeholder="Listez les fonctionnalités principales souhaitées..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Résultat attendu <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Résultat attendu <span className="text-danger-500">*</span>
                     </label>
                     <textarea
                       name="expectedResult"
@@ -335,21 +335,21 @@ export default function QuotePage() {
                       onChange={handleChange}
                       required
                       rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
                       placeholder="Décrivez le résultat final que vous souhaitez obtenir..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Budget estimé <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Budget estimé <span className="text-danger-500">*</span>
                     </label>
                     <select
                       name="budget"
                       value={formData.budget}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                     >
                       <option value="">Sélectionner une fourchette...</option>
                       <option value="< 1M FCFA">Moins de 1 Million FCFA</option>
@@ -363,7 +363,7 @@ export default function QuotePage() {
               </div>
 
               {/* Section 3: Personne en charge */}
-              <div className="bg-background-secondary p-8 rounded-2xl">
+              <div className="bg-surface-muted p-8 rounded-2xl">
                 <h2 className="heading-3 mb-6 flex items-center gap-3">
                   <span className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">3</span>
                   Personne en charge du projet
@@ -371,8 +371,8 @@ export default function QuotePage() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Nom et prénom <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Nom et prénom <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -380,14 +380,14 @@ export default function QuotePage() {
                       value={formData.contactPersonName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                       placeholder="Nom et prénom du responsable"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
-                      Date de livraison souhaitée <span className="text-red-500">*</span>
+                    <label className="block text-sm font-semibold text-ink mb-2">
+                      Date de livraison souhaitée <span className="text-danger-500">*</span>
                     </label>
                     <input
                       type="date"
@@ -395,7 +395,7 @@ export default function QuotePage() {
                       value={formData.deliveryDate}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                     />
                   </div>
                 </div>
@@ -420,8 +420,8 @@ export default function QuotePage() {
                     </>
                   )}
                 </button>
-                <p className="text-sm text-text-secondary mt-4">
-                  <FaCheckCircle className="inline text-green-500 mr-1" />
+                <p className="text-sm text-ink-secondary mt-4">
+                  <FaCheckCircle className="inline text-success-500 mr-1" />
                   Réponse garantie sous 24h ouvrées
                 </p>
               </div>
@@ -430,27 +430,27 @@ export default function QuotePage() {
         </section>
 
         {/* Reassurance Section */}
-        <section className="section-padding bg-background-secondary">
+        <section className="section-padding bg-surface-muted">
           <div className="container-custom">
             <div className="grid sm:grid-cols-3 gap-8 text-center">
               <div>
                 <div className="text-5xl mb-4">🎯</div>
-                <h3 className="font-bold text-text mb-2">Devis gratuit</h3>
-                <p className="text-text-secondary text-sm">
+                <h3 className="font-bold text-ink mb-2">Devis gratuit</h3>
+                <p className="text-ink-secondary text-sm">
                   Sans engagement et personnalisé selon vos besoins
                 </p>
               </div>
               <div>
                 <div className="text-5xl mb-4">⚡</div>
-                <h3 className="font-bold text-text mb-2">Réponse rapide</h3>
-                <p className="text-text-secondary text-sm">
+                <h3 className="font-bold text-ink mb-2">Réponse rapide</h3>
+                <p className="text-ink-secondary text-sm">
                   Nous vous recontactons sous 24h maximum
                 </p>
               </div>
               <div>
                 <div className="text-5xl mb-4">🤝</div>
-                <h3 className="font-bold text-text mb-2">Accompagnement</h3>
-                <p className="text-text-secondary text-sm">
+                <h3 className="font-bold text-ink mb-2">Accompagnement</h3>
+                <p className="text-ink-secondary text-sm">
                   Un chef de projet dédié pour votre succès
                 </p>
               </div>

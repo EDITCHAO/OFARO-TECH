@@ -262,17 +262,17 @@ export default function MediaLibraryPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <FaCamera className="w-10 h-10 text-orange-600" />
+              <h1 className="text-3xl font-bold text-neutral-900 flex items-center gap-3">
+                <FaCamera className="w-10 h-10 text-primary-600" />
                 Médiathèque Centralisée
               </h1>
-              <p className="text-gray-600 mt-2">
+              <p className="text-neutral-600 mt-2">
                 Gérez toutes les images de votre site
               </p>
             </div>
             <button
               onClick={() => setShowUploadModal(true)}
-              className="flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors shadow-lg"
+              className="flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors shadow-lg"
             >
               <FaUpload className="w-5 h-5" />
               Uploader des images
@@ -284,13 +284,13 @@ export default function MediaLibraryPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Search */}
               <div className="relative">
-                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                 <input
                   type="text"
                   placeholder="Rechercher une image..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
@@ -298,7 +298,7 @@ export default function MediaLibraryPage() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 {CATEGORIES.map(cat => (
                   <option key={cat.value} value={cat.value}>
@@ -309,7 +309,7 @@ export default function MediaLibraryPage() {
             </div>
 
             {/* Stats */}
-            <div className="mt-4 flex gap-4 text-sm text-gray-600">
+            <div className="mt-4 flex gap-4 text-sm text-neutral-600">
               <span>Total: {mediaItems.length} images</span>
               <span>•</span>
               <span>Affichées: {filteredItems.length} images</span>
@@ -320,16 +320,16 @@ export default function MediaLibraryPage() {
         {/* Media Grid */}
         {loading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="text-gray-600 mt-4">Chargement...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="text-neutral-600 mt-4">Chargement...</p>
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-lg shadow-md">
-            <FaCamera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 text-lg">Aucune image trouvée</p>
+            <FaCamera className="w-16 h-16 text-neutral-400 mx-auto mb-4" />
+            <p className="text-neutral-600 text-lg">Aucune image trouvée</p>
             <button
               onClick={() => setShowUploadModal(true)}
-              className="mt-4 text-orange-600 hover:text-orange-700 font-medium"
+              className="mt-4 text-primary-600 hover:text-primary-700 font-medium"
             >
               Uploader votre première image
             </button>
@@ -342,24 +342,24 @@ export default function MediaLibraryPage() {
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
               >
                 {/* Image */}
-                <div className="relative aspect-square bg-gray-100">
+                <div className="relative aspect-square bg-neutral-100">
                   <img
                     src={item.file_url}
                     alt={item.alt_text || item.original_name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-2 right-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">
+                  <div className="absolute top-2 right-2 bg-primary-600 text-white text-xs px-2 py-1 rounded">
                     {item.category}
                   </div>
                 </div>
 
                 {/* Info */}
                 <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 truncate" title={item.original_name}>
+                  <h3 className="font-semibold text-neutral-900 truncate" title={item.original_name}>
                     {item.original_name}
                   </h3>
                   
-                  <div className="mt-2 space-y-1 text-xs text-gray-600">
+                  <div className="mt-2 space-y-1 text-xs text-neutral-600">
                     <p>📏 {item.width} × {item.height} px</p>
                     <p>💾 {formatFileSize(item.file_size)}</p>
                     <p>📅 {new Date(item.created_at).toLocaleDateString('fr-FR')}</p>
@@ -369,13 +369,13 @@ export default function MediaLibraryPage() {
                   <div className="mt-4 flex gap-2">
                     <button
                       onClick={() => copyToClipboard(item.file_url)}
-                      className="flex-1 flex items-center justify-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm transition-colors"
+                      className="flex-1 flex items-center justify-center gap-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 px-3 py-2 rounded text-sm transition-colors"
                       title="Copier l'URL"
                     >
                       {copiedUrl === item.file_url ? (
                         <>
-                          <FaCheck className="w-4 h-4 text-green-600" />
-                          <span className="text-green-600">Copié !</span>
+                          <FaCheck className="w-4 h-4 text-success-600" />
+                          <span className="text-success-600">Copié !</span>
                         </>
                       ) : (
                         <>
@@ -386,7 +386,7 @@ export default function MediaLibraryPage() {
                     </button>
                     <button
                       onClick={() => handleDelete(item)}
-                      className="bg-red-100 hover:bg-red-200 text-red-600 p-2 rounded transition-colors"
+                      className="bg-danger-100 hover:bg-danger-200 text-danger-600 p-2 rounded transition-colors"
                       title="Supprimer"
                     >
                       <FaTrash className="w-4 h-4" />
@@ -403,11 +403,11 @@ export default function MediaLibraryPage() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               {/* Modal Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-900">Uploader des images</h2>
+              <div className="flex items-center justify-between p-6 border-b border-neutral-200">
+                <h2 className="text-2xl font-bold text-neutral-900">Uploader des images</h2>
                 <button
                   onClick={() => setShowUploadModal(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-neutral-400 hover:text-neutral-600"
                 >
                   <FaTimes className="w-6 h-6" />
                 </button>
@@ -417,7 +417,7 @@ export default function MediaLibraryPage() {
               <div className="p-6 space-y-6">
                 {/* File Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Sélectionner les images *
                   </label>
                   <input
@@ -425,10 +425,10 @@ export default function MediaLibraryPage() {
                     multiple
                     accept="image/*"
                     onChange={handleFileSelect}
-                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                    className="block w-full text-sm text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 focus:outline-none"
                   />
                   {uploadFiles.length > 0 && (
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 text-sm text-neutral-600">
                       {uploadFiles.length} fichier(s) sélectionné(s)
                     </p>
                   )}
@@ -436,13 +436,13 @@ export default function MediaLibraryPage() {
 
                 {/* Category */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Catégorie *
                   </label>
                   <select
                     value={uploadCategory}
                     onChange={(e) => setUploadCategory(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     required
                   >
                     {CATEGORIES.filter(cat => cat.value !== 'all').map(cat => (
@@ -455,7 +455,7 @@ export default function MediaLibraryPage() {
 
                 {/* Alt Text */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Texte alternatif (optionnel)
                   </label>
                   <input
@@ -463,13 +463,13 @@ export default function MediaLibraryPage() {
                     value={uploadAltText}
                     onChange={(e) => setUploadAltText(e.target.value)}
                     placeholder="Description de l'image pour l'accessibilité"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
 
                 {/* Caption */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Légende (optionnel)
                   </label>
                   <textarea
@@ -477,19 +477,19 @@ export default function MediaLibraryPage() {
                     onChange={(e) => setUploadCaption(e.target.value)}
                     placeholder="Légende ou description détaillée"
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
 
                 {/* Preview */}
                 {uploadFiles.length > 0 && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                       Aperçu
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       {Array.from(uploadFiles).slice(0, 6).map((file, index) => (
-                        <div key={index} className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                        <div key={index} className="aspect-square bg-neutral-100 rounded-lg overflow-hidden">
                           <img
                             src={URL.createObjectURL(file)}
                             alt={file.name}
@@ -499,7 +499,7 @@ export default function MediaLibraryPage() {
                       ))}
                     </div>
                     {uploadFiles.length > 6 && (
-                      <p className="text-sm text-gray-600 mt-2">
+                      <p className="text-sm text-neutral-600 mt-2">
                         + {uploadFiles.length - 6} autre(s) image(s)
                       </p>
                     )}
@@ -508,10 +508,10 @@ export default function MediaLibraryPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
+              <div className="flex items-center justify-end gap-3 p-6 border-t border-neutral-200 bg-neutral-50">
                 <button
                   onClick={() => setShowUploadModal(false)}
-                  className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="px-6 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
                   disabled={uploading}
                 >
                   Annuler
@@ -519,7 +519,7 @@ export default function MediaLibraryPage() {
                 <button
                   onClick={handleUpload}
                   disabled={uploading || uploadFiles.length === 0}
-                  className="flex items-center gap-2 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {uploading ? (
                     <>

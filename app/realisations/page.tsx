@@ -64,7 +64,7 @@ export default function RealizationsPage() {
       <Header />
       <main>
         {/* Hero Section avec Filtres intégrés */}
-        <section className="pt-32 pb-8 bg-gradient-to-br from-primary/10 via-background to-background-secondary">
+        <section className="pt-32 pb-8 bg-gradient-to-br from-primary/10 via-surface to-surface-muted">
           <div className="container-custom">
             <div className="max-w-4xl mx-auto text-center mb-8">
               <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
@@ -73,7 +73,7 @@ export default function RealizationsPage() {
               <h1 className="heading-1 mb-6">
                 Portfolio de nos projets réussis
               </h1>
-              <p className="text-xl text-text-secondary leading-relaxed mb-8">
+              <p className="text-xl text-ink-secondary leading-relaxed mb-8">
                 Découvrez quelques-uns des projets que nous avons réalisés avec succès pour nos clients dans différents secteurs d'activité
               </p>
 
@@ -86,7 +86,7 @@ export default function RealizationsPage() {
                     className={`px-4 py-2 rounded-full font-semibold text-sm transition-all ${
                       activeCategory === category.id
                         ? "bg-primary text-white shadow-lg"
-                        : "bg-white text-text hover:bg-primary/10 hover:text-primary"
+                        : "bg-white text-ink hover:bg-primary/10 hover:text-primary"
                     }`}
                   >
                     {category.label}
@@ -95,7 +95,7 @@ export default function RealizationsPage() {
               </div>
 
               {/* Compteur de résultats */}
-              <div className="text-sm text-text-secondary">
+              <div className="text-sm text-ink-secondary">
                 {loading ? "Chargement..." : `${filteredProjects.length} projet${filteredProjects.length > 1 ? "s" : ""}`}
               </div>
             </div>
@@ -103,11 +103,11 @@ export default function RealizationsPage() {
         </section>
 
         {/* Projects Grid */}
-        <section className="section-padding bg-background-secondary">
+        <section className="section-padding bg-surface-muted">
           <div className="container-custom">
             {loading ? (
               <div className="text-center py-16">
-                <p className="text-text-secondary">Chargement des projets...</p>
+                <p className="text-ink-secondary">Chargement des projets...</p>
               </div>
             ) : filteredProjects.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -118,7 +118,7 @@ export default function RealizationsPage() {
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     {/* Project Image */}
-                    <div className="relative h-56 bg-gray-200 overflow-hidden">
+                    <div className="relative h-56 bg-neutral-200 overflow-hidden">
                       {project.image_url ? (
                         <img 
                           src={project.image_url} 
@@ -127,7 +127,7 @@ export default function RealizationsPage() {
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-center text-gray-400">
+                          <div className="text-center text-neutral-400">
                             <p className="text-sm">Aucune image</p>
                           </div>
                         </div>
@@ -153,11 +153,11 @@ export default function RealizationsPage() {
 
                     {/* Project Info */}
                     <div className="p-6">
-                      <h3 className="text-xl font-bold text-text mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                      <h3 className="text-xl font-bold text-ink mb-3 group-hover:text-primary transition-colors line-clamp-2">
                         {project.title}
                       </h3>
 
-                      <p className="text-text-secondary text-sm mb-4 line-clamp-3 leading-relaxed">
+                      <p className="text-ink-secondary text-sm mb-4 line-clamp-3 leading-relaxed">
                         {project.description}
                       </p>
 
@@ -166,13 +166,13 @@ export default function RealizationsPage() {
                         {project.technologies && Array.isArray(project.technologies) && project.technologies.slice(0, 3).map((tech, techIndex) => (
                           <span
                             key={techIndex}
-                            className="px-2 py-1 bg-background-secondary text-text-secondary text-xs rounded"
+                            className="px-2 py-1 bg-surface-muted text-ink-secondary text-xs rounded"
                           >
                             {tech}
                           </span>
                         ))}
                         {project.technologies && project.technologies.length > 3 && (
-                          <span className="px-2 py-1 bg-background-secondary text-text-secondary text-xs rounded">
+                          <span className="px-2 py-1 bg-surface-muted text-ink-secondary text-xs rounded">
                             +{project.technologies.length - 3}
                           </span>
                         )}
@@ -180,8 +180,8 @@ export default function RealizationsPage() {
 
                       {/* Client */}
                       {project.client_name && (
-                        <div className="text-xs text-text-secondary border-t border-gray-100 pt-4">
-                          Client: <span className="font-semibold text-text">{project.client_name}</span>
+                        <div className="text-xs text-ink-secondary border-t border-neutral-100 pt-4">
+                          Client: <span className="font-semibold text-ink">{project.client_name}</span>
                         </div>
                       )}
                     </div>
@@ -190,11 +190,11 @@ export default function RealizationsPage() {
               </div>
             ) : (
               <div className="text-center py-16">
-                <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-24 h-24 bg-neutral-200 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-4xl">🔍</span>
                 </div>
-                <h3 className="text-2xl font-bold text-text mb-2">Aucun projet trouvé</h3>
-                <p className="text-text-secondary mb-6">
+                <h3 className="text-2xl font-bold text-ink mb-2">Aucun projet trouvé</h3>
+                <p className="text-ink-secondary mb-6">
                   Essayez de modifier vos critères de recherche ou de filtrage
                 </p>
                 <button
@@ -215,21 +215,21 @@ export default function RealizationsPage() {
         <section className="section-padding bg-white">
           <div className="container-custom">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center p-6 bg-background-secondary rounded-xl">
+              <div className="text-center p-6 bg-surface-muted rounded-xl">
                 <div className="text-5xl font-bold text-primary mb-2">500+</div>
-                <div className="text-text-secondary">Projets réalisés</div>
+                <div className="text-ink-secondary">Projets réalisés</div>
               </div>
-              <div className="text-center p-6 bg-background-secondary rounded-xl">
+              <div className="text-center p-6 bg-surface-muted rounded-xl">
                 <div className="text-5xl font-bold text-primary mb-2">200+</div>
-                <div className="text-text-secondary">Clients satisfaits</div>
+                <div className="text-ink-secondary">Clients satisfaits</div>
               </div>
-              <div className="text-center p-6 bg-background-secondary rounded-xl">
+              <div className="text-center p-6 bg-surface-muted rounded-xl">
                 <div className="text-5xl font-bold text-primary mb-2">98%</div>
-                <div className="text-text-secondary">Taux de satisfaction</div>
+                <div className="text-ink-secondary">Taux de satisfaction</div>
               </div>
-              <div className="text-center p-6 bg-background-secondary rounded-xl">
+              <div className="text-center p-6 bg-surface-muted rounded-xl">
                 <div className="text-5xl font-bold text-primary mb-2">15+</div>
-                <div className="text-text-secondary">Secteurs d'activité</div>
+                <div className="text-ink-secondary">Secteurs d'activité</div>
               </div>
             </div>
           </div>
@@ -245,7 +245,7 @@ export default function RealizationsPage() {
               Rejoignez nos clients satisfaits et donnez vie à votre projet avec OFARO TECH
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/devis" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+              <Link href="/devis" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-neutral-100 transition-colors">
                 Demander un devis
               </Link>
               <Link href="/contact" className="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors">

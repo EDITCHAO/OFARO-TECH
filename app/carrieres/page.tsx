@@ -99,7 +99,7 @@ function FeaturedJobOffers() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -107,7 +107,7 @@ function FeaturedJobOffers() {
   if (jobs.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-600">Aucune offre d'emploi disponible pour le moment.</p>
+        <p className="text-neutral-600">Aucune offre d'emploi disponible pour le moment.</p>
       </div>
     );
   }
@@ -140,12 +140,12 @@ function FeaturedJobOffers() {
       <div className="text-center">
         <Link
           href="/offres"
-          className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-orange-500 transition-all duration-300 font-medium text-lg"
+          className="inline-flex items-center gap-2 bg-neutral-900 text-white px-8 py-4 rounded-lg hover:bg-primary-500 transition-all duration-300 font-medium text-lg"
         >
           Voir toutes les offres
           <span className="group-hover:translate-x-1 transition-transform">→</span>
         </Link>
-        <p className="text-sm text-gray-600 mt-4">
+        <p className="text-sm text-neutral-600 mt-4">
           Découvrez toutes nos opportunités · CDI, Stage, Alternance
         </p>
       </div>
@@ -280,24 +280,24 @@ export default function CarrieresPage() {
       <Header />
       <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-gray-50">
+      <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-br from-primary-50 via-white to-neutral-50">
         
         <div className="container mx-auto px-4 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div>
-              <div className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 mb-6">
-                <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+              <div className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 mb-6">
+                <span className="w-2 h-2 rounded-full bg-primary-500"></span>
                 CARRIÈRE · OFARO TECH
               </div>
 
               <h1 className="text-5xl lg:text-6xl font-bold mb-6">
                 Construire l&apos;avenir,{' '}
-                <span className="italic text-orange-500">ensemble</span>
+                <span className="italic text-primary-500">ensemble</span>
               </h1>
 
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Depuis 2020, <strong className="font-semibold text-gray-900">OFARO TECH</strong> réunit développeurs, 
+              <p className="text-xl text-neutral-600 mb-8 leading-relaxed">
+                Depuis 2020, <strong className="font-semibold text-neutral-900">OFARO TECH</strong> réunit développeurs, 
                 designers et experts autour de projets qui transforment le Togo, l&apos;Afrique de l&apos;Ouest et 
                 l&apos;espace numérique mondial. Rejoignez une équipe où l&apos;excellence technique rime avec impact concret.
               </p>
@@ -305,14 +305,14 @@ export default function CarrieresPage() {
               <div className="flex flex-wrap gap-4">
                 <Link 
                   href="#candidature"
-                  className="group inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-orange-500 transition-all duration-300 font-medium"
+                  className="group inline-flex items-center gap-2 bg-neutral-900 text-white px-8 py-4 rounded-lg hover:bg-primary-500 transition-all duration-300 font-medium"
                 >
                   Déposer ma candidature
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </Link>
                 <Link 
                   href="#profils"
-                  className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-orange-500 hover:text-orange-500 transition-all duration-300 font-medium"
+                  className="inline-flex items-center gap-2 bg-white text-neutral-900 px-8 py-4 rounded-lg border-2 border-neutral-200 hover:border-primary-500 hover:text-primary-500 transition-all duration-300 font-medium"
                 >
                   Découvrir nos offres
                 </Link>
@@ -329,7 +329,7 @@ export default function CarrieresPage() {
                     className="w-full h-full object-cover"
                   />
                   {/* Overlay gradient pour améliorer la lisibilité du texte */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent"></div>
                   
                   {/* Texte par-dessus l'image */}
                   <div className="absolute inset-0 flex items-center justify-center text-white text-center p-8">
@@ -340,7 +340,7 @@ export default function CarrieresPage() {
                     </div>
                   </div>
                 </div>
-                <div className="absolute bottom-6 left-6 bg-gray-900/90 backdrop-blur text-white px-4 py-2 rounded-lg text-sm font-medium">
+                <div className="absolute bottom-6 left-6 bg-neutral-900/90 backdrop-blur text-white px-4 py-2 rounded-lg text-sm font-medium">
                   🚀 OFARO TECH · Lomé, Togo
                 </div>
               </div>
@@ -353,11 +353,11 @@ export default function CarrieresPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
+            <p className="text-sm font-semibold text-primary-500 mb-2 tracking-wide uppercase">
               01 · Pourquoi nous rejoindre
             </p>
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Un cadre pour <span className="italic text-orange-500">grandir</span>
+              Un cadre pour <span className="italic text-primary-500">grandir</span>
             </h2>
           </div>
 
@@ -365,15 +365,15 @@ export default function CarrieresPage() {
             {advantages.map((advantage, index) => (
               <div 
                 key={index}
-                className="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-orange-100"
+                className="group p-8 rounded-2xl bg-neutral-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-primary-100"
               >
-                <div className="text-orange-500 mb-4 group-hover:scale-110 transition-transform">
+                <div className="text-primary-500 mb-4 group-hover:scale-110 transition-transform">
                   {advantage.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">
+                <h3 className="text-xl font-bold mb-3 text-neutral-900">
                   {advantage.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-neutral-600 leading-relaxed">
                   {advantage.description}
                 </p>
               </div>
@@ -383,14 +383,14 @@ export default function CarrieresPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-neutral-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
+            <p className="text-sm font-semibold text-primary-500 mb-2 tracking-wide uppercase">
               02 · Notre culture
             </p>
             <h2 className="text-4xl lg:text-5xl font-bold">
-              Les valeurs qui nous <span className="italic text-orange-500">rassemblent</span>
+              Les valeurs qui nous <span className="italic text-primary-500">rassemblent</span>
             </h2>
           </div>
 
@@ -400,13 +400,13 @@ export default function CarrieresPage() {
                 key={index}
                 className="group p-6 rounded-xl bg-white hover:shadow-lg transition-all duration-300"
               >
-                <div className="text-3xl font-bold text-gray-200 group-hover:text-orange-500 transition-colors mb-3">
+                <div className="text-3xl font-bold text-neutral-200 group-hover:text-primary-500 transition-colors mb-3">
                   {value.number}
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-gray-900">
+                <h3 className="text-xl font-bold mb-2 text-neutral-900">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-neutral-600 text-sm leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -419,13 +419,13 @@ export default function CarrieresPage() {
       <section id="profils" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
+            <p className="text-sm font-semibold text-primary-500 mb-2 tracking-wide uppercase">
               03 · Opportunités
             </p>
             <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-              Nos offres <span className="italic text-orange-500">d&apos;emploi</span>
+              Nos offres <span className="italic text-primary-500">d&apos;emploi</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-neutral-600 max-w-2xl mx-auto">
               Découvrez les postes disponibles et rejoignez une équipe passionnée par l&apos;innovation digitale.
             </p>
           </div>
@@ -434,16 +434,16 @@ export default function CarrieresPage() {
           <FeaturedJobOffers />
 
           {/* Formation Section */}
-          <div className="mt-20 bg-gradient-to-br from-orange-50 to-gray-50 p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto border border-orange-100">
+          <div className="mt-20 bg-gradient-to-br from-primary-50 to-neutral-50 p-8 lg:p-12 rounded-2xl max-w-4xl mx-auto border border-primary-100">
             <div className="flex items-start gap-4 mb-6">
               <div className="bg-white p-3 rounded-lg">
-                <FaGraduationCap className="w-6 h-6 text-orange-500" />
+                <FaGraduationCap className="w-6 h-6 text-primary-500" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-orange-500 mb-2 tracking-wide uppercase">
+                <p className="text-sm font-semibold text-primary-500 mb-2 tracking-wide uppercase">
                   Formation & insertion professionnelle
                 </p>
-                <h3 className="text-2xl font-bold text-gray-900">
+                <h3 className="text-2xl font-bold text-neutral-900">
                   Étudiants, jeunes diplômés : un tremplin chez OFARO TECH
                 </h3>
               </div>
@@ -451,25 +451,25 @@ export default function CarrieresPage() {
 
             <div className="grid md:grid-cols-3 gap-6 mt-8">
               <div className="bg-white p-6 rounded-xl">
-                <FaBullseye className="w-8 h-8 text-orange-500 mb-3" />
-                <h4 className="font-bold text-gray-900 mb-2">Stage</h4>
-                <p className="text-sm text-gray-600">
+                <FaBullseye className="w-8 h-8 text-primary-500 mb-3" />
+                <h4 className="font-bold text-neutral-900 mb-2">Stage</h4>
+                <p className="text-sm text-neutral-600">
                   3 à 6 mois pour découvrir le métier et contribuer à de vrais projets.
                 </p>
               </div>
 
               <div className="bg-white p-6 rounded-xl">
-                <FaUsers className="w-8 h-8 text-orange-500 mb-3" />
-                <h4 className="font-bold text-gray-900 mb-2">Alternance</h4>
-                <p className="text-sm text-gray-600">
+                <FaUsers className="w-8 h-8 text-primary-500 mb-3" />
+                <h4 className="font-bold text-neutral-900 mb-2">Alternance</h4>
+                <p className="text-sm text-neutral-600">
                   Formation en entreprise, montée en compétences progressive.
                 </p>
               </div>
 
               <div className="bg-white p-6 rounded-xl">
-                <FaAward className="w-8 h-8 text-orange-500 mb-3" />
-                <h4 className="font-bold text-gray-900 mb-2">Premier emploi</h4>
-                <p className="text-sm text-gray-600">
+                <FaAward className="w-8 h-8 text-primary-500 mb-3" />
+                <h4 className="font-bold text-neutral-900 mb-2">Premier emploi</h4>
+                <p className="text-sm text-neutral-600">
                   Accompagnement personnalisé et parcours d&apos;intégration structuré.
                 </p>
               </div>
@@ -479,53 +479,53 @@ export default function CarrieresPage() {
       </section>
 
       {/* Application Form Section */}
-      <section id="candidature" className="py-20 bg-gray-50">
+      <section id="candidature" className="py-20 bg-neutral-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid lg:grid-cols-5 gap-12">
               {/* Left Info */}
               <div className="lg:col-span-2">
-                <p className="text-sm font-semibold text-orange-500 mb-4 tracking-wide uppercase">
+                <p className="text-sm font-semibold text-primary-500 mb-4 tracking-wide uppercase">
                   04 · Candidature
                 </p>
                 <h2 className="text-4xl font-bold mb-6">
-                  Soumettez votre <span className="italic text-orange-500">profil</span>
+                  Soumettez votre <span className="italic text-primary-500">profil</span>
                 </h2>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-neutral-600 mb-8 leading-relaxed">
                   Quelques informations suffisent. Notre équipe étudie chaque candidature avec attention 
                   et revient vers vous dans les meilleurs délais.
                 </p>
 
-                <div className="space-y-4 text-sm text-gray-600">
+                <div className="space-y-4 text-sm text-neutral-600">
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                    <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-primary-500"></div>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">📍 Siège OFARO TECH</p>
+                      <p className="font-medium text-neutral-900">📍 Siège OFARO TECH</p>
                       <p>Lomé, Togo</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                    <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-primary-500"></div>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">✉️ Email</p>
-                      <a href="mailto:rh@ofarotech.com" className="text-orange-500 hover:underline">
+                      <p className="font-medium text-neutral-900">✉️ Email</p>
+                      <a href="mailto:rh@ofarotech.com" className="text-primary-500 hover:underline">
                         rh@ofarotech.com
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                    <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-primary-500"></div>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">📞 Téléphone</p>
-                      <a href="tel:+22892345678" className="text-orange-500 hover:underline">
+                      <p className="font-medium text-neutral-900">📞 Téléphone</p>
+                      <a href="tel:+22892345678" className="text-primary-500 hover:underline">
                         +228 92 34 56 78
                       </a>
                     </div>
@@ -537,7 +537,7 @@ export default function CarrieresPage() {
               <div className="lg:col-span-3">
                 <Suspense fallback={
                   <div className="bg-white p-8 rounded-2xl shadow-lg flex items-center justify-center h-96">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                   </div>
                 }>
                   <ApplicationForm />
@@ -549,7 +549,7 @@ export default function CarrieresPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 bg-gradient-to-br from-orange-500 via-orange-600 to-gray-900 text-white">
+      <section className="py-12 bg-gradient-to-br from-primary-500 via-primary-600 to-neutral-900 text-white">
         <div className="container mx-auto px-4 text-center">
           <FaHeart className="w-12 h-12 mx-auto mb-4 opacity-90" />
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
@@ -561,7 +561,7 @@ export default function CarrieresPage() {
           </p>
           <Link 
             href="#candidature"
-            className="inline-flex items-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 font-semibold"
+            className="inline-flex items-center gap-2 bg-white text-neutral-900 px-6 py-3 rounded-lg hover:bg-neutral-100 transition-all duration-300 font-semibold"
           >
             Postuler maintenant
             <FaChartLine className="w-4 h-4" />

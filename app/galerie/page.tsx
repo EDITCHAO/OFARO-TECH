@@ -87,14 +87,14 @@ export default function GalleriePage() {
   }, [searchTerm, selectedCategory, mediaItems]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-600 to-orange-500 text-white py-16">
+      <div className="bg-gradient-to-r from-primary-600 to-primary-500 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Galerie OFARO TECH
           </h1>
-          <p className="text-xl text-orange-100">
+          <p className="text-xl text-primary-100">
             Découvrez nos projets, réalisations et créations
           </p>
         </div>
@@ -106,13 +106,13 @@ export default function GalleriePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Search */}
             <div className="relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
               <input
                 type="text"
                 placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
             </div>
 
@@ -120,7 +120,7 @@ export default function GalleriePage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               {CATEGORIES.map(cat => (
                 <option key={cat.value} value={cat.value}>
@@ -131,7 +131,7 @@ export default function GalleriePage() {
           </div>
 
           {/* Stats */}
-          <div className="mt-4 text-sm text-gray-600">
+          <div className="mt-4 text-sm text-neutral-600">
             {filteredItems.length} image{filteredItems.length > 1 ? 's' : ''} affichée{filteredItems.length > 1 ? 's' : ''}
           </div>
         </div>
@@ -141,12 +141,12 @@ export default function GalleriePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="text-gray-600 mt-4">Chargement...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="text-neutral-600 mt-4">Chargement...</p>
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">Aucune image trouvée</p>
+            <p className="text-neutral-600 text-lg">Aucune image trouvée</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -157,13 +157,13 @@ export default function GalleriePage() {
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer group"
               >
                 {/* Image */}
-                <div className="relative aspect-square bg-gray-100">
+                <div className="relative aspect-square bg-neutral-100">
                   <img
                     src={item.file_url}
                     alt={item.alt_text || item.original_name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-2 right-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">
+                  <div className="absolute top-2 right-2 bg-primary-600 text-white text-xs px-2 py-1 rounded">
                     {item.category}
                   </div>
                 </div>
@@ -171,7 +171,7 @@ export default function GalleriePage() {
                 {/* Caption */}
                 {item.caption && (
                   <div className="p-4">
-                    <p className="text-sm text-gray-700 line-clamp-2">
+                    <p className="text-sm text-neutral-700 line-clamp-2">
                       {item.caption}
                     </p>
                   </div>
@@ -190,7 +190,7 @@ export default function GalleriePage() {
         >
           <button
             onClick={() => setSelectedImage(null)}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 z-50"
+            className="absolute top-4 right-4 text-white hover:text-neutral-300 z-50"
           >
             <FaTimes className="w-8 h-8" />
           </button>
@@ -208,13 +208,13 @@ export default function GalleriePage() {
 
             {/* Info */}
             <div className="bg-white rounded-lg p-6 mt-4">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl font-bold text-neutral-900 mb-2">
                 {selectedImage.original_name}
               </h3>
               {selectedImage.caption && (
-                <p className="text-gray-700 mb-4">{selectedImage.caption}</p>
+                <p className="text-neutral-700 mb-4">{selectedImage.caption}</p>
               )}
-              <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+              <div className="grid grid-cols-2 gap-4 text-sm text-neutral-600">
                 <div>
                   <span className="font-semibold">Catégorie:</span> {selectedImage.category}
                 </div>
@@ -229,7 +229,7 @@ export default function GalleriePage() {
                 download={selectedImage.original_name}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+                className="mt-4 inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors"
               >
                 <FaDownload />
                 Télécharger

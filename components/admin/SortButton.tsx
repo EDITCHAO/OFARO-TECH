@@ -22,18 +22,18 @@ export default function SortButton({
   return (
     <button
       onClick={() => onClick(field)}
-      className="inline-flex items-center gap-1 hover:text-orange-600 transition-colors font-medium"
+      className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors font-medium"
       title={`Trier par ${label}`}
     >
       {label}
       {isActive ? (
         currentOrder === 'asc' ? (
-          <FaSortUp className="text-orange-500" />
+          <FaSortUp className="text-primary-500" />
         ) : (
-          <FaSortDown className="text-orange-500" />
+          <FaSortDown className="text-primary-500" />
         )
       ) : (
-        <FaSort className="text-gray-400" />
+        <FaSort className="text-neutral-400" />
       )}
     </button>
   );
