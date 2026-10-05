@@ -154,6 +154,20 @@ function FeaturedJobOffers() {
 }
 
 export default function CarrieresPage() {
+  // Scroll automatique vers la section profils si l'ancre est présente dans l'URL
+  useEffect(() => {
+    // Vérifier si l'URL contient #profils
+    if (window.location.hash === '#profils') {
+      // Attendre que la page soit complètement chargée
+      setTimeout(() => {
+        const element = document.getElementById('profils');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, []);
+
   const advantages = [
     {
       icon: <FaRocket className="w-8 h-8" />,

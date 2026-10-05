@@ -50,12 +50,12 @@ export default function HeroSection() {
               <Link href="/services" className="btn-secondary group">
                 Nos services
               </Link>
-              <button className="flex items-center gap-3 text-text hover:text-primary transition-colors font-semibold">
+              <Link href="/carrieres#profils" className="flex items-center gap-3 text-white hover:text-primary transition-colors font-semibold">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                  <FaPlay className="ml-1" />
+                  <FaArrowRight className="ml-1" />
                 </div>
-                <span>Voir la démo</span>
-              </button>
+                <span>Voir nos offres</span>
+              </Link>
             </div>
 
             {/* Statistics */}

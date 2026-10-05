@@ -10,7 +10,8 @@ import {
   FaUpload,
   FaTimes,
   FaCopy,
-  FaCheck
+  FaCheck,
+  FaDownload
 } from 'react-icons/fa';
 
 interface MediaItem {
@@ -248,6 +249,25 @@ export default function MediaLibraryPage() {
     }
   };
 
+  // Download image
+  const handleDownloadImage = async (item: MediaItem) => {
+    try {
+      const response = await fetch(item.file_url);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = item.original_name; // Nom original de l'image
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Erreur téléchargement:', error);
+      alert('Erreur lors du téléchargement de l\'image');
+    }
+  };
+
   // Format file size
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return bytes + ' B';
@@ -383,6 +403,13 @@ export default function MediaLibraryPage() {
                           Copier URL
                         </>
                       )}
+                    </button>
+                    <button
+                      onClick={() => handleDownloadImage(item)}
+                      className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded transition-colors"
+                      title="Télécharger l'image"
+                    >
+                      <FaDownload className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(item)}

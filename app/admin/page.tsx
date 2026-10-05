@@ -391,6 +391,10 @@ export default function AdminDashboard() {
       window.location.href = '/admin/mediatheque';
       return;
     }
+    if (menuId === 'documents') {
+      window.location.href = '/admin/documents';
+      return;
+    }
     
     setActiveMenu(menuId);
     setIsMobileMenuOpen(false); // Fermer le menu mobile quand on clique sur un élément
