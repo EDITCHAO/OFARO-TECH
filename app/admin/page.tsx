@@ -395,6 +395,10 @@ export default function AdminDashboard() {
       window.location.href = '/admin/documents';
       return;
     }
+    if (menuId === 'temoignages') {
+      window.location.href = '/admin/temoignages';
+      return;
+    }
     
     setActiveMenu(menuId);
     setIsMobileMenuOpen(false); // Fermer le menu mobile quand on clique sur un élément

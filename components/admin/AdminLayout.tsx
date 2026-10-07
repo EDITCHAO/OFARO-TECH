@@ -46,6 +46,8 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
         window.location.href = '/admin/mediatheque';
       } else if (menuId === 'documents') {
         window.location.href = '/admin/documents';
+      } else if (menuId === 'temoignages') {
+        window.location.href = '/admin/temoignages';
       } else {
         window.location.href = '/admin';
       }

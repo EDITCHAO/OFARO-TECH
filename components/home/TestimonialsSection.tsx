@@ -1,77 +1,93 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from '@supabase/supabase-js';
 import { FaStar, FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const TESTIMONIALS = [
-  {
-    id: "1",
-    name: "Dr. Kofi MENSAH",
-    position: "Directeur Général",
-    company: "Hôpital Central de Lomé",
-    content: "OFARO TECH a transformé notre gestion hospitalière. Le système qu'ils ont développé est intuitif, performant et a considérablement amélioré notre efficacité opérationnelle. Je recommande vivement leurs services.",
-    rating: 5,
-    image: null
-  },
-  {
-    id: "2",
-    name: "Mme Aïcha DIALLO",
-    position: "Responsable IT",
-    company: "Banque Atlantique Togo",
-    content: "L'équipe d'OFARO TECH a fait un travail exceptionnel sur notre infrastructure réseau. Leur professionnalisme et leur expertise technique sont remarquables. Nous sommes très satisfaits du résultat.",
-    rating: 5,
-    image: null
-  },
-  {
-    id: "3",
-    name: "M. Jean-Pierre KOUASSI",
-    position: "CEO",
-    company: "TechStart Solutions",
-    content: "Grâce à OFARO TECH, nous avons pu lancer notre application mobile dans les délais. Leur accompagnement tout au long du projet a été précieux. Une équipe réactive et compétente.",
-    rating: 5,
-    image: null
-  },
-  {
-    id: "4",
-    name: "Mme Patricia AGBOH",
-    position: "Directrice",
-    company: "École Internationale de Lomé",
-    content: "La plateforme e-learning développée par OFARO TECH a révolutionné notre façon d'enseigner. Les élèves et les parents sont ravis de cette solution moderne et facile d'utilisation.",
-    rating: 5,
-    image: null
-  },
-  {
-    id: "5",
-    name: "M. Abdoul RAHMAN",
-    position: "Responsable Système",
-    company: "Ministère de l'Éducation",
-    content: "OFARO TECH nous accompagne depuis 3 ans dans notre transformation digitale. Leur sérieux, leur disponibilité et la qualité de leurs prestations font d'eux un partenaire de confiance.",
-    rating: 5,
-    image: null
-  },
-  {
-    id: "6",
-    name: "M. Emmanuel KOFFI",
-    position: "Gérant",
-    company: "Supermarché Le Bon Prix",
-    content: "Le système de gestion de stock et de caisse installé par OFARO TECH fonctionne parfaitement. Nous avons gagné en efficacité et en transparence dans notre gestion quotidienne.",
-    rating: 5,
-    image: null
-  }
-];
+interface Testimonial {
+  id: number;
+  client_name: string;
+  client_position: string;
+  client_company: string;
+  testimonial_text: string;
+  rating: number;
+  client_photo_url: string | null;
+}
 
 export default function TestimonialsSection() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  // Load testimonials from Supabase
+  useEffect(() => {
+    const loadTestimonials = async () => {
+      try {
+        setLoading(true);
+        console.log('🔍 Chargement des témoignages pour la page d\'accueil...');
+        
+        const { data, error } = await supabase
+          .from('testimonials')
+          .select('*')
+          .eq('is_active', true)
+          .eq('is_featured', true)
+          .order('display_order', { ascending: true });
+
+        if (error) {
+          console.error('❌ Erreur chargement témoignages:', error);
+          throw error;
+        }
+        
+        console.log(`✅ ${data?.length || 0} témoignage(s) chargé(s)`);
+        
+        if (data && data.length > 0) {
+          setTestimonials(data);
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des témoignages:', error);
+        // Keep empty array if error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTestimonials();
+  }, []);
 
   const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+    if (testimonials.length > 0) {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }
   };
 
   const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+    if (testimonials.length > 0) {
+      setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    }
   };
 
-  const currentTestimonial = TESTIMONIALS[currentIndex];
+  // Show loading or empty state
+  if (loading) {
+    return (
+      <section className="section-padding bg-white">
+        <div className="container-custom text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Chargement des témoignages...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (testimonials.length === 0) {
+    return null; // Don't show section if no testimonials
+  }
+
+  const currentTestimonial = testimonials[currentIndex];
 
   return (
     <section className="section-padding bg-white relative overflow-hidden">
@@ -116,18 +132,26 @@ export default function TestimonialsSection() {
 
             {/* Content */}
             <blockquote className="text-xl md:text-2xl text-text leading-relaxed mb-8 italic">
-              "{currentTestimonial.content}"
+              "{currentTestimonial.testimonial_text}"
             </blockquote>
 
             {/* Author */}
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl font-bold">
-                {currentTestimonial.name.charAt(0)}
-              </div>
+              {currentTestimonial.client_photo_url ? (
+                <img 
+                  src={currentTestimonial.client_photo_url} 
+                  alt={currentTestimonial.client_name}
+                  className="w-16 h-16 rounded-full object-cover border-2 border-primary/20"
+                />
+              ) : (
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl font-bold">
+                  {currentTestimonial.client_name.charAt(0)}
+                </div>
+              )}
               <div>
-                <div className="font-bold text-lg text-text">{currentTestimonial.name}</div>
-                <div className="text-text-secondary">{currentTestimonial.position}</div>
-                <div className="text-primary font-semibold">{currentTestimonial.company}</div>
+                <div className="font-bold text-lg text-text">{currentTestimonial.client_name}</div>
+                <div className="text-text-secondary">{currentTestimonial.client_position}</div>
+                <div className="text-primary font-semibold">{currentTestimonial.client_company}</div>
               </div>
             </div>
           </div>
@@ -144,7 +168,7 @@ export default function TestimonialsSection() {
 
             {/* Dots */}
             <div className="flex gap-2">
-              {TESTIMONIALS.map((_, index) => (
+              {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
