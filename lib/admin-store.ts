@@ -67,6 +67,16 @@ export interface ArticleItem {
   image?: string;
 }
 
+export interface PartnerItem {
+  id: string;
+  name: string;
+  logo: string; // URL ou base64 de l'image
+  website?: string;
+  isPublished: boolean;
+  order: number;
+  createdAt: string;
+}
+
 export interface QuoteRequestItem {
   id: string;
   reference: string;
@@ -816,6 +826,14 @@ export const INITIAL_LOGS: LogItem[] = [
   { id: '5', timestamp: '18 août 2026, 22:10:14', user: 'inconnu@test.com', role: 'administrateur', action: 'Tentative de connexion échouée (Anti brute-force actif)', module: 'Sécurité', ip: '45.12.89.102', status: 'Échec' }
 ];
 
+export const INITIAL_PARTNERS: PartnerItem[] = [
+  { id: '1', name: 'Microsoft', logo: 'MS', website: 'https://www.microsoft.com', isPublished: true, order: 1, createdAt: '01 janvier 2026' },
+  { id: '2', name: 'AWS', logo: 'AWS', website: 'https://aws.amazon.com', isPublished: true, order: 2, createdAt: '01 janvier 2026' },
+  { id: '3', name: 'Google Cloud', logo: 'GC', website: 'https://cloud.google.com', isPublished: true, order: 3, createdAt: '01 janvier 2026' },
+  { id: '4', name: 'Oracle', logo: 'OR', website: 'https://www.oracle.com', isPublished: true, order: 4, createdAt: '01 janvier 2026' },
+  { id: '5', name: 'Cisco', logo: 'CS', website: 'https://www.cisco.com', isPublished: true, order: 5, createdAt: '01 janvier 2026' }
+];
+
 // ----------------------------------------------------------------------
 // GESTION DU STOCKAGE LOCAL PERSISTANT AVEC LISTENERS
 // ----------------------------------------------------------------------
@@ -836,6 +854,7 @@ const STORAGE_KEYS = {
   SEO: 'ofaro_admin_seo',
   PAGES: 'ofaro_admin_pages',
   LOGS: 'ofaro_admin_logs',
+  PARTNERS: 'ofaro_admin_partners',
   CURRENT_ROLE: 'ofaro_admin_current_role'
 };
 
@@ -881,6 +900,7 @@ export class AdminStore {
   static getSEO(): SEOSettingItem[] { return getStorage(STORAGE_KEYS.SEO, INITIAL_SEO); }
   static getPages(): PageContentItem[] { return getStorage(STORAGE_KEYS.PAGES, INITIAL_PAGES); }
   static getLogs(): LogItem[] { return getStorage(STORAGE_KEYS.LOGS, INITIAL_LOGS); }
+  static getPartners(): PartnerItem[] { return getStorage(STORAGE_KEYS.PARTNERS, INITIAL_PARTNERS); }
 
   // Role Management
   static getCurrentRole(): UserRole {
@@ -1074,5 +1094,57 @@ export class AdminStore {
    */
   static deleteServiceRequest(id: string): void {
     this.addLog(`Suppression de la demande de service ID: ${id}`, 'Demandes de service', 'Succès');
+  }
+
+  // =====================================================================
+  // GESTION DES PARTENAIRES
+  // =====================================================================
+
+  /**
+   * Ajouter un nouveau partenaire
+   */
+  static addPartner(partnerData: Omit<PartnerItem, 'id' | 'createdAt'>): PartnerItem {
+    const partners = this.getPartners();
+    const newPartner: PartnerItem = {
+      ...partnerData,
+      id: String(Date.now()),
+      createdAt: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })
+    };
+    partners.push(newPartner);
+    setStorage(STORAGE_KEYS.PARTNERS, partners);
+    this.addLog(`Nouveau partenaire ajouté: ${newPartner.name}`, 'Partenaires', 'Succès');
+    return newPartner;
+  }
+
+  /**
+   * Mettre à jour un partenaire
+   */
+  static updatePartner(id: string, updates: Partial<Omit<PartnerItem, 'id' | 'createdAt'>>): void {
+    const partners = this.getPartners();
+    const index = partners.findIndex(p => p.id === id);
+    if (index !== -1) {
+      partners[index] = { ...partners[index], ...updates };
+      setStorage(STORAGE_KEYS.PARTNERS, partners);
+      this.addLog(`Partenaire mis à jour: ${partners[index].name}`, 'Partenaires', 'Succès');
+    }
+  }
+
+  /**
+   * Supprimer un partenaire
+   */
+  static deletePartner(id: string): void {
+    const partners = this.getPartners();
+    const partner = partners.find(p => p.id === id);
+    const filtered = partners.filter(p => p.id !== id);
+    setStorage(STORAGE_KEYS.PARTNERS, filtered);
+    this.addLog(`Suppression du partenaire: ${partner?.name || id}`, 'Partenaires', 'Succès');
+  }
+
+  /**
+   * Réorganiser l'ordre des partenaires
+   */
+  static reorderPartners(partnersWithNewOrder: PartnerItem[]): void {
+    setStorage(STORAGE_KEYS.PARTNERS, partnersWithNewOrder);
+    this.addLog(`Réorganisation des partenaires effectuée`, 'Partenaires', 'Succès');
   }
 }

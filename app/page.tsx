@@ -45,7 +45,7 @@ export default function Home() {
         <TechnologiesSection />
         <TestimonialsSection />
         <PartnersSection />
-        <NewsSection />
+        {/* <NewsSection /> */}
         <ContactSection />
       </main>
       <Footer />

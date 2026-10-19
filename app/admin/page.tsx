@@ -12,14 +12,15 @@ import {
   FaNetworkWired, FaTools, FaServer, FaChartLine, FaBuilding, FaGraduationCap,
   FaHospital, FaShoppingCart, FaGlobe, FaCheckCircle, FaClock, FaExclamationTriangle,
   FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera, FaArchive, FaBriefcase,
-  FaBars
+  FaBars, FaHandshake
 } from "react-icons/fa";
 
 import {
   AdminStore, UserRole, QuoteStatus, MessageStatus, ApplicationStatus,
   AdminUser, ServiceItem, RealizationItem, TestimonialItem, ArticleItem,
   QuoteRequestItem, ContactMessageItem, JobApplicationItem, ClientItem,
-  TeamMemberItem, DocumentItem, MediaItem, SEOSettingItem, PageContentItem, LogItem
+  TeamMemberItem, DocumentItem, MediaItem, SEOSettingItem, PageContentItem, LogItem,
+  PartnerItem
 } from "@/lib/admin-store";
 import { sortData, confirmDelete, getStatusColor } from "@/lib/admin-utils";
 import SortButton from "@/components/admin/SortButton";
@@ -52,6 +53,7 @@ export default function AdminDashboard() {
   const [messages, setMessages] = useState<ContactMessageItem[]>([]);
   const [applications, setApplications] = useState<JobApplicationItem[]>([]);
   const [serviceRequests, setServiceRequests] = useState<any[]>([]);
+  const [partners, setPartners] = useState<PartnerItem[]>([]);
   
   // États pour les éléments archivés
   const [archivedQuotes, setArchivedQuotes] = useState<QuoteRequestItem[]>([]);
@@ -349,6 +351,7 @@ export default function AdminDashboard() {
       setSeo(AdminStore.getSEO());
       setPages(AdminStore.getPages());
       setLogs(AdminStore.getLogs());
+      setPartners(AdminStore.getPartners());
       setCurrentRole(AdminStore.getCurrentRole());
 
       // Charger les statistiques de visiteurs
@@ -1227,7 +1230,8 @@ export default function AdminDashboard() {
                   { id: "articles", label: "Articles / Actualités", icon: <FaNewspaper /> },
                   { id: "realisations", label: "Réalisations (Portfolio)", icon: <FaProjectDiagram /> },
                   { id: "services", label: "Services (10)", icon: <FaCog /> },
-                  { id: "temoignages", label: "Témoignages", icon: <FaStar /> }
+                  { id: "temoignages", label: "Témoignages", icon: <FaStar /> },
+                  { id: "partenaires", label: "Partenaires", icon: <FaHandshake /> }
                 ].map(item => {
                   const allowed = canAccess(item.id);
                   return (
@@ -1627,6 +1631,125 @@ export default function AdminDashboard() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* ===== PARTENAIRES ===== */}
+          {activeMenu === "partenaires" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                    <FaHandshake className="text-orange-500" /> Partenaires ({partners.length})
+                  </h1>
+                  <p className="text-sm text-gray-500 mt-1">Gérez les logos et partenaires affichés sur le site</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setSelectedItem({
+                      id: String(Date.now()),
+                      name: "",
+                      logo: "",
+                      website: "",
+                      isPublished: true,
+                      order: partners.length + 1,
+                      createdAt: new Date().toLocaleDateString("fr-FR")
+                    });
+                    setModalType("add_partner");
+                    setIsModalOpen(true);
+                  }}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 ${c.btnPrimary}`}
+                >
+                  <FaPlus /> Ajouter un partenaire
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {partners
+                  .sort((a, b) => a.order - b.order)
+                  .map((partner) => (
+                    <div
+                      key={partner.id}
+                      className={`${c.card} border ${c.border} rounded-2xl p-5 ${c.shadow} hover:shadow-md transition ${c.cardHover}`}
+                    >
+                      <div className="flex flex-col items-center text-center space-y-3">
+                        {/* Logo Preview */}
+                        <div className="w-24 h-24 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl flex items-center justify-center overflow-hidden border-2 border-gray-200">
+                          {partner.logo.startsWith('data:') || partner.logo.startsWith('http') || partner.logo.startsWith('/') ? (
+                            <Image
+                              src={partner.logo}
+                              alt={partner.name}
+                              width={96}
+                              height={96}
+                              className="w-full h-full object-contain p-2"
+                            />
+                          ) : (
+                            <span className="text-2xl font-bold text-primary">{partner.logo}</span>
+                          )}
+                        </div>
+
+                        {/* Partner Info */}
+                        <div>
+                          <div className="font-bold text-gray-900 text-sm">{partner.name}</div>
+                          {partner.website && (
+                            <a
+                              href={partner.website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[11px] text-orange-600 hover:underline flex items-center justify-center gap-1"
+                            >
+                              <FaExternalLinkAlt className="text-[9px]" /> Site web
+                            </a>
+                          )}
+                        </div>
+
+                        {/* Status Badge */}
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${partner.isPublished ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                            {partner.isPublished ? "Publié" : "Brouillon"}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-700">
+                            Ordre: {partner.order}
+                          </span>
+                        </div>
+
+                        {/* Actions */}
+                        <div className={`pt-3 border-t ${c.border} w-full flex items-center justify-center gap-2`}>
+                          <button
+                            onClick={() => {
+                              setSelectedItem(partner);
+                              setModalType("edit_partner");
+                              setIsModalOpen(true);
+                            }}
+                            className={`flex-1 px-3 py-1.5 rounded-lg ${c.btnSecondary} text-orange-600 font-semibold text-xs`}
+                          >
+                            Modifier
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirmDelete(partner.name)) {
+                                AdminStore.deletePartner(partner.id);
+                                setPartners(AdminStore.getPartners());
+                                showToast(`Partenaire "${partner.name}" supprimé`);
+                              }
+                            }}
+                            className={`p-1.5 rounded-lg ${c.btnDanger}`}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              {partners.length === 0 && (
+                <div className={`${c.card} border ${c.border} rounded-2xl p-12 text-center`}>
+                  <FaHandshake className="text-5xl text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500 text-sm">Aucun partenaire pour le moment</p>
+                  <p className="text-gray-400 text-xs mt-1">Ajoutez votre premier partenaire avec le bouton ci-dessus</p>
+                </div>
+              )}
             </div>
           )}
 
@@ -3192,8 +3315,221 @@ export default function AdminDashboard() {
               </div>
             )}
 
+            {/* MODAL: Ajouter/Éditer Partenaire */}
+            {(modalType === "add_partner" || modalType === "edit_partner") && (
+              <div className="space-y-5">
+                <div className="space-y-4 text-xs">
+                  {/* Nom du partenaire */}
+                  <div className="space-y-2">
+                    <label className="text-gray-700 font-semibold text-sm">Nom du partenaire *</label>
+                    <input
+                      type="text"
+                      defaultValue={selectedItem.name || ""}
+                      onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })}
+                      placeholder="Ex: Microsoft, AWS, Google Cloud..."
+                      className={`w-full p-3 rounded-xl ${c.input} text-sm`}
+                    />
+                  </div>
+
+                  {/* Upload Logo */}
+                  <div className="space-y-2">
+                    <label className="text-gray-700 font-semibold text-sm">Logo du partenaire *</label>
+                    
+                    {/* Prévisualisation actuelle */}
+                    {(selectedItem.logo && !uploadPreview) && (
+                      <div className="space-y-2">
+                        <p className="text-xs text-gray-500">Logo actuel :</p>
+                        <div className="w-32 h-32 bg-gray-50 rounded-xl border-2 border-gray-200 flex items-center justify-center p-4">
+                          {selectedItem.logo.startsWith('data:') || selectedItem.logo.startsWith('http') || selectedItem.logo.startsWith('/') ? (
+                            <Image
+                              src={selectedItem.logo}
+                              alt={selectedItem.name || "Logo"}
+                              width={128}
+                              height={128}
+                              className="w-full h-full object-contain"
+                            />
+                          ) : (
+                            <span className="text-3xl font-bold text-primary">{selectedItem.logo}</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Prévisualisation nouveau logo */}
+                    {uploadPreview && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold text-orange-600">Nouveau logo (aperçu) :</p>
+                        <div className="w-32 h-32 bg-white rounded-xl border-2 border-orange-300 shadow-md flex items-center justify-center p-4">
+                          <Image
+                            src={uploadPreview}
+                            alt="Aperçu"
+                            width={128}
+                            height={128}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Zone de drop pour upload */}
+                    <div
+                      onClick={() => fileInputRef.current?.click()}
+                      className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition ${
+                        uploadPreview ? "border-orange-300 bg-orange-50" : "border-gray-300 bg-gray-50 hover:border-orange-400 hover:bg-orange-50"
+                      }`}
+                    >
+                      <FaCloudUploadAlt className="text-3xl text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm font-semibold text-gray-700">
+                        {uploadPreview ? "Cliquer pour changer le logo" : "Cliquer pour sélectionner un logo"}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-1">PNG, JPG, SVG • Max 5 MB • Recommandé: 512x512px</p>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setUploadFile(file);
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              const base64 = reader.result as string;
+                              setUploadPreview(base64);
+                              setSelectedItem({ ...selectedItem, logo: base64 });
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                    </div>
+
+                    {uploadFile && (
+                      <div className={`flex items-center gap-3 p-3 ${c.bg} border ${c.border} rounded-xl`}>
+                        <FaImage className="text-orange-500 text-lg" />
+                        <div className="flex-1">
+                          <div className="text-xs font-semibold text-gray-800">{uploadFile.name}</div>
+                          <div className="text-[11px] text-gray-400">{(uploadFile.size / 1024).toFixed(1)} KB</div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setUploadFile(null);
+                            setUploadPreview(null);
+                            if (modalType === "edit_partner" && selectedItem.logo) {
+                              // Garder l'ancien logo
+                            } else {
+                              setSelectedItem({ ...selectedItem, logo: "" });
+                            }
+                          }}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <FaTimes />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Ordre d'affichage */}
+                  <div className="space-y-2">
+                    <label className="text-gray-700 font-semibold text-sm">Ordre d'affichage</label>
+                    <input
+                      type="number"
+                      min="1"
+                      defaultValue={selectedItem.order || partners.length + 1}
+                      onChange={(e) => setSelectedItem({ ...selectedItem, order: parseInt(e.target.value) || 1 })}
+                      className={`w-full p-3 rounded-xl ${c.input} text-sm`}
+                    />
+                    <p className="text-xs text-gray-400">Les partenaires sont affichés par ordre croissant sur le site</p>
+                  </div>
+
+                  {/* Site web (optionnel) */}
+                  <div className="space-y-2">
+                    <label className="text-gray-700 font-semibold text-sm">Site web (optionnel)</label>
+                    <input
+                      type="url"
+                      defaultValue={selectedItem.website || ""}
+                      onChange={(e) => setSelectedItem({ ...selectedItem, website: e.target.value })}
+                      placeholder="https://www.exemple.com"
+                      className={`w-full p-3 rounded-xl ${c.input} text-sm`}
+                    />
+                  </div>
+
+                  {/* Statut de publication */}
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                    <input
+                      type="checkbox"
+                      id="partner-published"
+                      checked={selectedItem.isPublished !== false}
+                      onChange={(e) => setSelectedItem({ ...selectedItem, isPublished: e.target.checked })}
+                      className="w-4 h-4 text-orange-600 rounded"
+                    />
+                    <label htmlFor="partner-published" className="text-sm font-semibold text-gray-700 cursor-pointer">
+                      Publier ce partenaire sur le site
+                    </label>
+                  </div>
+                </div>
+
+                {/* Boutons d'action */}
+                <div className={`flex justify-end gap-3 pt-4 border-t ${c.border}`}>
+                  <button
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      setUploadPreview(null);
+                      setUploadFile(null);
+                    }}
+                    className={`px-4 py-2 rounded-xl ${c.btnSecondary} text-gray-600 text-sm font-semibold`}
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    onClick={() => {
+                      // Validation
+                      if (!selectedItem.name || selectedItem.name.trim() === "") {
+                        showToast("Le nom du partenaire est obligatoire", "error");
+                        return;
+                      }
+                      if (!selectedItem.logo || selectedItem.logo.trim() === "") {
+                        showToast("Le logo du partenaire est obligatoire", "error");
+                        return;
+                      }
+
+                      // Sauvegarde
+                      if (modalType === "add_partner") {
+                        const newPartner = AdminStore.addPartner({
+                          name: selectedItem.name,
+                          logo: selectedItem.logo,
+                          website: selectedItem.website || "",
+                          isPublished: selectedItem.isPublished !== false,
+                          order: selectedItem.order || partners.length + 1
+                        });
+                        setPartners(AdminStore.getPartners());
+                        showToast(`Partenaire "${newPartner.name}" ajouté avec succès`);
+                      } else {
+                        AdminStore.updatePartner(selectedItem.id, {
+                          name: selectedItem.name,
+                          logo: selectedItem.logo,
+                          website: selectedItem.website,
+                          isPublished: selectedItem.isPublished,
+                          order: selectedItem.order
+                        });
+                        setPartners(AdminStore.getPartners());
+                        showToast(`Partenaire "${selectedItem.name}" mis à jour`);
+                      }
+
+                      setIsModalOpen(false);
+                      setUploadPreview(null);
+                      setUploadFile(null);
+                    }}
+                    className={`px-5 py-2 rounded-xl font-bold text-sm ${c.btnPrimary} flex items-center gap-2`}
+                  >
+                    <FaCheck /> {modalType === "add_partner" ? "Créer le partenaire" : "Enregistrer les modifications"}
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* MODAL: Édition générique */}
-            {(modalType.startsWith("edit_") || modalType.startsWith("add_")) && modalType !== "upload_photo" && (
+            {(modalType.startsWith("edit_") || modalType.startsWith("add_")) && modalType !== "upload_photo" && modalType !== "add_partner" && modalType !== "edit_partner" && (
               <div className="space-y-4 text-xs">
                 <div className="space-y-2">
                   <label className="text-gray-700 font-semibold">Titre / Libellé :</label>
