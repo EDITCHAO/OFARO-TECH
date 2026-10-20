@@ -37,11 +37,42 @@ export default function AdminDashboard() {
   const [toastType, setToastType] = useState<"success" | "error">("success");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false); // Nouveau état pour menu mobile
 
+  // Lire le menu actif depuis l'URL au chargement
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const menuParam = params.get('menu');
+    if (menuParam) {
+      setActiveMenu(menuParam);
+    }
+  }, []);
+
   // Image upload state
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null); // Ref pour préserver la position de scroll du sidebar
+  const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
+
+  // Sauvegarder la position de scroll du sidebar en continu
+  useEffect(() => {
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+
+    const handleScroll = () => {
+      setSavedScrollPosition(sidebar.scrollTop);
+    };
+
+    sidebar.addEventListener('scroll', handleScroll);
+    return () => sidebar.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Restaurer la position de scroll après chaque render
+  useEffect(() => {
+    if (sidebarRef.current && savedScrollPosition > 0) {
+      sidebarRef.current.scrollTop = savedScrollPosition;
+    }
+  });
 
   // Data States
   const [users, setUsers] = useState<AdminUser[]>([]);
@@ -381,7 +412,10 @@ export default function AdminDashboard() {
 
   // Fonction de gestion du tri
   const handleMenuClick = async (menuId: string) => {
-    // Redirection directe pour certaines pages
+    // Sauvegarder la position actuelle IMMÉDIATEMENT avant toute opération
+    const currentScrollPos = sidebarRef.current?.scrollTop || 0;
+    
+    // Redirection directe pour les pages qui ont leur propre fichier dans app/admin/
     if (menuId === 'equipe') {
       window.location.href = '/admin/equipe';
       return;
@@ -403,8 +437,20 @@ export default function AdminDashboard() {
       return;
     }
     
+    // Les autres menus (dashboard, partenaires, etc.) sont gérés via state dans cette page
+    // Mettre à jour l'URL sans recharger la page
+    const newUrl = menuId === 'dashboard' ? '/admin' : `/admin?menu=${menuId}`;
+    window.history.pushState({}, '', newUrl);
+    
     setActiveMenu(menuId);
     setIsMobileMenuOpen(false); // Fermer le menu mobile quand on clique sur un élément
+    
+    // Forcer la restauration immédiate avec requestAnimationFrame
+    requestAnimationFrame(() => {
+      if (sidebarRef.current) {
+        sidebarRef.current.scrollTop = currentScrollPos;
+      }
+    });
     
     // Marquer les éléments comme lus selon le menu cliqué
     try {
@@ -1117,7 +1163,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className={`min-h-screen ${c.bg} text-gray-900 flex flex-col font-sans`}>
+    <div className={`h-screen ${c.bg} text-gray-900 flex flex-col font-sans overflow-hidden`}>
 
       {/* ===================== HEADER ===================== */}
       <header className={`${c.header} border-b ${c.border} px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50 ${c.shadowMd}`}>
@@ -1214,7 +1260,10 @@ export default function AdminDashboard() {
         )}
         
         {/* Sidebar */}
-        <aside className={`
+        <aside 
+          ref={sidebarRef}
+          style={{ scrollBehavior: 'auto' }}
+          className={`
           w-64 ${c.sidebar} border-r border-gray-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
           fixed md:relative inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
@@ -1224,16 +1273,22 @@ export default function AdminDashboard() {
             <div>
               <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">1. Général (Contenu)</div>
               <div className="space-y-0.5">
-                {[
-                  { id: "dashboard", label: "Tableau de bord", icon: <FaChartBar /> },
-                  { id: "pages", label: "Pages statiques", icon: <FaFileAlt /> },
-                  { id: "articles", label: "Articles / Actualités", icon: <FaNewspaper /> },
-                  { id: "realisations", label: "Réalisations (Portfolio)", icon: <FaProjectDiagram /> },
-                  { id: "services", label: "Services (10)", icon: <FaCog /> },
-                  { id: "temoignages", label: "Témoignages", icon: <FaStar /> },
-                  { id: "partenaires", label: "Partenaires", icon: <FaHandshake /> }
-                ].map(item => {
+                {(() => {
+                  const menuItems = [
+                    { id: "dashboard", label: "Tableau de bord", icon: <FaChartBar /> },
+                    { id: "pages", label: "Pages statiques", icon: <FaFileAlt /> },
+                    { id: "articles", label: "Articles / Actualités", icon: <FaNewspaper /> },
+                    { id: "realisations", label: "Réalisations (Portfolio)", icon: <FaProjectDiagram /> },
+                    { id: "services", label: "Services (10)", icon: <FaCog /> },
+                    { id: "temoignages", label: "Témoignages", icon: <FaStar /> },
+                    { id: "partenaires", label: "Partenaires", icon: <FaHandshake /> }
+                  ];
+                  console.log("🔍 MENU DEBUG - Items:", menuItems.map(i => i.id));
+                  console.log("🔍 MENU DEBUG - Role:", currentRole);
+                  return menuItems;
+                })().map(item => {
                   const allowed = canAccess(item.id);
+                  console.log(`🔍 MENU DEBUG - ${item.id}: allowed=${allowed}`);
                   return (
                     <button
                       key={item.id}
@@ -3555,3 +3610,4 @@ export default function AdminDashboard() {
     </div>
   );
 }
+

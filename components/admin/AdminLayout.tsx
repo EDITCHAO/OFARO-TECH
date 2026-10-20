@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
   FaChartBar, FaFileAlt, FaNewspaper, FaProjectDiagram, FaCog, FaStar,
   FaEnvelope, FaUserShield, FaDatabase, FaFolder, FaShieldAlt,
   FaUserTie, FaSync, FaExternalLinkAlt, FaGraduationCap,
-  FaCheckCircle, FaExclamationTriangle, FaArchive, FaBriefcase, FaBars, FaLock, FaUsers, FaGlobe
+  FaCheckCircle, FaExclamationTriangle, FaArchive, FaBriefcase, FaBars, FaLock, FaUsers, FaGlobe, FaHandshake
 } from 'react-icons/fa';
 
 interface AdminLayoutProps {
@@ -21,6 +21,28 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
+  const sidebarRef = useRef<HTMLElement>(null);
+  const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
+
+  // Sauvegarder la position de scroll quand elle change
+  useEffect(() => {
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+
+    const handleScroll = () => {
+      setSavedScrollPosition(sidebar.scrollTop);
+    };
+
+    sidebar.addEventListener('scroll', handleScroll);
+    return () => sidebar.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Restaurer la position de scroll après chaque render (avant que le navigateur ne peint)
+  useLayoutEffect(() => {
+    if (sidebarRef.current && savedScrollPosition > 0) {
+      sidebarRef.current.scrollTop = savedScrollPosition;
+    }
+  });
 
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
     setToastMessage(msg);
@@ -34,8 +56,17 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
   };
 
   const handleMenuClick = (menuId: string) => {
+    // Sauvegarder la position actuelle IMMÉDIATEMENT
+    const currentScrollPos = sidebarRef.current?.scrollTop || 0;
+    
     if (onMenuChange) {
       onMenuChange(menuId);
+      // Forcer la restauration immédiate
+      requestAnimationFrame(() => {
+        if (sidebarRef.current) {
+          sidebarRef.current.scrollTop = currentScrollPos;
+        }
+      });
     } else {
       // Navigation par défaut
       if (menuId === 'offres') {
@@ -49,7 +80,8 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
       } else if (menuId === 'temoignages') {
         window.location.href = '/admin/temoignages';
       } else {
-        window.location.href = '/admin';
+        // Pour les autres menus, rediriger vers /admin avec le menu en query param
+        window.location.href = `/admin?menu=${menuId}`;
       }
     }
     setIsMobileMenuOpen(false);
@@ -57,9 +89,9 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
 
   const canAccess = (moduleId: string): boolean => {
     if (currentRole === 'administrateur') return true;
-    if (currentRole === 'editeur') return ['dashboard','pages','articles','realisations','services','temoignages','mediatheque','documents'].includes(moduleId);
-    if (currentRole === 'commercial') return ['dashboard','devis','demandes-service','messages','clients'].includes(moduleId);
-    if (currentRole === 'rh') return ['dashboard','candidatures','offres'].includes(moduleId);
+    if (currentRole === 'editeur') return ['dashboard','pages','articles','realisations','services','temoignages','partenaires','mediatheque','documents'].includes(moduleId);
+    if (currentRole === 'commercial') return ['dashboard','devis','demandes-service','messages','clients','partenaires'].includes(moduleId);
+    if (currentRole === 'rh') return ['dashboard','candidatures','offres','partenaires'].includes(moduleId);
     return false;
   };
 
@@ -77,7 +109,7 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
   };
 
   return (
-    <div className={`min-h-screen ${c.bg} text-gray-900 flex flex-col font-sans`}>
+    <div className={`h-screen ${c.bg} text-gray-900 flex flex-col font-sans overflow-hidden`}>
       {/* HEADER */}
       <header className={`${c.header} border-b ${c.border} px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50 ${c.shadowMd}`}>
         <div className="flex items-center gap-3">
@@ -171,7 +203,10 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
         )}
         
         {/* SIDEBAR */}
-        <aside className={`
+        <aside 
+          ref={sidebarRef}
+          style={{ scrollBehavior: 'auto' }}
+          className={`
           w-64 ${c.sidebar} border-r border-gray-800 flex-shrink-0 flex flex-col justify-between overflow-y-auto
           fixed md:relative inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
@@ -187,7 +222,8 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
                   { id: 'articles', label: 'Articles / Actualités', icon: <FaNewspaper /> },
                   { id: 'realisations', label: 'Réalisations (Portfolio)', icon: <FaProjectDiagram /> },
                   { id: 'services', label: 'Services (10)', icon: <FaCog /> },
-                  { id: 'temoignages', label: 'Témoignages', icon: <FaStar /> }
+                  { id: 'temoignages', label: 'Témoignages', icon: <FaStar /> },
+                  { id: 'partenaires', label: 'Partenaires', icon: <FaHandshake /> }
                 ].map(item => {
                   const allowed = canAccess(item.id);
                   return (
