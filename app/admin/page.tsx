@@ -1273,22 +1273,16 @@ export default function AdminDashboard() {
             <div>
               <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-3 mb-2">1. Général (Contenu)</div>
               <div className="space-y-0.5">
-                {(() => {
-                  const menuItems = [
-                    { id: "dashboard", label: "Tableau de bord", icon: <FaChartBar /> },
-                    { id: "pages", label: "Pages statiques", icon: <FaFileAlt /> },
-                    { id: "articles", label: "Articles / Actualités", icon: <FaNewspaper /> },
-                    { id: "realisations", label: "Réalisations (Portfolio)", icon: <FaProjectDiagram /> },
-                    { id: "services", label: "Services (10)", icon: <FaCog /> },
-                    { id: "temoignages", label: "Témoignages", icon: <FaStar /> },
-                    { id: "partenaires", label: "Partenaires", icon: <FaHandshake /> }
-                  ];
-                  console.log("🔍 MENU DEBUG - Items:", menuItems.map(i => i.id));
-                  console.log("🔍 MENU DEBUG - Role:", currentRole);
-                  return menuItems;
-                })().map(item => {
+                {[
+                  { id: "dashboard", label: "Tableau de bord", icon: <FaChartBar /> },
+                  { id: "pages", label: "Pages statiques", icon: <FaFileAlt /> },
+                  { id: "articles", label: "Articles / Actualités", icon: <FaNewspaper /> },
+                  { id: "realisations", label: "Réalisations (Portfolio)", icon: <FaProjectDiagram /> },
+                  { id: "services", label: "Services (10)", icon: <FaCog /> },
+                  { id: "temoignages", label: "Témoignages", icon: <FaStar /> },
+                  { id: "partenaires", label: "Partenaires", icon: <FaHandshake /> }
+                ].map(item => {
                   const allowed = canAccess(item.id);
-                  console.log(`🔍 MENU DEBUG - ${item.id}: allowed=${allowed}`);
                   return (
                     <button
                       key={item.id}
