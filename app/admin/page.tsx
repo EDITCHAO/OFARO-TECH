@@ -382,7 +382,28 @@ export default function AdminDashboard() {
       setSeo(AdminStore.getSEO());
       setPages(AdminStore.getPages());
       setLogs(AdminStore.getLogs());
-      setPartners(AdminStore.getPartners());
+      
+      // Charger les partenaires depuis Supabase
+      const { data: partnersData, error: partnersError } = await supabase
+        .from('partners')
+        .select('*')
+        .order('display_order', { ascending: true });
+
+      if (partnersError) {
+        console.error('Erreur chargement partenaires:', partnersError);
+      } else {
+        const mappedPartners = (partnersData || []).map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          logo: p.logo_url,
+          website: p.website || '',
+          isPublished: p.is_published ?? true,
+          order: p.display_order || 0,
+          createdAt: new Date(p.created_at).toLocaleDateString('fr-FR')
+        }));
+        setPartners(mappedPartners);
+      }
+      
       setCurrentRole(AdminStore.getCurrentRole());
 
       // Charger les statistiques de visiteurs
@@ -1775,11 +1796,20 @@ export default function AdminDashboard() {
                             Modifier
                           </button>
                           <button
-                            onClick={() => {
+                            onClick={async () => {
                               if (confirmDelete(partner.name)) {
-                                AdminStore.deletePartner(partner.id);
-                                setPartners(AdminStore.getPartners());
-                                showToast(`Partenaire "${partner.name}" supprimé`);
+                                try {
+                                  const response = await fetch(`/api/partners/${partner.id}`, {
+                                    method: 'DELETE'
+                                  });
+                                  
+                                  if (!response.ok) throw new Error('Erreur API');
+                                  await refreshData();
+                                  showToast(`Partenaire "${partner.name}" supprimé`);
+                                } catch (error) {
+                                  console.error('Erreur suppression:', error);
+                                  showToast("Erreur lors de la suppression", "error");
+                                }
                               }
                             }}
                             className={`p-1.5 rounded-lg ${c.btnDanger}`}
@@ -3542,27 +3572,45 @@ export default function AdminDashboard() {
                         return;
                       }
 
-                      // Sauvegarde
-                      if (modalType === "add_partner") {
-                        const newPartner = AdminStore.addPartner({
-                          name: selectedItem.name,
-                          logo: selectedItem.logo,
-                          website: selectedItem.website || "",
-                          isPublished: selectedItem.isPublished !== false,
-                          order: selectedItem.order || partners.length + 1
-                        });
-                        setPartners(AdminStore.getPartners());
-                        showToast(`Partenaire "${newPartner.name}" ajouté avec succès`);
-                      } else {
-                        AdminStore.updatePartner(selectedItem.id, {
-                          name: selectedItem.name,
-                          logo: selectedItem.logo,
-                          website: selectedItem.website,
-                          isPublished: selectedItem.isPublished,
-                          order: selectedItem.order
-                        });
-                        setPartners(AdminStore.getPartners());
-                        showToast(`Partenaire "${selectedItem.name}" mis à jour`);
+                      // Sauvegarde vers Supabase
+                      try {
+                        if (modalType === "add_partner") {
+                          const response = await fetch('/api/partners', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              name: selectedItem.name,
+                              logo_url: selectedItem.logo,
+                              website: selectedItem.website || "",
+                              is_published: selectedItem.isPublished !== false,
+                              display_order: selectedItem.order || partners.length + 1
+                            })
+                          });
+                          
+                          if (!response.ok) throw new Error('Erreur API');
+                          await refreshData();
+                          showToast(`Partenaire "${selectedItem.name}" ajouté avec succès`);
+                        } else {
+                          const response = await fetch(`/api/partners/${selectedItem.id}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              name: selectedItem.name,
+                              logo_url: selectedItem.logo,
+                              website: selectedItem.website,
+                              is_published: selectedItem.isPublished,
+                              display_order: selectedItem.order
+                            })
+                          });
+                          
+                          if (!response.ok) throw new Error('Erreur API');
+                          await refreshData();
+                          showToast(`Partenaire "${selectedItem.name}" mis à jour`);
+                        }
+                      } catch (error) {
+                        console.error('Erreur sauvegarde partenaire:', error);
+                        showToast("Erreur lors de la sauvegarde", "error");
+                        return;
                       }
 
                       setIsModalOpen(false);
