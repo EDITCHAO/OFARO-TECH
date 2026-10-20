@@ -973,9 +973,9 @@ export default function AdminDashboard() {
 
   const canAccess = (moduleId: string): boolean => {
     if (currentRole === "administrateur") return true;
-    if (currentRole === "editeur") return ["dashboard","pages","articles","realisations","services","temoignages","mediatheque","documents"].includes(moduleId);
-    if (currentRole === "commercial") return ["dashboard","devis","demandes-service","messages","clients"].includes(moduleId);
-    if (currentRole === "rh") return ["dashboard","candidatures","offres"].includes(moduleId);
+    if (currentRole === "editeur") return ["dashboard","pages","articles","realisations","services","temoignages","partenaires","mediatheque","documents"].includes(moduleId);
+    if (currentRole === "commercial") return ["dashboard","devis","demandes-service","messages","clients","partenaires"].includes(moduleId);
+    if (currentRole === "rh") return ["dashboard","candidatures","offres","partenaires"].includes(moduleId);
     return false;
   };
 

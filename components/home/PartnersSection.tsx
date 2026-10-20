@@ -1,20 +1,57 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { AdminStore, type PartnerItem } from '@/lib/admin-store';
 import Image from 'next/image';
 
+interface Partner {
+  id: string;
+  name: string;
+  logo_url: string;
+  website?: string;
+  display_order: number;
+  is_published: boolean;
+}
+
 export default function PartnersSection() {
-  const [partners, setPartners] = useState<PartnerItem[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Charger les partenaires publiés depuis le store
-    const allPartners = AdminStore.getPartners();
-    const published = allPartners
-      .filter(p => p.isPublished)
-      .sort((a, b) => a.order - b.order);
-    setPartners(published);
+    // Charger les partenaires depuis l'API Supabase
+    const fetchPartners = async () => {
+      try {
+        const response = await fetch('/api/partners');
+        const data = await response.json();
+        
+        if (data.partners) {
+          // Filtrer seulement les partenaires publiés
+          const published = data.partners.filter((p: Partner) => p.is_published);
+          setPartners(published);
+        }
+      } catch (error) {
+        console.error('Erreur chargement partenaires:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPartners();
   }, []);
+
+  if (loading) {
+    return (
+      <section className="section-padding bg-background-secondary">
+        <div className="container-custom">
+          <div className="text-center">
+            <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
+              Nos Partenaires
+            </div>
+            <div className="animate-pulse">Chargement...</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (partners.length === 0) {
     return null; // Ne pas afficher la section si aucun partenaire
@@ -44,11 +81,11 @@ export default function PartnersSection() {
               className="group bg-white p-8 rounded-xl flex items-center justify-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
             >
               <div className="text-center">
-                {partner.logo.startsWith('data:') || partner.logo.startsWith('http') || partner.logo.startsWith('/') ? (
+                {partner.logo_url.startsWith('data:') || partner.logo_url.startsWith('http') || partner.logo_url.startsWith('/') ? (
                   // Image uploadée
                   <div className="w-24 h-24 rounded-lg flex items-center justify-center mx-auto mb-3 overflow-hidden">
                     <Image 
-                      src={partner.logo} 
+                      src={partner.logo_url} 
                       alt={partner.name}
                       width={96}
                       height={96}
@@ -59,7 +96,7 @@ export default function PartnersSection() {
                   // Logo texte (fallback pour anciens partenaires)
                   <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:from-primary group-hover:to-primary-dark transition-all">
                     <span className="text-2xl font-bold text-primary group-hover:text-white transition-colors">
-                      {partner.logo}
+                      {partner.logo_url}
                     </span>
                   </div>
                 )}
