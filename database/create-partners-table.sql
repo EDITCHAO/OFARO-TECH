@@ -1,70 +1,96 @@
--- =====================================================
--- TABLE: partners (Partenaires)
--- =====================================================
--- Stockage des logos et informations des partenaires technologiques
--- affichés sur la page d'accueil du site
+-- ============================================================================
+-- OFARO TECH - Création de la table des partenaires
+-- ============================================================================
 
-CREATE TABLE IF NOT EXISTS public.partners (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL,
-    logo_url TEXT NOT NULL, -- URL Supabase Storage: /partners/logo-microsoft.png
-    website VARCHAR(255),
-    display_order INTEGER NOT NULL DEFAULT 1,
+-- Créer la table des partenaires
+CREATE TABLE IF NOT EXISTS partners (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    logo_url VARCHAR(500) NOT NULL,
+    website VARCHAR(500),
+    description TEXT,
+    display_order INTEGER DEFAULT 0,
     is_published BOOLEAN DEFAULT true,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Index pour optimiser le tri par ordre d'affichage
-CREATE INDEX idx_partners_order ON public.partners(display_order);
-CREATE INDEX idx_partners_published ON public.partners(is_published);
+-- Index pour optimiser les requêtes
+CREATE INDEX IF NOT EXISTS idx_partners_is_published ON partners(is_published);
+CREATE INDEX IF NOT EXISTS idx_partners_display_order ON partners(display_order);
 
--- RLS (Row Level Security)
-ALTER TABLE public.partners ENABLE ROW LEVEL SECURITY;
+-- Insérer les partenaires initiaux avec de vrais logos
+INSERT INTO partners (name, logo_url, website, display_order, is_published) VALUES
+  (
+    'Microsoft', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/200px-Microsoft_logo.svg.png', 
+    'https://www.microsoft.com', 
+    1, 
+    true
+  ),
+  (
+    'Amazon Web Services', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/200px-Amazon_Web_Services_Logo.svg.png', 
+    'https://aws.amazon.com', 
+    2, 
+    true
+  ),
+  (
+    'Google Cloud', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Google_Cloud_logo.svg/200px-Google_Cloud_logo.svg.png', 
+    'https://cloud.google.com', 
+    3, 
+    true
+  ),
+  (
+    'Oracle', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Oracle_logo.svg/200px-Oracle_logo.svg.png', 
+    'https://www.oracle.com', 
+    4, 
+    true
+  ),
+  (
+    'Cisco', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Cisco_logo.svg/200px-Cisco_logo.svg.png', 
+    'https://www.cisco.com', 
+    5, 
+    true
+  ),
+  (
+    'IBM', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/200px-IBM_logo.svg.png', 
+    'https://www.ibm.com', 
+    6, 
+    true
+  ),
+  (
+    'SAP', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SAP_2011_logo.svg/200px-SAP_2011_logo.svg.png', 
+    'https://www.sap.com', 
+    7, 
+    true
+  ),
+  (
+    'Dell Technologies', 
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Dell_Logo.svg/200px-Dell_Logo.svg.png', 
+    'https://www.dell.com', 
+    8, 
+    true
+  );
 
--- Politique : Tout le monde peut lire les partenaires publiés
-CREATE POLICY "Public partners are viewable by everyone"
-    ON public.partners
-    FOR SELECT
-    USING (is_published = true);
+-- Vérification - Afficher tous les partenaires
+SELECT 
+  id, 
+  name, 
+  LEFT(logo_url, 50) as logo_preview,
+  is_published,
+  display_order 
+FROM partners 
+ORDER BY display_order;
 
--- Politique : Seuls les admins peuvent modifier
-CREATE POLICY "Admins can manage partners"
-    ON public.partners
-    FOR ALL
-    USING (
-        auth.role() = 'authenticated'
-        AND EXISTS (
-            SELECT 1 FROM public.admin_users
-            WHERE user_id = auth.uid()
-            AND role IN ('administrateur', 'editeur')
-        )
-    );
+-- Compter les partenaires publiés
+SELECT COUNT(*) as total_published FROM partners WHERE is_published = true;
 
--- Données initiales (partenaires actuels)
-INSERT INTO public.partners (name, logo_url, website, display_order, is_published)
-VALUES
-    ('Microsoft', 'MS', 'https://www.microsoft.com', 1, true),
-    ('AWS', 'AWS', 'https://aws.amazon.com', 2, true),
-    ('Google Cloud', 'GC', 'https://cloud.google.com', 3, true),
-    ('Oracle', 'OR', 'https://www.oracle.com', 4, true),
-    ('Cisco', 'CS', 'https://www.cisco.com', 5, true)
-ON CONFLICT DO NOTHING;
-
--- Fonction de mise à jour automatique du timestamp
-CREATE OR REPLACE FUNCTION public.update_partners_updated_at()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_update_partners_timestamp
-    BEFORE UPDATE ON public.partners
-    FOR EACH ROW
-    EXECUTE FUNCTION public.update_partners_updated_at();
-
-COMMENT ON TABLE public.partners IS 'Partenaires technologiques affichés sur le site';
-COMMENT ON COLUMN public.partners.logo_url IS 'URL du logo dans Supabase Storage ou texte court (MS, AWS, etc.)';
-COMMENT ON COLUMN public.partners.display_order IS 'Ordre d affichage croissant sur la page d accueil';
+-- ============================================================================
+-- Fin du script
+-- ============================================================================
