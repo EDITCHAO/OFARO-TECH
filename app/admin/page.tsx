@@ -3561,7 +3561,7 @@ export default function AdminDashboard() {
                     Annuler
                   </button>
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       // Validation
                       if (!selectedItem.name || selectedItem.name.trim() === "") {
                         showToast("Le nom du partenaire est obligatoire", "error");
