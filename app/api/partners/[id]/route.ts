@@ -9,9 +9,10 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 // PUT : Mettre à jour un partenaire
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const body = await request.json();
     const { name, logo_url, website, display_order, is_published } = body;
     const { id } = params;
@@ -44,9 +45,10 @@ export async function PUT(
 // DELETE : Supprimer un partenaire
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const { id } = params;
 
     // Récupérer d'abord le partenaire pour obtenir logo_url
