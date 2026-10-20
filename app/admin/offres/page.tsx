@@ -169,7 +169,7 @@ export default function AdminOffresPage() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                <FaBriefcase className="w-6 h-6 text-blue-600" />
+                <FaBriefcase className="w-6 h-6 text-orange-600" />
                 Gestion des offres d'emploi
               </h1>
               <p className="text-sm text-gray-600 mt-1">
@@ -179,7 +179,7 @@ export default function AdminOffresPage() {
 
             <Link
               href="/admin/offres/nouvelle"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all font-medium"
+              className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-all font-medium"
             >
               <FaPlus className="w-4 h-4" />
               Nouvelle offre
@@ -195,7 +195,7 @@ export default function AdminOffresPage() {
                 placeholder="Rechercher une offre..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
               />
             </div>
 
@@ -204,7 +204,7 @@ export default function AdminOffresPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
+                className="pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer min-w-[180px]"
               >
                 <option value="all">Tous les statuts</option>
                 <option value="brouillon">Brouillon</option>
@@ -218,7 +218,7 @@ export default function AdminOffresPage() {
         </div>
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
           </div>
         ) : filteredOffers.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm p-12 text-center">
@@ -233,7 +233,7 @@ export default function AdminOffresPage() {
             </p>
             <Link
               href="/admin/offres/nouvelle"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all font-medium"
+              className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-all font-medium"
             >
               <FaPlus className="w-4 h-4" />
               Créer une offre
@@ -256,7 +256,7 @@ export default function AdminOffresPage() {
                 {filteredOffers.map((offer) => (
                   <tr key={offer.id} className="hover:bg-gray-50 transition-colors">
                     <td className="py-4 px-6">
-                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-orange-500 to-amber-600">
                         {offer.image_url ? (
                           <Image
                             src={offer.image_url}
@@ -326,7 +326,7 @@ export default function AdminOffresPage() {
                         <Link
                           href={`/offres/${offer.id}`}
                           target="_blank"
-                          className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                           title="Voir l'offre"
                         >
                           <FaEye className="w-4 h-4" />
