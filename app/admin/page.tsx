@@ -517,8 +517,8 @@ export default function AdminDashboard() {
         // Pour les demandes de service, on ne change PAS automatiquement le statut
         // L'admin doit le faire manuellement
       }
-      // Pas besoin de marquer les candidatures comme lues car le badge compte les statuts "Nouvelle" et "En analyse"
-      // qui doivent être changés manuellement par l'admin
+      // Pas besoin de marquer les candidatures comme lues : le badge compte les statuts
+      // "Nouveau" (non traités), qui doivent être changés manuellement par l'admin.
     } catch (error) {
       console.error('Erreur lors du marquage comme lu:', error);
     }
@@ -1050,15 +1050,20 @@ export default function AdminDashboard() {
     return false;
   };
 
+  // Compteurs "à traiter" : source unique de vérité, partagée par les badges du menu
+  // latéral (section "2. Relation Client & Ventes") et par les cartes du tableau de bord,
+  // afin que les deux affichent toujours le même chiffre.
+  // Les statuts sont normalisés en base ("nouveau" / "nouvelle" -> "Nouveau") : on compare
+  // donc la valeur affichée, via String() car le type déclaré des statuts ne correspond
+  // pas toujours à la valeur réellement renvoyée par la normalisation.
   const stats = useMemo(() => ({
-    devisEnAttente: quotes.filter(q => q.status === "Nouveau").length,
-    messagesNonLus: messages.filter(m => !m.isRead || m.status === "Nouveau").length,
-    demandesServiceNouv: serviceRequests.filter(sr => sr.status === "Nouveau" || sr.status === "new").length,
-    nouvellesDemandesServices: serviceRequests.filter(sr => sr.status === "Nouveau" || sr.status === "nouvelle").length,
+    devisEnAttente: quotes.filter(q => String(q.status) === "Nouveau").length,
+    messagesNonLus: messages.filter(m => !m.isRead || String(m.status) === "Nouveau").length,
+    nouvellesDemandesServices: serviceRequests.filter(sr => String(sr.status) === "Nouveau").length,
+    nouvellesCandidatures: applications.filter(a => String(a.status) === "Nouveau").length,
     visiteursCeMois: visitorsStats.currentMonth,
-    percentageChange: visitorsStats.percentageChange,
-    candidaturesActives: applications.filter(a => a.status === "Nouvelle" || a.status === "En analyse").length
-  }), [quotes, messages, serviceRequests, realizations, applications]);
+    percentageChange: visitorsStats.percentageChange
+  }), [quotes, messages, serviceRequests, applications, visitorsStats]);
 
   const renderStatusBadge = (status: string) => {
     switch (status) {
@@ -1347,9 +1352,9 @@ export default function AdminDashboard() {
               <div className="space-y-0.5">
                 {[
                   { id: "devis", label: "Demandes de devis", icon: <FaFileAlt />, badge: stats.devisEnAttente },
-                  { id: "demandes-service", label: "Demandes de service", icon: <FaCog />, badge: stats.demandesServiceNouv },
+                  { id: "demandes-service", label: "Demandes de service", icon: <FaCog />, badge: stats.nouvellesDemandesServices },
                   { id: "messages", label: "Messages de contact", icon: <FaEnvelope />, badge: stats.messagesNonLus },
-                  { id: "candidatures", label: "Candidatures / Stages", icon: <FaGraduationCap />, badge: stats.candidaturesActives },
+                  { id: "candidatures", label: "Candidatures / Stages", icon: <FaGraduationCap />, badge: stats.nouvellesCandidatures },
                   { id: "archives", label: "Archives", icon: <FaArchive /> }
                 ].map(item => {
                   const allowed = canAccess(item.id);
@@ -1444,11 +1449,12 @@ export default function AdminDashboard() {
               </div>
 
               {/* KPI Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
                 {[
                   { label: "Devis en attente", value: stats.devisEnAttente, sub: "● Traitement requis sous 24h", color: "amber", icon: <FaFileAlt />, menu: "devis" },
                   { label: "Messages non lus", value: stats.messagesNonLus, sub: "✉ Formulaire de contact public", color: "cyan", icon: <FaEnvelope />, menu: "messages" },
-                  { label: "Nouvelles demandes de services", value: stats.nouvellesDemandesServices, sub: "🔔 Demandes en attente de traitement", color: "emerald", icon: <FaTools />, menu: "service-requests" },
+                  { label: "Nouvelles demandes de services", value: stats.nouvellesDemandesServices, sub: "🔔 Demandes en attente de traitement", color: "emerald", icon: <FaTools />, menu: "demandes-service" },
+                  { label: "Nouvelles candidatures", value: stats.nouvellesCandidatures, sub: "📄 Statut non traité", color: "rose", icon: <FaGraduationCap />, menu: "candidatures" },
                   { label: "Visiteurs ce mois", value: stats.visiteursCeMois.toLocaleString(), sub: `📈 ${parseFloat(stats.percentageChange) >= 0 ? '+' : ''}${stats.percentageChange}% vs mois dernier`, color: "violet", icon: <FaChartLine />, menu: null },
                 ].map((kpi, idx) => (
                   <div
