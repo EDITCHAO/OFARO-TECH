@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 
 interface Partner {
   id: string;
@@ -15,6 +14,12 @@ interface Partner {
 export default function PartnersSection() {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+
+  const handleImageError = (partnerId: string) => {
+    setImageErrors(prev => ({ ...prev, [partnerId]: true }));
+  };
 
   useEffect(() => {
     // Charger les partenaires depuis l'API Supabase
@@ -81,22 +86,24 @@ export default function PartnersSection() {
               className="group bg-white p-8 rounded-xl flex items-center justify-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
             >
               <div className="text-center">
-                {partner.logo_url.startsWith('data:') || partner.logo_url.startsWith('http') || partner.logo_url.startsWith('/') ? (
-                  // Image uploadée
+                {(partner.logo_url.startsWith('data:') || partner.logo_url.startsWith('http') || partner.logo_url.startsWith('/')) && !imageErrors[partner.id] ? (
+                  // Image uploadée (balise img brute : évite l'échec de l'optimiseur Next sur certains hébergeurs)
                   <div className="w-24 h-24 rounded-lg flex items-center justify-center mx-auto mb-3 overflow-hidden">
-                    <Image 
-                      src={partner.logo_url} 
+                    <img
+                      src={partner.logo_url}
                       alt={partner.name}
                       width={96}
                       height={96}
+                      loading="lazy"
                       className="w-full h-full object-contain"
+                      onError={() => handleImageError(partner.id)}
                     />
                   </div>
                 ) : (
-                  // Logo texte (fallback pour anciens partenaires)
+                  // Logo texte (fallback pour anciens partenaires ou images cassées)
                   <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:from-primary group-hover:to-primary-dark transition-all">
                     <span className="text-2xl font-bold text-primary group-hover:text-white transition-colors">
-                      {partner.logo_url}
+                      {partner.logo_url.length > 3 ? partner.name.substring(0, 2).toUpperCase() : partner.logo_url}
                     </span>
                   </div>
                 )}

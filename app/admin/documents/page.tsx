@@ -14,7 +14,9 @@ import {
   FaFileExcel,
   FaFileWord,
   FaFile,
-  FaEye
+  FaEye,
+  FaPen,
+  FaCheck
 } from 'react-icons/fa';
 
 interface DocumentItem {
@@ -41,6 +43,9 @@ const CATEGORIES = [
   { value: 'guides', label: 'Guides' },
   { value: 'cahiers-charges', label: 'Cahiers de charges' },
   { value: 'devis', label: 'Devis' },
+  { value: 'proposition', label: 'Proposition' },
+  { value: 'proforma', label: 'Facture proforma' },
+  { value: 'bordereau-livraison', label: 'Bordereau de livraison' },
   { value: 'contrats', label: 'Contrats' },
   { value: 'factures', label: 'Factures' },
   { value: 'offres', label: 'Offres commerciales' },
@@ -48,6 +53,12 @@ const CATEGORIES = [
   { value: 'presentations', label: 'Présentations' },
   { value: 'autres', label: 'Autres' }
 ];
+
+// Libellés lisibles des catégories (pour l'affichage des cartes)
+const CATEGORY_LABELS: Record<string, string> = CATEGORIES.reduce(
+  (acc, cat) => (cat.value === 'all' ? acc : { ...acc, [cat.value]: cat.label }),
+  {} as Record<string, string>
+);
 
 export default function DocumentsLibraryPage() {
   const supabase = createClient(
@@ -62,6 +73,15 @@ export default function DocumentsLibraryPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  
+  // Édition d'un document existant
+  const [editingDoc, setEditingDoc] = useState<DocumentItem | null>(null);
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editCategory, setEditCategory] = useState('brochures');
+  const [editTags, setEditTags] = useState('');
+  const [editIsActive, setEditIsActive] = useState(true);
   
   // Upload form state
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -255,6 +275,54 @@ export default function DocumentsLibraryPage() {
     }
   };
 
+  // Ouvrir la modale d'édition d'un document
+  const openEditModal = (doc: DocumentItem) => {
+    setEditingDoc(doc);
+    setEditTitle(doc.title || '');
+    setEditDescription(doc.description || '');
+    setEditCategory(doc.category || 'brochures');
+    setEditTags((doc.tags || []).join(', '));
+    setEditIsActive(doc.is_active ?? true);
+  };
+
+  // Enregistrer les modifications d'un document
+  const handleUpdate = async () => {
+    if (!editingDoc) return;
+
+    if (!editTitle.trim()) {
+      alert('Veuillez saisir un titre');
+      return;
+    }
+
+    try {
+      setSavingEdit(true);
+
+      const tagsArray = editTags.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+      const { error } = await supabase
+        .from('documents_library')
+        .update({
+          title: editTitle,
+          description: editDescription,
+          category: editCategory,
+          tags: tagsArray,
+          is_active: editIsActive
+        })
+        .eq('id', editingDoc.id);
+
+      if (error) throw error;
+
+      alert('Document modifié avec succès !');
+      setEditingDoc(null);
+      loadDocuments();
+    } catch (error) {
+      console.error('Erreur modification:', error);
+      alert('Erreur lors de la modification du document');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
   // Increment download count
   const handleDownload = async (doc: DocumentItem) => {
     try {
@@ -427,7 +495,7 @@ export default function DocumentsLibraryPage() {
                   </div>
                   <div>
                     <span className="font-semibold">Catégorie:</span><br/>
-                    {doc.category}
+                    {CATEGORY_LABELS[doc.category] || doc.category}
                   </div>
                   <div>
                     <span className="font-semibold">Téléchargements:</span><br/>
@@ -443,6 +511,13 @@ export default function DocumentsLibraryPage() {
                   >
                     <FaDownload className="w-4 h-4" />
                     Télécharger
+                  </button>
+                  <button
+                    onClick={() => openEditModal(doc)}
+                    className="bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded transition-colors"
+                    title="Modifier"
+                  >
+                    <FaPen className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => window.open(doc.file_url, '_blank')}
@@ -589,6 +664,142 @@ export default function DocumentsLibraryPage() {
                     <>
                       <FaUpload className="w-5 h-5" />
                       Uploader
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Edit Modal */}
+        {editingDoc && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-900">Modifier le document</h2>
+                <button
+                  onClick={() => setEditingDoc(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <FaTimes className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-6">
+                {/* Fichier (non modifiable) */}
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl">{getFileIcon(editingDoc.file_type)}</div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-gray-900 break-all">{editingDoc.original_name}</p>
+                    <div className="mt-2 space-y-1 text-xs text-gray-600">
+                      <p>💾 {formatFileSize(editingDoc.file_size)}</p>
+                      <p>📅 {new Date(editingDoc.created_at).toLocaleDateString('fr-FR')}</p>
+                      <p>⬇️ {editingDoc.download_count} téléchargement(s)</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Titre */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Titre du document *
+                  </label>
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    placeholder="Ex: Plaquette Institutionnelle OFARO TECH 2026"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Catégorie */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Catégorie *
+                  </label>
+                  <select
+                    value={editCategory}
+                    onChange={(e) => setEditCategory(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  >
+                    {CATEGORIES.filter(cat => cat.value !== 'all').map(cat => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description (optionnel)
+                  </label>
+                  <textarea
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                    placeholder="Description du document"
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Tags */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tags (optionnel, séparés par des virgules)
+                  </label>
+                  <input
+                    type="text"
+                    value={editTags}
+                    onChange={(e) => setEditTags(e.target.value)}
+                    placeholder="Ex: présentation, services, 2026"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Visibilité */}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="doc-is-active"
+                    checked={editIsActive}
+                    onChange={(e) => setEditIsActive(e.target.checked)}
+                    className="w-4 h-4 text-orange-600 rounded"
+                  />
+                  <label htmlFor="doc-is-active" className="text-sm font-medium text-gray-700 cursor-pointer">
+                    Afficher ce document sur le site
+                  </label>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
+                <button
+                  onClick={() => setEditingDoc(null)}
+                  className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                  disabled={savingEdit}
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleUpdate}
+                  disabled={savingEdit}
+                  className="flex items-center gap-2 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {savingEdit ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      Enregistrement...
+                    </>
+                  ) : (
+                    <>
+                      <FaCheck className="w-5 h-5" />
+                      Enregistrer les modifications
                     </>
                   )}
                 </button>

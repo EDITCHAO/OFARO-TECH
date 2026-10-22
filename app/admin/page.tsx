@@ -51,6 +51,10 @@ export default function AdminDashboard() {
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // Ref dédiée au logo partenaire (évite tout conflit avec la modale photo réalisation)
+  const partnerLogoInputRef = useRef<HTMLInputElement>(null);
+  // Logos partenaires dont l'image n'a pas pu être chargée (affichage de secours)
+  const [partnerImageErrors, setPartnerImageErrors] = useState<Record<string, boolean>>({});
   const sidebarRef = useRef<HTMLElement>(null); // Ref pour préserver la position de scroll du sidebar
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
 
@@ -1745,16 +1749,17 @@ export default function AdminDashboard() {
                       <div className="flex flex-col items-center text-center space-y-3">
                         {/* Logo Preview */}
                         <div className="w-24 h-24 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl flex items-center justify-center overflow-hidden border-2 border-gray-200">
-                          {partner.logo.startsWith('data:') || partner.logo.startsWith('http') || partner.logo.startsWith('/') ? (
-                            <Image
+                          {(partner.logo.startsWith('data:') || partner.logo.startsWith('http') || partner.logo.startsWith('/')) && !partnerImageErrors[partner.id] ? (
+                            <img
                               src={partner.logo}
                               alt={partner.name}
-                              width={96}
-                              height={96}
                               className="w-full h-full object-contain p-2"
+                              onError={() => setPartnerImageErrors(prev => ({ ...prev, [partner.id]: true }))}
                             />
                           ) : (
-                            <span className="text-2xl font-bold text-primary">{partner.logo}</span>
+                            <span className="text-2xl font-bold text-primary">
+                              {partner.logo.length > 3 ? partner.name.substring(0, 2).toUpperCase() : partner.logo}
+                            </span>
                           )}
                         </div>
 
@@ -3420,11 +3425,9 @@ export default function AdminDashboard() {
                         <p className="text-xs text-gray-500">Logo actuel :</p>
                         <div className="w-32 h-32 bg-gray-50 rounded-xl border-2 border-gray-200 flex items-center justify-center p-4">
                           {selectedItem.logo.startsWith('data:') || selectedItem.logo.startsWith('http') || selectedItem.logo.startsWith('/') ? (
-                            <Image
+                            <img
                               src={selectedItem.logo}
                               alt={selectedItem.name || "Logo"}
-                              width={128}
-                              height={128}
                               className="w-full h-full object-contain"
                             />
                           ) : (
@@ -3439,20 +3442,53 @@ export default function AdminDashboard() {
                       <div className="space-y-2">
                         <p className="text-xs font-semibold text-orange-600">Nouveau logo (aperçu) :</p>
                         <div className="w-32 h-32 bg-white rounded-xl border-2 border-orange-300 shadow-md flex items-center justify-center p-4">
-                          <Image
+                          <img
                             src={uploadPreview}
                             alt="Aperçu"
-                            width={128}
-                            height={128}
                             className="w-full h-full object-contain"
                           />
                         </div>
                       </div>
                     )}
 
-                    {/* Zone de drop pour upload */}
+                    {/* Champ fichier (hors de la zone cliquable pour éviter tout conflit d'événement) */}
+                    <input
+                      ref={partnerLogoInputRef}
+                      id="partner-logo-input"
+                      type="file"
+                      accept="image/png,image/jpeg,image/jpg,image/svg+xml,image/webp"
+                      className="hidden"
+                      onClick={(e) => e.stopPropagation()}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        // Réinitialise pour permettre de re-sélectionner le même fichier
+                        e.target.value = "";
+                        if (!file) return;
+
+                        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml', 'image/webp'];
+                        if (!allowedTypes.includes(file.type)) {
+                          showToast("Format non supporté. Utilisez PNG, JPG, SVG ou WebP", "error");
+                          return;
+                        }
+                        if (file.size > 5 * 1024 * 1024) {
+                          showToast("Fichier trop volumineux. Taille maximale : 5 MB", "error");
+                          return;
+                        }
+
+                        setUploadFile(file);
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          const base64 = reader.result as string;
+                          setUploadPreview(base64);
+                          setSelectedItem((prev: any) => ({ ...prev, logo: base64, name: prev.name }));
+                        };
+                        reader.readAsDataURL(file);
+                      }}
+                    />
+
+                    {/* Zone de dépôt / sélection */}
                     <div
-                      onClick={() => fileInputRef.current?.click()}
+                      onClick={() => partnerLogoInputRef.current?.click()}
                       className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition ${
                         uploadPreview ? "border-orange-300 bg-orange-50" : "border-gray-300 bg-gray-50 hover:border-orange-400 hover:bg-orange-50"
                       }`}
@@ -3462,25 +3498,6 @@ export default function AdminDashboard() {
                         {uploadPreview ? "Cliquer pour changer le logo" : "Cliquer pour sélectionner un logo"}
                       </p>
                       <p className="text-xs text-gray-400 mt-1">PNG, JPG, SVG • Max 5 MB • Recommandé: 512x512px</p>
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            setUploadFile(file);
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              const base64 = reader.result as string;
-                              setUploadPreview(base64);
-                              setSelectedItem({ ...selectedItem, logo: base64 });
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                      />
                     </div>
 
                     {uploadFile && (
@@ -3494,11 +3511,11 @@ export default function AdminDashboard() {
                           onClick={() => {
                             setUploadFile(null);
                             setUploadPreview(null);
-                            if (modalType === "edit_partner" && selectedItem.logo) {
-                              // Garder l'ancien logo
-                            } else {
-                              setSelectedItem({ ...selectedItem, logo: "" });
-                            }
+                            // En édition, on conserve le logo existant ; sinon on repart d'un champ vide
+                            setSelectedItem((prev: any) => ({
+                              ...prev,
+                              logo: modalType === "edit_partner" ? (prev.logo?.startsWith('data:') ? "" : prev.logo) : ""
+                            }));
                           }}
                           className="text-red-500 hover:text-red-700"
                         >
@@ -3574,13 +3591,35 @@ export default function AdminDashboard() {
 
                       // Sauvegarde vers Supabase
                       try {
+                        setUploadingImage(true);
+                        let finalLogoUrl = selectedItem.logo;
+
+                        // Si on a un nouveau fichier à uploader
+                        if (uploadFile) {
+                          const formData = new FormData();
+                          formData.append('file', uploadFile);
+
+                          const uploadResponse = await fetch('/api/partners/upload', {
+                            method: 'POST',
+                            body: formData
+                          });
+
+                          if (!uploadResponse.ok) {
+                            const errorData = await uploadResponse.json();
+                            throw new Error(errorData.error || 'Erreur lors de l\'upload');
+                          }
+
+                          const uploadData = await uploadResponse.json();
+                          finalLogoUrl = uploadData.logo_url;
+                        }
+
                         if (modalType === "add_partner") {
                           const response = await fetch('/api/partners', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                               name: selectedItem.name,
-                              logo_url: selectedItem.logo,
+                              logo_url: finalLogoUrl,
                               website: selectedItem.website || "",
                               is_published: selectedItem.isPublished !== false,
                               display_order: selectedItem.order || partners.length + 1
@@ -3596,7 +3635,7 @@ export default function AdminDashboard() {
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                               name: selectedItem.name,
-                              logo_url: selectedItem.logo,
+                              logo_url: finalLogoUrl,
                               website: selectedItem.website,
                               is_published: selectedItem.isPublished,
                               display_order: selectedItem.order
@@ -3607,19 +3646,30 @@ export default function AdminDashboard() {
                           await refreshData();
                           showToast(`Partenaire "${selectedItem.name}" mis à jour`);
                         }
-                      } catch (error) {
+                      } catch (error: any) {
                         console.error('Erreur sauvegarde partenaire:', error);
-                        showToast("Erreur lors de la sauvegarde", "error");
+                        showToast(error.message || "Erreur lors de la sauvegarde", "error");
                         return;
+                      } finally {
+                        setUploadingImage(false);
                       }
 
                       setIsModalOpen(false);
                       setUploadPreview(null);
                       setUploadFile(null);
                     }}
-                    className={`px-5 py-2 rounded-xl font-bold text-sm ${c.btnPrimary} flex items-center gap-2`}
+                    className={`px-5 py-2 rounded-xl font-bold text-sm ${c.btnPrimary} flex items-center gap-2 ${uploadingImage ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    disabled={uploadingImage}
                   >
-                    <FaCheck /> {modalType === "add_partner" ? "Créer le partenaire" : "Enregistrer les modifications"}
+                    {uploadingImage ? (
+                      <>
+                        <FaSync className="animate-spin" /> {modalType === "add_partner" ? "Création..." : "Enregistrement..."}
+                      </>
+                    ) : (
+                      <>
+                        <FaCheck /> {modalType === "add_partner" ? "Créer le partenaire" : "Enregistrer les modifications"}
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

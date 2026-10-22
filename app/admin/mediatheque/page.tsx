@@ -11,7 +11,8 @@ import {
   FaTimes,
   FaCopy,
   FaCheck,
-  FaDownload
+  FaDownload,
+  FaPen
 } from 'react-icons/fa';
 
 interface MediaItem {
@@ -40,8 +41,16 @@ const CATEGORIES = [
   { value: 'services', label: 'Services' },
   { value: 'icons', label: 'Icônes' },
   { value: 'banners', label: 'Bannières' },
+  { value: 'logos', label: 'Logos' },
+  { value: 'affiches', label: 'Affiches' },
   { value: 'autres', label: 'Autres' }
 ];
+
+// Libellés lisibles des catégories (pour l'affichage des badges)
+const CATEGORY_LABELS: Record<string, string> = CATEGORIES.reduce(
+  (acc, cat) => (cat.value === 'all' ? acc : { ...acc, [cat.value]: cat.label }),
+  {} as Record<string, string>
+);
 
 export default function MediaLibraryPage() {
   // Initialize Supabase client
@@ -58,6 +67,14 @@ export default function MediaLibraryPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
+
+  // Édition d'un média existant
+  const [editingItem, setEditingItem] = useState<MediaItem | null>(null);
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [editCategory, setEditCategory] = useState('portfolio');
+  const [editAltText, setEditAltText] = useState('');
+  const [editCaption, setEditCaption] = useState('');
+  const [editIsActive, setEditIsActive] = useState(true);
   
   // Upload form state
   const [uploadFiles, setUploadFiles] = useState<File[]>([]);
@@ -238,6 +255,45 @@ export default function MediaLibraryPage() {
     }
   };
 
+  // Ouvrir la modale d'édition d'un média
+  const openEditModal = (item: MediaItem) => {
+    setEditingItem(item);
+    setEditCategory(item.category || 'portfolio');
+    setEditAltText(item.alt_text || '');
+    setEditCaption(item.caption || '');
+    setEditIsActive(item.is_active ?? true);
+  };
+
+  // Enregistrer les modifications d'un média
+  const handleUpdate = async () => {
+    if (!editingItem) return;
+
+    try {
+      setSavingEdit(true);
+
+      const { error } = await supabase
+        .from('media_library')
+        .update({
+          alt_text: editAltText,
+          caption: editCaption,
+          category: editCategory,
+          is_active: editIsActive
+        })
+        .eq('id', editingItem.id);
+
+      if (error) throw error;
+
+      alert('Média modifié avec succès !');
+      setEditingItem(null);
+      loadMediaItems();
+    } catch (error) {
+      console.error('Erreur modification:', error);
+      alert('Erreur lors de la modification du média');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
   // Copy URL to clipboard
   const copyToClipboard = async (url: string) => {
     try {
@@ -369,8 +425,13 @@ export default function MediaLibraryPage() {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-2 right-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">
-                    {item.category}
+                    {CATEGORY_LABELS[item.category] || item.category}
                   </div>
+                  {!item.is_active && (
+                    <div className="absolute top-2 left-2 bg-gray-700 text-white text-xs px-2 py-1 rounded">
+                      Masqué
+                    </div>
+                  )}
                 </div>
 
                 {/* Info */}
@@ -403,6 +464,13 @@ export default function MediaLibraryPage() {
                           Copier URL
                         </>
                       )}
+                    </button>
+                    <button
+                      onClick={() => openEditModal(item)}
+                      className="bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded transition-colors"
+                      title="Modifier"
+                    >
+                      <FaPen className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDownloadImage(item)}
@@ -557,6 +625,134 @@ export default function MediaLibraryPage() {
                     <>
                       <FaUpload className="w-5 h-5" />
                       Uploader {uploadFiles.length > 0 && `(${uploadFiles.length})`}
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Edit Modal */}
+        {editingItem && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-900">Modifier le média</h2>
+                <button
+                  onClick={() => setEditingItem(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <FaTimes className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-6">
+                {/* Aperçu */}
+                <div className="flex items-start gap-4">
+                  <div className="w-28 h-28 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                    <img
+                      src={editingItem.file_url}
+                      alt={editingItem.alt_text || editingItem.original_name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-gray-900 break-all">{editingItem.original_name}</p>
+                    <div className="mt-2 space-y-1 text-xs text-gray-600">
+                      <p>📏 {editingItem.width} × {editingItem.height} px</p>
+                      <p>💾 {formatFileSize(editingItem.file_size)}</p>
+                      <p>📅 {new Date(editingItem.created_at).toLocaleDateString('fr-FR')}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Catégorie */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Catégorie *
+                  </label>
+                  <select
+                    value={editCategory}
+                    onChange={(e) => setEditCategory(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  >
+                    {CATEGORIES.filter(cat => cat.value !== 'all').map(cat => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Texte alternatif */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Texte alternatif (optionnel)
+                  </label>
+                  <input
+                    type="text"
+                    value={editAltText}
+                    onChange={(e) => setEditAltText(e.target.value)}
+                    placeholder="Description de l'image pour l'accessibilité"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Légende */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Légende (optionnel)
+                  </label>
+                  <textarea
+                    value={editCaption}
+                    onChange={(e) => setEditCaption(e.target.value)}
+                    placeholder="Légende ou description détaillée"
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Visibilité */}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="media-is-active"
+                    checked={editIsActive}
+                    onChange={(e) => setEditIsActive(e.target.checked)}
+                    className="w-4 h-4 text-orange-600 rounded"
+                  />
+                  <label htmlFor="media-is-active" className="text-sm font-medium text-gray-700 cursor-pointer">
+                    Afficher ce média sur le site
+                  </label>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
+                <button
+                  onClick={() => setEditingItem(null)}
+                  className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                  disabled={savingEdit}
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleUpdate}
+                  disabled={savingEdit}
+                  className="flex items-center gap-2 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {savingEdit ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      Enregistrement...
+                    </>
+                  ) : (
+                    <>
+                      <FaCheck className="w-5 h-5" />
+                      Enregistrer les modifications
                     </>
                   )}
                 </button>
