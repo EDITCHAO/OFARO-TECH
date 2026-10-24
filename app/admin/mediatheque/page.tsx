@@ -418,73 +418,73 @@ export default function MediaLibraryPage() {
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
               >
                 {/* Image */}
-                <div className="relative aspect-square bg-gray-100">
+                <div className="relative aspect-video bg-gray-50 flex items-center justify-center p-2">
                   <img
                     src={item.file_url}
                     alt={item.alt_text || item.original_name}
-                    className="w-full h-full object-cover"
+                    className="max-w-full max-h-full object-contain"
                   />
-                  <div className="absolute top-2 right-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">
+                  <div className="absolute top-2 right-2 bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded shadow-sm">
                     {CATEGORY_LABELS[item.category] || item.category}
                   </div>
                   {!item.is_active && (
-                    <div className="absolute top-2 left-2 bg-gray-700 text-white text-xs px-2 py-1 rounded">
+                    <div className="absolute top-2 left-2 bg-gray-700 text-white text-[10px] px-2 py-0.5 rounded shadow-sm">
                       Masqué
                     </div>
                   )}
                 </div>
 
                 {/* Info */}
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 truncate" title={item.original_name}>
+                <div className="p-3">
+                  <h3 className="font-semibold text-gray-900 text-sm truncate" title={item.original_name}>
                     {item.original_name}
                   </h3>
                   
-                  <div className="mt-2 space-y-1 text-xs text-gray-600">
-                    <p>📏 {item.width} × {item.height} px</p>
-                    <p>💾 {formatFileSize(item.file_size)}</p>
-                    <p>📅 {new Date(item.created_at).toLocaleDateString('fr-FR')}</p>
+                  <div className="mt-1 grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px] text-gray-500">
+                    <p className="truncate">📏 {item.width}×{item.height}px</p>
+                    <p className="truncate">💾 {formatFileSize(item.file_size)}</p>
+                    <p className="col-span-2 truncate">📅 {new Date(item.created_at).toLocaleDateString('fr-FR')}</p>
                   </div>
 
                   {/* Actions */}
-                  <div className="mt-4 flex gap-2">
+                  <div className="mt-3 flex gap-1.5">
                     <button
                       onClick={() => copyToClipboard(item.file_url)}
-                      className="flex-1 flex items-center justify-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm transition-colors"
+                      className="flex-1 flex items-center justify-center gap-1 bg-gray-50 hover:bg-gray-100 text-gray-600 px-2 py-1.5 rounded text-[11px] border border-gray-100 transition-colors"
                       title="Copier l'URL"
                     >
                       {copiedUrl === item.file_url ? (
                         <>
-                          <FaCheck className="w-4 h-4 text-green-600" />
-                          <span className="text-green-600">Copié !</span>
+                          <FaCheck className="w-3 h-3 text-green-600" />
+                          <span className="text-green-600 font-medium">Copié</span>
                         </>
                       ) : (
                         <>
-                          <FaCopy className="w-4 h-4" />
-                          Copier URL
+                          <FaCopy className="w-3 h-3" />
+                          <span>URL</span>
                         </>
                       )}
                     </button>
                     <button
                       onClick={() => openEditModal(item)}
-                      className="bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded transition-colors"
+                      className="bg-orange-50 hover:bg-orange-100 text-orange-600 p-1.5 rounded border border-orange-100 transition-colors"
                       title="Modifier"
                     >
-                      <FaPen className="w-4 h-4" />
+                      <FaPen className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => handleDownloadImage(item)}
-                      className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded transition-colors"
+                      className="bg-orange-600 hover:bg-orange-700 text-white p-1.5 rounded shadow-sm transition-colors"
                       title="Télécharger l'image"
                     >
-                      <FaDownload className="w-4 h-4" />
+                      <FaDownload className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => handleDelete(item)}
-                      className="bg-red-100 hover:bg-red-200 text-red-600 p-2 rounded transition-colors"
+                      className="bg-red-50 hover:bg-red-100 text-red-600 p-1.5 rounded border border-red-100 transition-colors"
                       title="Supprimer"
                     >
-                      <FaTrash className="w-4 h-4" />
+                      <FaTrash className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>

@@ -91,10 +91,7 @@ export default function WhyChooseUsSection() {
               Contactez-nous dès aujourd'hui pour discuter de vos besoins et découvrir comment nous pouvons vous aider à atteindre vos objectifs
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a href="/devis" className="btn-primary">
-                Demander un devis gratuit
-              </a>
-              <a href="/contact" className="btn-secondary">
+              <a href="/contact" className="btn-primary">
                 Nous contacter
               </a>
             </div>

@@ -352,6 +352,23 @@ export default function DocumentsLibraryPage() {
     }
   };
 
+  // Visualiser un document
+  // Les navigateurs affichent nativement les PDF, mais téléchargent les fichiers
+  // Word/Excel. Pour ces derniers, on passe par la visionneuse Office en ligne.
+  const handleView = (doc: DocumentItem) => {
+    const fileType = (doc.file_type || '').toLowerCase();
+    const fileName = (doc.original_name || '').toLowerCase();
+    const isPdf = fileType.includes('pdf') || fileName.endsWith('.pdf');
+
+    if (isPdf) {
+      window.open(doc.file_url, '_blank');
+      return;
+    }
+
+    const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(doc.file_url)}`;
+    window.open(viewerUrl, '_blank');
+  };
+
   // Format file size
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return bytes + ' B';
@@ -520,7 +537,7 @@ export default function DocumentsLibraryPage() {
                     <FaPen className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => window.open(doc.file_url, '_blank')}
+                    onClick={() => handleView(doc)}
                     className="bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded transition-colors"
                     title="Voir"
                   >

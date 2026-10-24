@@ -43,8 +43,8 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
-              <Link href="/devis" className="btn-primary group">
-                Demander un devis
+              <Link href="/contact" className="btn-primary group">
+                Nous contacter
                 <FaArrowRight className="inline-block ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link href="/services" className="btn-secondary group">
