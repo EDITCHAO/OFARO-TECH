@@ -1814,7 +1814,10 @@ export default function AdminDashboard() {
                                     method: 'DELETE'
                                   });
                                   
-                                  if (!response.ok) throw new Error('Erreur API');
+                                  if (!response.ok) {
+                                    const errorData = await response.json();
+                                    throw new Error(errorData.error || 'Erreur API');
+                                  }
                                   await refreshData();
                                   showToast(`Partenaire "${partner.name}" supprimé`);
                                 } catch (error) {
@@ -3632,7 +3635,10 @@ export default function AdminDashboard() {
                             })
                           });
                           
-                          if (!response.ok) throw new Error('Erreur API');
+                          if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.error || 'Erreur API');
+                          }
                           await refreshData();
                           showToast(`Partenaire "${selectedItem.name}" ajouté avec succès`);
                         } else {
@@ -3648,7 +3654,10 @@ export default function AdminDashboard() {
                             })
                           });
                           
-                          if (!response.ok) throw new Error('Erreur API');
+                          if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.error || 'Erreur API');
+                          }
                           await refreshData();
                           showToast(`Partenaire "${selectedItem.name}" mis à jour`);
                         }

@@ -4,15 +4,19 @@ import { createClient } from '@supabase/supabase-js';
 // PUT : Mettre à jour un partenaire
 export async function PUT(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    // Créer le client Supabase à l'intérieur de la fonction
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error('Configuration Supabase manquante dans PUT partner');
+      return NextResponse.json({ error: 'Configuration serveur incomplète' }, { status: 500 });
+    }
+    
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
-    const params = await context.params;
     const body = await request.json();
     const { name, logo_url, website, display_order, is_published } = body;
     const { id } = params;
@@ -45,15 +49,18 @@ export async function PUT(
 // DELETE : Supprimer un partenaire
 export async function DELETE(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    // Créer le client Supabase à l'intérieur de la fonction
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     
-    const params = await context.params;
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error('Configuration Supabase manquante dans DELETE partner');
+      return NextResponse.json({ error: 'Configuration serveur incomplète' }, { status: 500 });
+    }
+    
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { id } = params;
 
     // Récupérer d'abord le partenaire pour obtenir logo_url

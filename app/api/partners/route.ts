@@ -4,8 +4,14 @@ import { createClient } from '@supabase/supabase-js';
 // GET : Récupérer tous les partenaires
 export async function GET() {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error('Configuration Supabase manquante dans GET partners');
+      return NextResponse.json({ error: 'Configuration serveur incomplète' }, { status: 500 });
+    }
+    
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
     const { data, error } = await supabase
@@ -28,8 +34,14 @@ export async function GET() {
 // POST : Créer un nouveau partenaire
 export async function POST(request: NextRequest) {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error('Configuration Supabase manquante dans POST partner');
+      return NextResponse.json({ error: 'Configuration serveur incomplète' }, { status: 500 });
+    }
+    
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
     const body = await request.json();
