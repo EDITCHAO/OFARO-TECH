@@ -31,15 +31,23 @@ export async function PUT(
         is_published,
       })
       .eq('id', id)
-      .select()
-      .single();
+      .select();
 
     if (error) {
       console.error('Erreur Supabase PUT partner:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ partner: data });
+    // Aucune ligne modifiée : la politique RLS a bloqué l'écriture ou l'id est inconnu
+    if (!data || data.length === 0) {
+      console.error('PUT partner bloqué : aucune ligne modifiée (RLS ou id introuvable)', id);
+      return NextResponse.json(
+        { error: 'Modification refusée par la base de données (politique RLS). Vérifiez la configuration Supabase.' },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.json({ partner: data[0] });
   } catch (error: any) {
     console.error('Erreur serveur PUT partner:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -84,11 +92,24 @@ export async function DELETE(
     }
 
     // Supprimer l'enregistrement de la base de données
-    const { error } = await supabase.from('partners').delete().eq('id', id);
+    const { data: deleted, error } = await supabase
+      .from('partners')
+      .delete()
+      .eq('id', id)
+      .select();
 
     if (error) {
       console.error('Erreur Supabase DELETE partner:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    // Aucune ligne supprimée : la politique RLS a bloqué l'écriture
+    if (!deleted || deleted.length === 0) {
+      console.error('DELETE partner bloqué : aucune ligne supprimée (RLS)', id);
+      return NextResponse.json(
+        { error: 'Suppression refusée par la base de données (politique RLS). Vérifiez la configuration Supabase.' },
+        { status: 403 }
+      );
     }
 
     return NextResponse.json({ message: 'Partenaire supprimé avec succès' });

@@ -79,6 +79,8 @@ export default function AdminLayout({ children, activeMenu = 'dashboard', onMenu
         window.location.href = '/admin/documents';
       } else if (menuId === 'temoignages') {
         window.location.href = '/admin/temoignages';
+      } else if (menuId === 'services') {
+        window.location.href = '/admin/services';
       } else {
         // Pour les autres menus, rediriger vers /admin avec le menu en query param
         window.location.href = `/admin?menu=${menuId}`;

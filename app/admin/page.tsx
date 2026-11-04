@@ -449,6 +449,10 @@ export default function AdminDashboard() {
       window.location.href = '/admin/offres';
       return;
     }
+    if (menuId === 'services') {
+      window.location.href = '/admin/services';
+      return;
+    }
     if (menuId === 'mediatheque') {
       window.location.href = '/admin/mediatheque';
       return;
