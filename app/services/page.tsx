@@ -13,6 +13,11 @@ import {
   FaTools,
   FaServer,
   FaChartLine,
+  FaGlobe,
+  FaBullhorn,
+  FaDatabase,
+  FaCloud,
+  FaBolt,
   FaArrowRight
 } from "react-icons/fa";
 
@@ -21,6 +26,7 @@ export const metadata = {
   description: "Découvrez notre gamme complète de services IT : développement web et mobile, cybersécurité, réseaux, maintenance et conseil.",
 };
 
+// Map icône string → composant JSX
 const iconMap: { [key: string]: JSX.Element } = {
   FaLaptopCode: <FaLaptopCode />,
   FaCode: <FaCode />,
@@ -32,9 +38,14 @@ const iconMap: { [key: string]: JSX.Element } = {
   FaTools: <FaTools />,
   FaServer: <FaServer />,
   FaChartLine: <FaChartLine />,
+  FaGlobe: <FaGlobe />,
+  FaBullhorn: <FaBullhorn />,
+  FaDatabase: <FaDatabase />,
+  FaCloud: <FaCloud />,
+  FaBolt: <FaBolt />,
 };
 
-// Mapping des images de fond pour chaque service (SVG pour performance)
+// Images de fond par slug (statiques, conservées même pour les services dynamiques)
 const serviceImages: { [key: string]: string } = {
   "conception-systemes-informatiques": "/images/nos services/Conception de systèmes informatiques.svg",
   "developpement-web": "/images/nos services/Développement Web.svg",
@@ -48,7 +59,68 @@ const serviceImages: { [key: string]: string } = {
   "conseil-it": "/images/nos services/conseil it.svg",
 };
 
-export default function ServicesPage() {
+// Format commun utilisé pour le rendu (depuis la DB ou les constantes)
+type ServiceView = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  icon: string;
+  features: string[];
+  image: string;
+};
+
+// Récupérer les services depuis l'API côté serveur (avec cache)
+// Fallback vers les données statiques (SERVICES) si la DB est vide ou indisponible.
+async function getServicesFromDB() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const res = await fetch(`${baseUrl}/api/services`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      console.error('Réponse API services non OK:', res.status);
+      return null;
+    }
+
+    const json = await res.json();
+    if (Array.isArray(json.services) && json.services.length > 0) {
+      return json.services;
+    }
+    // DB vide : on renvoie null pour déclencher le fallback statique
+    return null;
+  } catch (err) {
+    console.error('Services indisponibles via API:', err);
+    return null;
+  }
+}
+
+export default async function ServicesPage() {
+  // Essayer de charger depuis Supabase, fallback sur les constantes
+  const dbServices = await getServicesFromDB();
+
+  // Normaliser le format : Supabase ou constantes → structure commune
+  const servicesList: ServiceView[] = dbServices
+    ? dbServices.map((s: any): ServiceView => ({
+        id: String(s.id),
+        title: s.title,
+        slug: s.slug,
+        description: s.description,
+        icon: s.icon || 'FaCode',
+        features: Array.isArray(s.features) ? s.features : [],
+        image: s.image_url || serviceImages[s.slug] || '',
+      }))
+    : SERVICES.map((s): ServiceView => ({
+        id: s.id,
+        title: s.title,
+        slug: s.slug,
+        description: s.description,
+        icon: s.icon,
+        features: s.features,
+        image: serviceImages[s.slug] || '',
+      }));
+
   return (
     <>
       <Header />
@@ -74,34 +146,33 @@ export default function ServicesPage() {
         <section className="section-padding bg-white">
           <div className="container-custom">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {SERVICES.map((service) => (
+              {servicesList.map((service) => (
                 <Link
                   key={service.id}
                   href={`/services/${service.slug}`}
                   className="group"
                 >
                   <div className="relative bg-background-secondary rounded-xl h-full overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                    {/* Image de fond avec lazy loading */}
+                    {/* Image de fond */}
                     <div className="absolute inset-0">
                       <img 
-                        src={serviceImages[service.slug] || "/images/nos services/Développement Web.jpg"} 
+                        src={service.image || serviceImages[service.slug] || "/images/nos services/Développement Web.svg"} 
                         alt={service.title}
                         loading="lazy"
                         className="w-full h-full object-cover"
-                        style={{ contentVisibility: 'auto' }}
                       />
-                      {/* Overlay sombre pour la lisibilité */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
+                      {/* Overlay sombre */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80" />
                     </div>
 
-                    {/* Contenu par-dessus l'image */}
+                    {/* Contenu */}
                     <div className="relative z-10 p-8">
-                      {/* Icon */}
+                      {/* Icône */}
                       <div className="w-20 h-20 bg-primary/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-white text-4xl mb-6 group-hover:bg-primary group-hover:scale-110 transition-all">
                         {iconMap[service.icon] || <FaCode />}
                       </div>
 
-                      {/* Title */}
+                      {/* Titre */}
                       <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary-light transition-colors">
                         {service.title}
                       </h3>
@@ -112,16 +183,18 @@ export default function ServicesPage() {
                       </p>
 
                       {/* Features */}
-                      <ul className="space-y-2 mb-6">
-                        {service.features.slice(0, 4).map((feature, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm text-white/80">
-                            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
+                      {service.features.length > 0 && (
+                        <ul className="space-y-2 mb-6">
+                          {service.features.slice(0, 4).map((feature: string, index: number) => (
+                            <li key={index} className="flex items-center gap-2 text-sm text-white/80">
+                              <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
 
-                      {/* Link */}
+                      {/* Lien */}
                       <div className="flex items-center gap-2 text-primary-light font-semibold group-hover:gap-3 transition-all">
                         En savoir plus
                         <FaArrowRight className="text-sm" />
@@ -134,7 +207,7 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Why Choose Us */}
+        {/* Pourquoi nous choisir */}
         <section className="section-padding bg-background-secondary">
           <div className="container-custom">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -144,10 +217,10 @@ export default function ServicesPage() {
                 </h2>
                 <div className="space-y-4 text-body">
                   <p>
-                    Avec plus de <strong>5 ans d'expérience</strong> et <strong>500+ projets réalisés</strong>, OFARO TECH est votre partenaire de confiance pour tous vos besoins en technologies de l'information.
+                    Avec plus de <strong>5 ans d&apos;expérience</strong> et <strong>500+ projets réalisés</strong>, OFARO TECH est votre partenaire de confiance pour tous vos besoins en technologies de l&apos;information.
                   </p>
                   <p>
-                    Notre équipe d'experts certifiés utilise les dernières technologies et les meilleures pratiques pour vous garantir des solutions performantes, sécurisées et évolutives.
+                    Notre équipe d&apos;experts certifiés utilise les dernières technologies et les meilleures pratiques pour vous garantir des solutions performantes, sécurisées et évolutives.
                   </p>
                   <p>
                     Nous nous engageons à respecter les délais, à rester dans le budget convenu et à assurer un support technique réactif après la livraison.
@@ -189,7 +262,7 @@ export default function ServicesPage() {
               Prêt à démarrer votre projet ?
             </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-              Contactez-nous dès aujourd'hui pour obtenir un devis personnalisé et gratuit
+              Contactez-nous dès aujourd&apos;hui pour obtenir un devis personnalisé et gratuit
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/devis" className="bg-white text-primary font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors">
