@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   FaLaptopCode, 
   FaCode, 
@@ -30,7 +30,7 @@ const iconMap: { [key: string]: JSX.Element } = {
   FaChartLine: <FaChartLine />,
 };
 
-// Mapping des images de fond pour chaque service (SVG pour performance)
+// Images locales de fallback (utilisées quand la BDD n'a pas d'image_url)
 const serviceImages: { [key: string]: string } = {
   "conception-systemes-informatiques": "/images/nos services/Conception de systèmes informatiques.svg",
   "developpement-web": "/images/nos services/Développement Web.svg",
@@ -44,8 +44,55 @@ const serviceImages: { [key: string]: string } = {
   "conseil-it": "/images/nos services/conseil it.svg",
 };
 
+type ServiceItem = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  icon: string;
+  features: string[];
+  image: string;
+};
+
+function normalizeServices(data: any[]): ServiceItem[] {
+  return data.map((s) => ({
+    id: String(s.id),
+    title: s.title,
+    slug: s.slug,
+    description: s.description || '',
+    icon: s.icon || 'FaCode',
+    features: Array.isArray(s.features) ? s.features : [],
+    // Priorité : image_url depuis la BDD, sinon image locale par slug
+    image: s.image_url || serviceImages[s.slug] || '/images/nos services/Développement Web.svg',
+  }));
+}
+
 export default function ServicesSection() {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [services, setServices] = useState<ServiceItem[]>(() =>
+    // Affichage immédiat avec les données statiques (pas de flash vide)
+    SERVICES.map((s) => ({
+      id: s.id,
+      title: s.title,
+      slug: s.slug,
+      description: s.description,
+      icon: s.icon,
+      features: s.features,
+      image: serviceImages[s.slug] || '/images/nos services/Développement Web.svg',
+    }))
+  );
+
+  // Charger les services depuis l'API (images dynamiques depuis la BDD)
+  useEffect(() => {
+    fetch('/api/services')
+      .then((res) => res.ok ? res.json() : null)
+      .then((json) => {
+        if (json?.services?.length > 0) {
+          setServices(normalizeServices(json.services));
+        }
+      })
+      .catch(() => {/* garde le fallback statique silencieusement */});
+  }, []);
 
   return (
     <section className="section-padding bg-background-secondary">
@@ -65,7 +112,7 @@ export default function ServicesSection() {
 
         {/* Services Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {SERVICES.map((service) => (
+          {services.map((service) => (
             <Link
               key={service.id}
               href={`/services/${service.slug}`}
@@ -77,7 +124,7 @@ export default function ServicesSection() {
                 {/* Image de fond avec lazy loading */}
                 <div className="absolute inset-0">
                   <img 
-                    src={serviceImages[service.slug] || "/images/nos services/Développement Web.jpg"} 
+                    src={service.image} 
                     alt={service.title}
                     loading="lazy"
                     className="w-full h-full object-cover"

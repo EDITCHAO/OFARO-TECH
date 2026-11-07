@@ -66,27 +66,49 @@ export default function TestimonialsPage() {
     testimonial_text: '',
     rating: 5,
     is_featured: false,
-    is_active: true
+    is_active: true,
+    display_order: 1,
   });
 
   // Load testimonials
   const loadTestimonials = async () => {
     try {
       setLoading(true);
-      console.log('🔍 Chargement des témoignages...');
       
       const { data, error } = await supabase
         .from('testimonials')
         .select('*')
         .order('display_order', { ascending: true });
-
-      console.log('📊 Résultat:', { data, error });
       
       if (error) throw error;
       
-      console.log(`✅ ${data?.length || 0} témoignage(s) chargé(s)`);
-      setTestimonials(data || []);
-      setFilteredTestimonials(data || []);
+      const loaded = data || [];
+
+      // Corriger les doublons de display_order silencieusement
+      const seen = new Set<number>();
+      let needsFix = false;
+      const fixed = loaded.map((t, i) => {
+        if (seen.has(t.display_order) || !t.display_order) {
+          needsFix = true;
+          return { ...t, display_order: i + 1 };
+        }
+        seen.add(t.display_order);
+        return t;
+      });
+
+      if (needsFix) {
+        // Remettre des positions propres 1..N en BDD
+        await Promise.all(
+          fixed.map(t =>
+            supabase.from('testimonials').update({ display_order: t.display_order }).eq('id', t.id)
+          )
+        );
+        setTestimonials(fixed);
+        setFilteredTestimonials(fixed);
+      } else {
+        setTestimonials(loaded);
+        setFilteredTestimonials(loaded);
+      }
     } catch (error) {
       console.error('❌ Erreur chargement témoignages:', error);
       alert('Erreur lors du chargement des témoignages. Vérifiez la console.');
@@ -127,7 +149,8 @@ export default function TestimonialsPage() {
         testimonial_text: testimonial.testimonial_text,
         rating: testimonial.rating,
         is_featured: testimonial.is_featured,
-        is_active: testimonial.is_active
+        is_active: testimonial.is_active,
+        display_order: testimonial.display_order || 1,
       });
       setUploadPreview(testimonial.client_photo_url);
     } else {
@@ -140,7 +163,8 @@ export default function TestimonialsPage() {
         testimonial_text: '',
         rating: 5,
         is_featured: false,
-        is_active: true
+        is_active: true,
+        display_order: testimonials.length + 1,
       });
       setUploadPreview(null);
     }
@@ -162,7 +186,8 @@ export default function TestimonialsPage() {
       testimonial_text: '',
       rating: 5,
       is_featured: false,
-      is_active: true
+      is_active: true,
+      display_order: 1,
     });
   };
 
@@ -375,6 +400,36 @@ export default function TestimonialsPage() {
     }
   };
 
+  // Changer la position d'affichage (display_order) avec réassignation propre
+  const handlePositionChange = async (id: number, newOrder: number) => {
+    // Reconstruire la liste ordonnée localement
+    const sorted = [...testimonials].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+    
+    // Retirer le témoignage déplacé de sa position actuelle
+    const withoutMoved = sorted.filter(t => t.id !== id);
+    
+    // L'insérer à la nouvelle position (newOrder est 1-based)
+    withoutMoved.splice(newOrder - 1, 0, testimonials.find(t => t.id === id)!);
+    
+    // Réassigner les positions 1, 2, 3... sans trou ni doublon
+    const updates = withoutMoved.map((t, i) => ({
+      id: t.id,
+      display_order: i + 1,
+    }));
+
+    try {
+      await Promise.all(
+        updates.map(({ id, display_order }) =>
+          supabase.from('testimonials').update({ display_order }).eq('id', id)
+        )
+      );
+      loadTestimonials();
+    } catch (error) {
+      console.error('Erreur changement position:', error);
+      alert('Erreur lors du changement de position');
+    }
+  };
+
   // Render stars
   const renderStars = (rating: number) => {
     return (
@@ -488,10 +543,8 @@ export default function TestimonialsPage() {
               <div
                 key={testimonial.id}
                 className={`bg-white rounded-lg shadow-md border-2 p-6 transition-all hover:shadow-lg ${
-                  testimonial.is_featured 
-                    ? 'border-orange-400 bg-orange-50' 
-                    : testimonial.is_active
-                    ? 'border-gray-200'
+                  testimonial.is_active
+                    ? 'border-orange-100'
                     : 'border-gray-200 opacity-60'
                 }`}
               >
@@ -517,11 +570,10 @@ export default function TestimonialsPage() {
                       <p className="text-sm text-orange-600 font-medium truncate">{testimonial.client_company}</p>
                     </div>
                   </div>
-                  {testimonial.is_featured && (
-                    <span className="bg-orange-600 text-white text-xs px-2 py-1 rounded-full flex-shrink-0">
-                      ⭐ En avant
-                    </span>
-                  )}
+                  {/* Badge position */}
+                  <span className="bg-orange-600 text-white text-xs px-2 py-1 rounded-full flex-shrink-0 font-bold">
+                    #{testimonial.display_order || '—'}
+                  </span>
                 </div>
 
                 {/* Rating */}
@@ -535,19 +587,20 @@ export default function TestimonialsPage() {
                 </p>
 
                 {/* Actions */}
-                <div className="flex gap-2 flex-wrap">
-                  <button
-                    onClick={() => toggleFeatured(testimonial.id, testimonial.is_featured)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded text-sm transition-colors ${
-                      testimonial.is_featured
-                        ? 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                    title={testimonial.is_featured ? 'Retirer de la mise en avant' : 'Mettre en avant'}
-                  >
-                    <FaStar className="w-4 h-4" />
-                    {testimonial.is_featured ? 'En avant' : 'Promouvoir'}
-                  </button>
+                <div className="flex gap-2 flex-wrap items-center">
+                  {/* Sélecteur de position */}
+                  <div className="flex-1 flex items-center gap-1.5 bg-orange-50 border border-orange-200 rounded px-2 py-1.5">
+                    <span className="text-xs text-orange-700 font-medium whitespace-nowrap">Position</span>
+                    <select
+                      value={testimonial.display_order || 0}
+                      onChange={(e) => handlePositionChange(testimonial.id, Number(e.target.value))}
+                      className="flex-1 bg-transparent text-orange-800 font-bold text-sm focus:outline-none cursor-pointer min-w-0"
+                    >
+                      {Array.from({ length: testimonials.length }, (_, i) => i + 1).map((n) => (
+                        <option key={n} value={n}>{n}</option>
+                      ))}
+                    </select>
+                  </div>
                   <button
                     onClick={() => toggleActive(testimonial.id, testimonial.is_active)}
                     className={`p-2 rounded transition-colors ${
@@ -723,19 +776,25 @@ export default function TestimonialsPage() {
                   </div>
                 </div>
 
-                {/* Checkboxes */}
-                <div className="flex gap-6">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.is_featured}
-                      onChange={(e) => setFormData({...formData, is_featured: e.target.checked})}
-                      className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
-                    />
-                    <span className="text-sm text-gray-700">Mettre en avant sur la page d'accueil</span>
-                  </label>
+                {/* Position + Actif */}
+                <div className="flex gap-6 items-end">
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Position d'affichage
+                    </label>
+                    <select
+                      value={(formData as any).display_order ?? 1}
+                      onChange={(e) => setFormData({...formData, display_order: Number(e.target.value)} as any)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    >
+                      {Array.from({ length: Math.max(testimonials.length, 1) + (editingId ? 0 : 1) }, (_, i) => i + 1).map((n) => (
+                        <option key={n} value={n}>{n}</option>
+                      ))}
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">1 = affiché en premier</p>
+                  </div>
 
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className="flex items-center gap-2 cursor-pointer pb-2">
                     <input
                       type="checkbox"
                       checked={formData.is_active}
