@@ -228,11 +228,11 @@ export default function AdminServicesPage() {
     }
 
     setUploadFile(file);
+    // Aperçu local uniquement — on NE stocke PAS le base64 dans formData.image_url
+    // L'URL Supabase réelle sera obtenue lors du submit via /api/services/upload
     const reader = new FileReader();
     reader.onloadend = () => {
-      const base64 = reader.result as string;
-      setImagePreview(base64);
-      setFormData(f => ({ ...f, image_url: base64 }));
+      setImagePreview(reader.result as string);
     };
     reader.readAsDataURL(file);
   };
@@ -240,6 +240,7 @@ export default function AdminServicesPage() {
   const clearImage = () => {
     setUploadFile(null);
     setImagePreview('');
+    // On efface aussi l'URL existante dans le formulaire
     setFormData(f => ({ ...f, image_url: '' }));
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
@@ -271,9 +272,12 @@ export default function AdminServicesPage() {
 
     setSaving(true);
     try {
-      let finalImageUrl = formData.image_url;
+      // L'image_url de départ : celle déjà en base (ne jamais envoyer de base64)
+      let finalImageUrl: string | null = formData.image_url.startsWith('data:')
+        ? null
+        : formData.image_url || null;
 
-      // Si un nouveau fichier a été sélectionné, on l'upload vers Supabase
+      // Si un nouveau fichier a été sélectionné, on l'upload vers Supabase d'abord
       if (uploadFile) {
         setUploadingImage(true);
         const uploadFormData = new FormData();
@@ -284,23 +288,29 @@ export default function AdminServicesPage() {
           body: uploadFormData,
         });
 
+        const uploadData = await uploadResponse.json();
+
         if (!uploadResponse.ok) {
-          const errData = await uploadResponse.json();
-          throw new Error(errData.error || "Erreur lors de l'upload de l'image");
+          throw new Error(uploadData.error || "Erreur lors de l'upload de l'image");
         }
 
-        const uploadData = await uploadResponse.json();
         finalImageUrl = uploadData.image_url;
         setUploadingImage(false);
       }
 
       const payload = {
-        ...formData,
-        image_url: finalImageUrl || null,
-        short_description: formData.short_description || null,
-        category: formData.category || null,
-        color_accent: formData.color_accent || null,
+        title: formData.title,
         slug: formData.slug || slugify(formData.title),
+        description: formData.description,
+        short_description: formData.short_description || null,
+        icon: formData.icon,
+        image_url: finalImageUrl,
+        features: formData.features,
+        category: formData.category || null,
+        display_order: formData.display_order,
+        is_published: formData.is_published,
+        is_featured: formData.is_featured,
+        color_accent: formData.color_accent || null,
       };
 
       let res: Response;
