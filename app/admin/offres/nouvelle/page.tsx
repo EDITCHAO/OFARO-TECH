@@ -94,44 +94,12 @@ export default function NouvelleOffrePage() {
   };
 
   const uploadImage = async (file: File): Promise<string> => {
-    try {
-      // Import du client Supabase
-      const { supabase } = await import('@/lib/supabase');
-      
-      // Générer un nom de fichier unique
-      const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-      const filePath = `offers/${fileName}`;
-
-      console.log('📤 Upload image vers Supabase...', filePath);
-
-      // Upload vers Supabase Storage
-      const { data, error } = await supabase.storage
-        .from('job-offers')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (error) {
-        console.error('❌ Erreur upload Supabase:', error);
-        throw error;
-      }
-
-      // Récupérer l'URL publique
-      const { data: { publicUrl } } = supabase.storage
-        .from('job-offers')
-        .getPublicUrl(filePath);
-
-      console.log('✅ Image uploadée:', publicUrl);
-      return publicUrl;
-    } catch (error) {
-      console.error('Erreur upload image:', error);
-      // Fallback sur un chemin fictif si l'upload échoue
-      const timestamp = Date.now();
-      const filename = `job-${timestamp}-${file.name.replace(/[^a-zA-Z0-9.]/g, '-')}`;
-      return `/images/offers/${filename}`;
-    }
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch('/api/jobs/upload', { method: 'POST', body: fd });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || "Erreur upload image");
+    return json.image_url;
   };
 
   const generateReference = () => {
@@ -158,14 +126,8 @@ export default function NouvelleOffrePage() {
         imageUrl = await uploadImage(imageFile);
       }
 
-      // Générer une référence si vide
       const reference = formData.reference || generateReference();
-
-      // Normaliser le statut - TRÈS IMPORTANT !
       const normalizedStatus = formData.status === 'publiee' ? 'publiee' : formData.status;
-
-      // Utiliser le client Supabase singleton
-      const { supabase } = await import('@/lib/supabase');
 
       const offerData = {
         title: formData.title,
@@ -191,25 +153,16 @@ export default function NouvelleOffrePage() {
         published_at: normalizedStatus === 'publiee' ? new Date().toISOString() : null
       };
 
-      console.log('📤 Création offre avec statut:', normalizedStatus);
-
-      const { data, error } = await supabase
-        .from('job_offers')
-        .insert([offerData])
-        .select();
-
-      if (error) {
-        console.error('❌ Erreur Supabase:', error);
-        throw error;
-      }
-
-      console.log('✅ Offre créée:', data);
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(offerData),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
 
       showToast('Offre créée avec succès', 'success');
-      
-      setTimeout(() => {
-        router.push('/admin/offres');
-      }, 1500);
+      setTimeout(() => router.push('/admin/offres'), 1500);
     } catch (error) {
       console.error('Erreur création:', error);
       showToast('Erreur lors de la création de l\'offre', 'error');

@@ -46,16 +46,11 @@ export default function ModifierOffrePage() {
   const fetchOffer = async () => {
     try {
       setLoadingData(true);
-      const { supabase } = await import('@/lib/supabase');
+      const res = await fetch(`/api/jobs/${id}`);
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
 
-      const { data, error } = await supabase
-        .from('job_offers')
-        .select('*')
-        .eq('id', id)
-        .single();
-
-      if (error) throw error;
-
+      const data = json.offer;
       if (data) {
         setFormData({
           title: data.title || '',
@@ -77,10 +72,7 @@ export default function ModifierOffrePage() {
           application_deadline: data.application_deadline || '',
           status: data.status || 'brouillon'
         });
-
-        if (data.image_url) {
-          setImagePreview(data.image_url);
-        }
+        if (data.image_url) setImagePreview(data.image_url);
       }
     } catch (error) {
       console.error('Erreur chargement:', error);
@@ -151,44 +143,12 @@ export default function ModifierOffrePage() {
   };
 
   const uploadImage = async (file: File): Promise<string> => {
-    try {
-      // Import du client Supabase
-      const { supabase } = await import('@/lib/supabase');
-      
-      // Générer un nom de fichier unique
-      const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-      const filePath = `offers/${fileName}`;
-
-      console.log('📤 Upload image vers Supabase...', filePath);
-
-      // Upload vers Supabase Storage
-      const { data, error } = await supabase.storage
-        .from('job-offers')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (error) {
-        console.error('❌ Erreur upload Supabase:', error);
-        throw error;
-      }
-
-      // Récupérer l'URL publique
-      const { data: { publicUrl } } = supabase.storage
-        .from('job-offers')
-        .getPublicUrl(filePath);
-
-      console.log('✅ Image uploadée:', publicUrl);
-      return publicUrl;
-    } catch (error) {
-      console.error('Erreur upload image:', error);
-      // Fallback sur un chemin fictif si l'upload échoue
-      const timestamp = Date.now();
-      const filename = `job-${timestamp}-${file.name.replace(/[^a-zA-Z0-9.]/g, '-')}`;
-      return `/images/offers/${filename}`;
-    }
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch('/api/jobs/upload', { method: 'POST', body: fd });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || "Erreur upload image");
+    return json.image_url;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -209,25 +169,20 @@ export default function ModifierOffrePage() {
         imageUrl = await uploadImage(imageFile);
       }
 
-      const { supabase } = await import('@/lib/supabase');
-
-      const { error } = await supabase
-        .from('job_offers')
-        .update({
+      const res = await fetch(`/api/jobs/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           ...formData,
           image_url: imageUrl || null,
-          updated_at: new Date().toISOString(),
-          published_at: formData.status === 'publiee' ? new Date().toISOString() : null
-        })
-        .eq('id', id);
-
-      if (error) throw error;
+          published_at: formData.status === 'publiee' ? new Date().toISOString() : null,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
 
       showToast('Offre mise à jour avec succès', 'success');
-      
-      setTimeout(() => {
-        router.push('/admin/offres');
-      }, 1500);
+      setTimeout(() => router.push('/admin/offres'), 1500);
     } catch (error) {
       console.error('Erreur mise à jour:', error);
       showToast('Erreur lors de la mise à jour de l\'offre', 'error');

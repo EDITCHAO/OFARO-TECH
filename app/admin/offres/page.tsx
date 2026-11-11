@@ -42,18 +42,10 @@ export default function AdminOffresPage() {
   const fetchOffers = async () => {
     try {
       setLoading(true);
-      
-      // Créer le client Supabase
-      const { supabase } = await import('@/lib/supabase');
-
-      const { data, error } = await supabase
-        .from('job_offers')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      setOffers(data || []);
+      const res = await fetch('/api/jobs?admin=true');
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      setOffers(json.offers || []);
     } catch (error) {
       console.error('Erreur chargement offres:', error);
       showToast('Erreur lors du chargement des offres', 'error');
@@ -69,20 +61,12 @@ export default function AdminOffresPage() {
   };
 
   const handleDelete = async (id: number, title: string) => {
-    if (!confirm(`Voulez-vous vraiment supprimer l'offre "${title}" ?`)) {
-      return;
-    }
+    if (!confirm(`Voulez-vous vraiment supprimer l'offre "${title}" ?`)) return;
 
     try {
-      const { supabase } = await import('@/lib/supabase');
-
-      const { error } = await supabase
-        .from('job_offers')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-
+      const res = await fetch(`/api/jobs/${id}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
       showToast('Offre supprimée avec succès', 'success');
       fetchOffers();
     } catch (error) {
@@ -93,18 +77,13 @@ export default function AdminOffresPage() {
 
   const handleUpdateStatus = async (id: number, newStatus: string) => {
     try {
-      const { supabase } = await import('@/lib/supabase');
-
-      const { error } = await supabase
-        .from('job_offers')
-        .update({ 
-          status: newStatus,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', id);
-
-      if (error) throw error;
-
+      const res = await fetch(`/api/jobs/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
       showToast('Statut mis à jour', 'success');
       fetchOffers();
     } catch (error) {
