@@ -31,9 +31,21 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const supabase = getSupabase();
     const body = await request.json();
 
+    // Champs autorisés — NE PAS inclure updated_at (géré par trigger Supabase)
+    const allowed = [
+      'title', 'reference', 'department', 'contract_type', 'location', 'work_mode',
+      'image_url', 'image_alt', 'description', 'missions', 'responsibilities',
+      'required_skills', 'profile', 'education_level', 'experience_level',
+      'publication_date', 'application_deadline', 'status', 'published_at',
+    ];
+    const payload: Record<string, any> = {};
+    for (const key of allowed) {
+      if (key in body) payload[key] = body[key];
+    }
+
     const { data, error } = await supabase
       .from('job_offers')
-      .update({ ...body, updated_at: new Date().toISOString() })
+      .update(payload)
       .eq('id', params.id)
       .select()
       .single();
