@@ -38,25 +38,12 @@ export default function OffresPage() {
     const fetchJobs = async () => {
       try {
         setLoading(true);
-        
-        // Utiliser Supabase directement
-        const { supabase } = await import('@/lib/supabase');
-        
-        const { data, error: supabaseError } = await supabase
-          .from('job_offers')
-          .select('*')
-          .in('status', ['publiee', 'suspendue', 'expiree']) // Charger publiee, suspendue et expiree (pas brouillon)
-          .order('publication_date', { ascending: false });
 
-        if (supabaseError) {
-          console.error('❌ Erreur Supabase:', supabaseError);
-          throw supabaseError;
-        }
+        const res = await fetch('/api/jobs');
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error);
 
-        console.log('✅ Offres chargées depuis Supabase:', data);
-
-        // Mapper les données
-        const mappedJobs = (data || []).map((job: any) => ({
+        const mappedJobs = (json.offers || []).map((job: any) => ({
           id: job.id,
           reference: job.reference,
           title: job.title,
@@ -70,7 +57,7 @@ export default function OffresPage() {
           publication_date: job.publication_date,
           application_deadline: job.application_deadline,
           experience_level: job.experience_level,
-          status: job.status // Inclure le statut
+          status: job.status
         }));
 
         setJobOffers(mappedJobs);
