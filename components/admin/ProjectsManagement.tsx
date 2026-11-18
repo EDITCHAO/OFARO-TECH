@@ -37,6 +37,7 @@ export default function ProjectsManagement() {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -244,6 +245,11 @@ export default function ProjectsManagement() {
   const handleToggleStatus = async (project: Project) => {
     const newStatus = project.status === 'active' ? 'draft' : 'active';
 
+    // Mise à jour optimiste immédiate dans l'UI
+    setProjects(prev =>
+      prev.map(p => p.id === project.id ? { ...p, status: newStatus } : p)
+    );
+
     try {
       const response = await fetch(`/api/projects/${project.id}`, {
         method: 'PUT',
@@ -254,19 +260,30 @@ export default function ProjectsManagement() {
       const result = await response.json();
 
       if (result.success) {
-        showToast(`Projet ${newStatus === 'active' ? 'publié' : 'mis en brouillon'}`, 'success');
-        // Recharger la liste sans quitter la page
-        await fetchProjects();
+        showToast(
+          newStatus === 'active' ? 'Projet publié ✓' : 'Projet masqué ✓',
+          'success'
+        );
+      } else {
+        // Rollback si erreur
+        setProjects(prev =>
+          prev.map(p => p.id === project.id ? { ...p, status: project.status } : p)
+        );
+        showToast(result.error || 'Erreur lors du changement de statut', 'error');
       }
     } catch (error) {
+      // Rollback si erreur réseau
+      setProjects(prev =>
+        prev.map(p => p.id === project.id ? { ...p, status: project.status } : p)
+      );
       console.error('Erreur changement statut:', error);
-      showToast('Erreur lors du changement de statut', 'error');
+      showToast('Erreur réseau', 'error');
     }
   };
 
   const showToast = (message: string, type: 'success' | 'error') => {
-    // Implémenter votre système de toast ici
-    alert(message);
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
   };
 
   const getCategoryIcon = (category: string) => {
@@ -284,6 +301,15 @@ export default function ProjectsManagement() {
 
   return (
     <div className="p-6">
+      {/* Toast */}
+      {toast && (
+        <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg text-white flex items-center gap-3 transition-all ${
+          toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+        }`}>
+          {toast.type === 'success' ? '✓' : '✕'} {toast.message}
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
