@@ -12,7 +12,7 @@ import {
   FaNetworkWired, FaTools, FaServer, FaChartLine, FaBuilding, FaGraduationCap,
   FaHospital, FaShoppingCart, FaGlobe, FaCheckCircle, FaClock, FaExclamationTriangle,
   FaInfoCircle, FaImage, FaUpload, FaCloudUploadAlt, FaCamera, FaArchive, FaBriefcase,
-  FaBars, FaHandshake
+  FaBars, FaHandshake, FaMapMarkerAlt
 } from "react-icons/fa";
 
 import {
@@ -25,6 +25,7 @@ import {
 import { sortData, confirmDelete, getStatusColor } from "@/lib/admin-utils";
 import SortButton from "@/components/admin/SortButton";
 import ProjectsManagement from "@/components/admin/ProjectsManagement";
+import ReglagesSection from "@/components/admin/ReglagesSection";
 
 export default function AdminDashboard() {
   const [activeMenu, setActiveMenu] = useState<string>("dashboard");
@@ -1347,6 +1348,21 @@ export default function AdminDashboard() {
                   </div>
                   {!canAccess("offres") && <FaLock className="text-[10px] text-gray-300" />}
                 </button>
+
+                {/* Réglages */}
+                <button
+                  onClick={() => canAccess("reglages") && handleMenuClick("reglages")}
+                  disabled={!canAccess("reglages")}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-all ${
+                    activeMenu === "reglages" ? c.activeNav : canAccess("reglages") ? c.inactiveNav : "text-gray-300 cursor-not-allowed"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={`text-base ${activeMenu === "reglages" ? "text-white" : "text-gray-500"}`}><FaMapMarkerAlt /></span>
+                    <span>Réglages</span>
+                  </div>
+                  {!canAccess("reglages") && <FaLock className="text-[10px] text-gray-300" />}
+                </button>
               </div>
             </div>
 
@@ -2586,6 +2602,11 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
+          )}
+
+          {/* ===== RÉGLAGES ===== */}
+          {activeMenu === "reglages" && (
+            <ReglagesSection />
           )}
 
           {/* ===== ARCHIVES ===== */}
