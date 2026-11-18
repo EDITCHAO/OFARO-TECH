@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-// GET - Récupérer tous les projets (public)
+// GET - Récupérer tous les projets (public) ou tous statuts (admin)
 export async function GET(request: NextRequest) {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const admin = new URL(request.url).searchParams.get('admin') === 'true';
+    const supabaseKey = admin
+      ? (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+      : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       return NextResponse.json(
@@ -16,12 +19,17 @@ export async function GET(request: NextRequest) {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Récupérer seulement les projets actifs, triés par display_order
-    const { data, error } = await supabase
+    let query = supabase
       .from('projects')
       .select('*')
-      .eq('status', 'active')
       .order('display_order', { ascending: true });
+
+    // Public : seulement les actifs — Admin : tous les projets
+    if (!admin) {
+      query = query.eq('status', 'active');
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       console.error('Erreur récupération projets:', error);

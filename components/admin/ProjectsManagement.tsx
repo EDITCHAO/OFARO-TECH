@@ -60,7 +60,7 @@ export default function ProjectsManagement() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('/api/projects');
+      const response = await fetch('/api/projects?admin=true');
       const result = await response.json();
       
       if (result.success) {
