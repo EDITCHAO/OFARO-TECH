@@ -12,19 +12,26 @@ function getSupabase(admin = false) {
 // GET — lire tous les paramètres
 export async function GET() {
   try {
-    const supabase = getSupabase();
-    const { data, error } = await supabase
-      .from('site_settings')
-      .select('key, value')
-      .order('key');
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-    if (error) throw error;
+    const res = await fetch(
+      `${url}/rest/v1/site_settings?select=key,value&order=key`,
+      {
+        headers: {
+          'apikey': key,
+          'Authorization': `Bearer ${key}`,
+        },
+        cache: 'no-store',
+      }
+    );
 
-    // Convertir en objet clé/valeur
+    if (!res.ok) throw new Error(await res.text());
+
+    const data: { key: string; value: string }[] = await res.json();
+
     const settings: Record<string, string> = {};
-    (data || []).forEach((row: { key: string; value: string }) => {
-      settings[row.key] = row.value || '';
-    });
+    data.forEach(row => { settings[row.key] = row.value || ''; });
 
     return NextResponse.json({ settings });
   } catch (err: any) {
@@ -35,28 +42,37 @@ export async function GET() {
 // PUT — mettre à jour un ou plusieurs paramètres
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = getSupabase(true);
-    const body = await request.json(); // { phone: "...", email: "...", ... }
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const body = await request.json();
 
     const allowed = ['phone', 'whatsapp', 'email', 'address', 'opening_hours', 'google_maps_url'];
+    const entries = Object.entries(body).filter(([k]) => allowed.includes(k));
 
-    const updates = Object.entries(body)
-      .filter(([key]) => allowed.includes(key))
-      .map(([key, value]) => ({
-        key,
-        value: String(value),
-        updated_at: new Date().toISOString(),
-      }));
-
-    if (updates.length === 0) {
+    if (entries.length === 0) {
       return NextResponse.json({ error: 'Aucun champ valide fourni' }, { status: 400 });
     }
 
-    const { error } = await supabase
-      .from('site_settings')
-      .upsert(updates, { onConflict: 'key' });
-
-    if (error) throw error;
+    // Utiliser fetch direct vers l'API REST Supabase (plus fiable que le client JS pour les PATCH)
+    for (const [k, v] of entries) {
+      const res = await fetch(
+        `${url}/rest/v1/site_settings?key=eq.${k}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'apikey': key,
+            'Authorization': `Bearer ${key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({ value: String(v), updated_at: new Date().toISOString() }),
+        }
+      );
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`Erreur mise à jour ${k}: ${err}`);
+      }
+    }
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
