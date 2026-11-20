@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaBars, FaTimes, FaPhoneAlt, FaEnvelope, FaChevronDown } from "react-icons/fa";
-import { COMPANY_INFO, NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
+import { useSettings } from "@/lib/useSettings";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const settings = useSettings();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,17 +30,17 @@ export default function Header() {
         <div className="container-custom">
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-6">
-              <a href={`tel:${COMPANY_INFO.phone}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+              <a href={`tel:${settings.phone}`} className="flex items-center gap-2 hover:text-primary transition-colors">
                 <FaPhoneAlt className="text-primary" />
-                {COMPANY_INFO.phone}
+                {settings.phone}
               </a>
-              <a href={`mailto:${COMPANY_INFO.email}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+              <a href={`mailto:${settings.email}`} className="flex items-center gap-2 hover:text-primary transition-colors">
                 <FaEnvelope className="text-primary" />
-                {COMPANY_INFO.email}
+                {settings.email}
               </a>
             </div>
             <div className="flex items-center gap-4">
-              <span>{COMPANY_INFO.openingHours}</span>
+              <span>{settings.opening_hours}</span>
             </div>
           </div>
         </div>

@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { FaPaperPlane, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
 import { COMPANY_INFO } from "@/lib/constants";
+import { useSettings } from "@/lib/useSettings";
 
 export default function ContactSection() {
+  const settings = useSettings();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -203,10 +205,10 @@ export default function ContactSection() {
                 <div>
                   <h4 className="font-bold text-text mb-2">Téléphone</h4>
                   <a
-                    href={`tel:${COMPANY_INFO.phone}`}
+                    href={`tel:${settings.phone}`}
                     className="text-text-secondary hover:text-primary transition-colors"
                   >
-                    {COMPANY_INFO.phone}
+                    {settings.phone}
                   </a>
                 </div>
               </div>
@@ -220,12 +222,12 @@ export default function ContactSection() {
                 <div>
                   <h4 className="font-bold text-text mb-2">WhatsApp</h4>
                   <a
-                    href={`https://wa.me/${COMPANY_INFO.whatsapp.replace(/\s/g, "")}`}
+                    href={`https://wa.me/${settings.whatsapp.replace(/\s/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-text-secondary hover:text-green-600 transition-colors"
                   >
-                    {COMPANY_INFO.whatsapp}
+                    {settings.whatsapp}
                   </a>
                 </div>
               </div>
@@ -239,10 +241,10 @@ export default function ContactSection() {
                 <div>
                   <h4 className="font-bold text-text mb-2">Email</h4>
                   <a
-                    href={`mailto:${COMPANY_INFO.email}`}
+                    href={`mailto:${settings.email}`}
                     className="text-text-secondary hover:text-primary transition-colors"
                   >
-                    {COMPANY_INFO.email}
+                    {settings.email}
                   </a>
                 </div>
               </div>
@@ -255,10 +257,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-text mb-2">Adresse</h4>
-                  <p className="text-text-secondary">
-                    {COMPANY_INFO.address}<br />
-                    {COMPANY_INFO.city}, {COMPANY_INFO.country}
-                  </p>
+                  <p className="text-text-secondary">{settings.address}</p>
                 </div>
               </div>
             </div>
@@ -266,7 +265,7 @@ export default function ContactSection() {
             {/* Opening Hours */}
             <div className="bg-gradient-to-br from-primary to-primary-dark text-white p-6 rounded-xl">
               <h4 className="font-bold text-lg mb-3">Horaires d'ouverture</h4>
-              <p className="opacity-90">{COMPANY_INFO.openingHours}</p>
+              <p className="opacity-90">{settings.opening_hours}</p>
             </div>
 
             {/* Map Placeholder */}

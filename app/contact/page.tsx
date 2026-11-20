@@ -5,8 +5,10 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { FaPaperPlane, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaClock } from "react-icons/fa";
 import { COMPANY_INFO } from "@/lib/constants";
+import { useSettings } from "@/lib/useSettings";
 
 export default function ContactPage() {
+  const settings = useSettings();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -200,10 +202,10 @@ export default function ContactPage() {
                         <div>
                           <h4 className="font-bold text-text mb-2">Téléphone</h4>
                           <a
-                            href={`tel:${COMPANY_INFO.phone}`}
+                            href={`tel:${settings.phone}`}
                             className="text-text-secondary hover:text-primary transition-colors"
                           >
-                            {COMPANY_INFO.phone}
+                            {settings.phone}
                           </a>
                         </div>
                       </div>
@@ -218,12 +220,12 @@ export default function ContactPage() {
                         <div>
                           <h4 className="font-bold text-text mb-2">WhatsApp</h4>
                           <a
-                            href={`https://wa.me/${COMPANY_INFO.whatsapp.replace(/\s/g, "")}`}
+                            href={`https://wa.me/${settings.whatsapp.replace(/\s/g, "")}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-text-secondary hover:text-green-600 transition-colors"
                           >
-                            {COMPANY_INFO.whatsapp}
+                            {settings.whatsapp}
                           </a>
                         </div>
                       </div>
@@ -238,10 +240,10 @@ export default function ContactPage() {
                         <div>
                           <h4 className="font-bold text-text mb-2">Email</h4>
                           <a
-                            href={`mailto:${COMPANY_INFO.email}`}
+                            href={`mailto:${settings.email}`}
                             className="text-text-secondary hover:text-primary transition-colors break-all"
                           >
-                            {COMPANY_INFO.email}
+                            {settings.email}
                           </a>
                         </div>
                       </div>
@@ -255,10 +257,7 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <h4 className="font-bold text-text mb-2">Adresse</h4>
-                          <p className="text-text-secondary">
-                            {COMPANY_INFO.address}<br />
-                            {COMPANY_INFO.city}, {COMPANY_INFO.country}
-                          </p>
+                          <p className="text-text-secondary">{settings.address}</p>
                         </div>
                       </div>
                     </div>
@@ -271,7 +270,7 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <h4 className="font-bold text-lg mb-2">Horaires d'ouverture</h4>
-                          <p className="opacity-90">{COMPANY_INFO.openingHours}</p>
+                          <p className="opacity-90">{settings.opening_hours}</p>
                         </div>
                       </div>
                     </div>
@@ -280,14 +279,25 @@ export default function ContactPage() {
 
                 {/* Map */}
                 <div className="bg-background-secondary p-4 rounded-xl">
-                  <div className="aspect-video bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <FaMapMarkerAlt className="text-5xl text-primary mx-auto mb-3" />
-                      <p className="text-text-secondary">Carte Google Maps</p>
-                      <p className="text-xs text-text-secondary mt-2">
-                        {COMPANY_INFO.address}, {COMPANY_INFO.city}
-                      </p>
-                    </div>
+                  <div className="aspect-video bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg overflow-hidden flex items-center justify-center">
+                    {settings.google_maps_url ? (
+                      <iframe
+                        src={settings.google_maps_url}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        className="w-full h-full"
+                      />
+                    ) : (
+                      <div className="text-center">
+                        <FaMapMarkerAlt className="text-5xl text-primary mx-auto mb-3" />
+                        <p className="text-text-secondary">Carte Google Maps</p>
+                        <p className="text-xs text-text-secondary mt-2">{settings.address}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

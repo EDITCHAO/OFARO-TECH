@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   FaFacebookF,
@@ -10,9 +12,11 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import { COMPANY_INFO, NAV_LINKS, SERVICES } from "@/lib/constants";
+import { useSettings } from "@/lib/useSettings";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const settings = useSettings();
 
   return (
     <footer className="bg-text text-white">
@@ -145,37 +149,35 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-gray-400">
                 <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" />
-                <span>
-                  {COMPANY_INFO.address}, {COMPANY_INFO.city}, {COMPANY_INFO.country}
-                </span>
+                <span>{settings.address}</span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <FaPhoneAlt className="text-primary flex-shrink-0" />
-                <a href={`tel:${COMPANY_INFO.phone}`} className="text-gray-400 hover:text-primary transition-colors">
-                  {COMPANY_INFO.phone}
+                <a href={`tel:${settings.phone}`} className="text-gray-400 hover:text-primary transition-colors">
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <FaWhatsapp className="text-primary flex-shrink-0" />
                 <a
-                  href={`https://wa.me/${COMPANY_INFO.whatsapp.replace(/\s/g, "")}`}
+                  href={`https://wa.me/${settings.whatsapp.replace(/\s/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
-                  {COMPANY_INFO.whatsapp}
+                  {settings.whatsapp}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <FaEnvelope className="text-primary flex-shrink-0" />
-                <a href={`mailto:${COMPANY_INFO.email}`} className="text-gray-400 hover:text-primary transition-colors">
-                  {COMPANY_INFO.email}
+                <a href={`mailto:${settings.email}`} className="text-gray-400 hover:text-primary transition-colors">
+                  {settings.email}
                 </a>
               </li>
             </ul>
             <div className="mt-4 text-sm text-gray-400">
               <p className="font-semibold text-white mb-1">Horaires</p>
-              <p>{COMPANY_INFO.openingHours}</p>
+              <p>{settings.opening_hours}</p>
             </div>
           </div>
         </div>
