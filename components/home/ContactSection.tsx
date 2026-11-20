@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { FaPaperPlane, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
-import { COMPANY_INFO } from "@/lib/constants";
 import { useSettings } from "@/lib/useSettings";
 
 export default function ContactSection() {

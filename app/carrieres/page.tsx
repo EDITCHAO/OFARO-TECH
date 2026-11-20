@@ -8,6 +8,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ApplicationForm from '@/components/ApplicationForm';
 import JobOfferCard from '@/components/jobs/JobOfferCard';
+import { useSettings } from '@/lib/useSettings';
 import {
   FaCode,
   FaRocket,
@@ -140,6 +141,7 @@ function FeaturedJobOffers() {
 }
 
 export default function CarrieresPage() {
+  const settings = useSettings();
   // Scroll automatique vers la section profils si l'ancre est présente dans l'URL
   useEffect(() => {
     // Vérifier si l'URL contient #profils
@@ -513,8 +515,8 @@ export default function CarrieresPage() {
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">✉️ Email</p>
-                      <a href="mailto:rh@ofarotech.com" className="text-orange-500 hover:underline">
-                        rh@ofarotech.com
+                      <a href={`mailto:${settings.email}`} className="text-orange-500 hover:underline">
+                        {settings.email}
                       </a>
                     </div>
                   </div>
@@ -525,8 +527,8 @@ export default function CarrieresPage() {
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">📞 Téléphone</p>
-                      <a href="tel:+22892345678" className="text-orange-500 hover:underline">
-                        +228 92 34 56 78
+                      <a href={`tel:${settings.phone}`} className="text-orange-500 hover:underline">
+                        {settings.phone}
                       </a>
                     </div>
                   </div>
